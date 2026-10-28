@@ -1094,3 +1094,5 @@ html.planner-open { overflow: hidden; }
 @media (max-width: 640px) { .gh-btn { display: none; } }
 .foot-gh { display: inline-flex; align-items: center; gap: 7px; color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--line-2); padding-bottom: 1px; }
 .foot-gh:hover { color: var(--ink); border-color: var(--ink); }
+.foot-license { font-size: 13px; }
+.foot-license a { color: inherit; }

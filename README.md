@@ -4,6 +4,8 @@
 
 [![Open the site](https://img.shields.io/badge/open-conf--ddl.shyandram.dev-3d5afe?style=flat-square)](https://conf-ddl.shyandram.dev/)
 [![Deploy](https://img.shields.io/github/actions/workflow/status/shyandram/conf-ddl/pages.yml?branch=main&label=deploy&style=flat-square)](https://github.com/shyandram/conf-ddl/actions/workflows/pages.yml)
+[![Code: MIT](https://img.shields.io/badge/code-MIT-555?style=flat-square)](LICENSE)
+[![Data: CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-555?style=flat-square)](data/LICENSE)
 ![Static site](https://img.shields.io/badge/stack-plain%20HTML%20%2B%20JS-555?style=flat-square)
 
 <p align="center">
@@ -32,6 +34,7 @@
 - [Adding or updating a conference](#adding-or-updating-a-conference)
 - [City photos](#city-photos-unsplash)
 - [Calendar Worker and star sync](#calendar-worker-and-star-sync)
+- [License](#license)
 - [Credits](#credits)
 
 ## Features
@@ -209,6 +212,15 @@ The workflow also runs when `data/conferences.json` changes, and every hour unti
 ## Calendar Worker and star sync
 
 The per-field and per-series feeds are static files. The combined **My conferences** feed and star sync need the small Cloudflare Worker in [`worker/`](worker/README.md), which the free plan covers. `.github/workflows/worker.yml` deploys it once the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets are set. Without the Worker, the Calendar dialog offers a one-off download instead.
+
+## License
+
+Attribution is required for both the code and the data:
+
+- **Code** (HTML, CSS, JS, scripts, worker): [MIT](LICENSE). Keep the copyright and license notice in any copy or fork.
+- **Conference data** (`data/conferences.json`): [CC BY 4.0](data/LICENSE). If you reuse or adapt the data, credit it, link the license and say what you changed, e.g.
+  > Deadline data from [Conf DDL](https://github.com/shyandram/conf-ddl), CC BY 4.0
+- **City photos** are not ours: they belong to their photographers under the [Unsplash License](https://unsplash.com/license).
 
 ## Credits
 
