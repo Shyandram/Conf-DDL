@@ -366,21 +366,21 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 }
 .section-head h2 { margin: 0; font: 600 clamp(22px, 2.6vw, 28px)/1.1 var(--sans); letter-spacing: -.025em; }
 .count { font: 500 14px var(--mono); color: var(--ink-3); vertical-align: middle; margin-left: 6px; }
-.legend { display: flex; align-items: center; gap: 8px; font: 13px var(--mono); color: var(--ink-3); }
+.legend { display: flex; align-items: center; gap: 4px 8px; flex-wrap: wrap; font: 13px var(--mono); color: var(--ink-3); }
 .lg { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-left: 6px; }
 .lg-solid { background: var(--accent); }
 .lg-hollow { border: 1.5px dashed var(--ink-2); }
 
 /* timeline */
 .timeline { margin-top: 6px; --axis: 110px; overflow-x: clip; }
-.timeline-inner { position: relative; height: calc(var(--axis) + 50px); }
+.timeline-inner { position: relative; height: calc(var(--axis) + 50px + var(--rev, 0px)); }
 .tl-axis { position: absolute; left: 0; right: 0; top: var(--axis); height: 1px; background: var(--line-2); transform-origin: left; }
 .tl-month {
   position: absolute; top: calc(var(--axis) + 10px); font: 12px var(--mono); color: var(--ink-3);
   text-transform: uppercase; letter-spacing: .08em; translate: -50% 0; white-space: nowrap;
 }
 .tl-month::before { content: ""; position: absolute; left: 50%; top: -10px; width: 1px; height: 6px; background: var(--line-2); }
-.tl-today { position: absolute; top: 0; height: calc(var(--axis) + 44px); width: 0; border-left: 1px dashed var(--accent); }
+.tl-today { position: absolute; top: 0; height: calc(var(--axis) + 44px + var(--rev, 0px)); width: 0; border-left: 1px dashed var(--accent); }
 .tl-today::after {
   content: "today"; position: absolute; bottom: -4px; left: 5px; font: 10px var(--mono);
   color: var(--accent); text-transform: uppercase; letter-spacing: .1em;
@@ -966,3 +966,19 @@ html.planner-open { overflow: hidden; }
 /* on the children: the entrance tween writes opacity on the pin itself */
 .tl-pin.past > * { opacity: .4; transition: opacity .2s; }
 .tl-pin.past:hover > *, .tl-pin.past:focus-visible > * { opacity: 1; }
+
+/* review lane: rebuttal window (amber) → decision (green) */
+.tl-rev { position: absolute; height: 14px; padding: 0; border: 0; background: none; cursor: pointer; min-width: 1px; color: var(--ink-2); }
+.tl-rev .rv-line { position: absolute; left: 0; right: 0; top: 6.5px; height: 1px; background: color-mix(in srgb, var(--ok) 45%, var(--line-2)); }
+.tl-rev .rv-reb { position: absolute; top: 3px; height: 8px; min-width: 6px; border-radius: 4px; background: var(--warn); box-shadow: 0 0 0 3px color-mix(in srgb, var(--warn) 20%, transparent); }
+.tl-rev .rv-dec { position: absolute; right: -5px; top: 2px; width: 10px; height: 10px; rotate: 45deg; border-radius: 2px; background: var(--ok); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 20%, transparent); }
+.tl-rev .rv-lbl { position: absolute; left: calc(100% + 13px); top: -1px; font: 500 11.5px var(--mono); white-space: nowrap; transition: color .2s; }
+.tl-rev.flip .rv-lbl { left: auto; right: calc(100% + 13px); }
+.tl-rev > * { transition: opacity .2s; }
+.tl-rev:hover .rv-lbl, .tl-rev:focus-visible .rv-lbl { color: var(--ink); }
+.tl-rev.past > * { opacity: .4; }
+.tl-rev.past:hover > * { opacity: 1; }
+.timeline.has-glow .tl-rev.tl-dim > * { opacity: .3; }
+.lg-bar { width: 14px; height: 7px; border-radius: 4px; background: var(--warn); }
+.lg-dia { width: 8px; height: 8px; border-radius: 2px; rotate: 45deg; background: var(--ok); }
+.legend > span { white-space: nowrap; }

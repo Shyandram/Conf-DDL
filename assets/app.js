@@ -547,6 +547,30 @@
         style="left:${px}%;top:${top}px;height:${axis + 5.5 - top}px" title="${esc(c.title + " " + c.year + " · " + fmtShort.format(c.ddl))}">
         <span class="lbl">${esc(label)}</span><span class="stem"></span><span class="dot"></span></button>`;
     });
+    // under the months: each conference's review — amber rebuttal window, a line to a green decision mark
+    let revH = 0;
+    if (!opts.el) {
+      const revEnd = [], RROW = 22, top0 = axis + 40;
+      const revs = list.filter(c => c.dec || c.reb).map(c => {
+        const a = c.reb ? c.reb[0] : c.dec, b = c.dec || c.reb[1];
+        return { c, a, b };
+      }).filter(r => r.b >= +start && r.a < +end).sort((p, q) => p.a - q.a);
+      revs.forEach(({ c, a, b }) => {
+        const L = Math.max(0, x(a)), R = Math.min(100, x(b)), inner = t => (R > L ? ((Math.min(100, Math.max(0, x(t))) - L) / (R - L)) * 100 : 0);
+        const label = `${c.title} ${String(c.year).slice(2)}`;
+        const lw = 14 + label.length * 7.2, flip = (R / 100) * W + lw > W; // near the right edge the label goes on the left
+        const left = (L / 100) * W - (flip ? lw : 0), right = (R / 100) * W + (flip ? 0 : lw) + 8;
+        let row = revEnd.findIndex(e => e < left);
+        if (row === -1) row = revEnd.length;
+        revEnd[row] = right;
+        const tip = [label, c.reb && `rebuttal ${fmtRange(c.rebuttal)}`, c.dec && `decision ${fmtDay(c.decision)}`].filter(Boolean).join(" · ");
+        const reb = c.reb ? `<span class="rv-reb" style="left:${inner(c.reb[0])}%;width:${inner(c.reb[1]) - inner(c.reb[0])}%"></span>` : "";
+        html += `<button type="button" class="tl-rev${flip ? " flip" : ""}${b <= now ? " past" : ""}${role(c)}" data-id="${esc(c.id)}" title="${esc(tip)}"
+          style="left:${L}%;width:${R - L}%;top:${top0 + row * RROW}px"><span class="rv-line"></span>${reb}${c.dec ? `<span class="rv-dec"></span>` : ""}<span class="rv-lbl">${esc(label)}</span></button>`;
+      });
+      revH = revEnd.length ? revEnd.length * RROW + 14 : 0;
+    }
+    tl.style.setProperty("--rev", revH + "px");
     // review window of the selected conference, and arcs to where it could go next
     if (path) {
       const clampX = ms => Math.min(100, Math.max(0, x(ms)));
@@ -568,7 +592,7 @@
       const src = glow && glow.src;
       $("#tlLegend").innerHTML = src
         ? `<i class="lg lg-reb"></i>during ${esc(src.title)} rebuttal <i class="lg lg-dec"></i>after its decision <button type="button" class="lg-clear">clear</button>`
-        : `<i class="lg lg-solid"></i>confirmed <i class="lg lg-hollow"></i>estimated`;
+        : `<span><i class="lg lg-solid"></i>deadline</span> <span><i class="lg lg-hollow"></i>estimated</span> <span><i class="lg lg-bar"></i>rebuttal</span> <span><i class="lg lg-dia"></i>decision</span>`;
     }
     if (opts.path) renderPath(path, now);
 
@@ -1019,7 +1043,7 @@
       c.el.classList.add("flash");
     };
     $("#timeline").addEventListener("click", e => {
-      const pin = e.target.closest(".tl-pin");
+      const pin = e.target.closest(".tl-pin, .tl-rev");
       if (!pin) return;
       // click lights up the next venues (and shows it in the big countdown); clicking it again clears
       const again = state.lightId === pin.dataset.id;
