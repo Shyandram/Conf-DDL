@@ -159,19 +159,30 @@ To edit by hand, add an entry to `data/conferences.json`:
 }
 ```
 
-| Field | |
-|---|---|
-| `id` | short name + 2-digit year (`iccv27`), with a suffix for rounds (`wacv28r1`) |
-| `deadline`, `abstract_deadline` | `YYYY-MM-DD HH:MM` in the timezone the call for papers states |
-| `timezone` | `AoE`, `UTC`, `UTC+8`, `UTC-7`, `PST`/`PDT`, `EST`/`EDT`, `CET`/`CEST`, … The daylight-saving name must match the date's season (the validator checks this). |
-| `place` | `"City, Country"`; `"Country (TBA)"` when only the country is known (its photos are filed under the country); `"TBA"`; or `"Virtual"`/`"Online"` |
-| `status` | `confirmed` (from the official site) or `estimated` (projected from the previous cycle; say so in `note`) |
-| `rebuttal` | `[start, end]`, or `false` if the venue has none. Leave it out while unannounced (shows TBA). |
-| `decision` | date of the final decision or notification |
-| `kind` | `"workshop"` (workshop proposals), `"workshop-paper"`, or `"challenge"` (left out of the planner) |
-| `series` | only when a `title` differs from the rest of its series (e.g. `"IJCAI-ECAI"` → `"IJCAI"`), so stars follow it |
+**Required** fields (`scripts/validate.py` fails without them): `id`, `title`, `year`, `full_name`, `area`, `link`, `deadline`, `timezone`, `status`. Everything else is optional.
 
-`abstract_deadline`, `rebuttal`, `decision`, `ccf`, `series`, `kind` and `note` are optional. The top-level `tiers` (`{ "name", "source", "A": [...], "B": [...] }`) holds the grade list behind the badges and the planner's ranking.
+| Field | Required | |
+|---|:---:|---|
+| `id` | ✅ | short name + 2-digit year (`iccv27`), with a suffix for rounds (`wacv28r1`); must be unique |
+| `title` | ✅ | short name shown on the page (`ICCV`) |
+| `year` | ✅ | edition year |
+| `full_name` | ✅ | full conference name |
+| `area` | ✅ | one or more field codes declared in the top-level `areas` (`CV`, `ML`, `AI`, `NLP`, `CG`, `MM`, `SP`, `RO`, `DM`, `HCI`, `MED`) |
+| `link` | ✅ | official call for papers or conference site |
+| `deadline` | ✅ | paper deadline, `YYYY-MM-DD HH:MM` in the timezone the call for papers states |
+| `timezone` | ✅ | `AoE`, `UTC`, `UTC+8`, `UTC-7`, `PST`/`PDT`, `EST`/`EDT`, `CET`/`CEST`, … The daylight-saving name must match the date's season (the validator checks this). |
+| `status` | ✅ | `confirmed` (from the official site) or `estimated` (projected from the previous cycle; say so in `note`) |
+| `abstract_deadline` | | abstract deadline, same format as `deadline` |
+| `date` | | conference dates as text (`Oct 2 – 8, 2027`, `Sep 2028`); shown as TBA when missing |
+| `place` | | `"City, Country"`; `"Country (TBA)"` when only the country is known (its photos are filed under the country); `"TBA"`; or `"Virtual"`/`"Online"`. Missing counts as TBA. |
+| `rebuttal` | | `[start, end]` dates, or `false` if the venue has none. Leave it out while unannounced (shows TBA). |
+| `decision` | | `YYYY-MM-DD` of the final decision or notification |
+| `ccf` | | CCF rank, `A` / `B` / `C` |
+| `kind` | | `"workshop"` (workshop proposals), `"workshop-paper"`, or `"challenge"` (left out of the planner); omit for main conferences |
+| `series` | | only when a `title` differs from the rest of its series (e.g. `"IJCAI-ECAI"` → `"IJCAI"`), so stars follow it |
+| `note` | | free text shown on the card (e.g. where an estimate comes from) |
+
+The top-level `tiers` (`{ "name", "source", "A": [...], "B": [...] }`) holds the grade list behind the badges and the planner's ranking.
 
 Then run:
 
