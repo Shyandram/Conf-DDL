@@ -37,6 +37,8 @@
   </header>
 
   <div class="layout">
+  <button type="button" class="rail-tab" id="railTab" aria-label="Open My conferences" title="My conferences">★<span> My conferences</span></button>
+  <div class="rail-backdrop" id="railBackdrop"></div>
   <aside class="rail" aria-label="My conferences">
     <button type="button" class="rail-toggle" id="railToggle" aria-expanded="true" title="Collapse sidebar">
       <span class="rt-icon" aria-hidden="true">«</span><span class="rt-count" id="railCount"></span>
@@ -60,6 +62,8 @@
       </h1>
       <p class="hero-full" id="heroFull"></p>
 
+      <div class="hero-body">
+      <div class="hero-left">
       <div class="clock" id="clock">
         <div class="unit"><div class="digits" data-unit="d"></div><span>days</span></div>
         <div class="sep">:</div>
@@ -74,6 +78,19 @@
         <button type="button" class="pick" data-mode="deadline"><span class="p-kind">Deadline</span><span class="p-name"></span><span class="p-left"></span></button>
         <button type="button" class="pick" data-mode="rebuttal"><span class="p-kind">Rebuttal</span><span class="p-name"></span><span class="p-left"></span></button>
         <button type="button" class="pick" data-mode="decision"><span class="p-kind">Decision</span><span class="p-name"></span><span class="p-left"></span></button>
+      </div>
+      </div>
+
+      <figure class="venue" id="venue">
+        <div class="venue-img" id="venueImg" role="img" aria-label=""></div>
+        <figcaption>
+          <span class="venue-kicker">Held in</span>
+          <b class="venue-city" id="venueCity"></b>
+          <span class="venue-country" id="venueCountry"></span>
+          <span class="venue-dates" id="venueDates"></span>
+        </figcaption>
+        <a class="venue-credit" id="venueCredit" target="_blank" rel="noopener" hidden>Photo: Wikipedia</a>
+      </figure>
       </div>
 
       <div class="hero-foot">

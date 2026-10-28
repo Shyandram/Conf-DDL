@@ -1135,6 +1135,54 @@
       "rebuttal": false,
       "decision": "2028-01-12",
       "note": "Venue and dates are official (Tokyo International Forum); paper deadline not announced yet. Projected from ICASSP 2027 (Sep 16, extended to Sep 23; decisions Jan 13)."
+    },
+    {
+      "id": "miccai26",
+      "title": "MICCAI",
+      "year": 2026,
+      "full_name": "International Conference on Medical Image Computing and Computer Assisted Intervention",
+      "area": [
+        "MED",
+        "CV"
+      ],
+      "ccf": "B",
+      "link": "https://conferences.miccai.org/2026/en/",
+      "abstract_deadline": "2026-02-12 23:59",
+      "deadline": "2026-02-26 23:59",
+      "timezone": "PST",
+      "date": "Sep 27 – Oct 1, 2026",
+      "place": "Strasbourg, France",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-05-08",
+        "2026-05-14"
+      ],
+      "decision": "2026-06-12",
+      "note": "Moved from Abu Dhabi. Early accepts and reviews May 7; camera-ready Jun 26."
+    },
+    {
+      "id": "miccai27",
+      "title": "MICCAI",
+      "year": 2027,
+      "full_name": "International Conference on Medical Image Computing and Computer Assisted Intervention",
+      "area": [
+        "MED",
+        "CV"
+      ],
+      "ccf": "B",
+      "link": "https://miccai.org/upcoming-conferences/",
+      "abstract_deadline": "2027-02-11 23:59",
+      "deadline": "2027-02-25 23:59",
+      "timezone": "PST",
+      "date": "Sep 26 – Oct 1, 2027",
+      "place": "Auckland, New Zealand",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-05-07",
+        "2027-05-13"
+      ],
+      "decision": "2027-06-11",
+      "note": "Venue and dates are official; paper deadline TBA. Projected from MICCAI 2026 (abstract Feb 12, paper Feb 26, rebuttal May 8–14, decisions Jun 12)."
     }
   ]
 }

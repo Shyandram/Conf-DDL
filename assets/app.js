@@ -311,8 +311,15 @@
 
   function refreshPicks(now) {
     picks = Object.fromEntries(MODES.map(m => [m, pickFor(m, now)]));
-    const mode = picks[state.heroMode] ? state.heroMode : "deadline";
-    const p = picks[mode];
+    let mode = picks[state.heroMode] ? state.heroMode : "deadline";
+    let p = picks[mode];
+    // a conference clicked on the timeline takes the big clock until a chip is clicked
+    if (state.manualId) {
+      const c = confs.find(x => x.id === state.manualId);
+      const ev = c && MODES.map(m => eventOf(c, m, now)).find(Boolean);
+      if (ev) { p = { ...ev, c, mode: "manual", scope: "from timeline" }; mode = "manual"; }
+      else state.manualId = null;
+    }
     const key = p ? `${mode}:${p.c.id}:${p.at}` : "";
     if (key !== (heroPick && heroPick.key)) {
       heroPick = p ? { ...p, key } : null;
@@ -321,7 +328,7 @@
       Object.values(clockUnits).forEach(u => { u.val = null; }); // new target: redraw digits instead of flipping
       setHero(p ? p.c : null);
       if (p) $("#heroWhen").textContent = p.when;
-      $("#heroIcs").hidden = !p || mode !== "deadline";
+      $("#heroIcs").hidden = !p || p.at !== p.c.ddl;
     }
     for (const btn of $$("#heroPicks .pick")) {
       const q = picks[btn.dataset.mode];
@@ -336,10 +343,55 @@
     tickHero(now);
   }
 
+  // Host city card next to the clock, with a photo from Wikipedia when one exists.
+  const COUNTRY_NAMES = { USA: "United States", UK: "United Kingdom" };
+  const wikiCache = new Map();
+
+  async function wikiImage(title) {
+    if (wikiCache.has(title)) return wikiCache.get(title);
+    const job = fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(j => (j && j.type !== "disambiguation" && (j.originalimage || j.thumbnail))
+        ? { src: (j.thumbnail && j.thumbnail.source.replace(/\/\d+px-/, "/960px-")) || j.originalimage.source, page: j.content_urls?.desktop?.page }
+        : null)
+      .catch(() => null);
+    wikiCache.set(title, job);
+    return job;
+  }
+
+  async function setVenue(c) {
+    const fig = $("#venue"), img = $("#venueImg"), credit = $("#venueCredit");
+    img.classList.remove("is-loaded");
+    credit.hidden = true;
+    const place = c && c.place && !/^TBA$/i.test(c.place) ? c.place : "";
+    const parts = place.replace(/\s*\((?:TBA|tentative)\)/i, "").split(",").map(x => x.trim()).filter(Boolean);
+    const city = parts.length > 1 ? parts.slice(0, -1).join(", ") : parts[0] || "";
+    const country = parts.length > 1 ? parts[parts.length - 1] : "";
+    fig.classList.toggle("is-tba", !place);
+    $("#venueCity").textContent = place ? city : "Venue to be announced";
+    $("#venueCountry").textContent = country;
+    $("#venueDates").textContent = c ? c.date || "" : "";
+    if (!place) return;
+    const token = (fig.dataset.token = String(Math.random()));
+    const found = (await wikiImage(city)) || (city.includes("/") && (await wikiImage(city.split("/")[0].trim())))
+      || (country && (await wikiImage(COUNTRY_NAMES[country] || country)));
+    if (!found || fig.dataset.token !== token) return;
+    const pre = new Image();
+    pre.onload = () => {
+      if (fig.dataset.token !== token) return;
+      img.style.backgroundImage = `url("${found.src}")`;
+      img.setAttribute("aria-label", `Photo of ${city}`);
+      img.classList.add("is-loaded");
+      if (found.page) { credit.href = found.page; credit.hidden = false; }
+    };
+    pre.src = found.src;
+  }
+
   function setHero(c) {
     if (c === heroConf) return;
     const first = heroConf === null;
     heroConf = c;
+    setVenue(c);
     const hero = $("#hero");
     if (!c) {
       $("#heroName").textContent = "All clear";
@@ -384,7 +436,8 @@
     const x = ms => ((ms - start) / span) * 100;
 
     let html = `<div class="timeline-inner"><div class="tl-axis"></div>`;
-    for (let i = 0; i <= 12; i++) {
+    for (let i = 0; i < 13; i++) {
+      if (i === 12) break; // the 13th tick would sit on the right edge and overflow
       const m = new Date(start); m.setMonth(m.getMonth() + i);
       const label = m.toLocaleString(undefined, { month: "short" }) + (m.getMonth() === 0 ? ` ’${String(m.getFullYear()).slice(2)}` : "");
       html += `<span class="tl-month" style="left:${x(+m)}%">${esc(label)}</span>`;
@@ -636,13 +689,22 @@
       store.set("railOpen", open);
     };
     setRail(store.get("railOpen", true));
+    // On narrow screens the sidebar is a drawer: the tab opens it, « or the backdrop closes it.
+    const narrowRail = matchMedia("(max-width: 1100px)");
+    const setDrawer = open => layout.classList.toggle("drawer-open", open);
     rt.addEventListener("click", () => {
+      if (narrowRail.matches) { setDrawer(false); return; }
       setRail(layout.classList.contains("rail-off"));
       if (window.ScrollTrigger) setTimeout(() => ScrollTrigger.refresh(), 400);
     });
+    $("#railTab").addEventListener("click", () => setDrawer(true));
+    $("#railBackdrop").addEventListener("click", () => setDrawer(false));
+    $("#rail").addEventListener("click", e => { if (narrowRail.matches && e.target.closest(".rail-item")) setDrawer(false); });
+    narrowRail.addEventListener("change", () => setDrawer(false));
     $("#heroPicks").addEventListener("click", e => {
       const btn = e.target.closest(".pick");
       if (!btn) return;
+      state.manualId = null;
       state.heroMode = btn.dataset.mode;
       store.set("heroMode", state.heroMode);
       refreshPicks(Date.now());
@@ -660,7 +722,14 @@
       void c.el.offsetWidth;
       c.el.classList.add("flash");
     };
-    $("#timeline").addEventListener("click", jump);
+    $("#timeline").addEventListener("click", e => {
+      const pin = e.target.closest(".tl-pin");
+      if (!pin) return;
+      state.manualId = pin.dataset.id;
+      refreshPicks(Date.now());
+      const top = $("#hero").getBoundingClientRect().top + window.scrollY - 70;
+      if (window.scrollY > top) window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+    });
     $("#rail").addEventListener("click", jump);
 
     // rows fold open to show the details
