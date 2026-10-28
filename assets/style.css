@@ -745,6 +745,15 @@ kbd { font: 11px var(--mono); padding: 2px 6px; border: 1px solid var(--line-2);
 .feeds-each summary { cursor: pointer; font: 500 13px var(--mono); color: var(--ink-2); padding: 6px 0; }
 .feeds-each summary:hover { color: var(--ink); }
 .feeds-each .feeds-list { margin-top: 6px; }
+.sync-btn { align-self: flex-start; margin-top: 6px; font-size: 12px; }
+.sync-btn[hidden] { display: none; }
+.sync-body { display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: start; }
+.sync-qr { width: 180px; aspect-ratio: 1; padding: 10px; border-radius: 14px; background: #fff; color: #111; display: grid; place-items: center; font-size: 12px; text-align: center; }
+.sync-qr svg { width: 100%; height: auto; display: block; }
+.sync-text p { margin: 0 0 14px; font-size: 14px; line-height: 1.55; color: var(--ink-2); }
+.sync-row { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
+.sync-row input { flex: 1; min-width: 0; font: 12.5px var(--mono); color: var(--ink); background: var(--card); border: 1px solid var(--line-2); border-radius: 10px; padding: 9px 11px; }
+@media (max-width: 640px) { .sync-body { grid-template-columns: 1fr; } .sync-qr { margin: 0 auto; } }
 .planner-tl.has-path .timeline-inner { height: calc(var(--axis) + 52px); }
 
 /* two lanes: amber = during the rebuttal, green = after the decision */

@@ -5,7 +5,8 @@ Serves "My conferences" as one subscribable calendar that follows your stars:
     https://conf-ddl-calendar.<your-subdomain>.workers.dev/u/<id>.ics   series kept in KV for this id
     https://conf-ddl-calendar.<your-subdomain>.workers.dev/my.ics?s=cvpr,iccv   a fixed list in the URL
 
-When the Calendar dialog is opened, the browser makes a random id and sends its starred series (`PUT /u/<id>`),
+`GET /u/<id>` returns the saved list as JSON: devices that open the same `#sync=<id>` link share one id, so
+they keep the same stars (and the same calendar). When the Calendar dialog is opened, the browser makes a random id and sends its starred series (`PUT /u/<id>`),
 and sends them again whenever a star changes, so the subscribed URL never changes. The Worker merges the site's
 per-series feeds (`calendar/series/<slug>.ics`, rebuilt on every deploy), so new and corrected dates and newly
 starred series reach subscribed calendars on their next refresh.

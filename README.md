@@ -9,6 +9,7 @@ Live countdowns to the main conference deadlines in computer vision, ML, AI and 
 - **Mouse light** (bulb in the top bar, off by default): the cursor lights up nearby glass surfaces
 - **Live clock** (local and AoE), **Local / AoE** deadline display, light and dark themes (auto by default: light 6:00–18:00 local time; the button cycles auto → light → dark)
 - **.ics export** with 7-day and 1-day reminders, plus **calendar subscriptions** (top-bar *Calendar*): all entries, one feed per field, and one per starred series. `scripts/build_calendar.py` writes them to `calendar/` on every deploy, so subscribed calendars follow the data. *My conferences* as one live feed needs the small Cloudflare Worker in `worker/` (setup in `worker/README.md`); without it the dialog offers a one-off download
+- **Sync stars between devices** (*⇄ Sync with another device* under My conferences): a link or QR code puts another device on the same star list, kept by the calendar Worker
 - **Share** a countdown: `#c=<id>` opens the page with that conference in the big clock
 - **Next venues at a glance:** click a conference on the 12-month timeline and the deadlines you could move to light up: amber during its rebuttal, green after its decision
 - **Planner** (top-bar button, or *Plan resubmission* in a row): a separate view with the ranked resubmission path, chainable hop by hop, shareable as `#plan=<id>`

@@ -93,6 +93,7 @@
     <div class="rail-head">
       <h2>My conferences</h2>
       <span class="rail-sel" id="railSel"></span>
+      <button type="button" class="link sync-btn" id="syncBtn" hidden title="Keep the same stars on your phone and computer">⇄ Sync with another device</button>
     </div>
     <div id="rail"></div>
   </aside>
@@ -253,6 +254,29 @@
       <p class="pp-note">A subscribed calendar keeps itself up to date: when a date is added or corrected here, your calendar app picks it up
         on its next refresh (Apple and Outlook: every few hours; Google: within about a day). Deadlines come with reminders 7 days and 1 day before.</p>
       <div id="feedsBody"></div>
+    </div>
+  </div>
+
+  <div class="planner feeds" id="sync" hidden role="dialog" aria-modal="true" aria-labelledby="syncTitle">
+    <div class="planner-backdrop" data-close></div>
+    <div class="planner-sheet feeds-sheet sync-sheet">
+      <header class="planner-head">
+        <div class="planner-title">
+          <span class="planner-kicker">My conferences</span>
+          <h2 id="syncTitle">Sync stars with another device</h2>
+        </div>
+        <button type="button" class="planner-close" data-close aria-label="Close">✕</button>
+      </header>
+      <div class="sync-body">
+        <div class="sync-qr" id="syncQr" aria-label="QR code of the sync link"></div>
+        <div class="sync-text">
+          <p>Scan this with your phone, or open the link on the other device. Both then keep the same ★ conferences
+            (and the same “My conferences” calendar): starring on one shows up on the other the next time it is opened.</p>
+          <div class="sync-row"><input id="syncLink" readonly aria-label="Sync link"><button type="button" class="link" id="syncCopy">Copy link</button></div>
+          <p class="feeds-empty">Anyone with this link can change your stars, so share it only with your own devices.
+            <button type="button" class="link" id="syncStop">Stop syncing this device</button></p>
+        </div>
+      </div>
     </div>
   </div>
 

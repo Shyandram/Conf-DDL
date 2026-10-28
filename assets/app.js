@@ -795,6 +795,81 @@
         .then(r => { if (r.ok) store.set("calSynced", body); }).catch(() => {});
     }, now ? 0 : 800);
   }
+
+  // Devices that share an id share their stars: read what another device saved and take it in.
+  // Changed only elsewhere → take theirs; changed on both sides → keep the union; then save the result.
+  async function pullStars() {
+    const base = calWorker(), id = calId(false);
+    if (!base || !id) return;
+    let remote;
+    try {
+      const r = await fetch(`${base}u/${id}`, { cache: "no-store" });
+      if (!r.ok) return;
+      remote = ((await r.json()).series || []).slice().sort();
+    } catch { return; }
+    const last = (() => { try { return JSON.parse(store.get("calSynced", "")).series; } catch { return []; } })();
+    const local = [...state.starred].map(feedSlug).sort();
+    const same = (a, b) => a.join() === b.join();
+    if (same(remote, last) || same(remote, local)) {
+      if (same(remote, local)) store.set("calSynced", JSON.stringify({ series: remote }));
+      return syncStars(true);
+    }
+    const next = same(local, last) ? remote : [...new Set([...local, ...remote])];
+    const bySlug = new Map(confs.map(c => [feedSlug(seriesOf(c)), seriesOf(c)]));
+    state.starred = new Set(next.map(s => bySlug.get(s)).filter(Boolean));
+    store.set("starred", [...state.starred]);
+    store.set("calSynced", JSON.stringify({ series: remote }));
+    showStars();
+    syncStars(true);
+  }
+  function showStars() {
+    for (const c of confs) if (c.el) $(".star", c.el).setAttribute("aria-pressed", isStarred(c));
+    if (state.onlyStarred) apply();
+    else { const now = Date.now(); refreshPicks(now); renderRail(now); }
+  }
+
+  /* ---------- sync stars between devices: a #sync=<id> link (or its QR code) puts another device on the same id ---------- */
+
+  const syncLink = () => `${location.origin}${location.pathname}#sync=${calId(true)}`;
+  let qrLib = null;
+  const loadQr = () => qrLib || (qrLib = new Promise((ok, fail) => {
+    const s = Object.assign(document.createElement("script"), { src: "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js", onload: ok, onerror: fail });
+    document.head.append(s);
+  }));
+  async function openSync() {
+    if (!calWorker()) return;
+    const link = syncLink(); // makes this device's id first, so pullStars() can save its stars
+    await pullStars();
+    $("#syncLink").value = link;
+    $("#syncQr").innerHTML = "";
+    const box = $("#sync"), wasHidden = box.hidden;
+    box.hidden = false;
+    document.documentElement.classList.add("planner-open");
+    if (wasHidden && hasGsap && !reduced) gsap.fromTo(".sync-sheet", { opacity: 0, y: 16 }, { opacity: 1, y: 0, clearProps: "transform", duration: dur(0.35), ease: "power3.out" });
+    try {
+      await loadQr();
+      const qr = window.qrcode(0, "M");
+      qr.addData(link);
+      qr.make();
+      $("#syncQr").innerHTML = qr.createSvgTag(4, 0);
+    } catch { $("#syncQr").textContent = "QR code unavailable: copy the link instead."; }
+  }
+  function closeSync() {
+    if ($("#sync").hidden) return;
+    $("#sync").hidden = true;
+    if ($("#planner").hidden && $("#feeds").hidden) document.documentElement.classList.remove("planner-open");
+  }
+  // opened from a sync link: join that id (stars on both devices are merged)
+  function joinSync() {
+    const m = location.hash.match(/^#sync=([A-Za-z0-9_-]{16,64})$/);
+    if (!m) return;
+    history.replaceState(null, "", location.pathname + location.search);
+    if (!calWorker() || m[1] === calId(false)) return;
+    if (!window.confirm("Sync your ★ conferences with the other device? Stars on this device are kept and merged in.")) return;
+    store.set("calId", m[1]);
+    store.set("calSynced", "");
+    pullStars();
+  }
   function feedRow(label, path, sub = "", url = "") {
     const https = url || feedUrl(path);
     const webcal = https.replace(/^https?:/, "webcal:");
@@ -807,7 +882,7 @@
   }
   function openFeeds() {
     const starred = [...state.starred].sort();
-    if (calWorker()) { calId(true); syncStars(true); }
+    if (calWorker()) { calId(true); pullStars(); }
     const count = pred => confs.filter(pred).length;
     $("#feedsBody").innerHTML =
       `<h3 class="feeds-h">Everything</h3><ul class="feeds-list">${feedRow("All conferences", "all.ics", `${confs.length} entries · deadlines, rebuttals and decisions`)}</ul>` +
@@ -815,7 +890,8 @@
       (calWorker()
         ? `<ul class="feeds-list">${feedRow("All my conferences in one", "", starred.length ? starred.join(", ") : "nothing starred yet", mineFeed())}</ul>
           <p class="feeds-empty">One subscription that follows your stars: star or unstar a conference here and the calendar changes with it
-            on its next refresh, no need to subscribe again. The link belongs to this browser (stars are saved per browser).</p>`
+            on its next refresh, no need to subscribe again. Subscribe once in Google or iCloud and it shows on your phone and computer;
+            to keep the same stars on the site too, use “⇄ Sync with another device” under My conferences.</p>`
         : starred.length
         ? `<ul class="feeds-list"><li class="feed"><span class="feed-name"><b>All my conferences in one</b><small>${esc(starred.join(", "))}</small></span>
             <span class="feed-acts"><button type="button" class="link feed-mine">Download .ics</button></span></li></ul>
@@ -1293,7 +1369,23 @@
       if (hop) openPlanner(hop.dataset.id); // chain: plan the next hop from the chosen venue
     });
     $("#planSrc").addEventListener("change", e => openPlanner(e.target.value));
-    document.addEventListener("keydown", e => { if (e.key === "Escape") { closePlanner(); closeFeeds(); } });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") { closePlanner(); closeFeeds(); closeSync(); } });
+    $("#syncBtn").hidden = !calWorker();
+    $("#syncBtn").addEventListener("click", openSync);
+    $("#sync").addEventListener("click", async e => {
+      if (e.target.closest("[data-close]")) return closeSync();
+      const copy = e.target.closest("#syncCopy");
+      if (copy) {
+        if (!(await copyText($("#syncLink").value))) { $("#syncLink").select(); return; }
+        copy.textContent = "Copied ✓";
+        setTimeout(() => { copy.textContent = "Copy link"; }, 1800);
+      }
+      if (e.target.closest("#syncStop") && window.confirm("Stop syncing this device? Its stars stay as they are, and its calendar link changes.")) {
+        store.set("calId", "");
+        store.set("calSynced", "");
+        closeSync();
+      }
+    });
     $("#calBtn").addEventListener("click", openFeeds);
     $("#feeds").addEventListener("click", async e => {
       if (e.target.closest("[data-close]")) return closeFeeds();
@@ -1447,11 +1539,13 @@
     const planHash = location.hash.match(/^#plan=([\w-]+)/);
     if (planHash) openPlanner(planHash[1]);
     openShared();
+    joinSync();
+    pullStars();
     tick();
     // align ticks to the wall-clock second
     // (skipped while the tab is hidden; it catches up as soon as it is shown again)
     setTimeout(() => { tick(); setInterval(() => { if (!document.hidden) tick(); }, 1000); }, 1000 - (Date.now() % 1000));
-    document.addEventListener("visibilitychange", () => { if (!document.hidden) tick(); });
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) { tick(); pullStars(); } });
   }
 
   init();

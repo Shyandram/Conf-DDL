@@ -2,6 +2,7 @@
 //
 //   GET /u/<id>.ics          the series this browser has starred (kept in KV, so the URL never changes)
 //   PUT /u/<id>              {"series": ["cvpr", "iccv"]}: the site sends this whenever the stars change
+//   GET /u/<id>              the same list back, so devices sharing an id keep the same stars
 //   GET /my.ics?s=cvpr,iccv  a fixed list in the URL (no KV needed)
 //
 // The static site can't make a feed for every combination of starred series, so this Worker builds it on
@@ -30,6 +31,13 @@ export default {
       return new Response(null, { status: 204, headers: CORS });
     }
     if (method !== "GET" && method !== "HEAD") return text("Method not allowed", 405);
+    if (user && !user[2]) {
+      if (!env.STARS) return text("Star sync is not set up (no STARS KV binding)", 501);
+      const saved = await env.STARS.get(user[1]);
+      return new Response(JSON.stringify({ series: saved ? JSON.parse(saved) : [], saved: saved !== null }), {
+        headers: { ...CORS, "content-type": "application/json", "cache-control": "no-store" },
+      });
+    }
 
     let slugs;
     if (user && user[2]) {
