@@ -528,14 +528,15 @@
     // Labels hang to the right of their pin; stack them on rows so none overlap.
     const W = Math.max(tl.clientWidth, 720);
     const rowEnd = [];
-    // home timeline also pins each review: rebuttal (amber block: when it opens, or closes once open) and decision (green block)
-    const events = list.flatMap(c => [
-      { c, at: c.ddl, ev: "ddl" },
-      ...(opts.el ? [] : [
-        c.reb && now < c.reb[1] && { c, at: now < c.reb[0] ? c.reb[0] : c.reb[1], ev: "reb" }, // upcoming review dates only,
-        c.dec && now < c.dec && { c, at: c.dec, ev: "dec" }, // so the past months stay light
-      ]),
-    ]).filter(e => e && e.at >= +start && e.at < +end).sort((a, b) => a.at - b.at);
+    // one block per conference, at its next date, coloured by what that date is:
+    // deadline (plain) → rebuttal (amber, when it opens, or closes once open) → decision (green); finished ones sit at the deadline, faded
+    const next = c => {
+      if (opts.el || c.ddl > now) return { at: c.ddl, ev: "ddl" };
+      if (c.reb && now < c.reb[1]) return { at: now < c.reb[0] ? c.reb[0] : c.reb[1], ev: "reb" };
+      if (c.dec && now < c.dec) return { at: c.dec, ev: "dec" };
+      return { at: c.ddl, ev: "ddl" };
+    };
+    const events = list.map(c => ({ c, ...next(c) })).filter(e => e.at >= +start && e.at < +end).sort((a, b) => a.at - b.at);
     const pins = events.map(e => {
       const px = x(e.at);
       const label = `${e.c.title} ${String(e.c.year).slice(2)}`;
@@ -561,12 +562,14 @@
       }
       return " tl-dim";
     };
-    const tipOf = (c, ev) => `${c.title} ${c.year} · ` + (ev === "reb" ? `rebuttal ${fmtRange(c.rebuttal)}` : ev === "dec" ? `decision ${fmtDay(c.decision)}` : `deadline ${fmtShort.format(c.ddl)}`);
+    // positions (in %) of deadline, rebuttal start/end and decision, for the hover span
+    const spanOf = c => [c.ddl, c.reb && c.reb[0], c.reb && c.reb[1], c.dec].map(t => (t ? Math.min(100, Math.max(0, x(t))).toFixed(2) : "")).join(",");
+    const tipOf = c => [`${c.title} ${c.year}`, `deadline ${fmtShort.format(c.ddl)}`, c.reb && `rebuttal ${fmtRange(c.rebuttal)}`, c.dec && `decision ${fmtDay(c.decision)}`].filter(Boolean).join(" · ");
     pins.forEach(({ c, at, ev, px, label, row, flip }) => {
       const top = 8 + row * ROW;
-      const cls = ev === "ddl" ? (c.status !== "confirmed" ? " est" : "") + role(c) : ` ev-${ev}${lit ? " tl-dim" : ""}`;
-      html += `<button type="button" class="tl-pin${cls}${at <= now ? " past" : ""}${flip ? " flip" : ""}" data-id="${esc(c.id)}"
-        style="${flip ? `right:${100 - px}%` : `left:${px}%`};top:${top}px;height:${axis + 5.5 - top}px" title="${esc(tipOf(c, ev))}">
+      const cls = (ev === "ddl" ? (c.status !== "confirmed" ? " est" : "") : ` ev-${ev}`) + role(c);
+      html += `<button type="button" class="tl-pin${cls}${at <= now ? " past" : ""}${flip ? " flip" : ""}" data-id="${esc(c.id)}"${opts.el ? "" : ` data-span="${spanOf(c)}"`}
+        style="${flip ? `right:${100 - px}%` : `left:${px}%`};top:${top}px;height:${axis + 5.5 - top}px" title="${esc(tipOf(c))}">
         <span class="lbl">${esc(label)}</span><span class="stem"></span><span class="dot"></span></button>`;
     });
     // review window of the selected conference, and arcs to where it could go next
@@ -1040,6 +1043,20 @@
       void c.el.offsetWidth;
       c.el.classList.add("flash");
     };
+    // hovering a block draws its whole cycle on the axis: deadline → rebuttal (amber) → decision (green)
+    $("#timeline").addEventListener("pointerover", e => {
+      const pin = e.target.closest(".tl-pin[data-span]");
+      const inner = $("#timeline .timeline-inner");
+      let span = $(".tl-span", inner);
+      if (!pin) { if (span) span.remove(); return; }
+      const [d, r0, r1, dec] = pin.dataset.span.split(",").map(v => (v === "" ? null : +v));
+      const endX = dec ?? r1 ?? d;
+      if (!span) { span = document.createElement("div"); span.className = "tl-span"; inner.appendChild(span); }
+      span.innerHTML = `<i class="sp-line" style="left:${d}%;width:${endX - d}%"></i>` +
+        (r0 != null ? `<i class="sp-reb" style="left:${r0}%;width:${r1 - r0}%"></i>` : "") +
+        `<i class="sp-dot" style="left:${d}%"></i>` + (dec != null ? `<i class="sp-dec" style="left:${dec}%"></i>` : "");
+    });
+    $("#timeline").addEventListener("pointerleave", () => { const s = $("#timeline .tl-span"); if (s) s.remove(); });
     $("#timeline").addEventListener("click", e => {
       const pin = e.target.closest(".tl-pin");
       if (!pin) return;

@@ -979,3 +979,11 @@ html.planner-open { overflow: hidden; }
 .lg-bar { width: 12px; height: 9px; border-radius: 3px; background: var(--warn); }
 .lg-dia { width: 12px; height: 9px; border-radius: 3px; background: var(--ok); }
 .legend > span { white-space: nowrap; }
+
+/* hover span on the axis */
+.tl-span { position: absolute; left: 0; right: 0; top: var(--axis); height: 0; pointer-events: none; z-index: 3; }
+.tl-span i { position: absolute; display: block; }
+.tl-span .sp-line { top: -1px; height: 3px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 35%, transparent); }
+.tl-span .sp-reb { top: -3px; height: 7px; min-width: 6px; border-radius: 4px; background: var(--warn); }
+.tl-span .sp-dot, .tl-span .sp-dec { top: -6px; width: 13px; height: 13px; margin-left: -6.5px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--bg); }
+.tl-span .sp-dec { background: var(--ok); border-radius: 3px; rotate: 45deg; }
