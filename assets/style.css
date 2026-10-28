@@ -753,13 +753,41 @@ html.planner-open { overflow: hidden; }
 .topbar { border-bottom: 1px solid var(--glass-rim); box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .04), 0 8px 30px -18px rgba(0, 0, 0, .5); }
 .tl-pin .lbl, .chip, .path-item { box-shadow: inset 0 1px 0 var(--glass-hl); }
 
-/* specular sheen: a soft light catching the top-left of the larger glass pieces */
-.pick, .venue, .path-panel, .to-top, .rail-tab, .search { position: relative; isolation: isolate; }
-.pick::before, .venue::before, .path-panel::before, .to-top::before, .rail-tab::before, .digit::before {
+/* The mouse is a light source. app.js keeps --mx / --my at the cursor (viewport px); the light layers use
+   background-attachment: fixed, so every glass piece shows its own slice of one shared light:
+   ::before is the glow on the surface (plus a fixed top-left sheen), ::after lights up the rim nearest the cursor. */
+:root { --mx: -1000px; --my: -1000px; --light: rgba(255, 255, 255, .26); --rim-light: rgba(255, 255, 255, .95); }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --light: rgba(255, 255, 255, .95); --rim-light: color-mix(in srgb, var(--accent) 80%, #fff); } }
+:root[data-theme="light"] { --light: rgba(255, 255, 255, .95); --rim-light: color-mix(in srgb, var(--accent) 80%, #fff); }
+
+.topbar, .pick, .venue, .path-panel, .to-top, .rail-tab, .search, .chip, .btn:not(.btn-primary), .planner-btn, .seg,
+.icon-btn, .path-item, .rail-toggle, .path-close, .photo-next, .tl-pin .lbl { isolation: isolate; }
+.pick, .venue, .path-panel, .to-top, .rail-tab, .search, .chip, .btn:not(.btn-primary), .planner-btn, .seg,
+.icon-btn, .path-item, .rail-toggle, .path-close, .photo-next, .tl-pin .lbl { position: relative; }
+
+.topbar::before, .pick::before, .venue::before, .path-panel::before, .to-top::before, .rail-tab::before, .search::before,
+.chip::before, .btn:not(.btn-primary)::before, .planner-btn::before, .seg::before, .icon-btn::before, .path-item::before,
+.rail-toggle::before, .path-close::before, .photo-next::before, .tl-pin .lbl::before, .digit::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
-  background: radial-gradient(120% 70% at 15% -10%, var(--glass-sheen), transparent 55%);
+  background:
+    radial-gradient(240px circle at var(--mx) var(--my), var(--light), transparent 75%),
+    radial-gradient(120% 70% at 15% -10%, var(--glass-sheen), transparent 55%);
+  background-attachment: fixed, scroll;
 }
 .digit::before { z-index: 0; }
+
+.pick::after, .venue::after, .path-panel::after, .to-top::after, .rail-tab::after, .search::after, .chip::after,
+.btn:not(.btn-primary)::after, .planner-btn::after, .seg::after, .icon-btn::after, .path-item::after, .photo-next::after,
+.tl-pin .lbl::after {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; padding: 1px;
+  background: radial-gradient(200px circle at var(--mx) var(--my), var(--rim-light), transparent 75%);
+  padding: 1.5px;
+  background-attachment: fixed;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
 
 /* pressed / accented glass keeps its tint */
 .pick[aria-pressed="true"] {

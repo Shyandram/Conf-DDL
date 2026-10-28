@@ -875,6 +875,18 @@
     window.addEventListener("resize", sizeBg);
     if (window.ResizeObserver) new ResizeObserver(sizeBg).observe($("#hero"));
 
+    // the mouse is the light source for the glass (see --mx / --my in style.css)
+    if (!reduced && matchMedia("(pointer: fine)").matches) {
+      const root = document.documentElement.style;
+      let lx = -1000, ly = -1000, queued = false;
+      const paint = () => { root.setProperty("--mx", lx + "px"); root.setProperty("--my", ly + "px"); queued = false; };
+      window.addEventListener("pointermove", e => {
+        lx = e.clientX; ly = e.clientY;
+        if (!queued) { queued = true; requestAnimationFrame(paint); }
+      }, { passive: true });
+      document.addEventListener("pointerleave", () => { lx = ly = -1000; requestAnimationFrame(paint); });
+    }
+
     // the background photo drifts a little with the mouse
     if (hasGsap && !reduced && matchMedia("(pointer: fine)").matches) {
       const panX = gsap.quickTo("#bgPan", "xPercent", { duration: 1.4, ease: "power3.out" });

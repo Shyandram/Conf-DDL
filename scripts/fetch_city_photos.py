@@ -85,6 +85,9 @@ def main(argv):
             res = get("/search/photos", key, query=query, orientation="landscape", per_page=15, content_filter="high")
         except Exception as e:  # rate limit or network: keep what we have
             print(f"! {city}: {e}")
+            if getattr(e, "code", None) in (403, 429):
+                print("… rate limited; the next run continues")
+                break
             continue
         photos = pick(res.get("results", []))
         if not photos:
