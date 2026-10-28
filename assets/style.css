@@ -190,8 +190,9 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 .r-name { font-weight: 600; font-size: 14.5px; letter-spacing: -.01em; }
 .r-left { font: 500 14px var(--mono); font-variant-numeric: tabular-nums; color: var(--u); }
 .r-sub { grid-column: 1 / -1; font-size: 12.5px; color: var(--ink-3); }
-.rail-item.in-review { --u: var(--ink-2); }
-.rail-item.in-rebuttal { --u: var(--warn); }
+.rail-item.k-reb { --u: var(--warn); }
+.rail-item.k-dec { --u: var(--ok); }
+.r-kind { font-style: normal; font: 500 11.5px var(--mono); text-transform: uppercase; letter-spacing: .04em; color: var(--u); margin-right: 4px; }
 .rail-empty { font-size: 13.5px; line-height: 1.5; color: var(--ink-3); padding: 10px; border: 1px dashed var(--line-2); border-radius: 10px; }
 .rail-empty b { color: var(--warn); }
 

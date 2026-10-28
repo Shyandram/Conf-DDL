@@ -770,40 +770,41 @@
       railItems = [];
       return;
     }
-    const up = picked.filter(c => c.group === "up");
-    const review = picked.filter(c => c.group === "review");
+    // every upcoming date of the followed conferences in one list, soonest first:
+    // abstract / submission deadlines, rebuttal opens / closes, decision
+    const events = picked.flatMap(c => [
+      c.abs && { c, at: c.abs, kind: "ddl", what: "Abstract" },
+      { c, at: c.ddl, kind: "ddl", what: "Submission" },
+      c.reb && { c, at: c.reb[0], kind: "reb", what: "Rebuttal opens", day: fmtDay(c.rebuttal[0]) },
+      c.reb && { c, at: c.reb[1], kind: "reb", what: "Rebuttal closes", day: fmtDay(c.rebuttal[1]) },
+      c.dec && { c, at: c.dec, kind: "dec", what: "Decision", day: fmtDay(c.decision) },
+    ]).filter(e => e && e.at > now).sort((a, b) => a.at - b.at);
     // decided editions: only the latest one per series, so the list stays short
     const done = picked.filter(c => c.group === "done" && !picked.some(o => o !== c && seriesOf(o) === seriesOf(c) && o.ddl > c.ddl));
-    const item = (c, sub) => `<li><button type="button" class="rail-item${c.status !== "confirmed" ? " is-est" : ""}" data-id="${esc(c.id)}">
+    const item = (c, sub, kind = "", at = "") => `<li><button type="button" class="rail-item${kind ? " k-" + kind : ""}${c.status !== "confirmed" ? " is-est" : ""}" data-id="${esc(c.id)}"${at ? ` data-at="${at}"` : ""}>
         <span class="r-name">${esc(c.title)} ${esc(c.year)}</span><span class="r-left"></span>
-        <span class="r-sub">${esc(sub)}</span></button></li>`;
+        <span class="r-sub">${sub}</span></button></li>`;
     $("#rail").innerHTML =
-      (up.length ? `<div class="rail-group">Deadlines · ${up.length}</div><ul class="rail-list">${up.map(c => item(c, fmtShort.format(c.ddl) + (c.place && c.place !== "TBA" ? " · " + c.place : ""))).join("")}</ul>` : "") +
-      (review.length ? `<div class="rail-group">In review · ${review.length}</div><ul class="rail-list">${review.map(c => item(c, "")).join("")}</ul>` : "") +
-      (done.length ? `<div class="rail-group">Decided · ${done.length}</div><ul class="rail-list">${done.map(c => item(c, c.dec ? "decided " + fmtDay(c.decision) : "closed")).join("")}</ul>` : "");
-    railItems = $$(".rail-item", $("#rail")).map(el => ({ el, c: confs.find(x => x.id === el.dataset.id) }));
+      (events.length ? `<div class="rail-group">Upcoming · ${events.length}</div><ul class="rail-list">${events.map(e =>
+        item(e.c, `<i class="r-kind">${esc(e.what)}</i> ${esc(e.day || fmtShort.format(e.at))}`, e.kind, e.at)).join("")}</ul>` : "") +
+      (done.length ? `<div class="rail-group">Decided · ${done.length}</div><ul class="rail-list">${done.map(c => item(c, esc(c.dec ? "decided " + fmtDay(c.decision) : "closed"))).join("")}</ul>` : "");
+    railItems = $$(".rail-item", $("#rail")).map(el => ({ el, c: confs.find(x => x.id === el.dataset.id), at: +el.dataset.at || 0 }));
     tickRail(now);
   }
-
   function tickRail(now) {
-    for (const { el, c } of railItems) {
-      const left = $(".r-left", el);
+    for (const { el, c, at } of railItems) {
       el.classList.toggle("is-hero", c === heroConf);
-      if (c.ddl > now) {
-        left.textContent = shortLeft(c.ddl - now);
-        const u = urgency(c.ddl - now);
+      if (!at) { $(".r-left", el).textContent = "✓"; continue; }
+      if (at <= now) { renderRail(now); return; } // a date just passed: rebuild the list
+      $(".r-left", el).textContent = shortLeft(at - now);
+      if (el.classList.contains("k-ddl")) {
+        const u = urgency(at - now);
         el.classList.toggle("u-hot", u === "hot");
         el.classList.toggle("u-warn", u === "warn");
-        continue;
       }
-      const ph = reviewPhase(c, now);
-      if (!ph.label) { left.textContent = "✓"; continue; }
-      left.textContent = shortLeft(ph.at - now);
-      $(".r-sub", el).textContent = ph.label;
-      el.classList.toggle("in-review", !ph.open);
-      el.classList.toggle("in-rebuttal", !!ph.open);
     }
   }
+
 
   /* ---------- filters ---------- */
 
