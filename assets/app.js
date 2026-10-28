@@ -562,16 +562,32 @@
       }
       return " tl-dim";
     };
-    // positions (in %) of deadline, rebuttal start/end and decision, for the hover span
-    const spanOf = c => [c.ddl, c.reb && c.reb[0], c.reb && c.reb[1], c.dec].map(t => (t ? Math.min(100, Math.max(0, x(t))).toFixed(2) : "")).join(",");
     const tipOf = c => [`${c.title} ${c.year}`, `deadline ${fmtShort.format(c.ddl)}`, c.reb && `rebuttal ${fmtRange(c.rebuttal)}`, c.dec && `decision ${fmtDay(c.decision)}`].filter(Boolean).join(" · ");
     pins.forEach(({ c, at, ev, px, label, row, flip }) => {
       const top = 8 + row * ROW;
       const cls = (ev === "ddl" ? (c.status !== "confirmed" ? " est" : "") : ` ev-${ev}`) + role(c);
-      html += `<button type="button" class="tl-pin${cls}${at <= now ? " past" : ""}${flip ? " flip" : ""}" data-id="${esc(c.id)}"${opts.el ? "" : ` data-span="${spanOf(c)}"`}
+      html += `<button type="button" class="tl-pin${cls}${at <= now ? " past" : ""}${flip ? " flip" : ""}" data-id="${esc(c.id)}"
         style="${flip ? `right:${100 - px}%` : `left:${px}%`};top:${top}px;height:${axis + 5.5 - top}px" title="${esc(tipOf(c))}">
         <span class="lbl">${esc(label)}</span><span class="stem"></span><span class="dot"></span></button>`;
     });
+    // the clicked conference's own dates, as separate marks under the months (nothing shown until a click)
+    const sel = !opts.el && state.lightId && confs.find(c => c.id === state.lightId);
+    if (sel) {
+      const marks = [
+        { t: sel.ddl, cls: "mk-ddl", text: `Deadline ${fmtShort.format(sel.ddl)}` },
+        sel.reb && { t: sel.reb[0], t2: sel.reb[1], cls: "mk-reb", text: `Rebuttal ${fmtRange(sel.rebuttal)}` },
+        sel.dec && { t: sel.dec, cls: "mk-dec", text: `Decision ${fmtDay(sel.decision)}` },
+      ].filter(m => m && m.t >= +start && m.t < +end);
+      let lastRight = -1e9, row = 0;
+      marks.forEach(m => {
+        const left = (x(m.t) / 100) * W;
+        row = left < lastRight ? row + 1 : 0; // nudge a mark down when it would touch the previous one
+        lastRight = left + m.text.length * 7 + 30;
+        const w = m.t2 ? `width:${x(m.t2) - x(m.t)}%;` : "";
+        html += `<span class="tl-mk ${m.cls}" style="left:${x(m.t)}%;${w}--row:${row}"><i></i><b>${esc(m.text)}</b></span>`;
+      });
+    }
+    tl.classList.toggle("has-sel", !!sel);
     // review window of the selected conference, and arcs to where it could go next
     if (path) {
       const clampX = ms => Math.min(100, Math.max(0, x(ms)));
@@ -1043,20 +1059,6 @@
       void c.el.offsetWidth;
       c.el.classList.add("flash");
     };
-    // hovering a block draws its whole cycle on the axis: deadline → rebuttal (amber) → decision (green)
-    $("#timeline").addEventListener("pointerover", e => {
-      const pin = e.target.closest(".tl-pin[data-span]");
-      const inner = $("#timeline .timeline-inner");
-      let span = $(".tl-span", inner);
-      if (!pin) { if (span) span.remove(); return; }
-      const [d, r0, r1, dec] = pin.dataset.span.split(",").map(v => (v === "" ? null : +v));
-      const endX = dec ?? r1 ?? d;
-      if (!span) { span = document.createElement("div"); span.className = "tl-span"; inner.appendChild(span); }
-      span.innerHTML = `<i class="sp-line" style="left:${d}%;width:${endX - d}%"></i>` +
-        (r0 != null ? `<i class="sp-reb" style="left:${r0}%;width:${r1 - r0}%"></i>` : "") +
-        `<i class="sp-dot" style="left:${d}%"></i>` + (dec != null ? `<i class="sp-dec" style="left:${dec}%"></i>` : "");
-    });
-    $("#timeline").addEventListener("pointerleave", () => { const s = $("#timeline .tl-span"); if (s) s.remove(); });
     $("#timeline").addEventListener("click", e => {
       const pin = e.target.closest(".tl-pin");
       if (!pin) return;

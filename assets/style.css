@@ -980,10 +980,13 @@ html.planner-open { overflow: hidden; }
 .lg-dia { width: 12px; height: 9px; border-radius: 3px; background: var(--ok); }
 .legend > span { white-space: nowrap; }
 
-/* hover span on the axis */
-.tl-span { position: absolute; left: 0; right: 0; top: var(--axis); height: 0; pointer-events: none; z-index: 3; }
-.tl-span i { position: absolute; display: block; }
-.tl-span .sp-line { top: -1px; height: 3px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 35%, transparent); }
-.tl-span .sp-reb { top: -3px; height: 7px; min-width: 6px; border-radius: 4px; background: var(--warn); }
-.tl-span .sp-dot, .tl-span .sp-dec { top: -6px; width: 13px; height: 13px; margin-left: -6.5px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--bg); }
-.tl-span .sp-dec { background: var(--ok); border-radius: 3px; rotate: 45deg; }
+/* clicked conference: its deadline / rebuttal / decision as separate marks */
+.timeline.has-sel .timeline-inner { height: calc(var(--axis) + 96px); }
+.timeline.has-sel .tl-today { height: calc(var(--axis) + 90px); }
+.tl-mk { position: absolute; top: var(--axis); height: 0; pointer-events: none; z-index: 3; }
+.tl-mk i { position: absolute; left: -6px; top: -6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--bg); }
+.tl-mk.mk-reb i { left: 0; width: 100%; min-width: 8px; top: -4px; height: 8px; border-radius: 4px; background: var(--warn); }
+.tl-mk.mk-dec i { border-radius: 3px; rotate: 45deg; background: var(--ok); }
+.tl-mk b { position: absolute; left: -6px; top: calc(36px + var(--row) * 22px); white-space: nowrap; font: 500 11.5px var(--mono); padding: 2px 7px; border-radius: 5px; border-left: 2px solid var(--accent); background: var(--bg-2); color: var(--ink); }
+.tl-mk.mk-reb b { left: 0; border-left-color: var(--warn); }
+.tl-mk.mk-dec b { border-left-color: var(--ok); }
