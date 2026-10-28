@@ -8,7 +8,10 @@
     "CG": "Graphics",
     "MM": "Multimedia",
     "SP": "Signal & Image",
-    "RO": "Robotics"
+    "RO": "Robotics",
+    "DM": "Data Mining & Web",
+    "HCI": "Human–Computer Interaction",
+    "MED": "Medical Imaging"
   },
   "conferences": [
     {
@@ -536,6 +539,537 @@
       ],
       "decision": "2026-06-17",
       "note": "Next edition: ECCV 2028."
+    },
+    {
+      "id": "aistats27",
+      "title": "AISTATS",
+      "year": 2027,
+      "full_name": "International Conference on Artificial Intelligence and Statistics",
+      "area": [
+        "ML"
+      ],
+      "ccf": "C",
+      "link": "https://virtual.aistats.org/Conferences/2027",
+      "abstract_deadline": "2026-09-29 23:59",
+      "deadline": "2026-10-06 23:59",
+      "timezone": "AoE",
+      "date": "May 3 – 6, 2027",
+      "place": "Montreal, Canada",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-11-16",
+        "2026-12-03"
+      ],
+      "decision": "2027-01-20",
+      "note": "Reviews + AI review released Nov 16 (rebuttal opens); author–reviewer discussion Nov 23 – Dec 3; camera-ready TBA."
+    },
+    {
+      "id": "eacl27",
+      "title": "EACL",
+      "year": 2027,
+      "full_name": "Conference of the European Chapter of the Association for Computational Linguistics",
+      "area": [
+        "NLP"
+      ],
+      "ccf": "B",
+      "link": "https://2027.eacl.org/",
+      "deadline": "2026-08-03 23:59",
+      "timezone": "AoE",
+      "date": "Mar 9 – 14, 2027",
+      "place": "Athens, Greece",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-09-14",
+        "2026-09-24"
+      ],
+      "decision": "2026-11-12",
+      "note": "ARR Aug 2026 cycle: author response Sep 14–19, discussion Sep 20–24; meta-reviews Oct 8; commitment Oct 11; camera-ready Nov 26."
+    },
+    {
+      "id": "www27",
+      "title": "WWW",
+      "year": 2027,
+      "full_name": "The ACM Web Conference",
+      "area": [
+        "DM"
+      ],
+      "ccf": "A",
+      "link": "https://www2027.thewebconf.org/",
+      "abstract_deadline": "2026-10-18 23:59",
+      "deadline": "2026-10-25 23:59",
+      "timezone": "AoE",
+      "date": "May 10 – 14, 2027",
+      "place": "Dublin, Ireland",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-12-15",
+        "2026-12-20"
+      ],
+      "decision": "2027-01-04",
+      "note": "Research track via OpenReview; results released Dec 15; final version Jan 31, 2027; max 7 submissions per author."
+    },
+    {
+      "id": "aamas27",
+      "title": "AAMAS",
+      "year": 2027,
+      "full_name": "International Conference on Autonomous Agents and Multiagent Systems",
+      "area": [
+        "AI"
+      ],
+      "ccf": "B",
+      "link": "https://warwick.ac.uk/fac/sci/dcs/aamas2027/",
+      "abstract_deadline": "2026-10-01 23:59",
+      "deadline": "2026-10-08 23:59",
+      "timezone": "AoE",
+      "date": "May 3 – 7, 2027",
+      "place": "Hanoi, Vietnam",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-11-20",
+        "2026-11-24"
+      ],
+      "decision": "2026-12-21",
+      "note": "OpenReview author registration Sep 17; camera-ready Jan 25, 2027; non-selected papers go to Findings of AAMAS unless opted out."
+    },
+    {
+      "id": "isbi27",
+      "title": "ISBI",
+      "year": 2027,
+      "full_name": "IEEE International Symposium on Biomedical Imaging",
+      "area": [
+        "MED",
+        "CV"
+      ],
+      "ccf": "C",
+      "link": "https://biomedicalimaging.org/2027/",
+      "deadline": "2026-11-02 23:59",
+      "timezone": "UTC-5",
+      "date": "May 25 – 28, 2027",
+      "place": "Lausanne, Switzerland",
+      "status": "confirmed",
+      "decision": "2027-01-12",
+      "note": "Four-page papers; final submission Jan 26, 2027; one-page abstracts due Feb 1, 2027. Trackers still show the old Oct 26 date. Deadline is 11:59 pm US Eastern (EST)."
+    },
+    {
+      "id": "eg27",
+      "title": "Eurographics",
+      "year": 2027,
+      "full_name": "Annual Conference of the European Association for Computer Graphics",
+      "area": [
+        "CG"
+      ],
+      "ccf": "B",
+      "link": "https://eg2027.isti.cnr.it/",
+      "abstract_deadline": "2026-09-25 23:59",
+      "deadline": "2026-10-01 23:59",
+      "timezone": "UTC",
+      "date": "May 10 – 14, 2027",
+      "place": "Lucca, Italy",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-11-23",
+        "2026-11-30"
+      ],
+      "decision": "2027-02-09",
+      "note": "Deadline extended to Oct 2, 00:59 AoE after SRM issues; conditional accept/reject Dec 18; revision due Jan 26; camera-ready Feb 23."
+    },
+    {
+      "id": "kdd27r1",
+      "title": "KDD",
+      "year": 2027,
+      "full_name": "ACM SIGKDD Conference on Knowledge Discovery and Data Mining (Cycle 1)",
+      "area": [
+        "DM"
+      ],
+      "ccf": "A",
+      "link": "https://kdd2027.kdd.org/",
+      "abstract_deadline": "2026-07-19 23:59",
+      "deadline": "2026-07-26 23:59",
+      "timezone": "AoE",
+      "date": "Aug 1 – 5, 2027",
+      "place": "San Jose, USA",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-09-29",
+        "2026-10-13"
+      ],
+      "decision": "2026-11-14",
+      "note": "First cycle was July (not August) 2026; same dates for Research, ADS, D&B and AI-for-Sciences tracks; cycle 2 expected ~Feb 2027."
+    },
+    {
+      "id": "chi27",
+      "title": "CHI",
+      "year": 2027,
+      "full_name": "ACM CHI Conference on Human Factors in Computing Systems",
+      "area": [
+        "HCI"
+      ],
+      "ccf": "A",
+      "link": "https://chi2027.acm.org/",
+      "deadline": "2026-09-10 23:59",
+      "timezone": "AoE",
+      "date": "May 10 – 14, 2027",
+      "place": "Pittsburgh, USA",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-11-05",
+        "2026-12-03"
+      ],
+      "decision": "2026-12-17",
+      "note": "No abstract deadline; reviews Nov 5, revise-and-resubmit until Dec 3; publication-ready Feb 18, 2027."
+    },
+    {
+      "id": "accv26",
+      "title": "ACCV",
+      "year": 2026,
+      "full_name": "Asian Conference on Computer Vision",
+      "area": [
+        "CV"
+      ],
+      "ccf": "C",
+      "link": "https://accv2026.org/",
+      "abstract_deadline": "2026-07-03 23:59",
+      "deadline": "2026-07-05 23:59",
+      "timezone": "UTC",
+      "date": "Dec 14 – 18, 2026",
+      "place": "Osaka, Japan",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-08-26",
+        "2026-09-02"
+      ],
+      "decision": "2026-09-20",
+      "note": "Registration Jul 3; supplementary Jul 8; camera-ready Oct 4. Deadlines are 23:59 GMT."
+    },
+    {
+      "id": "icme27",
+      "title": "ICME",
+      "year": 2027,
+      "full_name": "IEEE International Conference on Multimedia and Expo",
+      "area": [
+        "MM"
+      ],
+      "ccf": "B",
+      "link": "https://2027.ieeeicme.org/",
+      "deadline": "2026-12-30 23:59",
+      "timezone": "AoE",
+      "date": "Jul 13 – 17, 2027",
+      "place": "Xiamen, China",
+      "status": "confirmed",
+      "rebuttal": [
+        "2027-02-26",
+        "2027-03-04"
+      ],
+      "decision": "2027-03-24",
+      "note": "Regular + special-session papers; camera-ready May 10, 2027. Timezone for paper deadline not stated (proposals are AoE)."
+    },
+    {
+      "id": "midl27",
+      "title": "MIDL",
+      "year": 2027,
+      "full_name": "Medical Imaging with Deep Learning",
+      "area": [
+        "MED",
+        "ML"
+      ],
+      "ccf": "",
+      "link": "https://2027.midl.io/",
+      "abstract_deadline": "2026-11-30 23:59",
+      "deadline": "2026-12-04 23:59",
+      "timezone": "AoE",
+      "date": "Jul 14 – 16, 2027",
+      "place": "Porto, Portugal",
+      "status": "confirmed",
+      "rebuttal": [
+        "2027-01-18",
+        "2027-01-24"
+      ],
+      "decision": "2027-02-12",
+      "note": "Full papers; discussion Jan 24–31; camera-ready Mar 12, 2027; short-paper dates TBD."
+    },
+    {
+      "id": "siggraphasia26",
+      "title": "SIGGRAPH Asia",
+      "year": 2026,
+      "full_name": "ACM SIGGRAPH Conference and Exhibition on Computer Graphics and Interactive Techniques in Asia",
+      "area": [
+        "CG"
+      ],
+      "ccf": "",
+      "link": "https://asia.siggraph.org/2026/",
+      "abstract_deadline": "2026-05-05 23:59",
+      "deadline": "2026-05-12 23:59",
+      "timezone": "AoE",
+      "date": "Dec 1 – 4, 2026",
+      "place": "Kuala Lumpur, Malaysia",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-06-29",
+        "2026-07-03"
+      ],
+      "decision": "2026-07-19",
+      "note": "Upload deadline May 13; committee meeting Jul 17–18; revised paper Aug 28; final version Sep 3."
+    },
+    {
+      "id": "cvpr26",
+      "title": "CVPR",
+      "year": 2026,
+      "full_name": "IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+      "area": [
+        "CV"
+      ],
+      "ccf": "A",
+      "link": "https://cvpr.thecvf.com/Conferences/2026",
+      "abstract_deadline": "2025-11-07 23:59",
+      "deadline": "2025-11-13 23:59",
+      "timezone": "AoE",
+      "date": "Jun 3 – 7, 2026",
+      "place": "Denver, USA",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-01-22",
+        "2026-01-29"
+      ],
+      "decision": "2026-02-20",
+      "note": "Supplementary Nov 20, 2025; main conference Jun 5–7, workshops/tutorials Jun 3–4."
+    },
+    {
+      "id": "icml26",
+      "title": "ICML",
+      "year": 2026,
+      "full_name": "International Conference on Machine Learning",
+      "area": [
+        "ML"
+      ],
+      "ccf": "A",
+      "link": "https://icml.cc/Conferences/2026",
+      "abstract_deadline": "2026-01-23 23:59",
+      "deadline": "2026-01-28 23:59",
+      "timezone": "AoE",
+      "date": "Jul 6 – 11, 2026",
+      "place": "Seoul, South Korea",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-03-24",
+        "2026-04-07"
+      ],
+      "decision": "2026-04-30",
+      "note": "Reviews Mar 24; author response due Mar 30; author–reviewer discussion ends Apr 7."
+    },
+    {
+      "id": "iclr26",
+      "title": "ICLR",
+      "year": 2026,
+      "full_name": "International Conference on Learning Representations",
+      "area": [
+        "ML"
+      ],
+      "ccf": "",
+      "link": "https://iclr.cc/Conferences/2026",
+      "abstract_deadline": "2025-09-19 23:59",
+      "deadline": "2025-09-24 23:59",
+      "timezone": "AoE",
+      "date": "Apr 23 – 27, 2026",
+      "place": "Rio de Janeiro, Brazil",
+      "status": "confirmed",
+      "rebuttal": [
+        "2025-11-11",
+        "2025-12-03"
+      ],
+      "decision": "2026-01-25",
+      "note": "Reviews released Nov 11, 2025; discussion ended Dec 3; main conference Apr 23–25, workshops Apr 26–27."
+    },
+    {
+      "id": "aaai26",
+      "title": "AAAI",
+      "year": 2026,
+      "full_name": "AAAI Conference on Artificial Intelligence",
+      "area": [
+        "AI"
+      ],
+      "ccf": "A",
+      "link": "https://aaai.org/conference/aaai/aaai-26/",
+      "abstract_deadline": "2025-07-25 23:59",
+      "deadline": "2025-08-01 23:59",
+      "timezone": "AoE",
+      "date": "Jan 20 – 27, 2026",
+      "place": "Singapore",
+      "status": "confirmed",
+      "rebuttal": [
+        "2025-10-07",
+        "2025-10-13"
+      ],
+      "decision": "2025-11-08",
+      "note": "Supplementary Aug 4; phase-1 rejections Sep 15; camera-ready Nov 13–16, 2025."
+    },
+    {
+      "id": "acl26",
+      "title": "ACL",
+      "year": 2026,
+      "full_name": "Annual Meeting of the Association for Computational Linguistics",
+      "area": [
+        "NLP"
+      ],
+      "ccf": "A",
+      "link": "https://2026.aclweb.org/",
+      "deadline": "2026-01-05 23:59",
+      "timezone": "AoE",
+      "date": "Jul 2 – 7, 2026",
+      "place": "San Diego, USA",
+      "status": "confirmed",
+      "decision": "2026-04-04",
+      "note": "ARR Jan 2026 cycle; reviews/meta-reviews Mar 10; commitment Mar 14; camera-ready Apr 19."
+    },
+    {
+      "id": "ijcai26",
+      "title": "IJCAI-ECAI",
+      "year": 2026,
+      "full_name": "International Joint Conference on Artificial Intelligence / European Conference on Artificial Intelligence",
+      "area": [
+        "AI"
+      ],
+      "ccf": "A",
+      "link": "https://2026.ijcai.org/",
+      "abstract_deadline": "2026-01-12 23:59",
+      "deadline": "2026-01-19 23:59",
+      "timezone": "AoE",
+      "date": "Aug 15 – 21, 2026",
+      "place": "Bremen, Germany",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-04-07",
+        "2026-04-10"
+      ],
+      "decision": "2026-04-29",
+      "note": "Phase-1 notification Mar 4; camera-ready May 20."
+    },
+    {
+      "id": "siggraph26",
+      "title": "SIGGRAPH",
+      "year": 2026,
+      "full_name": "ACM SIGGRAPH Conference on Computer Graphics and Interactive Techniques",
+      "area": [
+        "CG"
+      ],
+      "ccf": "A",
+      "link": "https://s2026.siggraph.org/",
+      "abstract_deadline": "2026-01-15 22:00",
+      "deadline": "2026-01-22 22:00",
+      "timezone": "UTC",
+      "date": "Jul 19 – 23, 2026",
+      "place": "Los Angeles, USA",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-03-05",
+        "2026-03-12"
+      ],
+      "decision": "2026-03-30",
+      "note": "Upload deadline Jan 23; revised paper Apr 29; final version May 6."
+    },
+    {
+      "id": "mm26",
+      "title": "ACM MM",
+      "year": 2026,
+      "full_name": "ACM International Conference on Multimedia",
+      "area": [
+        "MM"
+      ],
+      "ccf": "A",
+      "link": "https://2026.acmmm.org/",
+      "abstract_deadline": "2026-03-25 23:59",
+      "deadline": "2026-04-01 23:59",
+      "timezone": "AoE",
+      "date": "Nov 10 – 14, 2026",
+      "place": "Rio de Janeiro, Brazil",
+      "status": "confirmed",
+      "decision": "2026-07-09",
+      "note": "Supplementary Apr 8; rebuttal due Jun 4 (main track; window start not given); camera-ready Aug 6."
+    },
+    {
+      "id": "icip26",
+      "title": "ICIP",
+      "year": 2026,
+      "full_name": "IEEE International Conference on Image Processing",
+      "area": [
+        "SP",
+        "CV"
+      ],
+      "ccf": "C",
+      "link": "https://2026.ieeeicip.org/",
+      "deadline": "2026-02-04 23:59",
+      "timezone": "AoE",
+      "date": "Sep 13 – 17, 2026",
+      "place": "Tampere, Finland",
+      "status": "confirmed",
+      "rebuttal": false,
+      "decision": "2026-04-29",
+      "note": "Extended from Jan 21 (notification from Apr 22); camera-ready May 13. Deadline timezone not stated."
+    },
+    {
+      "id": "wacv26r1",
+      "title": "WACV",
+      "year": 2026,
+      "full_name": "IEEE/CVF Winter Conference on Applications of Computer Vision (Round 1)",
+      "area": [
+        "CV"
+      ],
+      "ccf": "",
+      "link": "https://wacv.thecvf.com/Conferences/2026",
+      "abstract_deadline": "2025-07-11 23:59",
+      "deadline": "2025-07-18 23:59",
+      "timezone": "AoE",
+      "date": "Mar 6 – 10, 2026",
+      "place": "Tucson, USA",
+      "status": "confirmed",
+      "rebuttal": [
+        "2025-09-05",
+        "2025-09-19"
+      ],
+      "decision": "2025-11-06",
+      "note": "R1 reviews/decisions (accept/revise/reject) Sep 5; rebuttal+revision due Sep 19."
+    },
+    {
+      "id": "wacv26r2",
+      "title": "WACV",
+      "year": 2026,
+      "full_name": "IEEE/CVF Winter Conference on Applications of Computer Vision (Round 2)",
+      "area": [
+        "CV"
+      ],
+      "ccf": "",
+      "link": "https://wacv.thecvf.com/Conferences/2026",
+      "abstract_deadline": "2025-09-12 23:59",
+      "deadline": "2025-09-19 23:59",
+      "timezone": "AoE",
+      "date": "Mar 6 – 10, 2026",
+      "place": "Tucson, USA",
+      "status": "confirmed",
+      "rebuttal": false,
+      "decision": "2025-11-06",
+      "note": "R2 reviews and final decisions released together Nov 6 (no rebuttal)."
+    },
+    {
+      "id": "bmvc26",
+      "title": "BMVC",
+      "year": 2026,
+      "full_name": "British Machine Vision Conference",
+      "area": [
+        "CV"
+      ],
+      "ccf": "C",
+      "link": "https://bmvc2026.bmva.org/",
+      "abstract_deadline": "2026-05-22 23:59",
+      "deadline": "2026-05-29 23:59",
+      "timezone": "AoE",
+      "date": "Nov 23 – 26, 2026",
+      "place": "Lancaster, UK",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-07-03",
+        "2026-07-10"
+      ],
+      "decision": "2026-08-07",
+      "note": "Reviews due Jun 26; camera-ready Aug 28; no deadline extensions. Timezone not stated on official page."
     }
   ]
 }
