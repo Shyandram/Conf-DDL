@@ -444,6 +444,7 @@ kbd { font: 11px var(--mono); padding: 2px 6px; border: 1px solid var(--line-2);
 }
 .tag-ccf { border-color: transparent; background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--ink); }
 .tag-est { border-style: dashed; }
+.tag-ws { border-color: transparent; background: color-mix(in srgb, #22b07d 18%, transparent); color: var(--ink); }
 .c-full {
   flex-basis: 100%; padding-left: 22px; font-size: 13.5px; color: var(--ink-3);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;

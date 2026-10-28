@@ -72,7 +72,8 @@ To edit by hand, add an entry to `data/conferences.json`:
 - `status`: `confirmed` (from the official CFP) or `estimated` (projected from the previous cycle)
 - `rebuttal`: `[start, end]` dates, or `false` if the venue has no rebuttal. Leave it out while unannounced (shows TBA)
 - `decision`: date of the final decision / notification
+- `kind`: `"workshop"` for a workshop-proposal entry (e.g. `cvpr27w`); shown with a tag
 - `series`: only needed when an edition's `title` differs from the rest of its series (e.g. `"IJCAI-ECAI"` → `"series": "IJCAI"`), so stars follow it
-- `abstract_deadline`, `rebuttal`, `decision`, `ccf`, `series`, `note` are optional
+- `abstract_deadline`, `rebuttal`, `decision`, `ccf`, `series`, `kind`, `note` are optional
 
 Then run `python3 scripts/validate.py`.

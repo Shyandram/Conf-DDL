@@ -143,7 +143,8 @@
     $(".c-tags", el).innerHTML =
       (c.ccf ? `<span class="tag tag-ccf">CCF-${esc(c.ccf)}</span>` : "") +
       c.area.map(a => `<span class="tag">${esc(a)}</span>`).join("") +
-      (c.status !== "confirmed" ? `<span class="tag tag-est">estimated</span>` : "");
+      (c.status !== "confirmed" ? `<span class="tag tag-est">estimated</span>` : "") +
+      (c.kind === "workshop" ? `<span class="tag tag-ws">workshop proposals</span>` : "");
     $(".c-date", el).textContent = c.date || "TBA";
     $(".c-place", el).textContent = c.place || "TBA";
     $(".c-note", el).textContent = c.note || "";

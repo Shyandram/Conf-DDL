@@ -28,7 +28,7 @@
       "deadline": "2026-11-16 23:59",
       "timezone": "AoE",
       "date": "Jun 2027",
-      "place": "TBA",
+      "place": "Seattle, USA",
       "status": "confirmed",
       "rebuttal": [
         "2027-01-25",
@@ -1183,6 +1183,46 @@
       ],
       "decision": "2027-06-11",
       "note": "Venue and dates are official; paper deadline TBA. Projected from MICCAI 2026 (abstract Feb 12, paper Feb 26, rebuttal May 8–14, decisions Jun 12)."
+    },
+    {
+      "id": "cvpr27w",
+      "title": "CVPR Workshops",
+      "year": 2027,
+      "kind": "workshop",
+      "full_name": "CVPR 2027 workshop proposals",
+      "area": [
+        "CV"
+      ],
+      "ccf": "",
+      "link": "https://cvpr.thecvf.com/Conferences/2027/CallForWorkshops",
+      "deadline": "2026-11-04 23:59",
+      "timezone": "AoE",
+      "date": "Jun 20 – 21, 2027",
+      "place": "Seattle, USA",
+      "status": "confirmed",
+      "rebuttal": false,
+      "decision": "2026-12-22",
+      "note": "Deadline for proposing a workshop. Each workshop sets its own paper deadline; archival workshop papers need author metadata by Mar 29 and camera-ready by Apr 23, 2027 (AoE). Workshop websites due January 2027."
+    },
+    {
+      "id": "eccv26w",
+      "title": "ECCV Workshops",
+      "year": 2026,
+      "kind": "workshop",
+      "full_name": "ECCV 2026 workshop and tutorial proposals",
+      "area": [
+        "CV"
+      ],
+      "ccf": "",
+      "link": "https://eccv2024.ecva.net/Conferences/2026/Dates",
+      "deadline": "2026-02-15 23:59",
+      "timezone": "AoE",
+      "date": "Sep 8 – 9, 2026",
+      "place": "Malmö, Sweden",
+      "status": "confirmed",
+      "rebuttal": false,
+      "decision": "2026-04-12",
+      "note": "Deadline for proposing a workshop or tutorial. Individual workshops set their own paper deadlines. Workshops ran Sep 8–9, before the main conference (Sep 10–13)."
     }
   ]
 }
