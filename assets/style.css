@@ -715,7 +715,8 @@ kbd { font: 11px var(--mono); padding: 2px 6px; border: 1px solid var(--line-2);
 .ps-steps b { font-size: 16px; }
 .ps-steps small { font: 12px var(--mono); color: var(--ink-2); }
 
-.planner-tl { margin: 22px 0 6px; }
+.planner-tl { margin: 18px 0 0; min-height: 0; }
+.planner-tl.has-path .timeline-inner { height: calc(var(--axis) + 52px); }
 
 /* two lanes: amber = during the rebuttal, green = after the decision */
 .pp-lanes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 8px; }
@@ -812,8 +813,8 @@ html.planner-open { overflow: hidden; }
 @property --lx { syntax: "<length>"; inherits: false; initial-value: -1000px; }
 @property --ly { syntax: "<length>"; inherits: false; initial-value: -1000px; }
 :root { --lc: 255 255 255; --la: .32; --rc: 255 255 255; --ra: 1; }
-@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --la: .95; --rc: 61 90 254; --ra: .85; } }
-:root[data-theme="light"] { --la: .95; --rc: 61 90 254; --ra: .85; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --lc: 61 90 254; --la: .22; --rc: 61 90 254; --ra: .85; } }
+:root[data-theme="light"] { --lc: 61 90 254; --la: .22; --rc: 61 90 254; --ra: .85; }
 
 .topbar, .rail, .controls, .card, .rail-item, .fold-toggle, .digit, .pick, .venue, .path-panel, .planner-sheet, .to-top, .rail-tab, .search, .chip, .btn, .planner-btn, .seg, .icon-btn, .path-item, .rail-toggle, .path-close, .photo-next, .tl-pin .lbl { isolation: isolate; }
 .card, .rail-item, .fold-toggle, .digit, .pick, .venue, .path-panel, .to-top, .rail-tab, .search, .chip, .btn,
@@ -846,6 +847,7 @@ html.planner-open { overflow: hidden; }
 .photo-next::before,
 .tl-pin .lbl::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
+  --lx: inherit; --ly: inherit; /* the properties don't inherit by default, so pull them from the element */
   background:
     radial-gradient(circle 560px at var(--lx) var(--ly),
     rgb(var(--lc) / calc(var(--la) * var(--ls, 1) * 1)) 0,
@@ -887,6 +889,7 @@ html.planner-open { overflow: hidden; }
 .tl-pin .lbl::after,
 .rail-item::after {
   content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; padding: 1.5px;
+  --lx: inherit; --ly: inherit;
   background: radial-gradient(circle 420px at var(--lx) var(--ly),
     rgb(var(--rc) / calc(var(--ra) * 1)) 0,
     rgb(var(--rc) / calc(var(--ra) * .65)) 50px,
@@ -956,3 +959,10 @@ html.planner-open { overflow: hidden; }
 .hero-meta { min-height: 18px; }
 .hero-full { min-height: 1.55em; }
 @media (max-width: 760px) { .hero-full { min-height: 3.1em; } }
+
+/* the last three months: faded strip left of "today", with dimmed passed deadlines */
+.tl-past { position: absolute; left: 0; top: 0; bottom: 0; pointer-events: none;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--ink) 6%, transparent)); border-right: 0; }
+/* on the children: the entrance tween writes opacity on the pin itself */
+.tl-pin.past > * { opacity: .4; transition: opacity .2s; }
+.tl-pin.past:hover > *, .tl-pin.past:focus-visible > * { opacity: 1; }

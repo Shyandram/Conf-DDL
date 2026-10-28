@@ -407,7 +407,9 @@
     if (!advance && list.length > 1 && i === lastPhoto[city]) i += 1;
     i %= list.length;
     lastPhoto[city] = i;
-    return list[i];
+    // ask the CDN for a size that fits the screen (≈300–400 KB as AVIF/WebP instead of ~1 MB)
+    const w = innerWidth > 1800 ? 2000 : innerWidth > 900 ? 1600 : 1000;
+    return { ...list[i], src: list[i].src.replace(/([?&])w=\d+/, `$1w=${w}`).replace(/([?&])q=\d+/, "$1q=70") };
   }
 
   async function setVenue(c, advance = false) {
@@ -433,6 +435,7 @@
       || (country && (await wikiImage(COUNTRY_NAMES[country] || country)));
     if (!found || fig.dataset.token !== token) return;
     const pre = new Image();
+    pre.crossOrigin = "anonymous"; // matches how the service worker fetches, so both share one cached copy
     pre.onload = () => {
       if (fig.dataset.token !== token) return;
       img.style.backgroundImage = `url("${found.src}")`;
@@ -497,27 +500,27 @@
   function renderTimeline(list, now, opts = {}) {
     const tl = opts.el || $("#timeline");
     if (!opts.el) timelineList = list;
-    const start = new Date(now); start.setDate(1); start.setHours(0, 0, 0, 0);
-    const end = new Date(start); end.setMonth(end.getMonth() + 13);
+    // the past three months for context, then the next twelve
+    const start = new Date(now); start.setDate(1); start.setHours(0, 0, 0, 0); start.setMonth(start.getMonth() - 3);
+    const end = new Date(start); end.setMonth(end.getMonth() + 16);
     const span = end - start;
     const x = ms => ((ms - start) / span) * 100;
 
     let html = `<div class="timeline-inner"><div class="tl-axis"></div>`;
-    for (let i = 0; i < 13; i++) {
-      if (i === 12) break; // the 13th tick would sit on the right edge and overflow
+    for (let i = 1; i < 16; i++) { // no labels on the edges, they would be clipped
       const m = new Date(start); m.setMonth(m.getMonth() + i);
       const label = m.toLocaleString(undefined, { month: "short" }) + (m.getMonth() === 0 ? ` ’${String(m.getFullYear()).slice(2)}` : "");
       html += `<span class="tl-month" style="left:${x(+m)}%">${esc(label)}</span>`;
     }
-    html += `<div class="tl-today" style="left:${x(now)}%"></div>`;
+    html += `<div class="tl-past" style="width:${x(now)}%"></div><div class="tl-today" style="left:${x(now)}%"></div>`;
 
     // Labels hang to the right of their pin; stack them on rows so none overlap.
     const W = Math.max(tl.clientWidth, 720);
     const rowEnd = [];
-    const pins = list.filter(c => c.ddl > now && c.ddl < +end).map(c => {
+    const pins = list.filter(c => c.ddl >= +start && c.ddl < +end).sort((a, b) => a.ddl - b.ddl).map(c => {
       const px = x(c.ddl);
       const label = `${c.title} ${String(c.year).slice(2)}`;
-      const left = (px / 100) * W, right = left + label.length * 7 + 22;
+      const left = (px / 100) * W, right = left + label.length * 7.8 + 24;
       let row = rowEnd.findIndex(r => r < left);
       if (row === -1) row = rowEnd.length;
       rowEnd[row] = right;
@@ -540,7 +543,7 @@
     };
     pins.forEach(({ c, px, label, row }) => {
       const top = 8 + row * ROW;
-      html += `<button type="button" class="tl-pin${c.status !== "confirmed" ? " est" : ""}${role(c)}" data-id="${esc(c.id)}"
+      html += `<button type="button" class="tl-pin${c.status !== "confirmed" ? " est" : ""}${c.ddl <= now ? " past" : ""}${role(c)}" data-id="${esc(c.id)}"
         style="left:${px}%;top:${top}px;height:${axis + 5.5 - top}px" title="${esc(c.title + " " + c.year + " · " + fmtShort.format(c.ddl))}">
         <span class="lbl">${esc(label)}</span><span class="stem"></span><span class="dot"></span></button>`;
     });
@@ -676,7 +679,7 @@
     // the planner's timeline only shows the paper and where it could go, which keeps it readable (and light)
     const path = resubmitPath(src, now);
     const onTl = new Set([src, ...(path ? path.stages.flatMap(st => st.list.slice(0, 6)) : [])]);
-    renderTimeline([...onTl].filter(c => c.ddl > now).sort((a, b) => a.ddl - b.ddl), now, { el: $("#planTimeline"), path: true });
+    renderTimeline([...onTl].sort((a, b) => a.ddl - b.ddl), now, { el: $("#planTimeline"), path: true });
     if (wasHidden && hasGsap && !reduced) {
       gsap.fromTo(".planner-backdrop", { opacity: 0 }, { opacity: 1, duration: dur(0.3) });
       gsap.fromTo(".planner-sheet", { opacity: 0, y: lite ? 12 : 30, scale: lite ? 1 : 0.98 }, { opacity: 1, y: 0, clearProps: "transform", scale: 1, duration: lite ? 0.2 : 0.45, ease: "power3.out" });
@@ -783,9 +786,8 @@
     $("#emptyUp").hidden = n.up > 0;
     $("#emptyReview").hidden = n.review > 0;
 
-    const upcomingVisible = visible.filter(c => c.ddl > now);
     refreshPicks(now);
-    renderTimeline(upcomingVisible, now);
+    renderTimeline(visible, now); // it keeps the last three months and the next twelve
     renderRail(now);
 
     if (flipState) {
@@ -1162,6 +1164,11 @@
     refreshPicks(now);
     tickRail(now);
     for (const c of confs) if (c.el.style.display !== "none") tickCard(c, now);
+  }
+
+  // sw.js keeps photos, fonts and GSAP on the device after the first download
+  if ("serviceWorker" in navigator && location.protocol === "https:") {
+    window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
   }
 
   async function init() {

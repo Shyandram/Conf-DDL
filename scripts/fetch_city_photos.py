@@ -101,7 +101,7 @@ def main(argv):
         cities[city] = {
             **({"query": entry["query"]} if entry.get("query") else {}),
             "photos": [{
-                "src": p["urls"]["raw"] + "&w=2400&q=80&fit=max&auto=format",
+                "src": p["urls"]["raw"] + "&w=1600&q=70&fit=max&auto=format",
                 "color": p.get("color"),
                 "alt": p.get("alt_description") or city,
                 "photographer": p["user"]["name"],
