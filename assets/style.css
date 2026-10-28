@@ -270,7 +270,8 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 @media (min-width: 1280px) { .hero-body { grid-template-columns: minmax(0, 1fr) minmax(240px, 330px); gap: 36px; } }
 /* the host city's photo fills the whole window behind the page and fades out below the first screen;
    it is a little wider than the window so it can pan with the mouse */
-.page-bg { position: absolute; top: 0; left: 0; right: 0; height: calc(100vh + 160px); min-height: 820px; z-index: -3; overflow: hidden; pointer-events: none; }
+/* height is set from app.js so the photo ends just inside the timeline section, which then sits on solid ground */
+.page-bg { position: absolute; top: 0; left: 0; right: 0; height: calc(100vh + 160px); z-index: -3; overflow: hidden; pointer-events: none; }
 .page-bg-pan { position: absolute; inset: 0 -6%; will-change: transform; }
 .page-bg-img {
   position: absolute; inset: 0; background-size: cover; background-position: center 40%;
@@ -280,8 +281,8 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 .page-bg::after {
   content: ""; position: absolute; inset: 0;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--bg) 45%, transparent) 0%, color-mix(in srgb, var(--bg) 22%, transparent) 30%,
-      color-mix(in srgb, var(--bg) 62%, transparent) 66%, var(--bg) 96%),
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 45%, transparent) 0%, color-mix(in srgb, var(--bg) 22%, transparent) 35%,
+      color-mix(in srgb, var(--bg) 55%, transparent) calc(100% - 220px), var(--bg) calc(100% - 40px)),
     linear-gradient(90deg, color-mix(in srgb, var(--bg) 80%, transparent) 0%, color-mix(in srgb, var(--bg) 55%, transparent) 40%,
       color-mix(in srgb, var(--bg) 8%, transparent) 100%);
 }

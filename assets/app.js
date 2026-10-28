@@ -854,6 +854,15 @@
 
     $("#heroIcs").addEventListener("click", () => heroConf && icsFor(heroConf));
 
+    // the photo ends just inside the timeline section, so the timeline and everything below sit on solid ground
+    const sizeBg = () => {
+      const t = $(".timeline-wrap").getBoundingClientRect().top + window.scrollY;
+      $(".page-bg").style.height = Math.round(t + 70) + "px";
+    };
+    sizeBg();
+    window.addEventListener("resize", sizeBg);
+    if (window.ResizeObserver) new ResizeObserver(sizeBg).observe($("#hero"));
+
     // the background photo drifts a little with the mouse
     if (hasGsap && !reduced && matchMedia("(pointer: fine)").matches) {
       const panX = gsap.quickTo("#bgPan", "xPercent", { duration: 1.4, ease: "power3.out" });
