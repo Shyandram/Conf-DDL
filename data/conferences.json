@@ -201,6 +201,28 @@
       "note": "Projected from NeurIPS 2026 (rebuttal Jul 27 – Aug 3, notification Sep 24)."
     },
     {
+      "id": "emnlp27",
+      "title": "EMNLP",
+      "year": 2027,
+      "full_name": "Conference on Empirical Methods in Natural Language Processing",
+      "area": [
+        "NLP"
+      ],
+      "ccf": "B",
+      "link": "https://www.aclweb.org/portal/content/joint-call-workshops-proposals-2027",
+      "deadline": "2027-05-24 23:59",
+      "timezone": "AoE",
+      "date": "Early Nov 2027",
+      "place": "Mexico / Central America (tentative)",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-07-06",
+        "2027-07-12"
+      ],
+      "decision": "2027-08-19",
+      "note": "Projected from EMNLP 2026 (ARR May 25, author response Jul 7–13, notification Aug 20). Location from the ACL joint workshop call."
+    },
+    {
       "id": "wacv28r1",
       "title": "WACV",
       "year": 2028,
@@ -263,6 +285,28 @@
       ],
       "decision": "2027-12-15",
       "note": "Projected from ICLR 2027 (discussion Nov 5–18, decisions Dec 16)."
+    },
+    {
+      "id": "coling27",
+      "title": "COLING",
+      "year": 2027,
+      "full_name": "International Conference on Computational Linguistics",
+      "area": [
+        "NLP"
+      ],
+      "ccf": "B",
+      "link": "https://www.aclweb.org/portal/content/32nd-international-conference-computational-linguistics-0",
+      "deadline": "2026-10-12 23:59",
+      "timezone": "AoE",
+      "date": "May 9 – 14, 2027",
+      "place": "Macau, China",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-11-24",
+        "2026-11-30"
+      ],
+      "decision": "2027-02-10",
+      "note": "Submitted through the ARR October cycle (shared with NAACL 2027); pick the venue at commitment, Dec 23. Special theme: NLP for Linguistics."
     },
     {
       "id": "naacl27",
@@ -424,6 +468,28 @@
       "status": "confirmed",
       "decision": "2026-08-07",
       "note": "First-round decisions (accept / revise / reject) Aug 7; revised papers continue to Round 2."
+    },
+    {
+      "id": "emnlp26",
+      "title": "EMNLP",
+      "year": 2026,
+      "full_name": "Conference on Empirical Methods in Natural Language Processing",
+      "area": [
+        "NLP"
+      ],
+      "ccf": "B",
+      "link": "https://2026.emnlp.org/",
+      "deadline": "2026-05-25 23:59",
+      "timezone": "AoE",
+      "date": "Oct 24 – 29, 2026",
+      "place": "Budapest, Hungary",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-07-07",
+        "2026-07-13"
+      ],
+      "decision": "2026-08-20",
+      "note": "ARR May cycle (shared with AACL). Commitment Aug 2, 2026."
     },
     {
       "id": "neurips26",

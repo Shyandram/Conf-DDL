@@ -1,6 +1,6 @@
 # Conf DDL
 
-Live countdowns to the main conference deadlines in computer vision, ML and AI (CVPR, ICCV, ECCV, NeurIPS, ICML, ICLR, AAAI, …).
+Live countdowns to the main conference deadlines in computer vision, ML, AI and NLP (CVPR, ICCV, ECCV, NeurIPS, ICML, ICLR, AAAI, ACL, EMNLP, NAACL, COLING, …).
 
 - **Hero countdown** for the next deadline that matches your filters, with flip-style digits
 - **12-month timeline** of upcoming deadlines (solid = confirmed, dashed = estimated)
@@ -21,10 +21,25 @@ python3 -m http.server 8000
 
 (Opening `index.html` directly with `file://` won't work because the page fetches the JSON.)
 
-## Deploy
+## Deploy (GitHub Pages)
 
 `.github/workflows/pages.yml` validates the data and publishes the site on every push to `main`.
-One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
+1. One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+2. Push to `main` (or run the workflow from the Actions tab). The site goes live at `https://shyandram.github.io/conf-ddl/`.
+
+All paths in the page are relative, so it works both under `/conf-ddl/` and at the root of a custom domain.
+
+### Custom domain (later)
+
+1. **Settings → Pages → Custom domain**: enter the domain (e.g. `deadlines.example.com`) and save.
+   With the Actions deployment, this setting is what counts, so no `CNAME` file is needed in the repo.
+2. At your DNS provider:
+   - Subdomain (`deadlines.example.com`): a `CNAME` record pointing to `shyandram.github.io`.
+   - Apex domain (`example.com`): `A` records to `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+     (and optionally `AAAA` records to `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`).
+3. Once DNS resolves, tick **Enforce HTTPS**.
+4. Optional but recommended: verify the domain under **GitHub account Settings → Pages** so nobody else can claim it.
 
 ## Adding or updating a conference
 
