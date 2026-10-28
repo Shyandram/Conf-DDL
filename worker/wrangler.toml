@@ -2,6 +2,8 @@
 name = "conf-ddl-calendar"
 main = "src/index.js"
 compatibility_date = "2024-09-23"
+# serve it at conf-ddl-calendar.<account subdomain>.workers.dev
+workers_dev = true
 
 [vars]
 SITE = "https://conf-ddl.shyandram.dev/"
