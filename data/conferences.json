@@ -1223,6 +1223,46 @@
       "rebuttal": false,
       "decision": "2026-04-12",
       "note": "Deadline for proposing a workshop or tutorial. Individual workshops set their own paper deadlines. Workshops ran Sep 8–9, before the main conference (Sep 10–13)."
+    },
+    {
+      "id": "iccv27w",
+      "title": "ICCV Workshops",
+      "year": 2027,
+      "kind": "workshop",
+      "full_name": "ICCV 2027 workshop proposals",
+      "area": [
+        "CV"
+      ],
+      "ccf": "",
+      "link": "https://iccv.thecvf.com/",
+      "deadline": "2027-03-12 23:59",
+      "timezone": "AoE",
+      "date": "Oct 2027",
+      "place": "Hong Kong",
+      "status": "estimated",
+      "rebuttal": false,
+      "decision": "2027-04-16",
+      "note": "Call not published yet. Projected from ICCV 2025 (proposals due Mar 13, notification Apr 17; workshops on the first two days). Each workshop sets its own paper deadline."
+    },
+    {
+      "id": "neurips26w",
+      "title": "NeurIPS Workshops",
+      "year": 2026,
+      "kind": "workshop",
+      "full_name": "NeurIPS 2026 workshop proposals",
+      "area": [
+        "ML"
+      ],
+      "ccf": "",
+      "link": "https://neurips.cc/Conferences/2026/CallForWorkshops",
+      "deadline": "2026-06-06 23:59",
+      "timezone": "AoE",
+      "date": "Dec 11 – 13, 2026",
+      "place": "Sydney, Australia",
+      "status": "confirmed",
+      "rebuttal": false,
+      "decision": "2026-07-11",
+      "note": "Workshops in Sydney (Dec 11–12), Paris and Atlanta (Dec 12–13). Suggested workshop paper deadline Aug 29; mandatory accept/reject notification Sep 29, 2026 (AoE)."
     }
   ]
 }
