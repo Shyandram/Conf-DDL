@@ -6,6 +6,11 @@
   const WARN_DAYS = 30;
   const BAR_WINDOW = 180 * DAY; // the progress bar fills over the last 180 days
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Phones and touch screens: skip the decorative intros (title letters, timeline draw-in, row reveal) and keep the
+  // functional motion (digit flips, reorder, folds) short, so the first seconds stay responsive.
+  const lite = matchMedia("(max-width: 760px), (pointer: coarse)").matches;
+  const fx = !reduced && !lite;     // decorative motion
+  const dur = s => (lite ? Math.min(s, 0.25) : s);
   const hasGsap = typeof window.gsap !== "undefined";
   if (hasGsap && window.Flip) gsap.registerPlugin(Flip);
   if (hasGsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
@@ -280,8 +285,8 @@
       neu.textContent = ch;
       box.appendChild(neu);
       if (hasGsap && !reduced) {
-        gsap.fromTo(neu, { yPercent: -100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: "expo.out" });
-        gsap.to(old, { yPercent: 100, opacity: 0, duration: 0.5, ease: "expo.out", onComplete: () => old.remove() });
+        gsap.fromTo(neu, { yPercent: -100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: dur(0.5), ease: "expo.out" });
+        gsap.to(old, { yPercent: 100, opacity: 0, duration: dur(0.5), ease: "expo.out", onComplete: () => old.remove() });
       } else {
         old.remove();
       }
@@ -467,7 +472,7 @@
     $("#heroFull").textContent = c.full_name + (c.status !== "confirmed" ? " · estimated date" : "");
     $("#heroPlace").textContent = [c.place, c.date].filter(Boolean).join(" · ");
     $("#heroLink").href = c.link;
-    if (hasGsap && !reduced) {
+    if (hasGsap && fx) {
       gsap.fromTo(chars, { yPercent: 110 }, { yPercent: 0, duration: first ? 1.1 : 0.7, ease: "expo.out", stagger: 0.04, delay: first ? 0.15 : 0 });
       gsap.fromTo(["#heroYear", "#heroFull", ".hero-foot"], { opacity: 0, y: 12 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.7, ease: "power3.out", stagger: 0.06, delay: first ? 0.4 : 0.1 });
     }
@@ -569,7 +574,7 @@
       gsap.fromTo($$(".tl-band", tl), { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.out", transformOrigin: "left" });
     } else if (glow && hasGsap && !reduced) {
       gsap.fromTo($$(".tl-src .dot, .tl-reb .dot, .tl-dec .dot", tl), { scale: 0.3 }, { scale: 1, duration: 0.5, ease: "back.out(3)", stagger: 0.03 });
-    } else if (hasGsap && !reduced && !opts.quiet) {
+    } else if (hasGsap && fx && !opts.quiet) {
       gsap.fromTo($(".tl-axis", tl), { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut" });
       gsap.fromTo($$(".tl-pin", tl), { opacity: 0, y: 14 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.6, ease: "back.out(2)", stagger: 0.05, delay: 0.4 });
     }
@@ -631,7 +636,7 @@
       </div>
       <div class="path-stages">${path.stages.map(stage).join("")}</div>
       <p class="path-note">Ranked by ${esc((data.tiers && data.tiers.source) || "venue grade")}: grade A first, then B, then unlisted; then same field, with CCF as a tie-break. Check each venue's dual-submission and withdrawal rules before moving a paper.</p>`;
-    if (hasGsap && !reduced) gsap.fromTo($$(".path-item", panel), { opacity: 0, y: 8 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.35, ease: "power2.out", stagger: 0.03 });
+    if (hasGsap && fx) gsap.fromTo($$(".path-item", panel), { opacity: 0, y: 8 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.35, ease: "power2.out", stagger: 0.03 });
   }
 
   /* ---------- planner (its own view, so the home screen stays clean) ---------- */
@@ -653,8 +658,8 @@
     history.replaceState(null, "", "#plan=" + src.id);
     renderTimeline(confs.filter(c => c.ddl > now && c.kind !== "workshop"), now, { el: $("#planTimeline"), path: true });
     if (wasHidden && hasGsap && !reduced) {
-      gsap.fromTo(".planner-backdrop", { opacity: 0 }, { opacity: 1, duration: 0.3 });
-      gsap.fromTo(".planner-sheet", { opacity: 0, y: 30, scale: 0.98 }, { opacity: 1, y: 0, clearProps: "transform", scale: 1, duration: 0.45, ease: "power3.out" });
+      gsap.fromTo(".planner-backdrop", { opacity: 0 }, { opacity: 1, duration: dur(0.3) });
+      gsap.fromTo(".planner-sheet", { opacity: 0, y: lite ? 12 : 30, scale: lite ? 1 : 0.98 }, { opacity: 1, y: 0, clearProps: "transform", scale: 1, duration: lite ? 0.2 : 0.45, ease: "power3.out" });
     }
   }
 
@@ -765,7 +770,7 @@
 
     if (flipState) {
       Flip.from(flipState, {
-        duration: 0.45, ease: "power3.inOut", stagger: 0.012,
+        duration: dur(0.45), ease: "power3.inOut", stagger: lite ? 0 : 0.012,
         onEnter: els => gsap.fromTo(els, { opacity: 0, y: 10 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.4, ease: "power2.out" }),
         onComplete: () => {
           gsap.set(cards, { clearProps: "transform,opacity" });
@@ -855,7 +860,7 @@
       const set = (open, animate) => {
         btn.setAttribute("aria-expanded", open);
         body.hidden = !open;
-        if (open && animate && hasGsap && !reduced) {
+        if (open && animate && hasGsap && fx) {
           gsap.fromTo($$(".card", body).filter(el => el.style.display !== "none").slice(0, 20),
             { opacity: 0, y: 12 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.4, ease: "power3.out", stagger: 0.02 });
         }
@@ -1038,7 +1043,7 @@
       if (open) more.hidden = false;
       if (hasGsap && !reduced) {
         gsap.fromTo(more, { height: open ? 0 : more.offsetHeight, opacity: open ? 0 : 1 },
-          { height: open ? "auto" : 0, opacity: open ? 1 : 0, duration: 0.3, ease: "power2.out",
+          { height: open ? "auto" : 0, opacity: open ? 1 : 0, duration: lite ? 0.18 : 0.3, ease: "power2.out",
             onComplete: () => { if (!open) more.hidden = true; gsap.set(more, { clearProps: "height,opacity" }); } });
       } else if (!open) more.hidden = true;
     });
@@ -1101,10 +1106,10 @@
       c.barShown = true;
       const left = c.ddl - Date.now();
       const w = (Math.min(1, Math.max(0, 1 - left / BAR_WINDOW)) * 100) + "%";
-      if (hasGsap && !reduced) gsap.fromTo(c.refs.bar, { width: "0%" }, { width: w, duration: 1.4, ease: "expo.out" });
+      if (hasGsap && fx) gsap.fromTo(c.refs.bar, { width: "0%" }, { width: w, duration: 1.4, ease: "expo.out" });
       else c.refs.bar.style.width = w;
     };
-    if (!hasGsap || reduced || !window.ScrollTrigger) { list.forEach(growBar); return; }
+    if (!hasGsap || !fx || !window.ScrollTrigger) { list.forEach(c => { c.revealed = true; growBar(c); }); return; }
     gsap.set(list.map(c => c.el), { opacity: 0, y: 14 });
     ScrollTrigger.batch(list.map(c => c.el), {
       start: "top 92%", once: true,

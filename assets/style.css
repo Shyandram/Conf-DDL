@@ -90,7 +90,7 @@ code { font-family: var(--mono); font-size: .9em; padding: .1em .35em; border: 1
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%);
 }
 .grain {
-  position: fixed; inset: -50%; z-index: -1; pointer-events: none; opacity: .05;
+  position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -862,3 +862,17 @@ html.planner-open { overflow: hidden; }
 .path-reb .path-item.is-best { border-color: var(--warn); }
 .path-dec .path-item.is-best { border-color: var(--ok); }
 .to-top:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+/* phones and touch screens: no slow zoom on the background photo */
+@media (max-width: 760px), (pointer: coarse) {
+  .page-bg-img, .page-bg-img.is-loaded { transform: none; transition: opacity .5s ease; }
+}
+/* phone sizes of the reserved hero space (measured), so the hero doesn't grow after the data arrives */
+@media (max-width: 760px) {
+  .hero-picks { min-height: 76px; }
+  .venue { min-height: 160px; }
+  .hero-full { min-height: 3em; }
+  .hero-foot { min-height: 118px; }
+}
+@media (max-width: 760px), (pointer: coarse) { .grain { display: none; } }
+.hero-title { min-height: 1.05em; }
