@@ -1,19 +1,9 @@
 {
   "Anaheim": {
-    "src": "https://images.unsplash.com/photo-1740125434771-509e8d4b5529?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8QW5haGVpbSUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDA0fDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#0c8cf3",
-    "alt": "An apartment complex with a flag pole in front of it",
-    "photographer": "Brett Wharton",
-    "photographer_url": "https://unsplash.com/@brettwharton?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/an-apartment-complex-with-a-flag-pole-in-front-of-it-MkzfQjxwnLA?utm_source=conf_ddl&utm_medium=referral"
+    "query": "Anaheim California aerial"
   },
   "Athens": {
-    "src": "https://images.unsplash.com/photo-1536624034625-d5433d6391e4?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8N3x8QXRoZW5zJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE0MDZ8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#d9d9d9",
-    "alt": "women's black T-shirt",
-    "photographer": "Semina Psichogiopoulou",
-    "photographer_url": "https://unsplash.com/@seminapsichogiopoulou?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/womens-black-t-shirt-hl0iLy1hFo0?utm_source=conf_ddl&utm_medium=referral"
+    "query": "Athens Acropolis cityscape"
   },
   "Auckland": {
     "src": "https://images.unsplash.com/photo-1604367078108-3ed095682132?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8QXVja2xhbmQlMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQwOHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
@@ -48,12 +38,7 @@
     "photo_url": "https://unsplash.com/photos/golden-gate-bridge-during-daytime-gZXx8lKAb7Y?utm_source=conf_ddl&utm_medium=referral"
   },
   "Denver": {
-    "src": "https://images.unsplash.com/photo-1629297951902-896698a7e147?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8RGVudmVyJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE0MTZ8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#262626",
-    "alt": "cars on road in city during night time",
-    "photographer": "Josh Hild",
-    "photographer_url": "https://unsplash.com/@joshhild?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/cars-on-road-in-city-during-night-time-Xa4phf71fOU?utm_source=conf_ddl&utm_medium=referral"
+    "query": "Denver skyline"
   },
   "Dublin": {
     "src": "https://images.unsplash.com/photo-1584958416995-614bafcc67f0?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTN8fER1YmxpbiUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDE4fDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
@@ -88,28 +73,13 @@
     "photo_url": "https://unsplash.com/photos/city-during-night-7JyJZVHOzJk?utm_source=conf_ddl&utm_medium=referral"
   },
   "Kyoto": {
-    "src": "https://images.unsplash.com/photo-1672919624183-300435556140?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8N3x8S3lvdG8lMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQyNnww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#f3f3f3",
-    "alt": "a city street filled with lots of traffic next to tall buildings",
-    "photographer": "Jason Low",
-    "photographer_url": "https://unsplash.com/@jasonlowym?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/a-city-street-filled-with-lots-of-traffic-next-to-tall-buildings-O19H7oF-PdQ?utm_source=conf_ddl&utm_medium=referral"
+    "query": "Kyoto temple cityscape"
   },
   "Lancaster": {
-    "src": "https://images.unsplash.com/photo-1643769621074-103903a9c3e7?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8TGFuY2FzdGVyJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE0Mjh8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#26260c",
-    "alt": "a yellow fire hydrant on the side of a building",
-    "photographer": "Zachary Musser",
-    "photographer_url": "https://unsplash.com/@zacman895?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/a-yellow-fire-hydrant-on-the-side-of-a-building-mD7rgit9Qrc?utm_source=conf_ddl&utm_medium=referral"
+    "query": "Lancaster Lancashire England"
   },
   "Lausanne": {
-    "src": "https://images.unsplash.com/photo-1538592799332-5908b7f46f52?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8TGF1c2FubmUlMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQzMHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#c0c0a6",
-    "alt": "grayscale photo of light post",
-    "photographer": "Alissa De Leva",
-    "photographer_url": "https://unsplash.com/@alissadeleva?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/grayscale-photo-of-light-post-BtSbcDqnpfw?utm_source=conf_ddl&utm_medium=referral"
+    "query": "Lausanne Lake Geneva"
   },
   "Los Angeles": {
     "src": "https://images.unsplash.com/photo-1471039497385-b6d6ba609f9c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NHx8TG9zJTIwQW5nZWxlcyUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDMyfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
@@ -144,12 +114,7 @@
     "photo_url": "https://unsplash.com/photos/city-skyline-during-night-time-BywYl0Fp3pI?utm_source=conf_ddl&utm_medium=referral"
   },
   "Mexico / Central America": {
-    "src": "https://images.unsplash.com/photo-1650687034903-d0278e2cd5b8?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OHx8TWV4aWNvJTIwQ2l0eSUyMHNreWxpbmV8ZW58MXwwfHx8MTc5MzE4MTQzOXww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#404040",
-    "alt": "a city at night",
-    "photographer": "Greg Bulla",
-    "photographer_url": "https://unsplash.com/@gregbulla?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/a-city-at-night-JgmV0-gieyA?utm_source=conf_ddl&utm_medium=referral"
+    "query": "Mexico City skyline day"
   },
   "Montréal": {
     "src": "https://images.unsplash.com/photo-1585886309215-03a15afc624a?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8TW9udHIlQzMlQTlhbCUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDQxfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",

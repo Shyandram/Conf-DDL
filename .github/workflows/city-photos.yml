@@ -55,6 +55,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/cities.json
           git commit -m "Update city photos"
+          # someone may have pushed while the photos were fetched; replay on top instead of failing
+          git pull --rebase origin main
           git push
           # pushes made with GITHUB_TOKEN don't start other workflows, so start the deploy explicitly
           gh workflow run pages.yml --ref main
