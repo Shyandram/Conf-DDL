@@ -381,7 +381,6 @@
     pre.onload = () => {
       if (fig.dataset.token !== token) return;
       img.style.backgroundImage = `url("${found.src}")`;
-      img.setAttribute("aria-label", `Photo of ${city}`);
       img.classList.add("is-loaded");
       if (found.page) { credit.href = found.page; credit.hidden = false; }
     };
