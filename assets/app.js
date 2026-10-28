@@ -171,7 +171,7 @@
       c.refs.ddl.textContent = fmtTime(c.ddl);
       if (c.refs.abs) c.refs.abs.textContent = fmtTime(c.abs);
     }
-    if (heroConf) $("#heroWhen").textContent = fmtTime(heroConf.ddl);
+    if (heroConf) $("#heroWhen").textContent = fmtTime(heroTarget(Date.now()).at);
   }
 
   // Where a submitted paper is in review: what comes next and when.
@@ -269,13 +269,17 @@
   // The hero counts down to what the viewer chose: starred first, then the filtered list, then everything.
   function pickHero(upcomingVisible, now) {
     const starred = confs.filter(c => c.ddl > now && state.starred.has(c.id));
+    const starredReview = confs.filter(c => c.group === "review" && state.starred.has(c.id))
+      .sort((a, b) => reviewPhase(a, now).at - reviewPhase(b, now).at);
     const filtered = state.areas.size || state.onlyConfirmed || state.ccfA || state.q || state.onlyStarred;
     let c, scope = "";
     if (starred.length) { c = starred[0]; scope = "My conferences"; }
+    else if (starredReview.length) { c = starredReview[0]; scope = "My conferences"; }
     else if (upcomingVisible.length) { c = upcomingVisible[0]; scope = filtered ? "your filters" : ""; }
     else c = confs.find(x => x.ddl > now) || null;
     $("#heroScope").textContent = scope;
     setHero(c);
+    tickHero(now);
   }
 
   function setHero(c) {
@@ -288,6 +292,7 @@
       $("#heroYear").textContent = "";
       $("#heroFull").textContent = "No upcoming deadlines match your filters.";
       $("#heroWhen").textContent = "";
+      $("#heroKind").textContent = "Next deadline";
       $("#heroPlace").textContent = "";
       hero.classList.add("is-empty");
       return;
@@ -296,7 +301,8 @@
     const chars = splitChars($("#heroName"), c.title);
     $("#heroYear").textContent = c.year;
     $("#heroFull").textContent = c.full_name + (c.status !== "confirmed" ? " · estimated date" : "");
-    $("#heroWhen").textContent = fmtTime(c.ddl);
+    c.shownAt = null; // let tickHero paint the kind label and time for this target
+    $("#heroWhen").textContent = fmtTime(heroTarget(Date.now()).at);
     $("#heroPlace").textContent = [c.place, c.date].filter(Boolean).join(" · ");
     $("#heroLink").href = c.link;
     if (hasGsap && !reduced) {
@@ -305,9 +311,23 @@
     }
   }
 
+  // A hero past its paper deadline (a starred paper in review) counts down to its next milestone.
+  function heroTarget(now) {
+    if (!heroConf || heroConf.ddl > now) return { at: heroConf ? heroConf.ddl : now, kind: "Next deadline" };
+    const ph = reviewPhase(heroConf, now);
+    if (!ph.label) return { at: now, kind: "Decided" };
+    return { at: ph.at, kind: ph.open ? "Rebuttal closes" : ph.step === 1 ? "Next: rebuttal" : "Next: decision" };
+  }
+
   function tickHero(now) {
     const clock = $("#clock");
-    const left = heroConf ? heroConf.ddl - now : 0;
+    const target = heroTarget(now);
+    if (heroConf && target.at !== heroConf.shownAt) {
+      heroConf.shownAt = target.at;
+      $("#heroKind").textContent = target.kind;
+      $("#heroWhen").textContent = fmtTime(target.at);
+    }
+    const left = heroConf ? target.at - now : 0;
     const t = split(left);
     setDigits("d", t.d); setDigits("h", t.h); setDigits("m", t.m); setDigits("s", t.s);
     const u = heroConf ? urgency(left) : "";

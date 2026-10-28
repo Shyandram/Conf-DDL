@@ -24,6 +24,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate conference data
         run: python3 scripts/validate.py
+      - name: Version asset URLs so browsers fetch the new build
+        run: sed -i "s/?v=dev/?v=${GITHUB_SHA::8}/g" index.html
       - uses: actions/configure-pages@v5
         with:
           enablement: true

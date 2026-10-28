@@ -637,8 +637,7 @@
       "year": 2027,
       "full_name": "IEEE International Symposium on Biomedical Imaging",
       "area": [
-        "MED",
-        "CV"
+        "MED"
       ],
       "ccf": "C",
       "link": "https://biomedicalimaging.org/2027/",
@@ -1116,6 +1115,25 @@
       ],
       "decision": "2028-06-15",
       "note": "Projected from ECCV 2026 (registration Feb 26, paper Mar 5 23:00 CET, rebuttal May 2–11, decisions Jun 17). Venue not announced."
+    },
+    {
+      "id": "icassp28",
+      "title": "ICASSP",
+      "year": 2028,
+      "full_name": "IEEE International Conference on Acoustics, Speech and Signal Processing",
+      "area": [
+        "SP"
+      ],
+      "ccf": "B",
+      "link": "https://ieeeicassp.org/event/icassp-2028-tokyo/",
+      "deadline": "2027-09-15 23:59",
+      "timezone": "AoE",
+      "date": "May 28 – Jun 3, 2028",
+      "place": "Tokyo, Japan",
+      "status": "estimated",
+      "rebuttal": false,
+      "decision": "2028-01-12",
+      "note": "Venue and dates are official (Tokyo International Forum); paper deadline not announced yet. Projected from ICASSP 2027 (Sep 16, extended to Sep 23; decisions Jan 13)."
     }
   ]
 }
