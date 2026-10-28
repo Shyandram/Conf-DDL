@@ -653,7 +653,15 @@ kbd { font: 11px var(--mono); padding: 2px 6px; border: 1px solid var(--line-2);
   .toggles { width: 100%; flex-wrap: wrap; gap: 10px 14px; }
   .timeline:not(.planner-tl) { min-height: 0; }
   .sep { display: none; }
-  .clock { gap: 10px; --dw: clamp(24px, calc((100cqi - 56px) / 9.1), 52px); }
+  /* four equal groups spread across the full width, each label centred under its digits */
+  .clock {
+    display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; gap: 0;
+    --dw: clamp(24px, calc((100cqi - 60px) / 8.25), 64px);
+  }
+  .clock:has([data-unit="d"] .digit:nth-child(3)) { --dw: clamp(22px, calc((100cqi - 64px) / 9.25), 64px); }
+  .digits { gap: 4px; }
+  .unit { align-items: center; gap: 8px; }
+  .unit > span { padding-left: 0; font-size: 11.5px; }
 }
 /* small phones: the status bar already shows the time, so the top bar keeps room for its buttons */
 @media (max-width: 480px) {
@@ -855,7 +863,8 @@ html.planner-open { overflow: hidden; }
 :root[data-theme="light"] { --lc: 61 90 254; --la: .22; --rc: 61 90 254; --ra: .85; }
 
 .topbar, .rail, .controls, .card, .rail-item, .fold-toggle, .digit, .pick, .venue, .path-panel, .planner-sheet, .to-top, .rail-tab, .search, .chip, .btn, .planner-btn, .seg, .icon-btn, .path-item, .rail-toggle, .path-close, .photo-next, .tl-pin .lbl { isolation: isolate; }
-.card, .rail-item, .fold-toggle, .digit, .pick, .venue, .path-panel, .to-top, .rail-tab, .search, .chip, .btn,
+/* .to-top and .rail-tab stay out of this list: they are position: fixed, which already holds their glass layers */
+.card, .rail-item, .fold-toggle, .digit, .pick, .venue, .path-panel, .search, .chip, .btn,
 .planner-btn, .seg, .icon-btn, .path-item, .rail-toggle, .path-close, .photo-next, .tl-pin .lbl { position: relative; }
 .topbar, .rail, .controls, .card, .rail-item, .fold-toggle { --ls: .75; }
 .planner-sheet { --ls: .55; }
@@ -987,6 +996,7 @@ html.planner-open { overflow: hidden; }
   .hero-picks { min-height: 76px; }
   .venue { min-height: 180px; }
   .hero-foot { min-height: 118px; }
+  .hero-foot .dot-sep { display: none; } /* date and place sit on separate lines here */
 }
 @media (max-width: 760px), (pointer: coarse) { .grain { display: none; } }
 /* line-height 1 + flex children: the title is 1.1em tall whatever the font or text, so it never shifts on load */
