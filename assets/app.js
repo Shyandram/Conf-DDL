@@ -247,7 +247,9 @@
     [...str].forEach((ch, i) => {
       if (u.val[i] === ch) return;
       const box = boxes[i];
-      const old = box.firstElementChild;
+      // Drop digits still flipping out from an earlier change; the last child is the one on show.
+      [...box.children].slice(0, -1).forEach(el => { if (hasGsap) gsap.killTweensOf(el); el.remove(); });
+      const old = box.lastElementChild;
       const neu = document.createElement("span");
       neu.textContent = ch;
       box.appendChild(neu);
@@ -302,6 +304,7 @@
     $("#heroYear").textContent = c.year;
     $("#heroFull").textContent = c.full_name + (c.status !== "confirmed" ? " · estimated date" : "");
     c.shownAt = null; // let tickHero paint the kind label and time for this target
+    Object.values(clockUnits).forEach(u => { u.val = null; }); // new target: redraw digits instead of flipping
     $("#heroWhen").textContent = fmtTime(heroTarget(Date.now()).at);
     $("#heroPlace").textContent = [c.place, c.date].filter(Boolean).join(" · ");
     $("#heroLink").href = c.link;
