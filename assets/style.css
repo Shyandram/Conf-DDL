@@ -870,9 +870,10 @@ html.planner-open { overflow: hidden; }
 /* phone sizes of the reserved hero space (measured), so the hero doesn't grow after the data arrives */
 @media (max-width: 760px) {
   .hero-picks { min-height: 76px; }
-  .venue { min-height: 160px; }
+  .venue { min-height: 180px; }
   .hero-full { min-height: 3em; }
   .hero-foot { min-height: 118px; }
 }
 @media (max-width: 760px), (pointer: coarse) { .grain { display: none; } }
-.hero-title { min-height: 1.05em; }
+/* sized for the final web font (Geist is taller than the fallback), so the swap doesn't push the hero down */
+.hero-title { min-height: 1.3em; }
