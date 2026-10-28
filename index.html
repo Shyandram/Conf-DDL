@@ -6,6 +6,14 @@
   <title>Conf Deadlines</title>
   <meta name="description" content="Countdowns to the main conference deadlines in computer vision, machine learning, AI and NLP, with rebuttal and decision dates.">
   <meta name="theme-color" content="#0a0c10">
+  <script>
+    // theme before the first paint: "auto" (the default) is light from 6:00 to 18:00 local time, dark otherwise
+    (function () {
+      var m; try { m = JSON.parse(localStorage.getItem("confddl:themeMode")); } catch (e) {}
+      var h = new Date().getHours();
+      document.documentElement.dataset.theme = m === "light" || m === "dark" ? m : h >= 6 && h < 18 ? "light" : "dark";
+    })();
+  </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0c10'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23d4ff3a' stroke-width='2.5'/%3E%3Cpath d='M16 10v6l4 3' stroke='%23d4ff3a' stroke-width='2.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
   <!-- Geist / Geist Mono as variable fonts (one file each), fetched early; font-display: optional in style.css means
        no late swap, so text never jumps when the font arrives -->
@@ -44,8 +52,27 @@
       <button type="button" class="icon-btn" id="lightBtn" aria-pressed="false" aria-label="Mouse light" title="Mouse light: the cursor lights up the glass">
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>
       </button>
-      <button type="button" class="icon-btn" id="themeBtn" aria-label="Toggle theme">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg>
+      <button type="button" class="icon-btn" id="themeBtn" data-mode="auto" aria-label="Theme: auto (follows local time)">
+        <!-- auto: sun and moon, each cut in half by a slash -->
+        <svg class="ti ti-auto" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <defs>
+            <clipPath id="tiDay"><path d="M0 0h21.6L0 21.6Z"/></clipPath>
+            <clipPath id="tiNight"><path d="M24 2.4V24H2.4Z"/></clipPath>
+          </defs>
+          <g clip-path="url(#tiDay)" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/>
+            <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/>
+          </g>
+          <path clip-path="url(#tiNight)" d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/>
+          <path d="M20.5 3.5 3.5 20.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <svg class="ti ti-light" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/>
+            <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/>
+          </g>
+        </svg>
+        <svg class="ti ti-dark" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z" fill="currentColor"/></svg>
       </button>
     </div>
   </header>

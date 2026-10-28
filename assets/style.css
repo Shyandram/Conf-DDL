@@ -144,6 +144,8 @@ code { font-family: var(--mono); font-size: .9em; padding: .1em .35em; border: 1
 }
 #lightBtn[aria-pressed="true"] { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 55%, transparent); box-shadow: 0 0 18px -4px var(--warn); }
 .icon-btn:hover { color: var(--ink); border-color: var(--line-2); transform: rotate(-20deg); }
+#themeBtn .ti { display: none; }
+#themeBtn[data-mode="auto"] .ti-auto, #themeBtn[data-mode="light"] .ti-light, #themeBtn[data-mode="dark"] .ti-dark { display: block; }
 
 /* sidebar sits flush on the far left; the content column is centered in the rest */
 main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 48px); }

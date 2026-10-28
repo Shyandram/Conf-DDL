@@ -985,13 +985,26 @@
       });
     });
 
-    const root = document.documentElement;
-    const savedTheme = store.get("theme", null);
-    if (savedTheme) root.dataset.theme = savedTheme;
-    $("#themeBtn").addEventListener("click", () => {
-      const cur = root.dataset.theme || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-      root.dataset.theme = cur === "light" ? "dark" : "light";
-      store.set("theme", root.dataset.theme);
+    // Theme: auto (the default) follows the local clock, light from 6:00 to 18:00; the button cycles auto → light → dark.
+    // index.html sets the first one before paint with the same rule.
+    const root = document.documentElement, themeBtn = $("#themeBtn"), themeMeta = $('meta[name="theme-color"]');
+    const THEME_NAMES = { auto: "auto (light 6:00–18:00 local time)", light: "light", dark: "dark" };
+    let themeMode = store.get("themeMode", "auto");
+    const applyTheme = () => {
+      const h = new Date().getHours();
+      const theme = themeMode === "auto" ? (h >= 6 && h < 18 ? "light" : "dark") : themeMode;
+      if (root.dataset.theme !== theme) root.dataset.theme = theme;
+      themeMeta.content = theme === "light" ? "#f5f4ef" : "#0a0c10";
+      themeBtn.dataset.mode = themeMode;
+      themeBtn.title = `Theme: ${THEME_NAMES[themeMode]} · click to switch`;
+      themeBtn.setAttribute("aria-label", themeBtn.title);
+    };
+    applyTheme();
+    setInterval(() => { if (themeMode === "auto") applyTheme(); }, 60000);
+    themeBtn.addEventListener("click", () => {
+      themeMode = { auto: "light", light: "dark", dark: "auto" }[themeMode] || "auto";
+      store.set("themeMode", themeMode);
+      applyTheme();
     });
 
     // Upcoming / In review / Decided fold open and shut; the choice is remembered.
