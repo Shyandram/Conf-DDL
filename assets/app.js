@@ -511,14 +511,14 @@
   function renderTimeline(list, now, opts = {}) {
     const tl = opts.el || $("#timeline");
     if (!opts.el) timelineList = list;
-    // the past three months for context, then the next twelve
+    // the past three months for context, then this month and the next nine
     const start = new Date(now); start.setDate(1); start.setHours(0, 0, 0, 0); start.setMonth(start.getMonth() - 3);
-    const end = new Date(start); end.setMonth(end.getMonth() + 16);
+    const end = new Date(start); end.setMonth(end.getMonth() + 13);
     const span = end - start;
     const x = ms => ((ms - start) / span) * 100;
 
     let html = `<div class="timeline-inner"><div class="tl-axis"></div>`;
-    for (let i = 1; i < 16; i++) { // no labels on the edges, they would be clipped
+    for (let i = 1; i < 13; i++) { // no labels on the edges, they would be clipped
       const m = new Date(start); m.setMonth(m.getMonth() + i);
       const label = m.toLocaleString(undefined, { month: "short" }) + (m.getMonth() === 0 ? ` ’${String(m.getFullYear()).slice(2)}` : "");
       html += `<span class="tl-month" style="left:${x(+m)}%">${esc(label)}</span>`;
@@ -617,7 +617,7 @@
     // phones: the same dates as a list, one row per month
     if (narrow && !opts.el) {
       const items = [...events, ...list.filter(c => c !== sel).map(c => ({ c, ...(next(c) || {}) })).filter(e => e.ev && e.at < +end)];
-      const months = Array.from({ length: 16 }, (_, i) => { const m = new Date(start); m.setMonth(m.getMonth() + i); return { m, items: [] }; });
+      const months = Array.from({ length: 13 }, (_, i) => { const m = new Date(start); m.setMonth(m.getMonth() + i); return { m, items: [] }; });
       items.forEach(e => {
         const d = new Date(e.at), i = (d.getFullYear() - start.getFullYear()) * 12 + d.getMonth() - start.getMonth();
         if (months[i]) months[i].items.push(e);
@@ -723,9 +723,8 @@
       const list = st.list.slice(0, 6);
       return `<section class="lane lane-${st.key}">
         <header><span class="lane-dot"></span><div>
-          <h3>${reb ? "If the reviews look bad" : "If it's rejected"}</h3>
-          <p>${reb ? `Withdraw during the rebuttal and resubmit · deadlines ${fmtDay(s.rebuttal[0])} – ${fmtDay(s.decision)}`
-                   : `Submit after the decision · deadlines from ${fmtDay(s.decision)}, next ~5 months`}</p>
+          <h3>${reb ? "During the rebuttal" : "After the decision"}</h3>
+          <p>${reb ? `Deadlines ${fmtDay(s.rebuttal[0])} – ${fmtDay(s.decision)}` : `Deadlines from ${fmtDay(s.decision)}, next ~5 months`}</p>
         </div><span class="lane-count">${st.list.length}</span></header>
         ${list.length ? `<ol>${list.map((c, i) => item(c, st, i)).join("")}</ol>` : `<p class="lane-empty">No conference deadline falls in this window.</p>`}
         ${st.list.length > 6 ? `<p class="lane-more">+${st.list.length - 6} more</p>` : ""}
@@ -865,7 +864,7 @@
     $("#emptyReview").hidden = n.review > 0;
 
     refreshPicks(now);
-    renderTimeline(visible, now); // it keeps the last three months and the next twelve
+    renderTimeline(visible, now); // it keeps the last three months and the next nine
     renderRail(now);
 
     if (flipState) {

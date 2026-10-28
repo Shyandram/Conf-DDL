@@ -83,8 +83,8 @@
       "link": "https://2027.aclweb.org/",
       "deadline": "2027-01-04 23:59",
       "timezone": "AoE",
-      "date": "Aug 2027",
-      "place": "TBA",
+      "date": "Aug 17 – 22, 2027",
+      "place": "Kyoto, Japan",
       "status": "estimated",
       "decision": "2027-04-03",
       "note": "Reported ARR deadline; the official site still lists it as TBA. Decision projected from ACL 2026 (Apr 4)."
@@ -125,14 +125,14 @@
       "deadline": "2027-01-22 23:59",
       "timezone": "AoE",
       "date": "Jul 2027",
-      "place": "TBA",
+      "place": "South America (TBA)",
       "status": "estimated",
       "rebuttal": [
         "2027-03-23",
         "2027-04-06"
       ],
       "decision": "2027-04-29",
-      "note": "Projected from ICML 2026 (response Mar 24 – Apr 7, notification Apr 30). Call for papers not yet published."
+      "note": "Projected from ICML 2026 (response Mar 24 – Apr 7, notification Apr 30). Call for papers not yet published. Venue: icml.cc lists South America; city not announced."
     },
     {
       "id": "siggraph27",
@@ -165,8 +165,8 @@
       "link": "https://signalprocessingsociety.org/event-names/icip",
       "deadline": "2027-02-03 23:59",
       "timezone": "AoE",
-      "date": "Oct 2027",
-      "place": "TBA",
+      "date": "Nov 29 – Dec 3, 2027",
+      "place": "Singapore",
       "status": "estimated",
       "rebuttal": false,
       "decision": "2027-04-21",
@@ -209,7 +209,7 @@
       "deadline": "2027-04-01 23:59",
       "timezone": "AoE",
       "date": "Oct 2027",
-      "place": "TBA",
+      "place": "Hong Kong",
       "status": "estimated",
       "decision": "2027-07-06",
       "note": "Optional OpenReview rebuttal. Projected from MM 2026 (deadline Apr 1, notification Jul 7)."
@@ -228,14 +228,14 @@
       "deadline": "2027-05-06 23:59",
       "timezone": "AoE",
       "date": "Dec 2027",
-      "place": "TBA",
+      "place": "Europe (TBA)",
       "status": "estimated",
       "rebuttal": [
         "2027-07-26",
         "2027-08-02"
       ],
       "decision": "2027-09-23",
-      "note": "Projected from NeurIPS 2026 (rebuttal Jul 27 – Aug 3, notification Sep 24)."
+      "note": "Projected from NeurIPS 2026 (rebuttal Jul 27 – Aug 3, notification Sep 24). Venue: neurips.cc lists Europe; city not announced."
     },
     {
       "id": "emnlp27",
@@ -271,7 +271,7 @@
       "link": "https://wacv.thecvf.com/",
       "deadline": "2027-06-25 23:59",
       "timezone": "AoE",
-      "date": "Mar 2028",
+      "date": "Jan 2028",
       "place": "TBA",
       "status": "estimated",
       "decision": "2027-08-06",
@@ -440,12 +440,12 @@
       "link": "https://wacv.thecvf.com/Conferences/2027/AuthorGuides",
       "deadline": "2026-08-28 23:59",
       "timezone": "AoE",
-      "date": "Mar 2027",
-      "place": "TBA",
+      "date": "Jan 4 – 8, 2027",
+      "place": "Orlando, USA",
       "status": "confirmed",
       "rebuttal": false,
       "decision": "2026-10-09",
-      "note": "No rebuttal in Round 2. Camera-ready due Nov 2, 2026."
+      "note": "No rebuttal in Round 2. Camera-ready due Nov 2, 2026. Conference at Disney Springs (Lake Buena Vista, near Orlando)."
     },
     {
       "id": "3dv27",
@@ -500,11 +500,11 @@
       "link": "https://wacv.thecvf.com/Conferences/2027/AuthorGuides",
       "deadline": "2026-06-26 23:59",
       "timezone": "AoE",
-      "date": "Mar 2027",
-      "place": "TBA",
+      "date": "Jan 4 – 8, 2027",
+      "place": "Orlando, USA",
       "status": "confirmed",
       "decision": "2026-08-07",
-      "note": "First-round decisions (accept / revise / reject) Aug 7; revised papers continue to Round 2."
+      "note": "First-round decisions (accept / revise / reject) Aug 7; revised papers continue to Round 2. Conference at Disney Springs (Lake Buena Vista, near Orlando)."
     },
     {
       "id": "emnlp26",
@@ -1142,14 +1142,14 @@
       "deadline": "2028-03-02 23:00",
       "timezone": "UTC+1",
       "date": "Sep 2028",
-      "place": "TBA",
+      "place": "Europe (TBA)",
       "status": "estimated",
       "rebuttal": [
         "2028-04-30",
         "2028-05-09"
       ],
       "decision": "2028-06-15",
-      "note": "Projected from ECCV 2026 (registration Feb 26, paper Mar 5 23:00 CET, rebuttal May 2–11, decisions Jun 17). Venue not announced."
+      "note": "Projected from ECCV 2026 (registration Feb 26, paper Mar 5 23:00 CET, rebuttal May 2–11, decisions Jun 17). Held in Europe; city not announced."
     },
     {
       "id": "icassp28",
