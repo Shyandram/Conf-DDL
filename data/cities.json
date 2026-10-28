@@ -1134,13 +1134,69 @@
       }
     ]
   },
+  "Rome": {
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1557214530-b023b9f45344?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OHx8Um9tZSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMTkzNzA4fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262640",
+        "alt": "aerial photo of buildings",
+        "photographer": "Aleksandr Popov",
+        "photographer_url": "https://unsplash.com/@5tep5?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/aerial-photo-of-buildings-GmySGLNon8c?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1621095424109-10bb944d1798?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTF8fFJvbWUlMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5MzE5MzcwOHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#d9d9d9",
+        "alt": "a bridge over a river with a building in the background",
+        "photographer": "iam_os",
+        "photographer_url": "https://unsplash.com/@iam_os?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-bridge-over-a-river-with-a-building-in-the-background-0wlMu2Kbdnw?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1610412215329-a4ce5c25b9bb?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8Um9tZSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMTkzNzA4fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#f3f3f3",
+        "alt": "bridge over river during daytime",
+        "photographer": "Silviya Nenova",
+        "photographer_url": "https://unsplash.com/@silviyanenova?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/bridge-over-river-during-daytime-6Kj3Z8RBgWo?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1724020537938-ee787569c6f3?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTB8fFJvbWUlMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5MzE5MzcwOHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#738ca6",
+        "alt": "A large building with a clock tower on top of it",
+        "photographer": "Wasim Z Alkhatib",
+        "photographer_url": "https://unsplash.com/@wasimz33?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-large-building-with-a-clock-tower-on-top-of-it-MzQ4RHrRNT4?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
+  },
   "San Diego": {
-    "src": "https://images.unsplash.com/photo-1519954352454-2d5a7353e277?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8U2FuJTIwRGllZ28lMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTY4Nnww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#262626",
-    "alt": "photography of boat in body of water",
-    "photographer": "Daniel Guerra",
-    "photographer_url": "https://unsplash.com/@dguerra95?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/photography-of-boat-in-body-of-water-RQF6bbS4shw?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1517689876411-e247bee3ecb4?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8U2FuJTIwRGllZ28lMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5MzE5MzcxMHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#FEFDED",
+        "alt": "aerial photography of road in the middle of high-rise buildings",
+        "photographer": "Val Vesa",
+        "photographer_url": "https://unsplash.com/@adspedia?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/aerial-photography-of-road-in-the-middle-of-high-rise-buildings-I2PI7p49izs?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1777239297872-4272c41cfc6d?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8U2FuJTIwRGllZ28lMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5MzE5MzcxMHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "City skyline with skyscrapers and construction crane at dusk",
+        "photographer": "Jason Zeis",
+        "photographer_url": "https://unsplash.com/@zeis?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-skyline-with-skyscrapers-and-construction-crane-at-dusk-mQlA8PdRsGg?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1782420438194-aeeb89b8136d?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8U2FuJTIwRGllZ28lMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5MzE5MzcxMHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#8c5973",
+        "alt": "Vibrant sunset sky behind a building, palm trees, and streetlamp",
+        "photographer": "Chloe",
+        "photographer_url": "https://unsplash.com/@chloe_loe?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/vibrant-sunset-sky-behind-a-building-palm-trees-and-streetlamp-KOIyzXNxZF8?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "San Francisco": {
     "src": "https://images.unsplash.com/photo-1439396087961-98bc12c21176?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8U2FuJTIwRnJhbmNpc2NvJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE2ODh8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
