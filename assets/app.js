@@ -609,14 +609,38 @@
       }));
       html += `<svg class="tl-arcs" viewBox="0 0 100 70" preserveAspectRatio="none" aria-hidden="true">${arcs.join("")}</svg>`;
     }
-    tl.innerHTML = html + `</div>`;
-    if (narrow && !opts.el && !opts.quiet) tl.scrollLeft = (x(now) / 100) * W - 24; // open at today
+    // phones: the same dates as a list, one row per month
+    if (narrow && !opts.el) {
+      const items = [...events, ...list.filter(c => c !== sel).map(c => ({ c, ...(next(c) || {}) })).filter(e => e.ev && e.at < +end)];
+      const months = Array.from({ length: 16 }, (_, i) => { const m = new Date(start); m.setMonth(m.getMonth() + i); return { m, items: [] }; });
+      items.forEach(e => {
+        const d = new Date(e.at), i = (d.getFullYear() - start.getFullYear()) * 12 + d.getMonth() - start.getMonth();
+        if (months[i]) months[i].items.push(e);
+      });
+      const thisMonth = new Date(now).getMonth(), thisYear = new Date(now).getFullYear();
+      html = `<div class="tl-months">` + months.map(({ m, items }) => {
+        const isNow = m.getMonth() === thisMonth && m.getFullYear() === thisYear, isPast = !isNow && +m < now;
+        const name = m.toLocaleString(undefined, { month: "short" }), yr = m.getMonth() === 0 || isNow ? ` ’${String(m.getFullYear()).slice(2)}` : "";
+        const chips = items.sort((a, b) => a.at - b.at).map(e => {
+          const cls = `tl-chip ev-${e.ev}${e.ev === "ddl" && e.c.status !== "confirmed" ? " est" : ""}${e.at <= now ? " past" : ""}${role(e.c)}`;
+          const text = e.text || `${e.c.title} ${String(e.c.year).slice(2)}`;
+          return `<button type="button" class="${cls}" data-id="${esc(e.c.id)}" title="${esc(tipOf(e.c))}">${esc(text)}${e.text ? "" : `<small>${new Date(e.at).getDate()}</small>`}</button>`;
+        }).join("");
+        return `<div class="tl-mrow${isNow ? " is-now" : ""}${isPast ? " is-past" : ""}"><span class="tl-mname">${esc(name)}<small>${esc(yr)}</small></span><div class="tl-mchips">${chips || `<span class="tl-mempty">—</span>`}</div></div>`;
+      }).join("") + `</div>`;
+      const keep = $(".tl-months", tl)?.scrollTop;
+      tl.innerHTML = html;
+      if (opts.quiet && keep != null) $(".tl-months", tl).scrollTop = keep; // a tap re-renders; stay where the reader was
+      else { const row = $(".tl-mrow.is-now", tl), box = $(".tl-months", tl); if (row && box) box.scrollTop = row.offsetTop - box.offsetTop - 8; }
+    } else {
+      tl.innerHTML = html + `</div>`;
+    }
     tl.classList.toggle("has-path", !!path);
     tl.classList.toggle("has-glow", !!glow);
     if (!opts.el) {
       const src = glow && glow.src;
       $("#tlLegend").innerHTML = src
-        ? `<i class="lg lg-reb"></i>during ${esc(src.title)} rebuttal <i class="lg lg-dec"></i>after its decision <button type="button" class="lg-clear">clear</button>`
+        ? `<span><i class="lg lg-reb"></i>during ${esc(src.title)} rebuttal</span> <span><i class="lg lg-dec"></i>after its decision</span> <button type="button" class="lg-clear">clear</button>`
         : `<span><i class="lg lg-solid"></i>deadline</span> <span><i class="lg lg-hollow"></i>estimated</span> <span><i class="lg lg-bar"></i>rebuttal</span> <span><i class="lg lg-dia"></i>decision</span>`;
     }
     if (opts.path) renderPath(path, now);
@@ -624,9 +648,9 @@
     if (path && hasGsap && !reduced) {
       gsap.fromTo($$(".arc", tl), { opacity: 0 }, { opacity: (i, el) => (el.classList.contains("arc-top") ? 0.95 : 0.55), duration: 0.6, ease: "power2.out", stagger: 0.06 });
       gsap.fromTo($$(".tl-band", tl), { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.out", transformOrigin: "left" });
-    } else if (glow && hasGsap && !reduced) {
+    } else if (glow && hasGsap && !reduced && $(".tl-axis", tl)) {
       gsap.fromTo($$(".tl-src .dot, .tl-reb .dot, .tl-dec .dot", tl), { scale: 0.3 }, { scale: 1, duration: 0.5, ease: "back.out(3)", stagger: 0.03 });
-    } else if (hasGsap && fx && !opts.quiet) {
+    } else if (hasGsap && fx && !opts.quiet && $(".tl-axis", tl)) {
       gsap.fromTo($(".tl-axis", tl), { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut" });
       gsap.fromTo($$(".tl-pin", tl), { opacity: 0, y: 14 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.6, ease: "back.out(2)", stagger: { amount: 0.9 }, delay: 0.4 });
     }
@@ -1068,7 +1092,7 @@
       c.el.classList.add("flash");
     };
     $("#timeline").addEventListener("click", e => {
-      const pin = e.target.closest(".tl-pin, .tl-dot, .tl-bare");
+      const pin = e.target.closest(".tl-pin, .tl-dot, .tl-bare, .tl-chip");
       if (!pin) return;
       // click lights up the next venues (and shows it in the big countdown); clicking it again clears
       const again = state.lightId === pin.dataset.id;
