@@ -164,7 +164,7 @@
       (c.ccf ? `<span class="tag tag-ccf">CCF-${esc(c.ccf)}</span>` : "") +
       c.area.map(a => `<span class="tag">${esc(a)}</span>`).join("") +
       (c.status !== "confirmed" ? `<span class="tag tag-est">estimated</span>` : "") +
-      (c.kind === "workshop" ? `<span class="tag tag-ws">workshop proposals</span>` : "");
+      (c.kind === "workshop" ? `<span class="tag tag-ws">workshop proposals</span>` : c.kind === "workshop-paper" ? `<span class="tag tag-ws">workshop</span>` : "");
     const steps = $$(".c-steps li", el);
     const setStep = (li, text, title) => {
       $("b", li).textContent = text;

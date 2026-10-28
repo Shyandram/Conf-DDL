@@ -97,7 +97,7 @@ To edit by hand, add an entry to `data/conferences.json`:
 - `rebuttal`: `[start, end]` dates, or `false` if the venue has no rebuttal. Leave it out while unannounced (shows TBA)
 - `decision`: date of the final decision / notification
 - Top-level `tiers`: `{ "name", "source", "A": [series…], "B": [series…] }`, the grade list behind the badges and planner ranking
-- `kind`: `"workshop"` for a workshop-proposal entry (e.g. `cvpr27w`); shown with a tag
+- `kind`: `"workshop"` for a workshop-proposal entry (e.g. `cvpr27w`); shown with a tag; `"workshop-paper"` for a workshop that takes papers (e.g. `ntire27`)
 - `series`: only needed when an edition's `title` differs from the rest of its series (e.g. `"IJCAI-ECAI"` → `"series": "IJCAI"`), so stars follow it
 - `abstract_deadline`, `rebuttal`, `decision`, `ccf`, `series`, `kind`, `note` are optional
 

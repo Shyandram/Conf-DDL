@@ -1297,6 +1297,46 @@
       "rebuttal": false,
       "decision": "2026-07-11",
       "note": "Workshops in Sydney (Dec 11–12), Paris and Atlanta (Dec 12–13). Suggested workshop paper deadline Aug 29; mandatory accept/reject notification Sep 29, 2026 (AoE)."
+    },
+    {
+      "id": "ntire27",
+      "year": 2027,
+      "title": "NTIRE",
+      "full_name": "New Trends in Image Restoration and Enhancement Workshop (at CVPR)",
+      "area": [
+        "CV"
+      ],
+      "ccf": "",
+      "kind": "workshop-paper",
+      "rebuttal": false,
+      "link": "https://cvlai.net/ntire/",
+      "deadline": "2027-03-12 23:59",
+      "timezone": "PST",
+      "date": "Jun 2027 (with CVPR, Jun 20 – 21)",
+      "place": "Seattle, USA",
+      "status": "estimated",
+      "decision": "2027-03-26",
+      "note": "Estimated from NTIRE 2026 (paper deadline Mar 13, decision Mar 24, Pacific Time). Challenge-method papers are due about 10 days after the regular deadline. NTIRE 2027 has not posted dates yet."
+    },
+    {
+      "id": "ntire26",
+      "year": 2026,
+      "title": "NTIRE",
+      "full_name": "New Trends in Image Restoration and Enhancement Workshop (at CVPR)",
+      "area": [
+        "CV"
+      ],
+      "ccf": "",
+      "kind": "workshop-paper",
+      "rebuttal": false,
+      "link": "https://cvlai.net/ntire/2026/",
+      "deadline": "2026-03-13 23:59",
+      "timezone": "PDT",
+      "date": "Jun 4, 2026 (with CVPR)",
+      "place": "Denver, USA",
+      "status": "confirmed",
+      "decision": "2026-03-24",
+      "note": "Deadline extended to Mar 13. Challenge papers and papers reviewed elsewhere due Mar 22; camera-ready Apr 10 (Pacific Time)."
     }
   ]
 }
