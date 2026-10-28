@@ -1,1 +1,194 @@
-{}
+{
+  "Anaheim": {
+    "src": "https://images.unsplash.com/photo-1740125434771-509e8d4b5529?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8QW5haGVpbSUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDA0fDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#0c8cf3",
+    "alt": "An apartment complex with a flag pole in front of it",
+    "photographer": "Brett Wharton",
+    "photographer_url": "https://unsplash.com/@brettwharton?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/an-apartment-complex-with-a-flag-pole-in-front-of-it-MkzfQjxwnLA?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Athens": {
+    "src": "https://images.unsplash.com/photo-1536624034625-d5433d6391e4?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8N3x8QXRoZW5zJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE0MDZ8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#d9d9d9",
+    "alt": "women's black T-shirt",
+    "photographer": "Semina Psichogiopoulou",
+    "photographer_url": "https://unsplash.com/@seminapsichogiopoulou?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/womens-black-t-shirt-hl0iLy1hFo0?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Auckland": {
+    "src": "https://images.unsplash.com/photo-1604367078108-3ed095682132?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8QXVja2xhbmQlMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQwOHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#d9a6a6",
+    "alt": "city skyline under cloudy sky during daytime",
+    "photographer": "Aaron Birch",
+    "photographer_url": "https://unsplash.com/@aaronbirch?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/city-skyline-under-cloudy-sky-during-daytime-Sq2r8_XO3SQ?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Bremen": {
+    "src": "https://images.unsplash.com/photo-1706650622188-ee1a623788cb?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8QnJlbWVuJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE0MTB8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#40598c",
+    "alt": "a body of water with a city in the background",
+    "photographer": "Jahanzeb Ahsan",
+    "photographer_url": "https://unsplash.com/@jahan_photobox?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/a-body-of-water-with-a-city-in-the-background-NVNOy_DkvXA?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Budapest": {
+    "src": "https://images.unsplash.com/photo-1581684395079-85c26f8f69f0?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8QnVkYXBlc3QlMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQxMnww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#c0c0c0",
+    "alt": "brown and white concrete building near body of water during daytime",
+    "photographer": "Mihály Köles",
+    "photographer_url": "https://unsplash.com/@mihaly_koles?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/brown-and-white-concrete-building-near-body-of-water-during-daytime-afUfiI7IXjI?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "California": {
+    "src": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8U2FuJTIwRnJhbmNpc2NvJTIwc2t5bGluZXxlbnwxfDB8fHwxNzkzMTgxNDE0fDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#c0d9d9",
+    "alt": "Golden Gate Bridge during daytime",
+    "photographer": "Maarten van den Heuvel",
+    "photographer_url": "https://unsplash.com/@mvdheuvel?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/golden-gate-bridge-during-daytime-gZXx8lKAb7Y?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Denver": {
+    "src": "https://images.unsplash.com/photo-1629297951902-896698a7e147?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8RGVudmVyJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE0MTZ8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#262626",
+    "alt": "cars on road in city during night time",
+    "photographer": "Josh Hild",
+    "photographer_url": "https://unsplash.com/@joshhild?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/cars-on-road-in-city-during-night-time-Xa4phf71fOU?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Dublin": {
+    "src": "https://images.unsplash.com/photo-1584958416995-614bafcc67f0?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTN8fER1YmxpbiUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDE4fDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#260c0c",
+    "alt": "body of water near building during sunset",
+    "photographer": "Gregory DALLEAU",
+    "photographer_url": "https://unsplash.com/@gregda?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/body-of-water-near-building-during-sunset-sIymDF_ebp8?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Hanoi": {
+    "src": "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8SGFub2klMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQyMHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#404059",
+    "alt": "gray high-rise buildings under gray clouds during golden hour",
+    "photographer": "Minh Luu (Minhluu.com & AA+Photography)",
+    "photographer_url": "https://unsplash.com/@luuquangminh?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/gray-high-rise-buildings-under-gray-clouds-during-golden-hour-XZHK8gR1xh4?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Hong Kong": {
+    "src": "https://images.unsplash.com/photo-1536599018102-9f803c140fc1?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8SG9uZyUyMEtvbmclMjBza3lsaW5lfGVufDF8MHx8fDE3OTMxODE0MjJ8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#262626",
+    "alt": "aerial photography of city buildings",
+    "photographer": "Simon Zhu",
+    "photographer_url": "https://unsplash.com/@smnzhu?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/aerial-photography-of-city-buildings-4hluhoRJokI?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Kuala Lumpur": {
+    "src": "https://images.unsplash.com/flagged/photo-1557488739-d273e21a5267?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8N3x8S3VhbGElMjBMdW1wdXIlMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQyNHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#0c73d9",
+    "alt": "city during night",
+    "photographer": "Mizan",
+    "photographer_url": "https://unsplash.com/@mizanrr?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/city-during-night-7JyJZVHOzJk?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Kyoto": {
+    "src": "https://images.unsplash.com/photo-1672919624183-300435556140?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8N3x8S3lvdG8lMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQyNnww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#f3f3f3",
+    "alt": "a city street filled with lots of traffic next to tall buildings",
+    "photographer": "Jason Low",
+    "photographer_url": "https://unsplash.com/@jasonlowym?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/a-city-street-filled-with-lots-of-traffic-next-to-tall-buildings-O19H7oF-PdQ?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Lancaster": {
+    "src": "https://images.unsplash.com/photo-1643769621074-103903a9c3e7?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8TGFuY2FzdGVyJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE0Mjh8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#26260c",
+    "alt": "a yellow fire hydrant on the side of a building",
+    "photographer": "Zachary Musser",
+    "photographer_url": "https://unsplash.com/@zacman895?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/a-yellow-fire-hydrant-on-the-side-of-a-building-mD7rgit9Qrc?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Lausanne": {
+    "src": "https://images.unsplash.com/photo-1538592799332-5908b7f46f52?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8TGF1c2FubmUlMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQzMHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#c0c0a6",
+    "alt": "grayscale photo of light post",
+    "photographer": "Alissa De Leva",
+    "photographer_url": "https://unsplash.com/@alissadeleva?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/grayscale-photo-of-light-post-BtSbcDqnpfw?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Los Angeles": {
+    "src": "https://images.unsplash.com/photo-1471039497385-b6d6ba609f9c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NHx8TG9zJTIwQW5nZWxlcyUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDMyfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#f3d9d9",
+    "alt": "The One Wilshire building and surrounding skyscrapers in the Los Angeles skyline at dusk",
+    "photographer": "Owen Lystrup",
+    "photographer_url": "https://unsplash.com/@owencavlys?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/one-wilshire-building-in-los-angeles-boLgiM0qwkg?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Lucca": {
+    "src": "https://images.unsplash.com/photo-1786340716450-c2a99347ad4c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8THVjY2ElMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQzNHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#c0a68c",
+    "alt": "A cyclist and pedestrians in a large yellow plaza surrounded by historic buildings",
+    "photographer": "Filiz Elaerts",
+    "photographer_url": "https://unsplash.com/@filizelaerts?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/cyclist-and-pedestrians-in-yellow-plaza-Rupn4EU_7fI?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Macau": {
+    "src": "https://images.unsplash.com/photo-1555331446-6690621341e8?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Nnx8TWFjYXUlMjBza3lsaW5lfGVufDF8MHx8fDE3OTMxODE0MzV8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#0c2626",
+    "alt": "white and pink concrete high-rise buildings during daytime",
+    "photographer": "Vernon Raineil Cenzon",
+    "photographer_url": "https://unsplash.com/@thevernon?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/white-and-pink-concrete-high-rise-buildings-during-daytime-j78Zl7TbnCY?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Malmö": {
+    "src": "https://images.unsplash.com/photo-1581196598931-6ee285b60e31?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8TWFsbSVDMyVCNiUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDM3fDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#402626",
+    "alt": "city skyline during night time",
+    "photographer": "Krisztian Tabori",
+    "photographer_url": "https://unsplash.com/@ktabori?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/city-skyline-during-night-time-BywYl0Fp3pI?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Mexico / Central America": {
+    "src": "https://images.unsplash.com/photo-1650687034903-d0278e2cd5b8?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OHx8TWV4aWNvJTIwQ2l0eSUyMHNreWxpbmV8ZW58MXwwfHx8MTc5MzE4MTQzOXww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#404040",
+    "alt": "a city at night",
+    "photographer": "Greg Bulla",
+    "photographer_url": "https://unsplash.com/@gregbulla?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/a-city-at-night-JgmV0-gieyA?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Montréal": {
+    "src": "https://images.unsplash.com/photo-1585886309215-03a15afc624a?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8TW9udHIlQzMlQTlhbCUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDQxfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#0c73c0",
+    "alt": "city skyline under blue sky during daytime",
+    "photographer": "Tiago Louvize",
+    "photographer_url": "https://unsplash.com/@tiagolouvize?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/city-skyline-under-blue-sky-during-daytime-r4gsIYkI97c?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Osaka": {
+    "src": "https://images.unsplash.com/photo-1560291544-5e71ac7776c4?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NHx8T3Nha2ElMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQ0M3ww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#262626",
+    "alt": "aerial photography of buildings",
+    "photographer": "Robby McCullough",
+    "photographer_url": "https://unsplash.com/@mybbor?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/aerial-photography-of-buildings-_cRaYM_Q5Bo?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Pittsburgh": {
+    "src": "https://images.unsplash.com/photo-1537052916033-2916fab31a9e?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8UGl0dHNidXJnaCUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDQ1fDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#408cd9",
+    "alt": "gray concrete building",
+    "photographer": "Lance Anderson",
+    "photographer_url": "https://unsplash.com/@lanceanderson?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/gray-concrete-building-OrpU0RA_HQ8?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Porto": {
+    "src": "https://images.unsplash.com/photo-1595704313515-e345a1cbdaa2?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8UG9ydG8lMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQ0N3ww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#5973a6",
+    "alt": "city buildings near body of water during daytime",
+    "photographer": "K. Mitch Hodge",
+    "photographer_url": "https://unsplash.com/@kmitchhodge?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/city-buildings-near-body-of-water-during-daytime-Jc4LH4jZsjM?utm_source=conf_ddl&utm_medium=referral"
+  },
+  "Rio de Janeiro": {
+    "src": "https://images.unsplash.com/photo-1619546952812-520e98064a52?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8UmlvJTIwZGUlMjBKYW5laXJvJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE0NDl8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#404040",
+    "alt": "cable cars over the green grass field",
+    "photographer": "F Cary Snyder",
+    "photographer_url": "https://unsplash.com/@fcarysnyder?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/cable-cars-over-the-green-grass-field-76L0Hup2Zyo?utm_source=conf_ddl&utm_medium=referral"
+  }
+}
