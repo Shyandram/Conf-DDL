@@ -144,8 +144,12 @@
       "BEGIN:VALARM", "TRIGGER:-P1D", "ACTION:DISPLAY", `DESCRIPTION:${c.title} deadline tomorrow`, "END:VALARM",
       "END:VEVENT", "END:VCALENDAR",
     ];
-    const blob = new Blob([lines.join("\r\n")], { type: "text/calendar" });
-    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: `${c.id}.ics` });
+    saveIcs(`${c.id}.ics`, lines.join("\r\n"));
+  }
+
+  function saveIcs(name, text) {
+    const blob = new Blob([text], { type: "text/calendar" });
+    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: name });
     document.body.appendChild(a);
     a.click();
     setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0);
@@ -761,8 +765,9 @@
   /* ---------- calendar feeds: .ics files built on deploy by scripts/build_calendar.py ---------- */
 
   const feedSlug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const feedUrl = path => new URL(`calendar/${path}`, location.href.split("#")[0]).href;
   function feedRow(label, path, sub = "") {
-    const https = new URL(`calendar/${path}`, location.href.split("#")[0]).href;
+    const https = feedUrl(path);
     const webcal = https.replace(/^https?:/, "webcal:");
     return `<li class="feed"><span class="feed-name"><b>${esc(label)}</b>${sub ? `<small>${esc(sub)}</small>` : ""}</span>
       <span class="feed-acts">
@@ -778,8 +783,13 @@
       `<h3 class="feeds-h">Everything</h3><ul class="feeds-list">${feedRow("All conferences", "all.ics", `${confs.length} entries · deadlines, rebuttals and decisions`)}</ul>` +
       `<h3 class="feeds-h">My conferences</h3>` +
       (starred.length
-        ? `<ul class="feeds-list">${starred.map(s => feedRow(s, `series/${feedSlug(s)}.ics`, "every edition, including future years")).join("")}</ul>`
-        : `<p class="feeds-empty">Star a conference (☆ next to its name) to get a calendar for just that series here.</p>`) +
+        ? `<ul class="feeds-list"><li class="feed"><span class="feed-name"><b>All my conferences in one</b><small>${esc(starred.join(", "))}</small></span>
+            <span class="feed-acts"><button type="button" class="link feed-mine">Download .ics</button></span></li></ul>
+          <p class="feeds-empty">One file with every starred series. It is a snapshot: import it again after you star more, or to pick up
+            changed dates (the events keep their IDs, so they update instead of doubling). To have changes arrive by themselves, subscribe series by series:</p>
+          <details class="feeds-each"><summary>Subscribe series by series (${starred.length})</summary>
+            <ul class="feeds-list">${starred.map(s => feedRow(s, `series/${feedSlug(s)}.ics`, "every edition, including future years")).join("")}</ul></details>`
+        : `<p class="feeds-empty">Star a conference (☆ next to its name) to get a calendar for just your conferences here.</p>`) +
       `<h3 class="feeds-h">By field</h3><ul class="feeds-list">${Object.entries(data.areas || {})
         .filter(([a]) => count(c => c.area.includes(a)))
         .map(([a, label]) => feedRow(label, `area/${feedSlug(a)}.ics`, `${count(c => c.area.includes(a))} entries`)).join("")}</ul>`;
@@ -787,6 +797,27 @@
     box.hidden = false;
     document.documentElement.classList.add("planner-open");
     if (wasHidden && hasGsap && !reduced) gsap.fromTo(".feeds-sheet", { opacity: 0, y: 16 }, { opacity: 1, y: 0, clearProps: "transform", duration: dur(0.35), ease: "power3.out" });
+  }
+  // one .ics for every starred series: the per-series feeds merged into a single calendar
+  async function downloadMine(btn) {
+    const starred = [...state.starred].sort();
+    const label = btn.textContent;
+    btn.textContent = "Preparing…";
+    try {
+      const texts = await Promise.all(starred.map(s => fetch(feedUrl(`series/${feedSlug(s)}.ics`)).then(r => (r.ok ? r.text() : ""))));
+      const parts = texts.filter(t => t.includes("BEGIN:VEVENT"));
+      if (!parts.length) throw new Error("no calendar files");
+      const head = parts[0].slice(0, parts[0].indexOf("BEGIN:VEVENT"))
+        .replace(/X-WR-CALNAME:[^\r\n]*(\r\n [^\r\n]*)*/, "X-WR-CALNAME:My conferences · Conf DDL")
+        .replace(/X-WR-CALDESC:[^\r\n]*(\r\n [^\r\n]*)*/, `X-WR-CALDESC:${starred.join("\\, ")} from Conf DDL`);
+      const events = parts.map(t => t.slice(t.indexOf("BEGIN:VEVENT"), t.lastIndexOf("END:VCALENDAR"))).join("");
+      saveIcs("my-conferences.ics", head + events + "END:VCALENDAR\r\n");
+      btn.textContent = "Downloaded ✓";
+    } catch (err) {
+      console.error(err);
+      btn.textContent = "Couldn't build it, try again";
+    }
+    setTimeout(() => { btn.textContent = label; }, 2200);
   }
   function closeFeeds() {
     if ($("#feeds").hidden) return;
@@ -1231,6 +1262,7 @@
     $("#calBtn").addEventListener("click", openFeeds);
     $("#feeds").addEventListener("click", async e => {
       if (e.target.closest("[data-close]")) return closeFeeds();
+      if (e.target.closest(".feed-mine")) return downloadMine(e.target.closest(".feed-mine"));
       const btn = e.target.closest(".feed-copy");
       if (!btn) return;
       if (!(await copyText(btn.dataset.url))) { window.prompt("Copy this link", btn.dataset.url); return; }
