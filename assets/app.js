@@ -24,9 +24,9 @@
     onlyConfirmed: store.get("onlyConfirmed", false),
     ccfA: store.get("ccfA", false),
     onlyStarred: store.get("onlyStarred", false),
+    heroMode: store.get("heroMode", "deadline"),
     starred: new Set(store.get("starred", [])),
     tz: store.get("tz", "local"),
-    showPast: false,
   };
 
   let data = { conferences: [], areas: {} };
@@ -175,7 +175,7 @@
       c.refs.ddl.textContent = fmtTime(c.ddl);
       if (c.refs.abs) c.refs.abs.textContent = fmtTime(c.abs);
     }
-    if (heroConf) $("#heroWhen").textContent = fmtTime(heroTarget(Date.now()).at);
+    if (heroPick) { heroPick.when = eventOf(heroPick.c, heroPick.mode, Date.now())?.when || heroPick.when; $("#heroWhen").textContent = heroPick.when; }
   }
 
   // Where a submitted paper is in review: what comes next and when.
@@ -272,46 +272,68 @@
     return $$(".ch", el);
   }
 
-  // The hero counts down to what the viewer chose: starred first, then the filtered list, then everything.
-  function pickHero(upcomingVisible, now) {
-    const starred = confs.filter(c => c.ddl > now && isStarred(c));
-    const starredReview = confs.filter(c => c.group === "review" && isStarred(c))
-      .sort((a, b) => reviewPhase(a, now).at - reviewPhase(b, now).at);
+  // Three candidates for the big countdown: next paper deadline, next rebuttal event, next decision.
+  // Each comes from the starred series first, then the filtered list, then everything.
+  // The chip row under the clock shows all three; the chosen one (state.heroMode) drives the big clock.
+  const MODES = ["deadline", "rebuttal", "decision"];
+
+  function eventOf(c, mode, now) {
+    if (mode === "deadline") return c.ddl > now ? { at: c.ddl, kind: "Next deadline", when: fmtTime(c.ddl) } : null;
+    if (mode === "rebuttal") {
+      if (!c.reb || now >= c.reb[1]) return null;
+      const opens = now < c.reb[0];
+      return { at: opens ? c.reb[0] : c.reb[1], kind: opens ? "Rebuttal opens" : "Rebuttal closes",
+        when: "Rebuttal " + fmtRange(c.rebuttal, true) };
+    }
+    return c.dec && c.dec > now ? { at: c.dec, kind: "Next decision", when: "Decision " + fmtDay(c.decision, true) } : null;
+  }
+
+  function pickFor(mode, now) {
     const filtered = state.areas.size || state.onlyConfirmed || state.ccfA || state.q || state.onlyStarred;
-    let c, scope = "";
-    if (starred.length) { c = starred[0]; scope = "My conferences"; }
-    else if (starredReview.length) { c = starredReview[0]; scope = "My conferences"; }
-    else if (upcomingVisible.length) { c = upcomingVisible[0]; scope = filtered ? "your filters" : ""; }
-    else c = confs.find(x => x.ddl > now) || null;
-    $("#heroScope").textContent = scope;
-    setHero(c);
+    const pools = [
+      [confs.filter(isStarred), "My conferences"],
+      [confs.filter(c => c.el.style.display !== "none"), filtered ? "your filters" : ""],
+      [confs, ""],
+    ];
+    for (const [pool, scope] of pools) {
+      let best = null;
+      for (const c of pool) {
+        const ev = eventOf(c, mode, now);
+        if (ev && (!best || ev.at < best.at)) best = { ...ev, c, mode, scope };
+      }
+      if (best) return best;
+    }
+    return null;
+  }
+
+  let picks = {};
+  let heroPick = null;
+
+  function refreshPicks(now) {
+    picks = Object.fromEntries(MODES.map(m => [m, pickFor(m, now)]));
+    const mode = picks[state.heroMode] ? state.heroMode : "deadline";
+    const p = picks[mode];
+    const key = p ? `${mode}:${p.c.id}:${p.at}` : "";
+    if (key !== (heroPick && heroPick.key)) {
+      heroPick = p ? { ...p, key } : null;
+      $("#heroScope").textContent = p ? p.scope : "";
+      $("#heroKind").textContent = p ? p.kind : "Next deadline";
+      Object.values(clockUnits).forEach(u => { u.val = null; }); // new target: redraw digits instead of flipping
+      setHero(p ? p.c : null);
+      if (p) $("#heroWhen").textContent = p.when;
+      $("#heroIcs").hidden = !p || mode !== "deadline";
+    }
+    for (const btn of $$("#heroPicks .pick")) {
+      const q = picks[btn.dataset.mode];
+      btn.hidden = !q;
+      btn.setAttribute("aria-pressed", !!q && btn.dataset.mode === mode);
+      if (!q) continue;
+      $(".p-name", btn).textContent = `${q.c.title} ${String(q.c.year).slice(2)}`;
+      const t = split(q.at - now);
+      $(".p-left", btn).textContent = t.d ? `${t.d}d ${pad(t.h)}h` : `${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`;
+      btn.title = `${q.kind}: ${q.c.title} ${q.c.year} · ${q.when}`;
+    }
     tickHero(now);
-    pickSub(now);
-  }
-
-  // Small countdown under the big one: the next rebuttal / decision among papers in review
-  // (starred ones first, then whatever the filters show), skipping the hero's own conference.
-  let subConf = null;
-
-  function pickSub(now) {
-    const review = confs.filter(c => c.group === "review" && c !== heroConf && reviewPhase(c, now).label);
-    const starred = review.filter(c => isStarred(c));
-    const pool = starred.length ? starred : review.filter(c => c.el.style.display !== "none");
-    subConf = pool.sort((a, b) => reviewPhase(a, now).at - reviewPhase(b, now).at)[0] || null;
-    $("#subClock").hidden = !subConf;
-    if (subConf) $("#subName").textContent = `${subConf.title} ${subConf.year}`;
-    tickSub(now);
-  }
-
-  function tickSub(now) {
-    if (!subConf) return;
-    const ph = reviewPhase(subConf, now);
-    if (!ph.label) { pickSub(now); return; }
-    const t = split(ph.at - now);
-    $("#subKind").textContent = ph.open ? "Rebuttal closes" : ph.step === 1 ? "Rebuttal opens" : "Decision";
-    $("#subLeft").textContent = `${t.d}d ${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`;
-    $("#subWhen").textContent = fmtDayFull.format(dayUTC(ph.step === 2 ? subConf.decision : ph.open ? subConf.rebuttal[1] : subConf.rebuttal[0]));
-    $("#subClock").classList.toggle("is-open", !!ph.open);
   }
 
   function setHero(c) {
@@ -333,9 +355,6 @@
     const chars = splitChars($("#heroName"), c.title);
     $("#heroYear").textContent = c.year;
     $("#heroFull").textContent = c.full_name + (c.status !== "confirmed" ? " · estimated date" : "");
-    c.shownAt = null; // let tickHero paint the kind label and time for this target
-    Object.values(clockUnits).forEach(u => { u.val = null; }); // new target: redraw digits instead of flipping
-    $("#heroWhen").textContent = fmtTime(heroTarget(Date.now()).at);
     $("#heroPlace").textContent = [c.place, c.date].filter(Boolean).join(" · ");
     $("#heroLink").href = c.link;
     if (hasGsap && !reduced) {
@@ -344,29 +363,15 @@
     }
   }
 
-  // A hero past its paper deadline (a starred paper in review) counts down to its next milestone.
-  function heroTarget(now) {
-    if (!heroConf || heroConf.ddl > now) return { at: heroConf ? heroConf.ddl : now, kind: "Next deadline" };
-    const ph = reviewPhase(heroConf, now);
-    if (!ph.label) return { at: now, kind: "Decided" };
-    return { at: ph.at, kind: ph.open ? "Rebuttal closes" : ph.step === 1 ? "Next: rebuttal" : "Next: decision" };
-  }
-
   function tickHero(now) {
     const clock = $("#clock");
-    const target = heroTarget(now);
-    if (heroConf && target.at !== heroConf.shownAt) {
-      heroConf.shownAt = target.at;
-      $("#heroKind").textContent = target.kind;
-      $("#heroWhen").textContent = fmtTime(target.at);
-    }
-    const left = heroConf ? target.at - now : 0;
+    const left = heroPick ? heroPick.at - now : 0;
     const t = split(left);
     setDigits("d", t.d); setDigits("h", t.h); setDigits("m", t.m); setDigits("s", t.s);
-    const u = heroConf ? urgency(left) : "";
+    const u = heroPick && heroPick.mode === "deadline" ? urgency(left) : "";
     clock.classList.toggle("is-hot", u === "hot");
     clock.classList.toggle("is-warn", u === "warn");
-    if (heroConf) document.title = `${t.d}d ${pad(t.h)}:${pad(t.m)} · ${heroConf.title} ${heroConf.year} — Conf Deadlines`;
+    if (heroPick) document.title = `${t.d}d ${pad(t.h)}:${pad(t.m)} · ${heroPick.c.title} ${heroPick.c.year} — Conf Deadlines`;
   }
 
   /* ---------- timeline ---------- */
@@ -507,7 +512,7 @@
     $("#emptyReview").hidden = n.review > 0;
 
     const upcomingVisible = visible.filter(c => c.ddl > now);
-    pickHero(upcomingVisible, now);
+    refreshPicks(now);
     renderTimeline(upcomingVisible, now);
     renderRail(now);
 
@@ -568,7 +573,7 @@
       if (on && hasGsap && !reduced) gsap.fromTo(btn, { scale: 0.6, rotate: -30 }, { scale: 1, rotate: 0, duration: 0.5, ease: "back.out(3)" });
       persist();
       if (state.onlyStarred) apply();
-      else { const now = Date.now(); pickHero(confs.filter(c => c.ddl > now && c.el.style.display !== "none"), now); renderRail(now); }
+      else { const now = Date.now(); refreshPicks(now); renderRail(now); }
     });
     oc.addEventListener("change", () => { state.onlyConfirmed = oc.checked; persist(); apply(); });
     ca.addEventListener("change", () => { state.ccfA = ca.checked; persist(); apply(); });
@@ -592,14 +597,26 @@
       store.set("theme", root.dataset.theme);
     });
 
-    $("#passedToggle").addEventListener("click", () => {
-      state.showPast = !state.showPast;
-      const grid = $("#passed");
-      $("#passedToggle").setAttribute("aria-expanded", state.showPast);
-      grid.hidden = !state.showPast;
-      if (state.showPast && hasGsap && !reduced) {
-        gsap.fromTo($$(".card", grid).filter(el => el.style.display !== "none"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out", stagger: 0.025 });
-      }
+    // Upcoming / In review / Decided fold open and shut; the choice is remembered.
+    const folds = store.get("folds", { upcoming: true, review: true, passed: false });
+    $$(".fold-toggle").forEach(btn => {
+      const key = btn.dataset.fold, body = $("#fold-" + key);
+      const set = (open, animate) => {
+        btn.setAttribute("aria-expanded", open);
+        body.hidden = !open;
+        if (open && animate && hasGsap && !reduced) {
+          gsap.fromTo($$(".card", body).filter(el => el.style.display !== "none").slice(0, 20),
+            { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out", stagger: 0.02 });
+        }
+        if (window.ScrollTrigger) ScrollTrigger.refresh();
+      };
+      set(folds[key] !== false, false);
+      btn.addEventListener("click", () => {
+        const open = btn.getAttribute("aria-expanded") !== "true";
+        folds[key] = open;
+        store.set("folds", folds);
+        set(open, true);
+      });
     });
 
     $("#heroIcs").addEventListener("click", () => heroConf && icsFor(heroConf));
@@ -623,10 +640,12 @@
       setRail(layout.classList.contains("rail-off"));
       if (window.ScrollTrigger) setTimeout(() => ScrollTrigger.refresh(), 400);
     });
-    $("#subClock").addEventListener("click", () => {
-      if (!subConf) return;
-      subConf.el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
-      subConf.el.classList.remove("flash"); void subConf.el.offsetWidth; subConf.el.classList.add("flash");
+    $("#heroPicks").addEventListener("click", e => {
+      const btn = e.target.closest(".pick");
+      if (!btn) return;
+      state.heroMode = btn.dataset.mode;
+      store.set("heroMode", state.heroMode);
+      refreshPicks(Date.now());
     });
 
     const jump = e => {
@@ -634,6 +653,8 @@
       if (!pin) return;
       const c = confs.find(x => x.id === pin.dataset.id);
       if (!c) return;
+      const body = c.el.closest(".fold-body");
+      if (body && body.hidden) $(`.fold-toggle[data-fold="${body.id.slice(5)}"]`).click(); // open a folded section first
       c.el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
       c.el.classList.remove("flash");
       void c.el.offsetWidth;
@@ -747,9 +768,8 @@
   function tick() {
     const now = Date.now();
     tickNow(now);
-    if (now >= nextBoundary) { heroConf = null; build(); }
-    tickHero(now);
-    tickSub(now);
+    if (now >= nextBoundary) { heroConf = null; heroPick = null; build(); }
+    refreshPicks(now);
     tickRail(now);
     for (const c of confs) if (c.el.style.display !== "none") tickCard(c, now);
   }

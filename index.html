@@ -70,12 +70,11 @@
         <div class="unit"><div class="digits" data-unit="s"></div><span>sec</span></div>
       </div>
 
-      <button type="button" class="sub-clock" id="subClock" hidden>
-        <span class="sub-kind" id="subKind"></span>
-        <span class="sub-name" id="subName"></span>
-        <span class="sub-left" id="subLeft"></span>
-        <span class="sub-when" id="subWhen"></span>
-      </button>
+      <div class="hero-picks" id="heroPicks" role="group" aria-label="Switch the big countdown">
+        <button type="button" class="pick" data-mode="deadline"><span class="p-kind">Deadline</span><span class="p-name"></span><span class="p-left"></span></button>
+        <button type="button" class="pick" data-mode="rebuttal"><span class="p-kind">Rebuttal</span><span class="p-name"></span><span class="p-left"></span></button>
+        <button type="button" class="pick" data-mode="decision"><span class="p-kind">Decision</span><span class="p-name"></span><span class="p-left"></span></button>
+      </div>
 
       <div class="hero-foot">
         <span id="heroWhen"></span>
@@ -111,27 +110,35 @@
     </section>
 
     <section aria-label="Upcoming deadlines">
-      <div class="section-head">
+      <button type="button" class="section-head fold-toggle" data-fold="upcoming" aria-expanded="true">
         <h2>Upcoming <span class="count" id="countUp"></span></h2>
+        <span class="chev" aria-hidden="true">↓</span>
+      </button>
+      <div class="fold-body" id="fold-upcoming">
+        <div class="cards" id="upcoming"></div>
+        <p class="empty" id="emptyUp" hidden>Nothing matches. Try clearing a filter.</p>
       </div>
-      <div class="cards" id="upcoming"></div>
-      <p class="empty" id="emptyUp" hidden>Nothing matches. Try clearing a filter.</p>
     </section>
 
     <section aria-label="In review">
-      <div class="section-head">
+      <button type="button" class="section-head fold-toggle" data-fold="review" aria-expanded="true">
         <h2>In review <span class="count" id="countReview"></span></h2>
+        <span class="chev" aria-hidden="true">↓</span>
+      </button>
+      <div class="fold-body" id="fold-review">
+        <div class="cards" id="review"></div>
+        <p class="empty" id="emptyReview" hidden>Nothing in review matches your filters.</p>
       </div>
-      <div class="cards" id="review"></div>
-      <p class="empty" id="emptyReview" hidden>Nothing in review matches your filters.</p>
     </section>
 
     <section aria-label="Decided" class="passed-sec">
-      <button type="button" class="section-head passed-toggle" id="passedToggle" aria-expanded="false">
+      <button type="button" class="section-head fold-toggle" data-fold="passed" aria-expanded="false">
         <h2>Decided <span class="count" id="countPast"></span></h2>
         <span class="chev" aria-hidden="true">↓</span>
       </button>
-      <div class="cards cards-past" id="passed" hidden></div>
+      <div class="fold-body" id="fold-passed" hidden>
+        <div class="cards cards-past" id="passed"></div>
+      </div>
     </section>
   </main>
   </div>

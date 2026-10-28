@@ -235,19 +235,21 @@ main { min-width: 0; }
 .clock.is-hot .digit { color: var(--hot); }
 .clock.is-warn .digit { color: var(--warn); }
 
-/* the small second countdown: next rebuttal / decision of a paper in review */
-.sub-clock {
+/* row of small countdowns under the big one; the pressed chip is what the big clock shows */
+.hero-picks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.pick {
   --u: var(--accent);
-  display: inline-flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px; margin-top: 18px;
-  padding: 10px 16px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--card);
-  cursor: pointer; text-align: left; transition: border-color .2s, background .2s;
+  display: grid; grid-template-columns: auto auto; align-items: baseline; gap: 2px 12px; min-width: 0;
+  padding: 10px 14px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--card);
+  cursor: pointer; text-align: left; transition: border-color .2s, background .2s, transform .2s;
 }
-.sub-clock:hover { border-color: var(--u); background: var(--card-hover); }
-.sub-clock.is-open { --u: var(--warn); }
-.sub-kind { font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--u); }
-.sub-name { font-weight: 700; font-size: 16px; letter-spacing: -.01em; }
-.sub-left { font: 500 20px var(--mono); font-variant-numeric: tabular-nums; color: var(--u); }
-.sub-when { font-size: 13.5px; color: var(--ink-3); }
+.pick:hover { border-color: var(--u); transform: translateY(-1px); }
+.pick[aria-pressed="true"] { border-color: var(--u); background: color-mix(in srgb, var(--u) 12%, var(--card)); box-shadow: inset 0 0 0 1px var(--u); }
+.pick[data-mode="rebuttal"] { --u: var(--warn); }
+.pick[data-mode="decision"] { --u: #22b07d; }
+.p-kind { grid-column: 1 / -1; font: 500 11.5px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--u); }
+.p-name { font-weight: 700; font-size: 15.5px; letter-spacing: -.01em; white-space: nowrap; }
+.p-left { font: 500 15px var(--mono); font-variant-numeric: tabular-nums; color: var(--ink-2); white-space: nowrap; }
 .hero-foot {
   margin-top: clamp(24px, 3.5vw, 36px); display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
   color: var(--ink-2); font-size: 15px;
@@ -442,16 +444,20 @@ kbd { font: 11px var(--mono); padding: 2px 6px; border: 1px solid var(--line-2);
   .row-name { white-space: nowrap; }
   .row-name b { font-size: 16.5px; }
   .c-hms { font-size: 11.5px; }
-  .sub-left { font-size: 18px; }
+  .hero-picks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .pick { grid-template-columns: 1fr; padding: 8px 10px; }
+  .p-name { font-size: 14px; overflow: hidden; text-overflow: ellipsis; }
+  .p-left { font-size: 12.5px; }
   .c-days { font-size: 22px; }
   .row-more { padding: 0 6px 14px 28px; }
 }
 
-.passed-toggle {
-  width: 100%; background: none; border-top: 0; border-left: 0; border-right: 0; cursor: pointer; text-align: left; color: inherit;
+.fold-toggle {
+  width: 100%; background: none; border: 0; border-bottom: 1px solid var(--line); cursor: pointer; text-align: left; color: inherit;
 }
 .chev { font-family: var(--mono); color: var(--ink-3); transition: transform .3s; }
-.passed-toggle[aria-expanded="true"] .chev { transform: rotate(180deg); }
+.fold-toggle[aria-expanded="true"] .chev { transform: rotate(180deg); }
+.fold-toggle:hover .chev { color: var(--ink); }
 
 .foot {
   max-width: 1560px; margin: 80px auto 0; padding: 28px clamp(16px, 4vw, 48px) 48px;
