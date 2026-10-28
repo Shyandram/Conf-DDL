@@ -38,7 +38,7 @@ QUERY_OVERRIDES = {
 def city_of(place):
     """Photo key, same rule as venueOf() in assets/app.js: the city ("Seattle, USA" → Seattle), or the
     country when only that is known ("UK (TBA)" / "TBA, UK" → UK)."""
-    if not place or place.strip().upper() == "TBA":
+    if not place or place.strip().upper() in ("TBA", "VIRTUAL", "ONLINE"):
         return ""
     parts = [p.strip() for p in re.sub(r"\s*\((?:TBA|tentative)\)", "", place, flags=re.I).split(",") if p.strip()]
     if parts and parts[0].upper() == "TBA":

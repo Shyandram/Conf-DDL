@@ -33,7 +33,11 @@
       "ACM MM",
       "ACL",
       "EMNLP",
-      "NAACL"
+      "NAACL",
+      "UAI",
+      "SIGIR",
+      "UIST",
+      "IEEE VIS"
     ],
     "B": [
       "AAMAS",
@@ -44,7 +48,18 @@
       "ICASSP",
       "EACL",
       "COLING",
-      "MICCAI"
+      "MICCAI",
+      "IROS",
+      "ECML-PKDD",
+      "ICPR",
+      "ACML",
+      "IJCNN",
+      "COLM",
+      "FG",
+      "CIKM",
+      "ICDM",
+      "WSDM",
+      "ICMR"
     ]
   },
   "conferences": [
@@ -1337,6 +1352,418 @@
       "status": "confirmed",
       "decision": "2026-03-24",
       "note": "Deadline extended to Mar 13. Challenge papers and papers reviewed elsewhere due Mar 22; camera-ready Apr 10 (Pacific Time)."
+    },
+    {
+      "id": "iros27",
+      "title": "IROS",
+      "year": 2027,
+      "full_name": "IEEE/RSJ International Conference on Intelligent Robots and Systems",
+      "area": [
+        "RO"
+      ],
+      "ccf": "C",
+      "link": "https://2027.ieee-iros.org/",
+      "deadline": "2027-03-01 23:59",
+      "timezone": "PST",
+      "date": "Sep 27 – Oct 1, 2027",
+      "place": "Florence, Italy",
+      "status": "estimated",
+      "rebuttal": false,
+      "decision": "2027-06-15",
+      "note": "Projected from IROS 2026 (paper deadline Mon Mar 2, notification Jun 16, final paper Jul 16; no rebuttal). IEEE RAS calendar lists the 2027 paper deadline as Mar 1, 2027; CFP not yet on the official site. Venue: Fortezza da Basso."
+    },
+    {
+      "id": "siggraphasia27",
+      "title": "SIGGRAPH Asia",
+      "year": 2027,
+      "full_name": "ACM SIGGRAPH Conference and Exhibition on Computer Graphics and Interactive Techniques in Asia",
+      "area": [
+        "CG"
+      ],
+      "ccf": "",
+      "link": "https://asia.siggraph.org/2026/about-the-event/siggraph-asia-2027/",
+      "abstract_deadline": "2027-05-04 23:59",
+      "deadline": "2027-05-11 23:59",
+      "timezone": "AoE",
+      "date": "Nov 30 – Dec 3, 2027",
+      "place": "Tokyo, Japan",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-06-28",
+        "2027-07-02"
+      ],
+      "decision": "2027-07-18",
+      "note": "Projected from SIGGRAPH Asia 2026 (abstract May 5, paper May 12 AoE, rebuttal Jun 29 – Jul 3, notification Jul 19). Dates and venue (Tokyo International Forum) are official; deadlines not yet posted."
+    },
+    {
+      "id": "ecml27",
+      "title": "ECML-PKDD",
+      "year": 2027,
+      "full_name": "European Conference on Machine Learning and Principles and Practice of Knowledge Discovery in Databases",
+      "area": [
+        "ML",
+        "DM"
+      ],
+      "ccf": "B",
+      "link": "https://ecmlpkdd.org/2027/",
+      "abstract_deadline": "2027-03-04 23:59",
+      "deadline": "2027-03-11 23:59",
+      "timezone": "AoE",
+      "date": "Aug 30 – Sep 3, 2027",
+      "place": "Eindhoven, Netherlands",
+      "status": "estimated",
+      "decision": "2027-05-26",
+      "note": "Projected from ECML-PKDD 2026 research track (abstract Mar 5, paper Mar 12 AoE, notification May 27, camera-ready Jun 20). Conference dates and city are official; CFP not yet posted."
+    },
+    {
+      "id": "uai27",
+      "title": "UAI",
+      "year": 2027,
+      "full_name": "Conference on Uncertainty in Artificial Intelligence",
+      "area": [
+        "ML",
+        "AI"
+      ],
+      "ccf": "B",
+      "link": "https://www.auai.org/",
+      "deadline": "2027-02-24 23:59",
+      "timezone": "AoE",
+      "date": "TBA",
+      "place": "TBA",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-04-22",
+        "2027-05-01"
+      ],
+      "decision": "2027-05-31",
+      "note": "Projected from UAI 2026 (paper deadline Feb 25 AoE, reviews/discussion Apr 23 – May 2, notification Jun 1, camera-ready Jul 8). UAI 2027 dates, venue and CFP not yet announced."
+    },
+    {
+      "id": "sigir27",
+      "title": "SIGIR",
+      "year": 2027,
+      "full_name": "International ACM SIGIR Conference on Research and Development in Information Retrieval",
+      "area": [
+        "DM"
+      ],
+      "ccf": "A",
+      "link": "https://sigir2027.org/pages/submit-full.html",
+      "abstract_deadline": "2027-01-14 23:59",
+      "deadline": "2027-01-21 23:59",
+      "timezone": "AoE",
+      "date": "Jul 19 – 24, 2027",
+      "place": "San Jose, USA",
+      "status": "confirmed",
+      "decision": "2027-04-05",
+      "note": "Official dates labeled 'PROPOSED' (AoE). Abstract required for full paper. 50th SIGIR; main conference Jul 20-22, ICTIR Jul 24. Camera-ready Apr 30, 2027."
+    },
+    {
+      "id": "colm27",
+      "title": "COLM",
+      "year": 2027,
+      "full_name": "Conference on Language Modeling",
+      "area": [
+        "NLP",
+        "ML"
+      ],
+      "ccf": "",
+      "link": "https://colm.cc/",
+      "abstract_deadline": "2027-03-25 23:59",
+      "deadline": "2027-03-30 23:59",
+      "timezone": "AoE",
+      "date": "Oct 2027",
+      "place": "TBA",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-05-21",
+        "2027-06-07"
+      ],
+      "decision": "2027-07-07",
+      "note": "Projected from COLM 2026 (abstract Mar 26, paper Mar 31 AoE, rebuttal May 22 - Jun 8, decision Jul 8, conference Oct 6-9 in San Francisco). No 2027 CFP posted yet."
+    },
+    {
+      "id": "ijcnn27",
+      "title": "IJCNN",
+      "year": 2027,
+      "full_name": "International Joint Conference on Neural Networks",
+      "area": [
+        "ML"
+      ],
+      "ccf": "C",
+      "link": "https://ijcnn.org/2027/authors/call-for-papers",
+      "deadline": "2027-01-31 23:59",
+      "timezone": "AoE",
+      "date": "Jun 14 – 18, 2027",
+      "place": "Cape Town, South Africa",
+      "status": "confirmed",
+      "rebuttal": false,
+      "decision": "2027-03-15",
+      "note": "Regular papers, max 6 pages. CFP gives the date only (no time/timezone); 23:59 AoE assumed. No rebuttal listed. Submissions open Dec 1, 2026."
+    },
+    {
+      "id": "icpr27",
+      "title": "ICPR",
+      "year": 2027,
+      "full_name": "International Conference on Pattern Recognition (Virtual)",
+      "area": [
+        "CV"
+      ],
+      "ccf": "C",
+      "link": "https://www.icpr2027.com/web/dates",
+      "abstract_deadline": "2027-03-01 23:59",
+      "deadline": "2027-03-08 23:59",
+      "timezone": "AoE",
+      "date": "Oct 4 – 6 & 14 – 15, 2027",
+      "place": "Virtual",
+      "status": "confirmed",
+      "rebuttal": [
+        "2027-04-16",
+        "2027-04-23"
+      ],
+      "decision": "2027-05-31",
+      "note": "First virtual ICPR (29th), run by IAPR alongside the biennial in-person editions. Official dates marked tentative; abstract_deadline is paper registration. Short (8p) / long (15p) LNCS papers, double-blind."
+    },
+    {
+      "id": "acml26",
+      "title": "ACML",
+      "year": 2026,
+      "full_name": "Asian Conference on Machine Learning",
+      "area": [
+        "ML"
+      ],
+      "ccf": "C",
+      "link": "https://www.acml-conf.org/2026/calls/papers/",
+      "deadline": "2026-07-05 23:59",
+      "timezone": "AoE",
+      "date": "December 1 – 4, 2026",
+      "place": "Melbourne, Australia",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-08-30",
+        "2026-09-05"
+      ],
+      "decision": "2026-09-22",
+      "note": "Conference track. Journal track deadline was Jun 20, 2026 (notification Sep 30). Camera-ready Nov 1, 2026."
+    },
+    {
+      "id": "acml27",
+      "title": "ACML",
+      "year": 2027,
+      "full_name": "Asian Conference on Machine Learning",
+      "area": [
+        "ML"
+      ],
+      "ccf": "C",
+      "link": "https://www.acml-conf.org/",
+      "deadline": "2027-07-05 23:59",
+      "timezone": "AoE",
+      "date": "Nov/Dec 2027 (TBA)",
+      "place": "TBA",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-08-30",
+        "2027-09-05"
+      ],
+      "decision": "2027-09-22",
+      "note": "Projected from ACML 2026 (conference track deadline Jul 5, rebuttal Aug 30 – Sep 5, notification Sep 22). Journal track typically ~2 weeks earlier."
+    },
+    {
+      "id": "fg27",
+      "title": "FG",
+      "year": 2027,
+      "full_name": "IEEE International Conference on Automatic Face and Gesture Recognition",
+      "area": [
+        "CV"
+      ],
+      "ccf": "C",
+      "link": "https://fg2027.ieee-biometrics.org/call-for-papers/",
+      "abstract_deadline": "2026-10-23 23:59",
+      "deadline": "2026-10-30 23:59",
+      "timezone": "AoE",
+      "date": "April 26 – 30, 2027",
+      "place": "Marrakesh, Morocco",
+      "status": "confirmed",
+      "decision": "2026-12-20",
+      "note": "Extended from abstract Oct 9 / paper Oct 16. Single review round (FG 2026 had two). Camera-ready Jan 26, 2027."
+    },
+    {
+      "id": "cikm26",
+      "title": "CIKM",
+      "year": 2026,
+      "full_name": "ACM International Conference on Information and Knowledge Management",
+      "area": [
+        "DM"
+      ],
+      "ccf": "B",
+      "link": "https://cikm2026.diag.uniroma1.it/full-research-papers/",
+      "abstract_deadline": "2026-05-16 23:59",
+      "deadline": "2026-05-23 23:59",
+      "timezone": "AoE",
+      "date": "November 7 – 11, 2026",
+      "place": "Rome, Italy",
+      "status": "confirmed",
+      "rebuttal": false,
+      "decision": "2026-08-07",
+      "note": "Full research papers. No author rebuttal listed (reviewer discussion Jun 30 – Jul 10). Camera-ready Aug 23, 2026."
+    },
+    {
+      "id": "cikm27",
+      "title": "CIKM",
+      "year": 2027,
+      "full_name": "ACM International Conference on Information and Knowledge Management",
+      "area": [
+        "DM"
+      ],
+      "ccf": "B",
+      "link": "https://cikmconference.org/",
+      "abstract_deadline": "2027-05-16 23:59",
+      "deadline": "2027-05-23 23:59",
+      "timezone": "AoE",
+      "date": "October 25 – 29, 2027 (tentative)",
+      "place": "Sydney, Australia",
+      "status": "estimated",
+      "rebuttal": false,
+      "decision": "2027-08-07",
+      "note": "Projected from CIKM 2026 (abstract May 16, paper May 23, notification Aug 7). Sydney and tentative dates announced at CIKM business meeting (third-party report)."
+    },
+    {
+      "id": "icdm26",
+      "title": "ICDM",
+      "year": 2026,
+      "full_name": "IEEE International Conference on Data Mining",
+      "area": [
+        "DM"
+      ],
+      "ccf": "B",
+      "link": "http://icdm2026.neu.edu.cn/CallforResearchTrack/list.htm",
+      "deadline": "2026-06-06 23:59",
+      "timezone": "AoE",
+      "date": "November 12 – 15, 2026",
+      "place": "Shenyang, China",
+      "status": "confirmed",
+      "rebuttal": false,
+      "decision": "2026-08-16",
+      "note": "Research and Applied tracks. No separate abstract deadline; no rebuttal listed. Camera-ready Sep 9, 2026."
+    },
+    {
+      "id": "icdm27",
+      "title": "ICDM",
+      "year": 2027,
+      "full_name": "IEEE International Conference on Data Mining",
+      "area": [
+        "DM"
+      ],
+      "ccf": "B",
+      "link": "https://www.cs.uvm.edu/~icdm/",
+      "deadline": "2027-06-06 23:59",
+      "timezone": "AoE",
+      "date": "November 15 – 18, 2027",
+      "place": "Brisbane, Australia",
+      "status": "estimated",
+      "rebuttal": false,
+      "decision": "2027-08-16",
+      "note": "Projected from ICDM 2026 (paper Jun 6, notification Aug 16). Brisbane / Nov 15–18 from third-party listings; official site not yet found."
+    },
+    {
+      "id": "wsdm27",
+      "title": "WSDM",
+      "year": 2027,
+      "full_name": "ACM International Conference on Web Search and Data Mining",
+      "area": [
+        "DM"
+      ],
+      "ccf": "B",
+      "link": "https://wsdm-conference.org/2027/cffp.html",
+      "abstract_deadline": "2026-08-17 23:59",
+      "deadline": "2026-08-24 23:59",
+      "timezone": "AoE",
+      "date": "Feb 15 – 19, 2027",
+      "place": "Hong Kong, China",
+      "status": "confirmed",
+      "decision": "2026-11-02",
+      "note": "Deadlines as shown on the official full-paper CFP (later than the Aug 11/18 originally announced). Findings of WSDM track decided within main review. No rebuttal mentioned. Short papers due Nov 17, 2026."
+    },
+    {
+      "id": "wsdm28",
+      "title": "WSDM",
+      "year": 2028,
+      "full_name": "ACM International Conference on Web Search and Data Mining",
+      "area": [
+        "DM"
+      ],
+      "ccf": "B",
+      "link": "https://wsdm-conference.org/",
+      "abstract_deadline": "2027-08-17 23:59",
+      "deadline": "2027-08-24 23:59",
+      "timezone": "AoE",
+      "date": "Feb 2028 (TBA)",
+      "place": "TBA",
+      "status": "estimated",
+      "decision": "2027-11-02",
+      "note": "Projected from WSDM 2027 (abstract Aug 17, paper Aug 24, notification Nov 2). WSDM 2028 is planned for the Americas; host city not yet announced."
+    },
+    {
+      "id": "icmr27",
+      "title": "ICMR",
+      "year": 2027,
+      "full_name": "ACM International Conference on Multimedia Retrieval",
+      "area": [
+        "MM",
+        "CV"
+      ],
+      "ccf": "B",
+      "link": "https://www.icmr2027.org/cfc",
+      "deadline": "2027-01-31 23:59",
+      "timezone": "AoE",
+      "date": "Jun 7 – 10, 2027",
+      "place": "Singapore, Singapore",
+      "status": "confirmed",
+      "decision": "2027-04-01",
+      "note": "Regular papers (long 8 pp / short 4 pp + refs). Camera-ready Apr 10, 2027. Rebuttal not announced."
+    },
+    {
+      "id": "uist27",
+      "title": "UIST",
+      "year": 2027,
+      "full_name": "ACM Symposium on User Interface Software and Technology",
+      "area": [
+        "HCI"
+      ],
+      "ccf": "A",
+      "link": "https://uist.acm.org/",
+      "abstract_deadline": "2027-03-23 23:59",
+      "deadline": "2027-03-30 23:59",
+      "timezone": "AoE",
+      "date": "Oct/Nov 2027 (TBA)",
+      "place": "TBA",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-05-27",
+        "2027-06-04"
+      ],
+      "decision": "2027-06-26",
+      "note": "Projected from UIST 2026 (abstract Mar 24, paper Mar 31, reviews May 28, rebuttal due Jun 5, decisions Jun 27, final acceptance Aug 7)."
+    },
+    {
+      "id": "vis27",
+      "title": "IEEE VIS",
+      "year": 2027,
+      "full_name": "IEEE Visualization and Visual Analytics Conference",
+      "area": [
+        "CG",
+        "HCI"
+      ],
+      "ccf": "A",
+      "link": "https://ieeevis.org/",
+      "abstract_deadline": "2027-03-21 23:59",
+      "deadline": "2027-03-31 23:59",
+      "timezone": "AoE",
+      "date": "Nov 7 – 12, 2027",
+      "place": "Chicago, USA",
+      "status": "estimated",
+      "rebuttal": false,
+      "decision": "2027-07-15",
+      "note": "Projected from IEEE VIS 2026 (abstract Mar 21, paper Mar 31, 1st-round notification Jun 6, revision Jul 1, final notification Jul 15). No rebuttal; two-round review. Dates/venue (Chicago) from third-party listings, not yet on official site."
     }
   ]
 }

@@ -92,7 +92,7 @@ To edit by hand, add an entry to `data/conferences.json`:
 ```
 
 - `timezone`: `AoE`, `UTC`, `UTC+8`, `UTC-7`, `PST`, `PDT`, `CET`, …
-- `place`: `"City, Country"`; `"Country (TBA)"` when only the country is announced (its photos are filed under the country); `"TBA"` when nothing is known
+- `place`: `"City, Country"`; `"Country (TBA)"` when only the country is announced (its photos are filed under the country); `"TBA"` when nothing is known; `"Virtual"` for online-only editions (no photo)
 - `status`: `confirmed` (from the official CFP) or `estimated` (projected from the previous cycle)
 - `rebuttal`: `[start, end]` dates, or `false` if the venue has no rebuttal. Leave it out while unannounced (shows TBA)
 - `decision`: date of the final decision / notification

@@ -379,6 +379,7 @@
   // city is empty and photos are filed under the country. Same rule as city_of() in scripts/fetch_city_photos.py.
   function venueOf(place) {
     if (!place || /^\s*TBA\s*$/i.test(place)) return { city: "", country: "", key: "" };
+    if (/^\s*(?:virtual|online)\s*$/i.test(place)) return { city: "", country: "", key: "", virtual: true };
     const unsure = /\((?:TBA|tentative)\)/i.test(place);
     const parts = place.replace(/\s*\((?:TBA|tentative)\)/gi, "").split(",").map(x => x.trim()).filter(Boolean);
     if (parts[0] && /^TBA$/i.test(parts[0])) parts.shift();
@@ -416,11 +417,11 @@
     const fig = $("#venue"), img = $("#venueImg"), credit = $("#venueCredit");
     img.classList.remove("is-loaded");
     credit.hidden = true;
-    const { city, country, key } = venueOf(c && c.place);
+    const { city, country, key, virtual } = venueOf(c && c.place);
     const place = key;
     fig.classList.toggle("is-tba", !place);
     // only the country known ("Japan (TBA)" or "TBA, Japan"): show the country, file the photo under it
-    $("#venueCity").textContent = !place ? "Venue to be announced" : city || COUNTRY_NAMES[country] || country;
+    $("#venueCity").textContent = !place ? (virtual ? "Virtual conference" : "Venue to be announced") : city || COUNTRY_NAMES[country] || country;
     $("#venueCountry").textContent = city ? country : place ? "city TBA" : "";
     $("#venueDates").textContent = c ? c.date || "" : "";
     if (!place) return;
