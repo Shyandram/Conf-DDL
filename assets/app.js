@@ -349,7 +349,7 @@
     if (state.manualId) {
       const c = confs.find(x => x.id === state.manualId);
       const ev = c && MODES.map(m => eventOf(c, m, now)).find(Boolean);
-      if (ev) { p = { ...ev, c, mode: "manual", scope: "from timeline" }; mode = "manual"; }
+      if (ev) { p = { ...ev, c, mode: "manual", scope: state.manualScope || "from timeline" }; mode = "manual"; }
       else state.manualId = null;
     }
     const key = p ? `${mode}:${p.c.id}:${p.at}` : "";
@@ -361,6 +361,7 @@
       setHero(p ? p.c : null);
       if (p) $("#heroWhen").textContent = p.when;
       $("#heroIcs").hidden = !p || p.at !== p.c.ddl;
+      $("#heroShare").hidden = !p;
     }
     for (const btn of $$("#heroPicks .pick")) {
       const q = picks[btn.dataset.mode];
@@ -875,6 +876,60 @@
     store.set("starred", [...state.starred]);
   }
 
+  // scroll a row into view and flash it
+  function flashCard(c) {
+    const body = c.el.closest(".fold-body");
+    if (body && body.hidden) $(`.fold-toggle[data-fold="${body.id.slice(5)}"]`).click(); // open a folded section first
+    c.el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+    c.el.classList.remove("flash");
+    void c.el.offsetWidth;
+    c.el.classList.add("flash");
+  }
+
+  /* ---------- share: a #c=<id> link opens the page with that conference in the big countdown ---------- */
+
+  const shareUrl = c => `${location.origin}${location.pathname}#c=${encodeURIComponent(c.id)}`;
+  async function shareConf(c, btn) {
+    if (!c) return;
+    const url = shareUrl(c);
+    // phones get the system share sheet; elsewhere the link is copied
+    if (navigator.share && matchMedia("(pointer: coarse)").matches) {
+      try { await navigator.share({ title: `${c.title} ${c.year} countdown`, text: `${c.title} ${c.year} deadline: ${fmtTime(c.ddl)}`, url }); return; }
+      catch (e) { if (e.name === "AbortError") return; }
+    }
+    if (!(await copyText(url))) { window.prompt("Copy this link", url); return; }
+    btn.dataset.label ??= btn.textContent;
+    btn.textContent = "Link copied ✓";
+    clearTimeout(btn.copiedTimer);
+    btn.copiedTimer = setTimeout(() => { btn.textContent = btn.dataset.label; }, 1800);
+  }
+  async function copyText(text) {
+    try { await navigator.clipboard.writeText(text); return true; } catch {}
+    // no Clipboard API (plain http, older browsers): copy from a hidden text field
+    const ta = Object.assign(document.createElement("textarea"), { value: text, readOnly: true });
+    ta.style.cssText = "position:fixed;opacity:0;pointer-events:none";
+    document.body.append(ta);
+    ta.select();
+    let ok = false;
+    try { ok = document.execCommand("copy"); } catch {}
+    ta.remove();
+    return ok;
+  }
+  function openShared() {
+    const m = location.hash.match(/^#c=([\w-]+)/);
+    const c = m && confs.find(x => x.id === m[1]);
+    if (!c) return;
+    state.lightId = state.manualId = c.id;
+    state.manualScope = "shared link";
+    refreshPicks(Date.now());
+    renderTimeline(timelineList, Date.now(), { quiet: true });
+    window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+  }
+  const clearShared = () => {
+    state.manualScope = null;
+    if (location.hash.startsWith("#c=")) history.replaceState(null, "", location.pathname + location.search);
+  };
+
   function bind() {
     $("#chips").addEventListener("click", e => {
       const b = e.target.closest(".chip");
@@ -1049,9 +1104,10 @@
       layout.classList.toggle("rail-off", !open);
       rt.setAttribute("aria-expanded", open);
       rt.title = open ? "Collapse sidebar" : "Show My conferences";
-      store.set("railOpen", open);
+      store.set("railShown", open);
     };
-    setRail(store.get("railOpen", true));
+    // closed until opened (a new key: the old "railOpen" was saved as true on every visit)
+    setRail(store.get("railShown", false));
     // On narrow screens the sidebar is a drawer: the tab opens it, « or the backdrop closes it.
     const narrowRail = matchMedia("(max-width: 1100px)");
     const setDrawer = open => layout.classList.toggle("drawer-open", open);
@@ -1068,6 +1124,7 @@
       const btn = e.target.closest(".pick");
       if (!btn) return;
       state.manualId = null;
+      clearShared();
       if (state.lightId) { state.lightId = null; renderTimeline(timelineList, Date.now(), { quiet: true }); }
       state.heroMode = btn.dataset.mode;
       store.set("heroMode", state.heroMode);
@@ -1076,21 +1133,22 @@
 
     const jump = e => {
       const pin = e.target.closest(".tl-pin, .rail-item");
-      if (!pin) return;
-      const c = confs.find(x => x.id === pin.dataset.id);
-      if (!c) return;
-      const body = c.el.closest(".fold-body");
-      if (body && body.hidden) $(`.fold-toggle[data-fold="${body.id.slice(5)}"]`).click(); // open a folded section first
-      c.el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
-      c.el.classList.remove("flash");
-      void c.el.offsetWidth;
-      c.el.classList.add("flash");
+      const c = pin && confs.find(x => x.id === pin.dataset.id);
+      if (c) flashCard(c);
     };
+    $("#heroShare").addEventListener("click", e => heroConf && shareConf(heroConf, e.currentTarget));
+    document.addEventListener("click", e => {
+      const btn = e.target.closest(".c-share");
+      if (btn) shareConf(confs.find(x => x.id === btn.closest(".card").dataset.id), btn);
+    });
+    window.addEventListener("hashchange", openShared);
+    $("#rail").addEventListener("click", jump);
     $("#timeline").addEventListener("click", e => {
       const pin = e.target.closest(".tl-pin, .tl-dot, .tl-bare, .tl-chip");
       if (!pin) return;
       // click lights up the next venues (and shows it in the big countdown); clicking it again clears
       const again = state.lightId === pin.dataset.id;
+      clearShared();
       state.lightId = again ? null : pin.dataset.id;
       state.manualId = again ? null : pin.dataset.id;
       refreshPicks(Date.now());
@@ -1103,6 +1161,7 @@
     $("#tlLegend").addEventListener("click", e => {
       if (!e.target.closest(".lg-clear")) return;
       state.lightId = null; state.manualId = null;
+      clearShared();
       refreshPicks(Date.now());
       renderTimeline(timelineList, Date.now(), { quiet: true });
     });
@@ -1120,7 +1179,6 @@
     });
     $("#planSrc").addEventListener("change", e => openPlanner(e.target.value));
     document.addEventListener("keydown", e => { if (e.key === "Escape") closePlanner(); });
-    $("#rail").addEventListener("click", jump);
 
     // rows fold open to show the details
     document.addEventListener("click", e => {
@@ -1263,6 +1321,7 @@
     build();
     const planHash = location.hash.match(/^#plan=([\w-]+)/);
     if (planHash) openPlanner(planHash[1]);
+    openShared();
     tick();
     // align ticks to the wall-clock second
     // (skipped while the tab is hidden; it catches up as soon as it is shown again)
