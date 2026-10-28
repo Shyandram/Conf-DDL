@@ -176,6 +176,8 @@
     setStep(steps[1], c.rebuttal ? fmtRange(c.rebuttal) : (c.rebuttal === false ? "none" : "TBA"), c.rebuttal ? fmtRange(c.rebuttal, true) : "");
     setStep(steps[2], c.decision ? fmtDay(c.decision) : "TBA", c.decision ? fmtDay(c.decision, true) : "");
     c.el = el;
+    el.conf = c;
+    cardIO.observe(el);
     c.refs = {
       days: $(".c-days", el), unit: $(".c-unit", el), hms: $(".c-hms", el), bar: $(".bar i", el),
       ddl: $(".c-ddl", el), abs: null, steps,
@@ -983,7 +985,11 @@
     }, { rootMargin: "120px" });
     let rescanQueued = false;
     const rescan = () => { rescanQueued = false; $$(LIT).forEach(el => io.observe(el)); };
-    const mo = new MutationObserver(() => { if (!rescanQueued) { rescanQueued = true; requestAnimationFrame(rescan); } });
+    // rescan only when elements are added (the per-second countdown text changes don't count)
+    const mo = new MutationObserver(list => {
+      if (rescanQueued || !list.some(m => [...m.addedNodes].some(n => n.nodeType === 1))) return;
+      rescanQueued = true; requestAnimationFrame(rescan);
+    });
     const paintLight = () => {
       light.queued = false;
       const near = [];
@@ -1221,8 +1227,16 @@
     if (now >= nextBoundary) { heroConf = null; heroPick = null; build(); }
     refreshPicks(now);
     tickRail(now);
-    for (const c of confs) if (c.el.style.display !== "none") tickCard(c, now);
+    for (const c of confs) if (c.onscreen) tickCard(c, now); // off-screen rows catch up when they scroll in
   }
+  // which rows are on screen, so the per-second tick only touches those
+  const cardIO = new IntersectionObserver(entries => {
+    for (const en of entries) {
+      const c = en.target.conf;
+      c.onscreen = en.isIntersecting;
+      if (c.onscreen) tickCard(c, Date.now());
+    }
+  }, { rootMargin: "200px" });
 
   // sw.js keeps photos, fonts and GSAP on the device after the first download
   if ("serviceWorker" in navigator && location.protocol === "https:") {
@@ -1247,7 +1261,9 @@
     if (planHash) openPlanner(planHash[1]);
     tick();
     // align ticks to the wall-clock second
-    setTimeout(() => { tick(); setInterval(tick, 1000); }, 1000 - (Date.now() % 1000));
+    // (skipped while the tab is hidden; it catches up as soon as it is shown again)
+    setTimeout(() => { tick(); setInterval(() => { if (!document.hidden) tick(); }, 1000); }, 1000 - (Date.now() % 1000));
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) tick(); });
   }
 
   init();
