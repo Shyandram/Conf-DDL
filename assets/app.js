@@ -380,17 +380,21 @@
 
   // Several photos per city; show a different one each time (never the same twice in a row).
   const lastPhoto = {};
-  function pickCityPhoto(city) {
+  const photosOf = city => {
     const entry = cityPhotos[city];
-    const list = entry ? (entry.photos || (entry.src ? [entry] : [])) : [];
+    return entry ? (entry.photos || (entry.src ? [entry] : [])) : [];
+  };
+  function pickCityPhoto(city, advance) {
+    const list = photosOf(city);
     if (!list.length) return null;
-    let i = Math.floor(Math.random() * list.length);
-    if (list.length > 1 && i === lastPhoto[city]) i = (i + 1) % list.length;
+    let i = advance && lastPhoto[city] != null ? lastPhoto[city] + 1 : Math.floor(Math.random() * list.length);
+    if (!advance && list.length > 1 && i === lastPhoto[city]) i += 1;
+    i %= list.length;
     lastPhoto[city] = i;
     return list[i];
   }
 
-  async function setVenue(c) {
+  async function setVenue(c, advance = false) {
     const fig = $("#venue"), img = $("#venueImg"), credit = $("#venueCredit");
     img.classList.remove("is-loaded");
     credit.hidden = true;
@@ -405,7 +409,10 @@
     if (!place) return;
     const token = (fig.dataset.token = String(Math.random()));
     await loadCityPhotos;
-    const un = pickCityPhoto(city);
+    const un = pickCityPhoto(city, advance);
+    const many = photosOf(city).length;
+    $("#photoNext").hidden = many < 2;
+    $("#photoCount").textContent = many > 1 ? `${lastPhoto[city] + 1}/${many}` : "";
     const found = (un && { src: un.src, unsplash: un }) || (await wikiImage(city)) || (city.includes("/") && (await wikiImage(city.split("/")[0].trim())))
       || (country && (await wikiImage(COUNTRY_NAMES[country] || country)));
     if (!found || fig.dataset.token !== token) return;
@@ -853,6 +860,11 @@
     });
 
     $("#heroIcs").addEventListener("click", () => heroConf && icsFor(heroConf));
+    $("#photoNext").addEventListener("click", () => {
+      if (!heroConf) return;
+      setVenue(heroConf, true);
+      if (hasGsap && !reduced) gsap.fromTo("#photoNext svg", { rotate: 0 }, { rotate: 360, duration: 0.6, ease: "power2.out" });
+    });
 
     // the photo ends just inside the timeline section, so the timeline and everything below sit on solid ground
     const sizeBg = () => {

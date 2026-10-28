@@ -93,7 +93,13 @@
           <span class="venue-country" id="venueCountry"></span>
           <span class="venue-dates" id="venueDates"></span>
         </figcaption>
-        <span class="venue-credit" id="venueCredit" hidden></span>
+        <div class="venue-foot">
+          <span class="venue-credit" id="venueCredit" hidden></span>
+          <button type="button" class="photo-next" id="photoNext" hidden title="Show another photo of this city" aria-label="Show another photo of this city">
+            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="photoCount"></span>
+          </button>
+        </div>
       </figure>
       </div>
 

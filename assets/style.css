@@ -306,6 +306,13 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 .venue-credit a { color: inherit; text-decoration: underline; text-decoration-color: var(--line-2); }
 .venue-credit a:hover { color: var(--ink); }
 .venue.is-tba .venue-city { font-size: 20px; }
+.venue-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.photo-next {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line-2); background: color-mix(in srgb, var(--bg) 40%, transparent); color: var(--ink-2);
+  font: 500 11.5px var(--mono); transition: color .2s, border-color .2s, background .2s;
+}
+.photo-next:hover { color: var(--ink); border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
 
 /* row of small countdowns under the big one; the pressed chip is what the big clock shows */
 .hero-picks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
