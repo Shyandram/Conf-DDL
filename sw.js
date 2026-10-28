@@ -1,9 +1,9 @@
 // Keeps the heavy, never-changing files on the device after the first download:
-// city photos (Unsplash / Wikimedia CDNs), the web fonts and the GSAP library.
+// city photos (Unsplash CDN), the web fonts and the GSAP library.
 // The site's own pages, scripts and data are left to the network so updates show up right away.
 const CACHE = "confddl-media-v1";
 const MAX_ENTRIES = 120;
-const CACHEABLE = /^https:\/\/(images\.unsplash\.com|upload\.wikimedia\.org|thumb\.wikimedia\.org|cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)\//;
+const CACHEABLE = /^https:\/\/(images\.unsplash\.com|cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com)\//;
 
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", event => {

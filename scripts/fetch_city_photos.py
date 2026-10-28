@@ -53,28 +53,60 @@ def get(path, key, **params):
         return json.load(r)
 
 
+# Only scenery: skylines, streets, landmarks, nature. Anything that mentions people, food, animals, vehicles
+# up close or indoor shots is dropped (also from photos already saved, see clean()).
+NOT_SCENERY = re.compile(
+    r"\b(person|people|persons|woman|women|man|men|girl|girls|boy|boys|kid|kids|child|children|baby|crowd|couple|"
+    r"family|friends|tourists?|pedestrians?|cyclists?|hikers?|portrait|selfie|face|hands?|wedding|bride|model|kimono|"
+    r"food|coffee|drink|dish|meal|restaurant|cafe|bar|beer|wine|plate|"
+    r"dog|dogs|cat|cats|horse|pet|"
+    r"car|cars|bus|taxi|bike|motorcycle|interior|indoor|room|bedroom|office|desk|laptop|"
+    r"text|sign|signage|poster|map|flag|logo)\b")
+
+
+def is_scenery(text):
+    return not NOT_SCENERY.search((text or "").lower())
+
+
 def pick(results, n=PHOTOS_PER_CITY):
-    """The n best wide, well-liked photos; skip ones that are clearly not scenery."""
+    """The n best wide, well-liked scenery photos."""
     def ok(p):
-        text = " ".join(filter(None, [p.get("description"), p.get("alt_description")])).lower()
-        return p["width"] / p["height"] >= 1.3 and not re.search(r"\b(person|people|woman|man|portrait|food|coffee)\b", text)
-    good = [p for p in results if ok(p)] or results
+        tags = " ".join(t.get("title", "") for t in p.get("tags", []) or [])
+        text = " ".join(filter(None, [p.get("description"), p.get("alt_description"), tags]))
+        return p["width"] / p["height"] >= 1.3 and is_scenery(text)
+    good = [p for p in results if ok(p)]
     return sorted(good, key=lambda p: (p.get("likes", 0), p["width"]), reverse=True)[:n]
 
 
+def clean(cities):
+    """Drop saved photos that aren't scenery; a city left with none gets searched again. Returns True if changed."""
+    changed = False
+    for city, entry in cities.items():
+        photos = entry.get("photos", [])
+        keep = [p for p in photos if is_scenery(p.get("alt"))]
+        if len(keep) != len(photos):
+            print(f"~ {city}: dropped {len(photos) - len(keep)} non-scenery photo(s)")
+            entry["photos"] = keep
+            changed = True
+    return changed
+
+
 def main(argv):
+    cities = json.loads(CITIES.read_text(encoding="utf-8")) if CITIES.exists() else {}
+    changed = clean(cities)
     key = os.environ.get("UNSPLASH_ACCESS_KEY", "").strip()
     if not key:
-        print("UNSPLASH_ACCESS_KEY is not set; nothing to do.")
+        print("UNSPLASH_ACCESS_KEY is not set; only cleaned the saved photos.")
+        if changed:
+            CITIES.write_text(json.dumps(dict(sorted(cities.items())), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         return 0
     refresh_all = argv == ["--refresh"]
     refresh = set(argv[1:]) if argv[:1] == ["--refresh"] else set()
 
     confs = json.loads(CONFS.read_text(encoding="utf-8"))["conferences"]
     wanted = sorted({c for c in (city_of(x.get("place", "")) for x in confs) if c})
-    cities = json.loads(CITIES.read_text(encoding="utf-8")) if CITIES.exists() else {}
 
-    changed, done = False, 0
+    done = 0
     for city in wanted:
         entry = cities.get(city, {})
         if entry.get("pin") or (entry.get("photos") and not refresh_all and city not in refresh):
@@ -83,7 +115,7 @@ def main(argv):
             print(f"… stopping at {MAX_PER_RUN} cities this run; the next run continues")
             break
         done += 1
-        query = entry.get("query") or QUERY_OVERRIDES.get(city) or f"{city} cityscape"
+        query = entry.get("query") or QUERY_OVERRIDES.get(city) or f"{city} cityscape landscape"
         try:
             res = get("/search/photos", key, query=query, orientation="landscape", per_page=15, content_filter="high")
         except Exception as e:  # rate limit or network: keep what we have

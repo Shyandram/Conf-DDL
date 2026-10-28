@@ -370,7 +370,7 @@
     tickHero(now);
   }
 
-  // Host city card next to the clock, with a photo from Wikipedia when one exists.
+  // Host city card next to the clock; the page background is a scenery photo of the place.
   const COUNTRY_NAMES = { USA: "United States", UK: "United Kingdom" };
 
   // "City, Country" → city + country. When only the country is known — "Japan (TBA)", "TBA, Japan" —
@@ -384,21 +384,7 @@
     const one = parts[0] || "";
     return unsure || /^TBA,/i.test(place.trim()) ? { city: "", country: one, key: one } : { city: one, country: "", key: one };
   }
-  const wikiCache = new Map();
-
-  async function wikiImage(title) {
-    if (wikiCache.has(title)) return wikiCache.get(title);
-    const job = fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`)
-      .then(r => (r.ok ? r.json() : null))
-      .then(j => (j && j.type !== "disambiguation" && (j.originalimage || j.thumbnail))
-        ? { src: (j.thumbnail && j.thumbnail.source.replace(/\/\d+px-/, "/960px-")) || j.originalimage.source, page: j.content_urls?.desktop?.page }
-        : null)
-      .catch(() => null);
-    wikiCache.set(title, job);
-    return job;
-  }
-
-  // data/cities.json: hand-off from scripts/fetch_city_photos.py (Unsplash). Wikipedia is the fallback.
+  // data/cities.json: scenery photos from scripts/fetch_city_photos.py (Unsplash). A place without any yet shows no photo.
   let cityPhotos = {};
   const loadCityPhotos = fetch(`data/cities.json?v=${BUILD}`)
     .then(r => (r.ok ? r.json() : {})).then(j => { cityPhotos = j || {}; }).catch(() => {});
@@ -442,24 +428,18 @@
     const many = photosOf(key).length;
     $("#photoNext").hidden = many < 2;
     $("#photoCount").textContent = many > 1 ? `${lastPhoto[key] + 1}/${many}` : "";
-    const found = (un && { src: un.src, unsplash: un }) || (city && (await wikiImage(city))) || (key.includes("/") && (await wikiImage(key.split("/")[0].trim())))
-      || (country && (await wikiImage(COUNTRY_NAMES[country] || country)));
-    if (!found || fig.dataset.token !== token) return;
+    if (!un || fig.dataset.token !== token) return;
+    const found = { src: un.src, unsplash: un };
     const pre = new Image();
     pre.crossOrigin = "anonymous"; // matches how the service worker fetches, so both share one cached copy
     pre.onload = () => {
       if (fig.dataset.token !== token) return;
       img.style.backgroundImage = `url("${found.src}")`;
       img.classList.add("is-loaded");
-      if (found.unsplash) {
-        const u = found.unsplash;
-        credit.innerHTML = `Photo by <a href="${esc(u.photographer_url)}" target="_blank" rel="noopener">${esc(u.photographer)}</a>` +
-          ` on <a href="${esc(u.photo_url)}" target="_blank" rel="noopener">Unsplash</a>`;
-        credit.hidden = false;
-      } else if (found.page) {
-        credit.innerHTML = `Photo: <a href="${esc(found.page)}" target="_blank" rel="noopener">Wikipedia</a>`;
-        credit.hidden = false;
-      }
+      const u = found.unsplash;
+      credit.innerHTML = `Photo by <a href="${esc(u.photographer_url)}" target="_blank" rel="noopener">${esc(u.photographer)}</a>` +
+        ` on <a href="${esc(u.photo_url)}" target="_blank" rel="noopener">Unsplash</a>`;
+      credit.hidden = false;
     };
     pre.src = found.src;
   }

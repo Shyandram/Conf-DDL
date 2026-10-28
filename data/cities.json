@@ -430,14 +430,6 @@
     "query": "Kyoto temple cityscape",
     "photos": [
       {
-        "src": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8S3lvdG8lMjB0ZW1wbGUlMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4ODI1N3ww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
-        "color": "#260c0c",
-        "alt": "two women in purple and pink kimono standing on street",
-        "photographer": "Sorasak",
-        "photographer_url": "https://unsplash.com/@boontohhgraphy?utm_source=conf_ddl&utm_medium=referral",
-        "photo_url": "https://unsplash.com/photos/two-women-in-purple-and-pink-kimono-standing-on-street-_UIN-pFfJ7c?utm_source=conf_ddl&utm_medium=referral"
-      },
-      {
         "src": "https://images.unsplash.com/photo-1602764363500-e8e8455de955?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8S3lvdG8lMjB0ZW1wbGUlMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4ODI1N3ww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
         "color": "#262626",
         "alt": "aerial view of city buildings during daytime",
@@ -551,14 +543,6 @@
   },
   "Lucca": {
     "photos": [
-      {
-        "src": "https://images.unsplash.com/photo-1786340716450-c2a99347ad4c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8THVjY2ElMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQzNHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
-        "color": "#c0a68c",
-        "alt": "A cyclist and pedestrians in a large yellow plaza surrounded by historic buildings",
-        "photographer": "Filiz Elaerts",
-        "photographer_url": "https://unsplash.com/@filizelaerts?utm_source=conf_ddl&utm_medium=referral",
-        "photo_url": "https://unsplash.com/photos/cyclist-and-pedestrians-in-yellow-plaza-Rupn4EU_7fI?utm_source=conf_ddl&utm_medium=referral"
-      },
       {
         "src": "https://images.unsplash.com/photo-1781785027725-fdcf6122e690?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8THVjY2ElMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQzNHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
         "color": "#595940",
