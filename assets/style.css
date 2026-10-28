@@ -263,7 +263,7 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 .hero-full { min-height: 1.5em; }
 .hero-picks { min-height: 56px; }
 .venue { min-height: 128px; }
-.timeline { min-height: 210px; }
+.timeline { min-height: 154px; } /* 3 label rows + axis + months */
 /* width ≈ 9 digits + 3 separators (~.5 each) + 6 gaps (.28 each) + 5 inner 4px gaps ≈ 12.2 × dw + 20px */
 .clock { --dw: clamp(24px, calc((100cqi - 24px) / 12.4), 66px); }
 .digit {

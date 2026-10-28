@@ -528,7 +528,7 @@
     // Labels hang to the right of their pin; stack them on rows so none overlap.
     // phones scroll a wider strip sideways (see style.css); the label budget keeps the height fixed
     const narrow = matchMedia("(max-width: 640px)").matches; // same breakpoint as the scrolling strip in style.css
-    const W = Math.max(tl.clientWidth, narrow ? 1100 : 720), MAXROW = narrow ? 4 : 5;
+    const W = Math.max(tl.clientWidth, 720), MAXROW = 3; // 3 rows of names; a clicked conference adds a 4th for its dates
     // one labelled block per conference, at its deadline; a conference in review also gets a small dot on the
     // axis at its next date — amber for rebuttal (when it opens, or closes once open), green for the decision
     const next = c => {
@@ -565,15 +565,20 @@
     const pins = events.map(e => {
       const px = x(e.at);
       const label = e.text || `${e.c.title} ${String(e.c.year).slice(2)}`;
-      const lw = label.length * 7.8 + 24, flip = (px / 100) * W + lw > W; // near the right edge the label hangs left
-      const left = (px / 100) * W - (flip ? lw : 0);
+      const lw = label.length * 7.8 + 24, at = (px / 100) * W;
+      // near the right edge a label hangs left; the clicked conference's rebuttal hangs left too, so it and the decision share a row
+      const flip = e.text && e.ev === "reb" ? at - lw >= 0 : at + lw > W;
+      const left = at - (flip ? lw : 0);
       return { ...e, px, label, flip, l: left, r: left + lw, row: -1 };
     });
-    [...pins].sort((p, q) => rank(q) - rank(p)).forEach(p => {
+    [...pins].filter(p => !p.text).sort((p, q) => rank(q) - rank(p)).forEach(p => {
       p.row = rows.findIndex(r => r.every(([l, rr]) => p.r < l || p.l > rr));
       if (p.row !== -1) rows[p.row].push([p.l, p.r]);
     });
-    const used = rows.filter(r => r.length).length;
+    let used = rows.filter(r => r.length).length;
+    const dated = pins.filter(p => p.text);
+    dated.forEach(p => (p.row = used)); // the row right above the axis
+    if (dated.length) used += 1;
     const ROW = 26, axis = 8 + Math.max(used, 1) * ROW + 18;
     tl.style.setProperty("--axis", axis + "px");
     const tipOf = c => [`${c.title} ${c.year}`, `deadline ${fmtShort.format(c.ddl)}`, c.reb && `rebuttal ${fmtRange(c.rebuttal)}`, c.dec && `decision ${fmtDay(c.decision)}`].filter(Boolean).join(" · ");
