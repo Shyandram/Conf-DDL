@@ -23,6 +23,7 @@
     areas: new Set(store.get("areas", [])),
     onlyConfirmed: store.get("onlyConfirmed", false),
     ccfA: store.get("ccfA", false),
+    gradeA: store.get("gradeA", false),
     onlyStarred: store.get("onlyStarred", false),
     heroMode: store.get("heroMode", "deadline"),
     starred: new Set(store.get("starred", [])),
@@ -83,6 +84,15 @@
   // Stars follow the conference series (all years of CVPR), not one edition.
   const seriesOf = c => c.series || c.title;
   const isStarred = c => state.starred.has(seriesOf(c));
+  // Venue grade from the ranking list in data/conferences.json ("tiers": NYCU CS top-conference list).
+  const gradeOf = c => {
+    const t = data.tiers || {};
+    return (t.A || []).includes(seriesOf(c)) ? "A" : (t.B || []).includes(seriesOf(c)) ? "B" : "";
+  };
+  const gradeTag = c => {
+    const g = gradeOf(c);
+    return g ? `<span class="tag tag-grade tag-grade-${g}" title="${esc((data.tiers && data.tiers.source) || "")}">${esc((data.tiers && data.tiers.name) || "")} ${g}</span>` : "";
+  };
 
   /* ---------- helpers ---------- */
 
@@ -96,6 +106,7 @@
   function matches(c) {
     if (state.onlyConfirmed && c.status !== "confirmed") return false;
     if (state.ccfA && c.ccf !== "A") return false;
+    if (state.gradeA && gradeOf(c) !== "A") return false;
     if (state.onlyStarred && !isStarred(c)) return false;
     if (state.areas.size && !c.area.some(a => state.areas.has(a))) return false;
     if (state.q) {
@@ -141,6 +152,7 @@
     $(".c-year", el).textContent = c.year;
     $(".c-full", el).textContent = c.full_name;
     $(".c-tags", el).innerHTML =
+      gradeTag(c) +
       (c.ccf ? `<span class="tag tag-ccf">CCF-${esc(c.ccf)}</span>` : "") +
       c.area.map(a => `<span class="tag">${esc(a)}</span>`).join("") +
       (c.status !== "confirmed" ? `<span class="tag tag-est">estimated</span>` : "") +
@@ -160,6 +172,7 @@
     // "rebuttal": false means the venue has none; a missing field means not announced yet.
     setStep(steps[1], c.rebuttal ? fmtRange(c.rebuttal) : (c.rebuttal === false ? "none" : "TBA"), c.rebuttal ? fmtRange(c.rebuttal, true) : "");
     setStep(steps[2], c.decision ? fmtDay(c.decision) : "TBA", c.decision ? fmtDay(c.decision, true) : "");
+    if (!c.decision || c.kind === "workshop") $(".c-plan", el).remove();
     const link = $(".c-link", el);
     link.href = c.link;
     $(".c-ics", el).addEventListener("click", () => icsFor(c));
@@ -290,7 +303,7 @@
   }
 
   function pickFor(mode, now) {
-    const filtered = state.areas.size || state.onlyConfirmed || state.ccfA || state.q || state.onlyStarred;
+    const filtered = state.areas.size || state.onlyConfirmed || state.ccfA || state.gradeA || state.q || state.onlyStarred;
     const pools = [
       [confs.filter(isStarred), "My conferences"],
       [confs.filter(c => c.el.style.display !== "none"), filtered ? "your filters" : ""],
@@ -365,6 +378,18 @@
   const loadCityPhotos = fetch("data/cities.json", { cache: "no-cache" })
     .then(r => (r.ok ? r.json() : {})).then(j => { cityPhotos = j || {}; }).catch(() => {});
 
+  // Several photos per city; show a different one each time (never the same twice in a row).
+  const lastPhoto = {};
+  function pickCityPhoto(city) {
+    const entry = cityPhotos[city];
+    const list = entry ? (entry.photos || (entry.src ? [entry] : [])) : [];
+    if (!list.length) return null;
+    let i = Math.floor(Math.random() * list.length);
+    if (list.length > 1 && i === lastPhoto[city]) i = (i + 1) % list.length;
+    lastPhoto[city] = i;
+    return list[i];
+  }
+
   async function setVenue(c) {
     const fig = $("#venue"), img = $("#venueImg"), credit = $("#venueCredit");
     img.classList.remove("is-loaded");
@@ -380,8 +405,8 @@
     if (!place) return;
     const token = (fig.dataset.token = String(Math.random()));
     await loadCityPhotos;
-    const un = cityPhotos[city];
-    const found = (un && un.src && { src: un.src, unsplash: un }) || (await wikiImage(city)) || (city.includes("/") && (await wikiImage(city.split("/")[0].trim())))
+    const un = pickCityPhoto(city);
+    const found = (un && { src: un.src, unsplash: un }) || (await wikiImage(city)) || (city.includes("/") && (await wikiImage(city.split("/")[0].trim())))
       || (country && (await wikiImage(COUNTRY_NAMES[country] || country)));
     if (!found || fig.dataset.token !== token) return;
     const pre = new Image();
@@ -443,8 +468,12 @@
 
   /* ---------- timeline ---------- */
 
-  function renderTimeline(list, now) {
-    const tl = $("#timeline");
+  let timelineList = [];
+
+  // Home timeline by default; the planner passes its own element and asks for the resubmission path.
+  function renderTimeline(list, now, opts = {}) {
+    const tl = opts.el || $("#timeline");
+    if (!opts.el) timelineList = list;
     const start = new Date(now); start.setDate(1); start.setHours(0, 0, 0, 0);
     const end = new Date(start); end.setMonth(end.getMonth() + 13);
     const span = end - start;
@@ -473,18 +502,150 @@
     });
     const ROW = 26, axis = 8 + Math.max(rowEnd.length, 1) * ROW + 18;
     tl.style.setProperty("--axis", axis + "px");
+    const path = opts.path && state.pathId ? resubmitPath(confs.find(c => c.id === state.pathId), now) : null;
+    // home timeline: a clicked conference lights up where its paper could go next (no arcs, no panel)
+    const glow = !opts.el && state.lightId ? resubmitPath(confs.find(c => c.id === state.lightId), now) : null;
+    const lit = path || glow;
+    const role = c => {
+      if (!lit) return "";
+      if (c === lit.src) return " tl-src";
+      for (const st of lit.stages) {
+        const i = st.list.indexOf(c);
+        if (i !== -1) return ` tl-${st.key}${i < 3 ? " tl-top" : ""}`;
+      }
+      return " tl-dim";
+    };
     pins.forEach(({ c, px, label, row }) => {
       const top = 8 + row * ROW;
-      html += `<button type="button" class="tl-pin${c.status !== "confirmed" ? " est" : ""}" data-id="${esc(c.id)}"
+      html += `<button type="button" class="tl-pin${c.status !== "confirmed" ? " est" : ""}${role(c)}" data-id="${esc(c.id)}"
         style="left:${px}%;top:${top}px;height:${axis + 5.5 - top}px" title="${esc(c.title + " " + c.year + " · " + fmtShort.format(c.ddl))}">
         <span class="lbl">${esc(label)}</span><span class="stem"></span><span class="dot"></span></button>`;
     });
+    // review window of the selected conference, and arcs to where it could go next
+    if (path) {
+      const clampX = ms => Math.min(100, Math.max(0, x(ms)));
+      const s = path.src;
+      html += `<div class="tl-band" style="left:${clampX(s.ddl)}%;width:${clampX(s.dec) - clampX(s.ddl)}%"></div>`;
+      if (s.reb) html += `<div class="tl-band tl-band-reb" style="left:${clampX(s.reb[0])}%;width:${clampX(s.dec) - clampX(s.reb[0])}%"></div>`;
+      html += `<span class="tl-mark" style="left:${clampX(s.dec)}%">decision</span>`;
+      if (s.reb) html += `<span class="tl-mark tl-mark-reb" style="left:${clampX(s.reb[0])}%">reviews</span>`;
+      const arcs = path.stages.flatMap(st => st.list.slice(0, 5).filter(c => c.ddl < +end).map((c, i) => {
+        const x1 = clampX(st.key === "reb" ? s.reb[0] : s.dec), x2 = clampX(c.ddl), depth = 22 + Math.min(44, Math.abs(x2 - x1) * 2.4);
+        return `<path class="arc arc-${st.key}${i < 3 ? " arc-top" : ""}" d="M ${x1} 0 Q ${(x1 + x2) / 2} ${depth} ${x2} 0" />`;
+      }));
+      html += `<svg class="tl-arcs" viewBox="0 0 100 70" preserveAspectRatio="none" aria-hidden="true">${arcs.join("")}</svg>`;
+    }
     tl.innerHTML = html + `</div>`;
+    tl.classList.toggle("has-path", !!path);
+    tl.classList.toggle("has-glow", !!glow);
+    if (!opts.el) {
+      const src = glow && glow.src;
+      $("#tlLegend").innerHTML = src
+        ? `<i class="lg lg-reb"></i>during ${esc(src.title)} rebuttal <i class="lg lg-dec"></i>after its decision <button type="button" class="lg-clear">clear</button>`
+        : `<i class="lg lg-solid"></i>confirmed <i class="lg lg-hollow"></i>estimated`;
+    }
+    if (opts.path) renderPath(path, now);
 
-    if (hasGsap && !reduced) {
+    if (path && hasGsap && !reduced) {
+      gsap.fromTo($$(".arc", tl), { opacity: 0 }, { opacity: (i, el) => (el.classList.contains("arc-top") ? 0.95 : 0.55), duration: 0.6, ease: "power2.out", stagger: 0.06 });
+      gsap.fromTo($$(".tl-band", tl), { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.out", transformOrigin: "left" });
+    } else if (glow && hasGsap && !reduced) {
+      gsap.fromTo($$(".tl-src .dot, .tl-reb .dot, .tl-dec .dot", tl), { scale: 0.3 }, { scale: 1, duration: 0.5, ease: "back.out(3)", stagger: 0.03 });
+    } else if (hasGsap && !reduced && !opts.quiet) {
       gsap.fromTo($(".tl-axis", tl), { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut" });
       gsap.fromTo($$(".tl-pin", tl), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: "back.out(2)", stagger: 0.05, delay: 0.4 });
     }
+  }
+
+  /* ---------- resubmission path ---------- */
+
+  // If a paper at `src` goes badly, where could it go next?
+  //  · "rebuttal": deadlines between reviews coming out and the decision (withdraw and resubmit)
+  //  · "decision": deadlines in the ~5 months after the decision
+  // Ranked by the NYCU grade first (A, then B, then unlisted), then same field, then CCF as a tie-break,
+  // then confirmed dates.
+  const AFTER_DECISION = 150 * DAY;
+
+  function resubmitPath(src, now) {
+    if (!src || !src.dec) return null;
+    const tier = c => ({ A: 3, B: 2 }[gradeOf(c)] || 1);
+    const ccf = c => ({ A: 3, B: 2, C: 1 }[c.ccf] || 0);
+    const score = c => tier(c) * 100 + (c.area.some(a => src.area.includes(a)) ? 40 : 0) + ccf(c) * 5 + (c.status === "confirmed" ? 1 : 0);
+    const pool = confs.filter(c => c.kind !== "workshop" && seriesOf(c) !== seriesOf(src) && c.ddl > now);
+    const within = (a, b) => pool.filter(c => c.ddl >= a && c.ddl < b).sort((p, q) => score(q) - score(p) || p.ddl - q.ddl);
+    const stages = [];
+    if (src.reb) stages.push({ key: "reb", from: src.reb[0], to: src.dec, list: within(Math.max(src.reb[0], now), src.dec) });
+    stages.push({ key: "dec", from: src.dec, to: src.dec + AFTER_DECISION, list: within(Math.max(src.dec, now), src.dec + AFTER_DECISION) });
+    return { src, stages, tier };
+  }
+
+  function renderPath(path, now) {
+    const panel = $("#pathPanel");
+    if (!path) { panel.innerHTML = `<p class="path-none">This conference has no announced decision date yet, so there is no path to plan.</p>`; return; }
+    const s = path.src;
+    const day = ms => fmtShort.format(ms);
+    const item = (c, st, i) => {
+      const gap = Math.round((c.ddl - st.from) / DAY);
+      const tags = [
+        gradeTag(c),
+        c.ccf ? `<span class="tag">CCF-${esc(c.ccf)}</span>` : "",
+        c.area.some(a => s.area.includes(a)) ? `<span class="tag tag-same">same field</span>` : "",
+        c.status !== "confirmed" ? `<span class="tag tag-est">est.</span>` : "",
+      ].join("");
+      return `<li><button type="button" class="path-item${i === 0 ? " is-best" : ""}" data-id="${esc(c.id)}">
+        <span class="pi-name">${esc(c.title)} ${esc(c.year)}${i === 0 ? ` <em>best match</em>` : ""}</span>
+        <span class="pi-when">${day(c.ddl)} · ${gap >= 0 ? `+${gap}d` : `${gap}d`} after ${st.key === "reb" ? "reviews" : "decision"}</span>
+        <span class="pi-tags">${tags}</span></button></li>`;
+    };
+    const stage = st => {
+      const title = st.key === "reb"
+        ? `During rebuttal <small>reviews ${fmtDay(s.rebuttal[0])} → decision ${fmtDay(s.decision)}</small>`
+        : `After the decision <small>from ${fmtDay(s.decision)}, next ~5 months</small>`;
+      const list = st.list.slice(0, 5);
+      return `<div class="path-stage path-${st.key}"><h3>${title}</h3>${list.length
+        ? `<ol>${list.map((c, i) => item(c, st, i)).join("")}</ol>${st.list.length > 5 ? `<p class="path-more">+${st.list.length - 5} more</p>` : ""}`
+        : `<p class="path-none">No deadlines in this window.</p>`}</div>`;
+    };
+    panel.innerHTML = `<div class="path-head">
+        <div><span class="path-kicker">Resubmission path</span>
+        <b>${esc(s.title)} ${esc(s.year)}</b>
+        <span class="path-flow">submit ${day(s.ddl)}${s.reb ? ` → reviews ${fmtDay(s.rebuttal[0])}` : ""} → decision ${fmtDay(s.decision)}</span></div>
+      </div>
+      <div class="path-stages">${path.stages.map(stage).join("")}</div>
+      <p class="path-note">Ranked by ${esc((data.tiers && data.tiers.source) || "venue grade")}: grade A first, then B, then unlisted; then same field, with CCF as a tie-break. Check each venue's dual-submission and withdrawal rules before moving a paper.</p>`;
+    if (hasGsap && !reduced) gsap.fromTo($$(".path-item", panel), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out", stagger: 0.03 });
+  }
+
+  /* ---------- planner (its own view, so the home screen stays clean) ---------- */
+
+  const plannable = now => confs.filter(c => c.dec && c.kind !== "workshop" && (c.group === "up" || c.group === "review"))
+    .sort((a, b) => a.ddl - b.ddl);
+
+  function openPlanner(id) {
+    const now = Date.now();
+    const options = plannable(now);
+    if (!options.length) return;
+    const src = options.find(c => c.id === id) || options.find(c => c === heroConf) || options[0];
+    state.pathId = src.id;
+    $("#planSrc").innerHTML = options.map(c =>
+      `<option value="${esc(c.id)}"${c === src ? " selected" : ""}>${esc(c.title)} ${esc(c.year)} — ${c.group === "review" ? "in review" : "due " + fmtShort.format(c.ddl)}</option>`).join("");
+    const planner = $("#planner"), wasHidden = planner.hidden;
+    planner.hidden = false;
+    document.documentElement.classList.add("planner-open");
+    history.replaceState(null, "", "#plan=" + src.id);
+    renderTimeline(confs.filter(c => c.ddl > now && c.kind !== "workshop"), now, { el: $("#planTimeline"), path: true });
+    if (wasHidden && hasGsap && !reduced) {
+      gsap.fromTo(".planner-backdrop", { opacity: 0 }, { opacity: 1, duration: 0.3 });
+      gsap.fromTo(".planner-sheet", { opacity: 0, y: 30, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "power3.out" });
+    }
+  }
+
+  function closePlanner() {
+    if ($("#planner").hidden) return;
+    $("#planner").hidden = true;
+    document.documentElement.classList.remove("planner-open");
+    state.pathId = null;
+    history.replaceState(null, "", location.pathname + location.search);
   }
 
   /* ---------- left rail ---------- */
@@ -600,6 +761,7 @@
     store.set("areas", [...state.areas]);
     store.set("onlyConfirmed", state.onlyConfirmed);
     store.set("ccfA", state.ccfA);
+    store.set("gradeA", state.gradeA);
     store.set("onlyStarred", state.onlyStarred);
     store.set("starred", [...state.starred]);
   }
@@ -645,6 +807,9 @@
     });
     oc.addEventListener("change", () => { state.onlyConfirmed = oc.checked; persist(); apply(); });
     ca.addEventListener("change", () => { state.ccfA = ca.checked; persist(); apply(); });
+    const ga = $("#gradeA");
+    ga.checked = state.gradeA;
+    ga.addEventListener("change", () => { state.gradeA = ga.checked; persist(); apply(); });
 
     $$(".seg button").forEach(b => {
       b.classList.toggle("is-on", b.dataset.tz === state.tz);
@@ -689,6 +854,16 @@
 
     $("#heroIcs").addEventListener("click", () => heroConf && icsFor(heroConf));
 
+    // the background photo drifts a little with the mouse
+    if (hasGsap && !reduced && matchMedia("(pointer: fine)").matches) {
+      const panX = gsap.quickTo("#bgPan", "xPercent", { duration: 1.4, ease: "power3.out" });
+      const panY = gsap.quickTo("#bgPan", "yPercent", { duration: 1.4, ease: "power3.out" });
+      window.addEventListener("pointermove", e => {
+        panX((e.clientX / innerWidth - 0.5) * -4.5);
+        panY((e.clientY / innerHeight - 0.5) * -1.5);
+      }, { passive: true });
+    }
+
     // back-to-top button, only once the hero is out of view
     const toTop = $("#toTop");
     const syncTop = () => { toTop.hidden = window.scrollY < 600; };
@@ -720,6 +895,7 @@
       const btn = e.target.closest(".pick");
       if (!btn) return;
       state.manualId = null;
+      if (state.lightId) { state.lightId = null; renderTimeline(timelineList, Date.now(), { quiet: true }); }
       state.heroMode = btn.dataset.mode;
       store.set("heroMode", state.heroMode);
       refreshPicks(Date.now());
@@ -740,11 +916,37 @@
     $("#timeline").addEventListener("click", e => {
       const pin = e.target.closest(".tl-pin");
       if (!pin) return;
-      state.manualId = pin.dataset.id;
+      // click lights up the next venues (and shows it in the big countdown); clicking it again clears
+      const again = state.lightId === pin.dataset.id;
+      state.lightId = again ? null : pin.dataset.id;
+      state.manualId = again ? null : pin.dataset.id;
       refreshPicks(Date.now());
+      renderTimeline(timelineList, Date.now(), { quiet: true });
+      if (again) return;
       const top = $("#hero").getBoundingClientRect().top + window.scrollY - 70;
       if (window.scrollY > top) window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
     });
+
+    $("#tlLegend").addEventListener("click", e => {
+      if (!e.target.closest(".lg-clear")) return;
+      state.lightId = null; state.manualId = null;
+      refreshPicks(Date.now());
+      renderTimeline(timelineList, Date.now(), { quiet: true });
+    });
+
+    // planner: top-bar button, "Plan resubmission" in a row, or a #plan=<id> link
+    $("#plannerBtn").addEventListener("click", () => openPlanner(heroConf && heroConf.id));
+    document.addEventListener("click", e => {
+      const btn = e.target.closest(".c-plan");
+      if (btn) openPlanner(btn.closest(".card").dataset.id);
+    });
+    $("#planner").addEventListener("click", e => {
+      if (e.target.closest("[data-close]")) return closePlanner();
+      const hop = e.target.closest(".path-item, .tl-pin");
+      if (hop) openPlanner(hop.dataset.id); // chain: plan the next hop from the chosen venue
+    });
+    $("#planSrc").addEventListener("change", e => openPlanner(e.target.value));
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closePlanner(); });
     $("#rail").addEventListener("click", jump);
 
     // rows fold open to show the details
@@ -872,6 +1074,8 @@
     }
     if (data.updated) $("#updated").textContent = "updated " + data.updated;
     build();
+    const planHash = location.hash.match(/^#plan=([\w-]+)/);
+    if (planHash) openPlanner(planHash[1]);
     tick();
     // align ticks to the wall-clock second
     setTimeout(() => { tick(); setInterval(tick, 1000); }, 1000 - (Date.now() % 1000));

@@ -13,6 +13,40 @@
     "HCI": "Human–Computer Interaction",
     "MED": "Medical Imaging"
   },
+  "tiers": {
+    "name": "NYCU",
+    "source": "NYCU CS top conference list (2026-03-23)",
+    "A": [
+      "AAAI",
+      "IJCAI",
+      "ICML",
+      "ICLR",
+      "ICCV",
+      "CVPR",
+      "SIGGRAPH",
+      "SIGGRAPH Asia",
+      "ECCV",
+      "KDD",
+      "WWW",
+      "CHI",
+      "NeurIPS",
+      "ACM MM",
+      "ACL",
+      "EMNLP",
+      "NAACL"
+    ],
+    "B": [
+      "AAMAS",
+      "ICRA",
+      "BMVC",
+      "ICIP",
+      "ICME",
+      "ICASSP",
+      "EACL",
+      "COLING",
+      "MICCAI"
+    ]
+  },
   "conferences": [
     {
       "id": "cvpr27",

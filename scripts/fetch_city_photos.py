@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Pick a landscape city photo from Unsplash for every host city and save it to data/cities.json.
+"""Pick a few landscape city photos from Unsplash for every host city and save them to data/cities.json.
+The page shows a random one of them each time, so the background changes between visits.
 
 Needs an Unsplash access key in UNSPLASH_ACCESS_KEY (free developer account).
 Cities that already have a photo keep it, so the page doesn't change on every run;
@@ -20,7 +21,8 @@ CONFS = ROOT / "data" / "conferences.json"
 CITIES = ROOT / "data" / "cities.json"
 API = "https://api.unsplash.com"
 UTM = "utm_source=conf_ddl&utm_medium=referral"
-MAX_PER_RUN = 24  # two requests per city; the demo tier allows 50 an hour, a daily run fills in the rest
+PHOTOS_PER_CITY = 4
+MAX_PER_RUN = 9  # 1 search + 4 download pings per city; the demo tier allows 50 requests an hour
 
 # Places that aren't a city name on their own.
 QUERY_OVERRIDES = {
@@ -48,13 +50,13 @@ def get(path, key, **params):
         return json.load(r)
 
 
-def pick(results):
-    """Prefer wide, well-liked photos; skip ones that are clearly not scenery."""
+def pick(results, n=PHOTOS_PER_CITY):
+    """The n best wide, well-liked photos; skip ones that are clearly not scenery."""
     def ok(p):
         text = " ".join(filter(None, [p.get("description"), p.get("alt_description")])).lower()
         return p["width"] / p["height"] >= 1.3 and not re.search(r"\b(person|people|woman|man|portrait|food|coffee)\b", text)
     good = [p for p in results if ok(p)] or results
-    return max(good, key=lambda p: (p.get("likes", 0), p["width"])) if good else None
+    return sorted(good, key=lambda p: (p.get("likes", 0), p["width"]), reverse=True)[:n]
 
 
 def main(argv):
@@ -72,7 +74,7 @@ def main(argv):
     changed, done = False, 0
     for city in wanted:
         entry = cities.get(city, {})
-        if entry.get("pin") or (entry.get("src") and not refresh_all and city not in refresh):
+        if entry.get("pin") or (entry.get("photos") and not refresh_all and city not in refresh):
             continue
         if done >= MAX_PER_RUN:
             print(f"… stopping at {MAX_PER_RUN} cities this run; the next run continues")
@@ -84,30 +86,33 @@ def main(argv):
         except Exception as e:  # rate limit or network: keep what we have
             print(f"! {city}: {e}")
             continue
-        photo = pick(res.get("results", []))
-        if not photo:
+        photos = pick(res.get("results", []))
+        if not photos:
             print(f"- {city}: no result for {query!r}")
             continue
-        try:  # Unsplash asks apps to report when a photo is used
-            get(urllib.parse.urlparse(photo["links"]["download_location"]).path, key)
-        except Exception:
-            pass
+        for photo in photos:
+            try:  # Unsplash asks apps to report when a photo is used
+                get(urllib.parse.urlparse(photo["links"]["download_location"]).path, key)
+            except Exception:
+                pass
         cities[city] = {
             **({"query": entry["query"]} if entry.get("query") else {}),
-            "src": photo["urls"]["raw"] + "&w=1920&q=80&fit=max&auto=format",
-            "color": photo.get("color"),
-            "alt": photo.get("alt_description") or f"{city}",
-            "photographer": photo["user"]["name"],
-            "photographer_url": f"{photo['user']['links']['html']}?{UTM}",
-            "photo_url": f"{photo['links']['html']}?{UTM}",
+            "photos": [{
+                "src": p["urls"]["raw"] + "&w=2400&q=80&fit=max&auto=format",
+                "color": p.get("color"),
+                "alt": p.get("alt_description") or city,
+                "photographer": p["user"]["name"],
+                "photographer_url": f"{p['user']['links']['html']}?{UTM}",
+                "photo_url": f"{p['links']['html']}?{UTM}",
+            } for p in photos],
         }
         changed = True
-        print(f"+ {city}: {photo['user']['name']} ({query})")
+        print(f"+ {city}: {len(photos)} photos ({query})")
         time.sleep(1.5)  # the demo tier allows 50 requests an hour
 
     if changed:
         CITIES.write_text(json.dumps(dict(sorted(cities.items())), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"{len(wanted)} cities, {sum(1 for c in wanted if cities.get(c, {}).get('src'))} with photos")
+    print(f"{len(wanted)} cities, {sum(1 for c in wanted if cities.get(c, {}).get('photos'))} with a photo set")
     return 0
 
 

@@ -13,7 +13,7 @@ on:
     branches: [main]
     paths: [data/conferences.json]
   schedule:
-    - cron: "17 3 * * *"  # daily: fills in any cities the hourly API limit left out
+    - cron: "17 * * * *"  # hourly: fills in cities the API limit left out; exits at once when all are done
 
 permissions:
   contents: write

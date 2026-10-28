@@ -12,6 +12,7 @@ Static GitHub Pages site of conference deadline countdowns. All data lives in `d
    - Also record the review timeline: `rebuttal` as `["YYYY-MM-DD", "YYYY-MM-DD"]` (or `false` if the venue has no rebuttal; omit if unannounced) and `decision` as `YYYY-MM-DD`.
    - When an estimated entry becomes official, update it in place and flip `status`.
    - Keep entries for passed deadlines: they appear in the "Passed" list.
+   - Venue grades live in the top-level `tiers` (NYCU CS top-conference list, A / B by series title). Add a new series there only if the list includes it.
 3. Bump the top-level `updated` date.
 4. Run `python3 scripts/validate.py`, then commit and push.
 5. Tell the user which dates are confirmed vs estimated, with source links.

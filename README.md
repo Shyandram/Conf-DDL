@@ -8,6 +8,9 @@ Live countdowns to the main conference deadlines in computer vision, ML, AI and 
 - **★ Star** a conference to follow the whole series (every year, including future editions): it's pinned in the collapsible **My conferences** sidebar (saved in your browser), drives the big countdown, and the **★ Starred** toggle filters the list to it
 - **Live clock** (local and AoE), **Local / AoE** deadline display, light and dark themes
 - **.ics export** with 7-day and 1-day reminders
+- **Next venues at a glance:** click a conference on the 12-month timeline and the deadlines you could move to light up: amber during its rebuttal, green after its decision
+- **Planner** (top-bar button, or *Plan resubmission* in a row): a separate view with the ranked resubmission path, chainable hop by hop, shareable as `#plan=<id>`
+- **Venue grades** from the NYCU CS top-conference list (`tiers` in the data): NYCU A / B badges, an *NYCU A* filter, and the ranking used by the planner
 - **Review timeline** on every card: submit → rebuttal → decision; after submission closes, the card counts down to the rebuttal window and then the decision
 
 Plain static site: `index.html`, `assets/`, and one data file, `data/conferences.json`. No build step.
@@ -55,8 +58,9 @@ One-time setup:
    name `UNSPLASH_ACCESS_KEY`, value = the key.
 3. **Actions → Refresh city photos → Run workflow.**
 
-The workflow also runs when `data/conferences.json` changes and once a day; it commits new photos and redeploys.
-The free tier allows 50 requests an hour, so the first fill takes two runs (24 cities each).
+The workflow also runs when `data/conferences.json` changes and every hour until every city has photos; it commits new photos and redeploys.
+Each city gets four photos and the page shows a random one per visit. The free tier allows 50 requests an hour, so each run fills 9 cities.
+(Apply for Unsplash production access to raise the limit and fill everything in one run.)
 To swap a photo you don't like, run the workflow with `refresh` set to the city name (e.g. `Tokyo`), or `all`.
 In `data/cities.json` you can also give a city a custom `"query"`, or `"pin": true` to keep its photo.
 
@@ -90,6 +94,7 @@ To edit by hand, add an entry to `data/conferences.json`:
 - `status`: `confirmed` (from the official CFP) or `estimated` (projected from the previous cycle)
 - `rebuttal`: `[start, end]` dates, or `false` if the venue has no rebuttal. Leave it out while unannounced (shows TBA)
 - `decision`: date of the final decision / notification
+- Top-level `tiers`: `{ "name", "source", "A": [series…], "B": [series…] }`, the grade list behind the badges and planner ranking
 - `kind`: `"workshop"` for a workshop-proposal entry (e.g. `cvpr27w`); shown with a tag
 - `series`: only needed when an edition's `title` differs from the rest of its series (e.g. `"IJCAI-ECAI"` → `"series": "IJCAI"`), so stars follow it
 - `abstract_deadline`, `rebuttal`, `decision`, `ccf`, `series`, `kind`, `note` are optional

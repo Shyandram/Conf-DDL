@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="assets/style.css?v=dev">
 </head>
 <body>
+  <div class="page-bg" aria-hidden="true"><div class="page-bg-pan" id="bgPan"><div class="page-bg-img" id="venueImg"></div></div></div>
   <div class="grain" aria-hidden="true"></div>
   <div class="grid-bg" aria-hidden="true"></div>
 
@@ -26,6 +27,10 @@
       <span class="now-aoe">AoE <time id="nowAoE"></time></span>
     </div>
     <div class="topbar-right">
+      <button type="button" class="planner-btn" id="plannerBtn" title="Where could a paper go next?">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 18c4 0 4-12 8-12s4 12 8 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="4" cy="18" r="2" fill="currentColor"/><circle cx="20" cy="18" r="2" fill="currentColor"/></svg>
+        <span>Planner</span>
+      </button>
       <div class="seg" role="group" aria-label="Time zone">
         <button type="button" data-tz="local" class="is-on">Local</button>
         <button type="button" data-tz="aoe">AoE</button>
@@ -52,7 +57,6 @@
 
   <main>
     <section class="hero" id="hero" aria-live="polite">
-      <div class="hero-bg" aria-hidden="true"><div class="hero-bg-img" id="venueImg"></div></div>
       <div class="hero-meta">
         <span class="eyebrow"><span class="pulse"></span><span id="heroKind">Next deadline</span><span class="hero-scope" id="heroScope"></span></span>
         <span class="hero-updated" id="updated"></span>
@@ -107,7 +111,7 @@
     <section class="timeline-wrap" aria-label="Next 12 months">
       <div class="section-head">
         <h2>The next twelve months</h2>
-        <span class="legend"><i class="lg lg-solid"></i>confirmed <i class="lg lg-hollow"></i>estimated</span>
+        <span class="legend" id="tlLegend"><i class="lg lg-solid"></i>confirmed <i class="lg lg-hollow"></i>estimated</span>
       </div>
       <div class="timeline" id="timeline"></div>
     </section>
@@ -121,6 +125,7 @@
       <div class="chips" id="chips" role="group" aria-label="Areas"></div>
       <div class="toggles">
         <label class="tg"><input type="checkbox" id="onlyConfirmed"><span>Confirmed only</span></label>
+        <label class="tg"><input type="checkbox" id="gradeA"><span>NYCU A</span></label>
         <label class="tg"><input type="checkbox" id="ccfA"><span>CCF-A</span></label>
         <label class="tg"><input type="checkbox" id="onlyStarred"><span>★ Starred</span></label>
       </div>
@@ -169,6 +174,23 @@
     <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 
+  <div class="planner" id="planner" hidden role="dialog" aria-modal="true" aria-labelledby="plannerTitle">
+    <div class="planner-backdrop" data-close></div>
+    <div class="planner-sheet">
+      <header class="planner-head">
+        <div class="planner-title">
+          <span class="path-kicker">Planner</span>
+          <h2 id="plannerTitle">Resubmission planner</h2>
+          <p>Pick where the paper is now. See where it could go if the reviews or the decision don't work out.</p>
+        </div>
+        <label class="planner-pick"><span>From</span><select id="planSrc"></select></label>
+        <button type="button" class="path-close" data-close aria-label="Close planner">✕</button>
+      </header>
+      <div class="timeline planner-tl" id="planTimeline"></div>
+      <div class="path-panel" id="pathPanel"></div>
+    </div>
+  </div>
+
   <template id="cardTpl">
     <article class="card">
       <div class="row-main">
@@ -198,6 +220,7 @@
         <p class="c-note"></p>
         <div class="c-actions">
           <a class="link c-link" target="_blank" rel="noopener">Website ↗</a>
+          <button type="button" class="link c-plan">Plan resubmission →</button>
           <button type="button" class="link c-ics">Add to calendar (.ics)</button>
         </div>
       </div>
