@@ -80,6 +80,10 @@
   }
   const pad = n => String(n).padStart(2, "0");
 
+  // Stars follow the conference series (all years of CVPR), not one edition.
+  const seriesOf = c => c.series || c.title;
+  const isStarred = c => state.starred.has(seriesOf(c));
+
   /* ---------- helpers ---------- */
 
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -92,7 +96,7 @@
   function matches(c) {
     if (state.onlyConfirmed && c.status !== "confirmed") return false;
     if (state.ccfA && c.ccf !== "A") return false;
-    if (state.onlyStarred && !state.starred.has(c.id)) return false;
+    if (state.onlyStarred && !isStarred(c)) return false;
     if (state.areas.size && !c.area.some(a => state.areas.has(a))) return false;
     if (state.q) {
       const hay = [c.title, c.year, c.full_name, c.place, c.date, c.note, ...c.area, ...c.area.map(a => data.areas[a] || "")].join(" ").toLowerCase();
@@ -131,7 +135,7 @@
   function buildCard(c) {
     const el = $("#cardTpl").content.firstElementChild.cloneNode(true);
     el.dataset.id = c.id;
-    $(".star", el).setAttribute("aria-pressed", state.starred.has(c.id));
+    $(".star", el).setAttribute("aria-pressed", isStarred(c));
     el.classList.toggle("is-est", c.status !== "confirmed");
     $(".c-name", el).textContent = c.title;
     $(".c-year", el).textContent = c.year;
@@ -270,8 +274,8 @@
 
   // The hero counts down to what the viewer chose: starred first, then the filtered list, then everything.
   function pickHero(upcomingVisible, now) {
-    const starred = confs.filter(c => c.ddl > now && state.starred.has(c.id));
-    const starredReview = confs.filter(c => c.group === "review" && state.starred.has(c.id))
+    const starred = confs.filter(c => c.ddl > now && isStarred(c));
+    const starredReview = confs.filter(c => c.group === "review" && isStarred(c))
       .sort((a, b) => reviewPhase(a, now).at - reviewPhase(b, now).at);
     const filtered = state.areas.size || state.onlyConfirmed || state.ccfA || state.q || state.onlyStarred;
     let c, scope = "";
@@ -291,7 +295,7 @@
 
   function pickSub(now) {
     const review = confs.filter(c => c.group === "review" && c !== heroConf && reviewPhase(c, now).label);
-    const starred = review.filter(c => state.starred.has(c.id));
+    const starred = review.filter(c => isStarred(c));
     const pool = starred.length ? starred : review.filter(c => c.el.style.display !== "none");
     subConf = pool.sort((a, b) => reviewPhase(a, now).at - reviewPhase(b, now).at)[0] || null;
     $("#subClock").hidden = !subConf;
@@ -421,16 +425,18 @@
 
   // The rail lists only the conferences the viewer has starred, whatever the filters say.
   function renderRail(now) {
-    const picked = confs.filter(c => state.starred.has(c.id));
-    $("#railSel").textContent = picked.length ? `${picked.length} starred` : "";
+    const picked = confs.filter(c => isStarred(c));
+    $("#railSel").textContent = state.starred.size ? [...state.starred].sort().join(" · ") : "";
+    $("#railCount").textContent = state.starred.size ? `★ ${state.starred.size}` : "★";
     if (!picked.length) {
-      $("#rail").innerHTML = `<p class="rail-empty">Click the <b>☆</b> next to a conference to pin it here.</p>`;
+      $("#rail").innerHTML = `<p class="rail-empty">Click the <b>☆</b> next to a conference to follow it. You get every year of it here, including future editions.</p>`;
       railItems = [];
       return;
     }
     const up = picked.filter(c => c.group === "up");
     const review = picked.filter(c => c.group === "review");
-    const done = picked.filter(c => c.group === "done");
+    // decided editions: only the latest one per series, so the list stays short
+    const done = picked.filter(c => c.group === "done" && !picked.some(o => o !== c && seriesOf(o) === seriesOf(c) && o.ddl > c.ddl));
     const item = (c, sub) => `<li><button type="button" class="rail-item${c.status !== "confirmed" ? " is-est" : ""}" data-id="${esc(c.id)}">
         <span class="r-name">${esc(c.title)} ${esc(c.year)}</span><span class="r-left"></span>
         <span class="r-sub">${esc(sub)}</span></button></li>`;
@@ -554,10 +560,11 @@
     document.addEventListener("click", e => {
       const btn = e.target.closest(".star");
       if (!btn) return;
-      const id = btn.closest(".card").dataset.id;
-      const on = !state.starred.has(id);
-      on ? state.starred.add(id) : state.starred.delete(id);
-      btn.setAttribute("aria-pressed", on);
+      const conf = confs.find(c => c.id === btn.closest(".card").dataset.id);
+      const key = seriesOf(conf);
+      const on = !state.starred.has(key);
+      on ? state.starred.add(key) : state.starred.delete(key);
+      confs.filter(c => seriesOf(c) === key).forEach(c => $(".star", c.el).setAttribute("aria-pressed", on));
       if (on && hasGsap && !reduced) gsap.fromTo(btn, { scale: 0.6, rotate: -30 }, { scale: 1, rotate: 0, duration: 0.5, ease: "back.out(3)" });
       persist();
       if (state.onlyStarred) apply();
@@ -596,6 +603,26 @@
     });
 
     $("#heroIcs").addEventListener("click", () => heroConf && icsFor(heroConf));
+
+    // back-to-top button, only once the hero is out of view
+    const toTop = $("#toTop");
+    const syncTop = () => { toTop.hidden = window.scrollY < 600; };
+    window.addEventListener("scroll", syncTop, { passive: true });
+    syncTop();
+    toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" }));
+
+    const layout = $(".layout"), rt = $("#railToggle");
+    const setRail = open => {
+      layout.classList.toggle("rail-off", !open);
+      rt.setAttribute("aria-expanded", open);
+      rt.title = open ? "Collapse sidebar" : "Show My conferences";
+      store.set("railOpen", open);
+    };
+    setRail(store.get("railOpen", true));
+    rt.addEventListener("click", () => {
+      setRail(layout.classList.contains("rail-off"));
+      if (window.ScrollTrigger) setTimeout(() => ScrollTrigger.refresh(), 400);
+    });
     $("#subClock").addEventListener("click", () => {
       if (!subConf) return;
       subConf.el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
@@ -663,6 +690,12 @@
     const past = confs.filter(c => c.group === "done").sort((a, b) => b.ddl - a.ddl);
     confs = [...up, ...review, ...past];
     // rebuild when a deadline passes or a paper in review gets its decision
+    const idToSeries = new Map(confs.map(c => [c.id, seriesOf(c)]));
+    const migrated = new Set([...state.starred].map(k => idToSeries.get(k) || k));
+    if (migrated.size !== state.starred.size || [...migrated].some(k => !state.starred.has(k))) {
+      state.starred = migrated;
+      store.set("starred", [...migrated]);
+    }
     nextBoundary = Math.min(up.length ? up[0].ddl : Infinity, ...review.map(c => c.dec || Infinity));
 
     const upEl = $("#upcoming"), reviewEl = $("#review"), pastEl = $("#passed");

@@ -5,7 +5,7 @@ Live countdowns to the main conference deadlines in computer vision, ML, AI and 
 - **Hero countdown** for the next deadline that matches your filters, with flip-style digits
 - **12-month timeline** of upcoming deadlines (solid = confirmed, dashed = estimated)
 - **Search** (`/` to focus) and area filters (CV, ML, AI, NLP, Graphics, …), Confirmed-only and CCF-A toggles
-- **★ Star** the conferences you care about: they're pinned in the **My conferences** sidebar (saved in your browser) and the **★ Starred** toggle filters the list to them
+- **★ Star** a conference to follow the whole series (every year, including future editions): it's pinned in the collapsible **My conferences** sidebar (saved in your browser), drives the big countdown, and the **★ Starred** toggle filters the list to it
 - **Live clock** (local and AoE), **Local / AoE** deadline display, light and dark themes
 - **.ics export** with 7-day and 1-day reminders
 - **Review timeline** on every card: submit → rebuttal → decision; after submission closes, the card counts down to the rebuttal window and then the decision
@@ -72,6 +72,7 @@ To edit by hand, add an entry to `data/conferences.json`:
 - `status`: `confirmed` (from the official CFP) or `estimated` (projected from the previous cycle)
 - `rebuttal`: `[start, end]` dates, or `false` if the venue has no rebuttal. Leave it out while unannounced (shows TBA)
 - `decision`: date of the final decision / notification
-- `abstract_deadline`, `rebuttal`, `decision`, `ccf`, `note` are optional
+- `series`: only needed when an edition's `title` differs from the rest of its series (e.g. `"IJCAI-ECAI"` → `"series": "IJCAI"`), so stars follow it
+- `abstract_deadline`, `rebuttal`, `decision`, `ccf`, `series`, `note` are optional
 
 Then run `python3 scripts/validate.py`.

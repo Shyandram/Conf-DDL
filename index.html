@@ -38,6 +38,9 @@
 
   <div class="layout">
   <aside class="rail" aria-label="My conferences">
+    <button type="button" class="rail-toggle" id="railToggle" aria-expanded="true" title="Collapse sidebar">
+      <span class="rt-icon" aria-hidden="true">«</span><span class="rt-count" id="railCount"></span>
+    </button>
     <div class="rail-head">
       <h2>My conferences</h2>
       <span class="rail-sel" id="railSel"></span>
@@ -137,6 +140,10 @@
     <p>Deadlines marked <span class="tag tag-est">estimated</span> are projected from the previous cycle. Always check the official call for papers.</p>
     <p>Maintained with Claude Code: ask the session to search for a conference and it updates <code>data/conferences.json</code>.</p>
   </footer>
+
+  <button type="button" class="to-top" id="toTop" aria-label="Back to top" title="Back to top" hidden>
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
 
   <template id="cardTpl">
     <article class="card">
