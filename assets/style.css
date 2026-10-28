@@ -648,7 +648,8 @@ kbd { font: 11px var(--mono); padding: 2px 6px; border: 1px solid var(--line-2);
   .controls { top: 63px; }
   .toggles { width: 100%; }
   .timeline { overflow-x: auto; overflow-y: hidden; }
-  .timeline-inner { min-width: 720px; }
+  .timeline-inner { min-width: 1100px; }
+  .timeline { scrollbar-width: none; -webkit-mask: linear-gradient(90deg, #000 88%, transparent); mask: linear-gradient(90deg, #000 88%, transparent); }
   .sep { display: none; }
   .clock { gap: 10px; --dw: clamp(24px, calc((100cqi - 56px) / 9.1), 52px); }
 }
@@ -980,13 +981,24 @@ html.planner-open { overflow: hidden; }
 .lg-dia { width: 12px; height: 9px; border-radius: 3px; background: var(--ok); }
 .legend > span { white-space: nowrap; }
 
-/* clicked conference: its deadline / rebuttal / decision as separate marks */
-.timeline.has-sel .timeline-inner { height: calc(var(--axis) + 96px); }
-.timeline.has-sel .tl-today { height: calc(var(--axis) + 90px); }
-.tl-mk { position: absolute; top: var(--axis); height: 0; pointer-events: none; z-index: 3; }
-.tl-mk i { position: absolute; left: -6px; top: -6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--bg); }
-.tl-mk.mk-reb i { left: 0; width: 100%; min-width: 8px; top: -4px; height: 8px; border-radius: 4px; background: var(--warn); }
-.tl-mk.mk-dec i { border-radius: 3px; rotate: 45deg; background: var(--ok); }
-.tl-mk b { position: absolute; left: -6px; top: calc(36px + var(--row) * 22px); white-space: nowrap; font: 500 11.5px var(--mono); padding: 2px 7px; border-radius: 5px; border-left: 2px solid var(--accent); background: var(--bg-2); color: var(--ink); }
-.tl-mk.mk-reb b { left: 0; border-left-color: var(--warn); }
-.tl-mk.mk-dec b { border-left-color: var(--ok); }
+
+/* in-review dot on the axis: next rebuttal (amber) or decision (green) */
+.tl-dot { position: absolute; top: var(--axis); width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; z-index: 2;
+  background: var(--warn); box-shadow: 0 0 0 3px color-mix(in srgb, var(--warn) 22%, transparent); transition: transform .2s, opacity .3s; }
+.tl-dot.ev-dec { background: var(--ok); border-radius: 2px; rotate: 45deg; box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 22%, transparent); }
+.tl-dot:hover, .tl-dot:focus-visible { transform: scale(1.5); }
+.tl-dot::after { content: ""; position: absolute; inset: -8px; }
+.timeline.has-glow .tl-dot.tl-dim { opacity: .3; }
+
+/* a deadline that didn't get a label: just its dot on the axis */
+.tl-bare { position: absolute; top: var(--axis); width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; z-index: 1;
+  background: var(--accent); transition: transform .2s, opacity .3s; }
+.tl-bare.est { background: var(--bg); border: 1.5px dashed var(--ink-2); }
+.tl-bare.ev-reb { background: var(--warn); }
+.tl-bare.ev-dec { background: var(--ok); border-radius: 2px; rotate: 45deg; }
+.tl-bare.past { opacity: .4; }
+.tl-bare:hover, .tl-bare:focus-visible { transform: scale(1.5); opacity: 1; }
+.tl-bare::after { content: ""; position: absolute; inset: -8px; }
+.timeline.has-glow .tl-bare.tl-dim { opacity: .25; }
+.timeline.has-glow .tl-bare.tl-reb { background: var(--warn); border: 0; }
+.timeline.has-glow .tl-bare.tl-dec { background: var(--ok); border: 0; }

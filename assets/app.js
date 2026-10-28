@@ -526,29 +526,25 @@
     html += `<div class="tl-past" style="width:${x(now)}%"></div><div class="tl-today" style="left:${x(now)}%"></div>`;
 
     // Labels hang to the right of their pin; stack them on rows so none overlap.
-    const W = Math.max(tl.clientWidth, 720);
-    const rowEnd = [];
-    // one block per conference, at its next date, coloured by what that date is:
-    // deadline (plain) → rebuttal (amber, when it opens, or closes once open) → decision (green); finished ones sit at the deadline, faded
+    // phones scroll a wider strip sideways (see style.css); the label budget keeps the height fixed
+    const narrow = matchMedia("(max-width: 640px)").matches; // same breakpoint as the scrolling strip in style.css
+    const W = Math.max(tl.clientWidth, narrow ? 1100 : 720), MAXROW = narrow ? 4 : 5;
+    // one labelled block per conference, at its deadline; a conference in review also gets a small dot on the
+    // axis at its next date — amber for rebuttal (when it opens, or closes once open), green for the decision
     const next = c => {
-      if (opts.el || c.ddl > now) return { at: c.ddl, ev: "ddl" };
+      if (c.ddl > now) return null;
       if (c.reb && now < c.reb[1]) return { at: now < c.reb[0] ? c.reb[0] : c.reb[1], ev: "reb" };
       if (c.dec && now < c.dec) return { at: c.dec, ev: "dec" };
-      return { at: c.ddl, ev: "ddl" };
+      return null;
     };
-    const events = list.map(c => ({ c, ...next(c) })).filter(e => e.at >= +start && e.at < +end).sort((a, b) => a.at - b.at);
-    const pins = events.map(e => {
-      const px = x(e.at);
-      const label = `${e.c.title} ${String(e.c.year).slice(2)}`;
-      const lw = label.length * 7.8 + 24, flip = (px / 100) * W + lw > W; // near the right edge the label hangs left
-      const left = (px / 100) * W - (flip ? lw : 0), right = left + lw;
-      let row = rowEnd.findIndex(r => r < left);
-      if (row === -1) row = rowEnd.length;
-      rowEnd[row] = right;
-      return { ...e, px, label, row, flip };
-    });
-    const ROW = 26, axis = 8 + Math.max(rowEnd.length, 1) * ROW + 18;
-    tl.style.setProperty("--axis", axis + "px");
+    // a clicked conference also gets its other dates as blocks of their own, labelled with the date
+    const sel = !opts.el && state.lightId && list.find(c => c.id === state.lightId);
+    const extra = !sel ? [] : [
+      null,
+      sel.reb && { c: sel, at: sel.reb[0], ev: "reb", text: `Rebuttal ${fmtRange(sel.rebuttal)}` },
+      sel.dec && { c: sel, at: sel.dec, ev: "dec", text: `Decision ${fmtDay(sel.decision)}` },
+    ].slice(1).filter(Boolean);
+    const events = [...list.map(c => ({ c, at: c.ddl, ev: "ddl" })), ...extra].filter(e => e.at >= +start && e.at < +end).sort((a, b) => a.at - b.at);
     const path = opts.path && state.pathId ? resubmitPath(confs.find(c => c.id === state.pathId), now) : null;
     // home timeline: a clicked conference lights up where its paper could go next (no arcs, no panel)
     const glow = !opts.el && state.lightId ? resubmitPath(confs.find(c => c.id === state.lightId), now) : null;
@@ -562,32 +558,43 @@
       }
       return " tl-dim";
     };
+    // labels go to the most useful blocks first; the rest stay as bare dots (name on hover)
+    const rank = e => (e.text || e.c.id === state.lightId ? 1e4 : 0) + (lit && role(e.c) && !role(e.c).includes("dim") ? 2000 : 0)
+      + (isStarred(e.c) ? 1000 : 0) + (e.at > now ? 500 : 0) + ({ A: 200, B: 100 }[gradeOf(e.c)] || 0) + (e.c.status === "confirmed" ? 10 : 0) - e.at / 1e13;
+    const rows = Array.from({ length: MAXROW }, () => []);
+    const pins = events.map(e => {
+      const px = x(e.at);
+      const label = e.text || `${e.c.title} ${String(e.c.year).slice(2)}`;
+      const lw = label.length * 7.8 + 24, flip = (px / 100) * W + lw > W; // near the right edge the label hangs left
+      const left = (px / 100) * W - (flip ? lw : 0);
+      return { ...e, px, label, flip, l: left, r: left + lw, row: -1 };
+    });
+    [...pins].sort((p, q) => rank(q) - rank(p)).forEach(p => {
+      p.row = rows.findIndex(r => r.every(([l, rr]) => p.r < l || p.l > rr));
+      if (p.row !== -1) rows[p.row].push([p.l, p.r]);
+    });
+    const used = rows.filter(r => r.length).length;
+    const ROW = 26, axis = 8 + Math.max(used, 1) * ROW + 18;
+    tl.style.setProperty("--axis", axis + "px");
     const tipOf = c => [`${c.title} ${c.year}`, `deadline ${fmtShort.format(c.ddl)}`, c.reb && `rebuttal ${fmtRange(c.rebuttal)}`, c.dec && `decision ${fmtDay(c.decision)}`].filter(Boolean).join(" · ");
     pins.forEach(({ c, at, ev, px, label, row, flip }) => {
+      if (row === -1) {
+        html += `<button type="button" class="tl-bare${ev === "ddl" ? (c.status !== "confirmed" ? " est" : "") : ` ev-${ev}`}${at <= now ? " past" : ""}${role(c)}"
+          data-id="${esc(c.id)}" style="left:${px}%" title="${esc(tipOf(c))}" aria-label="${esc(tipOf(c))}"></button>`;
+        return;
+      }
       const top = 8 + row * ROW;
       const cls = (ev === "ddl" ? (c.status !== "confirmed" ? " est" : "") : ` ev-${ev}`) + role(c);
       html += `<button type="button" class="tl-pin${cls}${at <= now ? " past" : ""}${flip ? " flip" : ""}" data-id="${esc(c.id)}"
         style="${flip ? `right:${100 - px}%` : `left:${px}%`};top:${top}px;height:${axis + 5.5 - top}px" title="${esc(tipOf(c))}">
         <span class="lbl">${esc(label)}</span><span class="stem"></span><span class="dot"></span></button>`;
     });
-    // the clicked conference's own dates, as separate marks under the months (nothing shown until a click)
-    const sel = !opts.el && state.lightId && confs.find(c => c.id === state.lightId);
-    if (sel) {
-      const marks = [
-        { t: sel.ddl, cls: "mk-ddl", text: `Deadline ${fmtShort.format(sel.ddl)}` },
-        sel.reb && { t: sel.reb[0], t2: sel.reb[1], cls: "mk-reb", text: `Rebuttal ${fmtRange(sel.rebuttal)}` },
-        sel.dec && { t: sel.dec, cls: "mk-dec", text: `Decision ${fmtDay(sel.decision)}` },
-      ].filter(m => m && m.t >= +start && m.t < +end);
-      let lastRight = -1e9, row = 0;
-      marks.forEach(m => {
-        const left = (x(m.t) / 100) * W;
-        row = left < lastRight ? row + 1 : 0; // nudge a mark down when it would touch the previous one
-        lastRight = left + m.text.length * 7 + 30;
-        const w = m.t2 ? `width:${x(m.t2) - x(m.t)}%;` : "";
-        html += `<span class="tl-mk ${m.cls}" style="left:${x(m.t)}%;${w}--row:${row}"><i></i><b>${esc(m.text)}</b></span>`;
-      });
-    }
-    tl.classList.toggle("has-sel", !!sel);
+    if (!opts.el) list.forEach(c => {
+      const n = c !== sel && next(c);
+      if (!n || n.at >= +end) return;
+      html += `<button type="button" class="tl-dot ev-${n.ev}${role(c)}" data-id="${esc(c.id)}" style="left:${x(n.at)}%"
+        title="${esc(tipOf(c))}" aria-label="${esc(tipOf(c))}"></button>`;
+    });
     // review window of the selected conference, and arcs to where it could go next
     if (path) {
       const clampX = ms => Math.min(100, Math.max(0, x(ms)));
@@ -603,6 +610,7 @@
       html += `<svg class="tl-arcs" viewBox="0 0 100 70" preserveAspectRatio="none" aria-hidden="true">${arcs.join("")}</svg>`;
     }
     tl.innerHTML = html + `</div>`;
+    if (narrow && !opts.el && !opts.quiet) tl.scrollLeft = (x(now) / 100) * W - 24; // open at today
     tl.classList.toggle("has-path", !!path);
     tl.classList.toggle("has-glow", !!glow);
     if (!opts.el) {
@@ -1060,7 +1068,7 @@
       c.el.classList.add("flash");
     };
     $("#timeline").addEventListener("click", e => {
-      const pin = e.target.closest(".tl-pin");
+      const pin = e.target.closest(".tl-pin, .tl-dot, .tl-bare");
       if (!pin) return;
       // click lights up the next venues (and shows it in the big countdown); clicking it again clears
       const again = state.lightId === pin.dataset.id;
