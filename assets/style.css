@@ -185,6 +185,8 @@ main { min-width: 0; }
   animation: ping 2s cubic-bezier(0, 0, .2, 1) infinite;
 }
 @keyframes ping { 0% { transform: scale(.6); opacity: 1; } 100% { transform: scale(2.2); opacity: 0; } }
+.hero-scope { color: var(--ink-3); }
+.hero-scope:not(:empty)::before { content: "·"; margin: 0 8px; }
 .hero-updated { font: 13px var(--mono); color: var(--ink-3); }
 .hero-title {
   margin: 16px 0 6px; display: flex; align-items: baseline; gap: .25em; flex-wrap: wrap;

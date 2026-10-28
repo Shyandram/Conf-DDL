@@ -27,9 +27,9 @@ python3 -m http.server 8000
 `.github/workflows/pages.yml` validates the data and publishes the site on every push to `main`.
 
 1. One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-2. Push to `main` (or run the workflow from the Actions tab). The site goes live at `https://shyandram.github.io/conf-ddl/`.
+2. Push to `main` (or run the workflow from the Actions tab). The site goes live at `https://shyandram.github.io/Conf-DDL/`.
 
-All paths in the page are relative, so it works both under `/conf-ddl/` and at the root of a custom domain.
+All paths in the page are relative, so it works both under `/Conf-DDL/` and at the root of a custom domain.
 
 ### Custom domain (later)
 

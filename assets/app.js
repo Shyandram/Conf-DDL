@@ -266,6 +266,18 @@
     return $$(".ch", el);
   }
 
+  // The hero counts down to what the viewer chose: starred first, then the filtered list, then everything.
+  function pickHero(upcomingVisible, now) {
+    const starred = confs.filter(c => c.ddl > now && state.starred.has(c.id));
+    const filtered = state.areas.size || state.onlyConfirmed || state.ccfA || state.q || state.onlyStarred;
+    let c, scope = "";
+    if (starred.length) { c = starred[0]; scope = "My conferences"; }
+    else if (upcomingVisible.length) { c = upcomingVisible[0]; scope = filtered ? "your filters" : ""; }
+    else c = confs.find(x => x.ddl > now) || null;
+    $("#heroScope").textContent = scope;
+    setHero(c);
+  }
+
   function setHero(c) {
     if (c === heroConf) return;
     const first = heroConf === null;
@@ -440,7 +452,7 @@
     $("#emptyReview").hidden = n.review > 0;
 
     const upcomingVisible = visible.filter(c => c.ddl > now);
-    setHero(upcomingVisible[0] || confs.find(c => c.ddl > now) || null);
+    pickHero(upcomingVisible, now);
     renderTimeline(upcomingVisible, now);
     renderRail(now);
 
@@ -499,7 +511,8 @@
       btn.setAttribute("aria-pressed", on);
       if (on && hasGsap && !reduced) gsap.fromTo(btn, { scale: 0.6, rotate: -30 }, { scale: 1, rotate: 0, duration: 0.5, ease: "back.out(3)" });
       persist();
-      if (state.onlyStarred) apply(); else renderRail(Date.now());
+      if (state.onlyStarred) apply();
+      else { const now = Date.now(); pickHero(confs.filter(c => c.ddl > now && c.el.style.display !== "none"), now); renderRail(now); }
     });
     oc.addEventListener("change", () => { state.onlyConfirmed = oc.checked; persist(); apply(); });
     ca.addEventListener("change", () => { state.ccfA = ca.checked; persist(); apply(); });
