@@ -193,15 +193,15 @@
     <div class="planner-sheet">
       <header class="planner-head">
         <div class="planner-title">
-          <span class="path-kicker">Planner</span>
-          <h2 id="plannerTitle">Resubmission planner</h2>
-          <p>Pick where the paper is now. See where it could go if the reviews or the decision don't work out.</p>
+          <span class="planner-kicker">Resubmission planner</span>
+          <h2 id="plannerTitle">Where can this paper go next?</h2>
         </div>
-        <label class="planner-pick"><span>From</span><select id="planSrc"></select></label>
-        <button type="button" class="path-close" data-close aria-label="Close planner">✕</button>
+        <label class="planner-pick"><span>Paper is at</span><select id="planSrc"></select></label>
+        <button type="button" class="planner-close" data-close aria-label="Close planner">✕</button>
       </header>
+      <div id="planSrcCard"></div>
       <div class="timeline planner-tl" id="planTimeline"></div>
-      <div class="path-panel" id="pathPanel"></div>
+      <div id="pathPanel"></div>
     </div>
   </div>
 

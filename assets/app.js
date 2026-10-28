@@ -603,41 +603,58 @@
   }
 
   function renderPath(path, now) {
-    const panel = $("#pathPanel");
-    if (!path) { panel.innerHTML = `<p class="path-none">This conference has no announced decision date yet, so there is no path to plan.</p>`; return; }
+    const card = $("#planSrcCard"), panel = $("#pathPanel");
+    if (!path) {
+      card.innerHTML = "";
+      panel.innerHTML = `<p class="lane-empty">This conference has no announced decision date yet, so there is no path to plan.</p>`;
+      return;
+    }
     const s = path.src;
-    const day = ms => fmtShort.format(ms);
+    const rel = ms => {
+      const d = Math.round((ms - now) / DAY);
+      return d > 0 ? `in ${d}d` : d === 0 ? "today" : `${-d}d ago`;
+    };
+    const tags = c => [gradeTag(c), c.ccf ? `<span class="tag">CCF-${esc(c.ccf)}</span>` : "",
+      c.status !== "confirmed" ? `<span class="tag tag-est">est.</span>` : ""].join("");
+
+    // the paper's own timeline: submit → reviews → decision
+    const steps = [["Submit", s.ddl, fmtDay(s.deadline)]];
+    if (s.reb) steps.push(["Reviews out", s.reb[0], fmtDay(s.rebuttal[0])]);
+    steps.push(["Decision", s.dec, fmtDay(s.decision)]);
+    card.innerHTML = `<div class="ps-card">
+        <div class="ps-id"><b>${esc(s.title)} <span>${esc(s.year)}</span></b><span class="ps-tags">${tags(s)}</span>
+          <small>${esc(s.full_name)}</small></div>
+        <ol class="ps-steps">${steps.map(([label, at, day]) =>
+          `<li class="${at <= now ? "done" : ""}"><i></i><span>${label}</span><b>${day}</b><small>${rel(at)}</small></li>`).join("")}</ol>
+      </div>`;
+
     const item = (c, st, i) => {
       const gap = Math.round((c.ddl - st.from) / DAY);
-      const tags = [
-        gradeTag(c),
-        c.ccf ? `<span class="tag">CCF-${esc(c.ccf)}</span>` : "",
-        c.area.some(a => s.area.includes(a)) ? `<span class="tag tag-same">same field</span>` : "",
-        c.status !== "confirmed" ? `<span class="tag tag-est">est.</span>` : "",
-      ].join("");
-      return `<li><button type="button" class="path-item${i === 0 ? " is-best" : ""}" data-id="${esc(c.id)}">
-        <span class="pi-name">${esc(c.title)} ${esc(c.year)}${i === 0 ? ` <em>best match</em>` : ""}</span>
-        <span class="pi-when">${day(c.ddl)} · ${gap >= 0 ? `+${gap}d` : `${gap}d`} after ${st.key === "reb" ? "reviews" : "decision"}</span>
-        <span class="pi-tags">${tags}</span></button></li>`;
+      const same = c.area.some(a => s.area.includes(a));
+      return `<li><button type="button" class="pp-item${i === 0 ? " is-best" : ""}" data-id="${esc(c.id)}" title="Plan the next step from ${esc(c.title)} ${esc(c.year)}">
+        <span class="pp-rank">${i + 1}</span>
+        <span class="pp-main"><b>${esc(c.title)} ${esc(c.year)}</b><span class="pp-tags">${tags(c)}${same ? `<span class="tag tag-same">same field</span>` : ""}</span></span>
+        <span class="pp-when"><b>${fmtShort.format(c.ddl)}</b><small>+${gap}d after ${st.key === "reb" ? "reviews" : "decision"}</small></span>
+      </button></li>`;
     };
-    const stage = st => {
-      const title = st.key === "reb"
-        ? `During rebuttal <small>reviews ${fmtDay(s.rebuttal[0])} → decision ${fmtDay(s.decision)}</small>`
-        : `After the decision <small>from ${fmtDay(s.decision)}, next ~5 months</small>`;
-      const list = st.list.slice(0, 5);
-      return `<div class="path-stage path-${st.key}"><h3>${title}</h3>${list.length
-        ? `<ol>${list.map((c, i) => item(c, st, i)).join("")}</ol>${st.list.length > 5 ? `<p class="path-more">+${st.list.length - 5} more</p>` : ""}`
-        : `<p class="path-none">No deadlines in this window.</p>`}</div>`;
+    const lane = st => {
+      const reb = st.key === "reb";
+      const list = st.list.slice(0, 6);
+      return `<section class="lane lane-${st.key}">
+        <header><span class="lane-dot"></span><div>
+          <h3>${reb ? "If the reviews look bad" : "If it's rejected"}</h3>
+          <p>${reb ? `Withdraw during the rebuttal and resubmit · deadlines ${fmtDay(s.rebuttal[0])} – ${fmtDay(s.decision)}`
+                   : `Submit after the decision · deadlines from ${fmtDay(s.decision)}, next ~5 months`}</p>
+        </div><span class="lane-count">${st.list.length}</span></header>
+        ${list.length ? `<ol>${list.map((c, i) => item(c, st, i)).join("")}</ol>` : `<p class="lane-empty">No conference deadline falls in this window.</p>`}
+        ${st.list.length > 6 ? `<p class="lane-more">+${st.list.length - 6} more</p>` : ""}
+      </section>`;
     };
-    panel.innerHTML = `<div class="path-head">
-        <div><span class="path-kicker">Resubmission path</span>
-        <b>${esc(s.title)} ${esc(s.year)}</b>
-        <span class="path-flow">submit ${day(s.ddl)}${s.reb ? ` → reviews ${fmtDay(s.rebuttal[0])}` : ""} → decision ${fmtDay(s.decision)}</span></div>
-      </div>
-      <div class="path-stages">${path.stages.map(stage).join("")}</div>
-      <p class="path-note">Ranked by ${esc((data.tiers && data.tiers.source) || "venue grade")}: grade A first, then B, then unlisted; then same field, with CCF as a tie-break. Check each venue's dual-submission and withdrawal rules before moving a paper.</p>`;
-    if (hasGsap && fx) gsap.fromTo($$(".path-item", panel), { opacity: 0, y: 8 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.35, ease: "power2.out", stagger: 0.03 });
+    panel.innerHTML = `<div class="pp-lanes">${path.stages.map(lane).join("")}</div>
+      <p class="pp-note">Ranked by ${esc((data.tiers && data.tiers.source) || "venue grade")} (A, then B, then unlisted), then same field, with CCF as a tie-break.
+      Click a venue to plan the next step from there. Check each venue's dual-submission and withdrawal rules before moving a paper.</p>`;
   }
+
 
   /* ---------- planner (its own view, so the home screen stays clean) ---------- */
 
@@ -651,12 +668,15 @@
     const src = options.find(c => c.id === id) || options.find(c => c === heroConf) || options[0];
     state.pathId = src.id;
     $("#planSrc").innerHTML = options.map(c =>
-      `<option value="${esc(c.id)}"${c === src ? " selected" : ""}>${esc(c.title)} ${esc(c.year)} — ${c.group === "review" ? "in review" : "due " + fmtShort.format(c.ddl)}</option>`).join("");
+      `<option value="${esc(c.id)}"${c === src ? " selected" : ""}>${esc(c.title)} ${esc(c.year)} — ${c.group === "review" ? "in review" : "due " + fmtDay(c.deadline)}</option>`).join("");
     const planner = $("#planner"), wasHidden = planner.hidden;
     planner.hidden = false;
     document.documentElement.classList.add("planner-open");
     history.replaceState(null, "", "#plan=" + src.id);
-    renderTimeline(confs.filter(c => c.ddl > now && c.kind !== "workshop"), now, { el: $("#planTimeline"), path: true });
+    // the planner's timeline only shows the paper and where it could go, which keeps it readable (and light)
+    const path = resubmitPath(src, now);
+    const onTl = new Set([src, ...(path ? path.stages.flatMap(st => st.list.slice(0, 6)) : [])]);
+    renderTimeline([...onTl].filter(c => c.ddl > now).sort((a, b) => a.ddl - b.ddl), now, { el: $("#planTimeline"), path: true });
     if (wasHidden && hasGsap && !reduced) {
       gsap.fromTo(".planner-backdrop", { opacity: 0 }, { opacity: 1, duration: dur(0.3) });
       gsap.fromTo(".planner-sheet", { opacity: 0, y: lite ? 12 : 30, scale: lite ? 1 : 0.98 }, { opacity: 1, y: 0, clearProps: "transform", scale: 1, duration: lite ? 0.2 : 0.45, ease: "power3.out" });
@@ -893,8 +913,8 @@
 
     // Mouse light (off by default; the bulb in the top bar turns it on). Only surfaces that are on screen and within
     // LIGHT_RANGE of the cursor get --lx / --ly (cursor position in their own box), so each move repaints just those.
-    const LIT = ".topbar, .rail, .controls, .card, .rail-item, .fold-toggle, .digit, .pick, .venue, .path-panel, .planner-sheet, " +
-      ".to-top, .rail-tab, .search, .chip, .btn, .planner-btn, .seg, .icon-btn, .path-item, .rail-toggle, .path-close, .photo-next, .tl-pin .lbl";
+    const LIT = ".topbar, .rail, .controls, .card, .rail-item, .fold-toggle, .digit, .pick, .venue, " +
+      ".to-top, .rail-tab, .search, .chip, .btn, .planner-btn, .seg, .icon-btn, .rail-toggle, .photo-next, .tl-pin .lbl";
     const LIGHT_RANGE = 520;
     const light = { on: false, x: -1e4, y: -1e4, queued: false, visible: new Set(), lit: new Set() };
     const io = new IntersectionObserver(entries => {
@@ -918,7 +938,7 @@
       for (const el of light.lit) if (!now.has(el)) { el.style.removeProperty("--lx"); el.style.removeProperty("--ly"); }
       light.lit = now;
     };
-    const queueLight = () => { if (light.on && !light.queued) { light.queued = true; requestAnimationFrame(paintLight); } };
+    const queueLight = () => { if (light.on && !light.queued && $("#planner").hidden) { light.queued = true; requestAnimationFrame(paintLight); } };
     const setLight = on => {
       light.on = on;
       $("#lightBtn").setAttribute("aria-pressed", on);
@@ -941,6 +961,7 @@
       const panX = gsap.quickTo("#bgPan", "xPercent", { duration: 1.4, ease: "power3.out" });
       const panY = gsap.quickTo("#bgPan", "yPercent", { duration: 1.4, ease: "power3.out" });
       window.addEventListener("pointermove", e => {
+        if (!$("#planner").hidden) return; // the planner covers the page; don't animate what's behind it
         panX((e.clientX / innerWidth - 0.5) * -4.5);
         panY((e.clientY / innerHeight - 0.5) * -1.5);
       }, { passive: true });
@@ -1024,7 +1045,7 @@
     });
     $("#planner").addEventListener("click", e => {
       if (e.target.closest("[data-close]")) return closePlanner();
-      const hop = e.target.closest(".path-item, .tl-pin");
+      const hop = e.target.closest(".pp-item, .tl-pin");
       if (hop) openPlanner(hop.dataset.id); // chain: plan the next hop from the chosen venue
     });
     $("#planSrc").addEventListener("change", e => openPlanner(e.target.value));
