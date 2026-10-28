@@ -1199,60 +1199,292 @@
     ]
   },
   "San Francisco": {
-    "src": "https://images.unsplash.com/photo-1439396087961-98bc12c21176?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8U2FuJTIwRnJhbmNpc2NvJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE2ODh8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#f3f3f3",
-    "alt": "aerial photography of concrete buildings under blue cloudy sky",
-    "photographer": "Lili Popper",
-    "photographer_url": "https://unsplash.com/@lili_popper?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/aerial-photography-of-concrete-buildings-under-blue-cloudy-sky-71cd1rWqO8M?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1474144254036-41f4387cb799?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OHx8U2FuJTIwRnJhbmNpc2NvJTIwY2l0eXNjYXBlJTIwc3RyZWV0fGVufDF8MHx8fDE3OTMyMDU1NDB8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#0c2626",
+        "alt": "gray concrete building with hole near green trees during daytime",
+        "photographer": "Ambreen Hasan",
+        "photographer_url": "https://unsplash.com/@ambreenhasan?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/gray-concrete-building-with-hole-near-green-trees-during-daytime-W5yBfiiuaUo?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1526000130-b9ea509bfbf3?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTF8fFNhbiUyMEZyYW5jaXNjbyUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTQwfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#d9f3f3",
+        "alt": "buildings during daytime",
+        "photographer": "Daniel Abadia",
+        "photographer_url": "https://unsplash.com/@pixeldan?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/buildings-during-daytime-kn5i4gUyhYM?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1562697445-84178bc6ea06?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8U2FuJTIwRnJhbmNpc2NvJTIwY2l0eXNjYXBlJTIwc3RyZWV0fGVufDF8MHx8fDE3OTMyMDU1NDB8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#404040",
+        "alt": "two white and yellow train cabs",
+        "photographer": "Daniel Abadia",
+        "photographer_url": "https://unsplash.com/@pixeldan?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/two-white-and-yellow-train-cabs-3hslPaZKqUM?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1526359981-a5656b1ddcd6?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTN8fFNhbiUyMEZyYW5jaXNjbyUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTQwfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#f3f3f3",
+        "alt": "photograph of city high-rise buildings",
+        "photographer": "Daniel Abadia",
+        "photographer_url": "https://unsplash.com/@pixeldan?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/photograph-of-city-high-rise-buildings-eQUEEHYmLCE?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "San Jose": {
-    "src": "https://images.unsplash.com/photo-1682963847132-1923d1e7928a?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OXx8U2FuJTIwSm9zZSUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNjkwfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#260c26",
-    "alt": "a view of a city at night with the moon in the sky",
-    "photographer": "César Badilla Miranda",
-    "photographer_url": "https://unsplash.com/@xbmpro?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/a-view-of-a-city-at-night-with-the-moon-in-the-sky-GA0OGHrNDHg?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1699385602094-4c5a017c64a5?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OHx8U2FuJTIwSm9zZSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTQyfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#26260c",
+        "alt": "an aerial view of a city with tall buildings",
+        "photographer": "César Badilla Miranda",
+        "photographer_url": "https://unsplash.com/@xbmpro?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/an-aerial-view-of-a-city-with-tall-buildings-lcdcYymRrVo?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1699385603731-809beff16639?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTV8fFNhbiUyMEpvc2UlMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5MzIwNTU0Mnww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#404040",
+        "alt": "a view of a city with tall buildings",
+        "photographer": "César Badilla Miranda",
+        "photographer_url": "https://unsplash.com/@xbmpro?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-view-of-a-city-with-tall-buildings-BDbRtvE3R9s?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1699385600740-eabe6e85757d?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8U2FuJTIwSm9zZSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTQyfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "a view of a city with a mountain in the background",
+        "photographer": "César Badilla Miranda",
+        "photographer_url": "https://unsplash.com/@xbmpro?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-view-of-a-city-with-a-mountain-in-the-background-IHitgTQbZNs?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1699385604354-1105fcec7cb0?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8U2FuJTIwSm9zZSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTQyfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#404059",
+        "alt": "a bird's eye view of a city street",
+        "photographer": "César Badilla Miranda",
+        "photographer_url": "https://unsplash.com/@xbmpro?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-birds-eye-view-of-a-city-street-UDiphEmFMcE?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Seattle": {
-    "src": "https://images.unsplash.com/photo-1542223616-740d5dff7f56?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8U2VhdHRsZSUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNjkyfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#0c2640",
-    "alt": "Space Needle tower at night",
-    "photographer": "Andrea Leopardi",
-    "photographer_url": "https://unsplash.com/@whatyouhide?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/space-needle-tower-at-night-QfhbK2pY0Ao?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1598624670128-262e7c83eee4?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTN8fFNlYXR0bGUlMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5MzIwNTU0NHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#260c0c",
+        "alt": "empty street with lighted lamps during night time",
+        "photographer": "Mick Haupt",
+        "photographer_url": "https://unsplash.com/@rocinante_11?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/empty-street-with-lighted-lamps-during-night-time-hhatYYEUPlg?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1598330821260-e47371714f64?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8U2VhdHRsZSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTQ0fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#26408c",
+        "alt": "city skyline during night time",
+        "photographer": "Mario Mendez",
+        "photographer_url": "https://unsplash.com/@m_mendez_ix?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-skyline-during-night-time-zQkO3utaQvk?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1692736229769-4d115561ffb8?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8N3x8U2VhdHRsZSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTQ0fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "the space needle in seattle at sunset",
+        "photographer": "Josh Hild",
+        "photographer_url": "https://unsplash.com/@joshhild?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/the-space-needle-in-seattle-at-sunset-r7XYB-pVKW8?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1692736230231-9609565b80ed?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTV8fFNlYXR0bGUlMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5MzIwNTU0NHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#d9d9d9",
+        "alt": "a building that has a sign on the side of it",
+        "photographer": "Josh Hild",
+        "photographer_url": "https://unsplash.com/@joshhild?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-building-that-has-a-sign-on-the-side-of-it-HSED8ngsK4Q?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Seoul": {
-    "src": "https://images.unsplash.com/photo-1554310603-d39d43033735?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8U2VvdWwlMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTY5NHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#f3d9f3",
-    "alt": "A city skyline with tall buildings and a river under a pink sky",
-    "photographer": "Ciaran O'Brien",
-    "photographer_url": "https://unsplash.com/@icidius?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/city-skyline-with-river-and-buildings-LoGWCnEVDgU?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1544011527-fcef363fb7ac?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTB8fFNlb3VsJTIwY2l0eXNjYXBlJTIwc3RyZWV0fGVufDF8MHx8fDE3OTMyMDU1NDZ8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#404040",
+        "alt": "orange sedan with text overlay",
+        "photographer": "Ryoji Iwata",
+        "photographer_url": "https://unsplash.com/@ryoji__iwata?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/orange-sedan-with-text-overlay-GkkYgVZT96A?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1603486037692-b42ad2466bf5?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8U2VvdWwlMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5MzIwNTU0Nnww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#c0c0c0",
+        "alt": "white and gray city buildings during daytime",
+        "photographer": "Kyle Petzer",
+        "photographer_url": "https://unsplash.com/@kylepetzer?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/white-and-gray-city-buildings-during-daytime-T7evtYw8024?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1691457558225-b363a2099e2e?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8U2VvdWwlMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5MzIwNTU0Nnww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#2673d9",
+        "alt": "a city street filled with lots of tall buildings",
+        "photographer": "KS KYUNG",
+        "photographer_url": "https://unsplash.com/@mygallery?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-city-street-filled-with-lots-of-tall-buildings-qnB45VQxo0o?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1735988762196-c4e6afa9529d?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OXx8U2VvdWwlMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5MzIwNTU0Nnww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "A group of people walking down a street next to tall buildings",
+        "photographer": "Evgeniya Pron",
+        "photographer_url": "https://unsplash.com/@evgeniya_pron?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-group-of-people-walking-down-a-street-next-to-tall-buildings-I8Kd2OxYxT4?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Singapore": {
-    "src": "https://images.unsplash.com/photo-1439736383274-62b5e45798c9?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTN8fFNpbmdhcG9yZSUyME1hcmluYSUyMEJheSUyMHNreWxpbmV8ZW58MXwwfHx8MTc5MzE4MTY5Nnww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#d9d9d9",
-    "alt": "skyscrapers near body of water",
-    "photographer": "Mike Enerio",
-    "photographer_url": "https://unsplash.com/@mikeenerio?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/skyscrapers-near-body-of-water-15Hb4VQjyBI?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1439736383274-62b5e45798c9?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTN8fFNpbmdhcG9yZSUyME1hcmluYSUyMEJheSUyMHNreWxpbmV8ZW58MXwwfHx8MTc5MzE4MTY5Nnww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#d9d9d9",
+        "alt": "skyscrapers near body of water",
+        "photographer": "Mike Enerio",
+        "photographer_url": "https://unsplash.com/@mikeenerio?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/skyscrapers-near-body-of-water-15Hb4VQjyBI?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1521300383052-0c0edb38b50f?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTV8fFNpbmdhcG9yZSUyME1hcmluYSUyMEJheSUyMHNreWxpbmV8ZW58MXwwfHx8MTc5MzE4MTY5Nnww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#0c73c0",
+        "alt": "city buildings in panoramic view photography",
+        "photographer": "Reuben Chew",
+        "photographer_url": "https://unsplash.com/@dontchewreuben?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-buildings-in-panoramic-view-photography-PQIE431vXI4?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1624003974266-7cdbf877ec00?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8U2luZ2Fwb3JlJTIwTWFyaW5hJTIwQmF5JTIwc2t5bGluZXxlbnwxfDB8fHwxNzkzMTgxNjk2fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "city skyline during night time",
+        "photographer": "Arul Kumaran",
+        "photographer_url": "https://unsplash.com/@arul00?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-skyline-during-night-time-QMWOP3xl7ho?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1560354618-a1eda3a5d0eb?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTB8fFNpbmdhcG9yZSUyME1hcmluYSUyMEJheSUyMHNreWxpbmV8ZW58MXwwfHx8MTc5MzE4MTY5Nnww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#f3f3f3",
+        "alt": "white high-rise buildign",
+        "photographer": "S M",
+        "photographer_url": "https://unsplash.com/@iridescentstars?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/white-high-rise-buildign-9OKmIHa5LdQ?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
+  },
+  "South America": {
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1758918726945-e81da8e899c4?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTV8fFNvdXRoJTIwQW1lcmljYSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTUwfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#595973",
+        "alt": "Narrow street between colorful buildings with graffiti",
+        "photographer": "Omri D. Cohen",
+        "photographer_url": "https://unsplash.com/@omridcohen?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/narrow-street-between-colorful-buildings-with-graffiti-TkX1B_7CFP4?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1766791783372-7eb17cd2e719?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8U291dGglMjBBbWVyaWNhJTIwY2l0eXNjYXBlJTIwc3RyZWV0fGVufDF8MHx8fDE3OTMyMDU1NTB8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#404040",
+        "alt": "A bus driving down a city street with buildings",
+        "photographer": "Nikolai Kolosov",
+        "photographer_url": "https://unsplash.com/@nikolaikolosov?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-bus-driving-down-a-city-street-with-buildings-f05CsjNwmek?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1766246719977-d16100fb72b8?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8U291dGglMjBBbWVyaWNhJTIwY2l0eXNjYXBlJTIwc3RyZWV0fGVufDF8MHx8fDE3OTMyMDU1NTB8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262640",
+        "alt": "Street with parked cars and colorful buildings",
+        "photographer": "Nikolai Kolosov",
+        "photographer_url": "https://unsplash.com/@nikolaikolosov?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/street-with-parked-cars-and-colorful-buildings-1DWZOshSlnM?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1766791789973-4163848175de?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8U291dGglMjBBbWVyaWNhJTIwY2l0eXNjYXBlJTIwc3RyZWV0fGVufDF8MHx8fDE3OTMyMDU1NTB8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#595959",
+        "alt": "Colorful buildings line a quiet city street with parked cars",
+        "photographer": "Nikolai Kolosov",
+        "photographer_url": "https://unsplash.com/@nikolaikolosov?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/colorful-buildings-line-a-quiet-city-street-with-parked-cars-V9Ktiote_iI?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Strasbourg": {
-    "src": "https://images.unsplash.com/photo-1592841866962-568d81f2ce90?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8U3RyYXNib3VyZyUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNjk3fDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#262626",
-    "alt": "white and red concrete building beside body of water during daytime",
-    "photographer": "Jonathan Marchal",
-    "photographer_url": "https://unsplash.com/@jomarcha?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/white-and-red-concrete-building-beside-body-of-water-during-daytime-ZvX2-t4RhPk?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1592841866962-568d81f2ce90?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8U3RyYXNib3VyZyUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTUyfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "white and red concrete building beside body of water during daytime",
+        "photographer": "Jonathan Marchal",
+        "photographer_url": "https://unsplash.com/@jomarcha?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/white-and-red-concrete-building-beside-body-of-water-during-daytime-ZvX2-t4RhPk?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1647348815424-8e8206ea7c83?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8N3x8U3RyYXNib3VyZyUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTUyfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#a6c0f3",
+        "alt": "looking up at tall buildings in a city",
+        "photographer": "Jonathan Marchal",
+        "photographer_url": "https://unsplash.com/@jomarcha?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/looking-up-at-tall-buildings-in-a-city-L-Tfgz2SH8U?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1644684724589-a07c5cb83a46?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8U3RyYXNib3VyZyUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTUyfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#a6c0d9",
+        "alt": "a bridge over a body of water",
+        "photographer": "Jonathan Marchal",
+        "photographer_url": "https://unsplash.com/@jomarcha?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-bridge-over-a-body-of-water-sMtw97F_l7M?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1706653283407-165faf731db1?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Nnx8U3RyYXNib3VyZyUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTUyfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#a6c0d9",
+        "alt": "a row of buildings next to a body of water",
+        "photographer": "Sergei Gussev",
+        "photographer_url": "https://unsplash.com/@sergei_gussev?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-row-of-buildings-next-to-a-body-of-water-RdMlHYi__5s?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Sydney": {
-    "src": "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8U3lkbmV5JTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE2OTl8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#f3f3f3",
-    "alt": "Sydney, Opera House during daytime",
-    "photographer": "Dan Freeman",
-    "photographer_url": "https://unsplash.com/@danfreemanphoto?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/sydney-opera-house-during-daytime-7Zb7kUyQg1E?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1672210967188-3bf5e16d541d?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTR8fFN5ZG5leSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTU1fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#73d9f3",
+        "alt": "a view of a city from across a lake",
+        "photographer": "Benjamin George",
+        "photographer_url": "https://unsplash.com/@benjamingeorgephotography?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-view-of-a-city-from-across-a-lake-ejsVLYGX5Uc?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1615034945993-0ee04e27c7a6?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTV8fFN5ZG5leSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjA1NTU1fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "city skyline during night time",
+        "photographer": "Benjamin George",
+        "photographer_url": "https://unsplash.com/@benjamingeorgephotography?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-skyline-during-night-time-lSWkg6CG4CY?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1748241705920-38391843913f?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8U3lkbmV5JTIwY2l0eXNjYXBlJTIwc3RyZWV0fGVufDF8MHx8fDE3OTMyMDU1NTV8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "City street lined with buildings under a clear sky",
+        "photographer": "Huy Q. Tran",
+        "photographer_url": "https://unsplash.com/@huyqtran?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-street-lined-with-buildings-under-a-clear-sky-_aXHWCGydFE?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1721108465076-2e7eb4f4be0f?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8U3lkbmV5JTIwY2l0eXNjYXBlJTIwc3RyZWV0fGVufDF8MHx8fDE3OTMyMDU1NTV8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#735940",
+        "alt": "A group of people walking down a street next to tall buildings",
+        "photographer": "International Student Navigator Australia",
+        "photographer_url": "https://unsplash.com/@isnaaus?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-group-of-people-walking-down-a-street-next-to-tall-buildings-zm6nEokWgyw?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Tampere": {
     "src": "https://images.unsplash.com/photo-1631631479543-d554c5d9fe5c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Nnx8VGFtcGVyZSUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNzAxfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
