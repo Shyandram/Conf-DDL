@@ -6,6 +6,7 @@ Live countdowns to the main conference deadlines in computer vision, ML, AI and 
 - **12-month timeline** of upcoming deadlines (solid = confirmed, dashed = estimated)
 - **Search** (`/` to focus) and area filters (CV, ML, AI, NLP, Graphics, …), Confirmed-only and CCF-A toggles
 - **★ Star** a conference to follow the whole series (every year, including future editions): it's pinned in the collapsible **My conferences** sidebar (saved in your browser), drives the big countdown, and the **★ Starred** toggle filters the list to it
+- **Mouse light** (bulb in the top bar, off by default): the cursor lights up nearby glass surfaces
 - **Live clock** (local and AoE), **Local / AoE** deadline display, light and dark themes
 - **.ics export** with 7-day and 1-day reminders
 - **Next venues at a glance:** click a conference on the 12-month timeline and the deadlines you could move to light up: amber during its rebuttal, green after its decision

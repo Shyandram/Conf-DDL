@@ -30,8 +30,8 @@
     --line: rgba(10, 12, 16, 0.08);
     --line-2: rgba(10, 12, 16, 0.18);
     --ink: #111317;
-    --ink-2: #4b5160;
-    --ink-3: #8a8f99;
+    --ink-2: #3d4350;
+    --ink-3: #686e7b;
     --accent: #3d5afe;
     --accent-ink: #fff;
     --warn: #c77700;
@@ -99,8 +99,8 @@ code { font-family: var(--mono); font-size: .9em; padding: .1em .35em; border: 1
   position: sticky; top: 0; z-index: 20;
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px clamp(16px, 4vw, 48px);
-  backdrop-filter: blur(14px) saturate(1.4);
-  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(8px) saturate(1.3);
+  -webkit-backdrop-filter: blur(8px) saturate(1.3);
   background: color-mix(in srgb, var(--bg) 70%, transparent);
   border-bottom: 1px solid var(--line);
 }
@@ -133,6 +133,7 @@ code { font-family: var(--mono); font-size: .9em; padding: .1em .35em; border: 1
   border: 1px solid var(--line); background: var(--card); cursor: pointer; color: var(--ink-2);
   transition: color .2s, border-color .2s, transform .3s;
 }
+#lightBtn[aria-pressed="true"] { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 55%, transparent); box-shadow: 0 0 18px -4px var(--warn); }
 .icon-btn:hover { color: var(--ink); border-color: var(--line-2); transform: rotate(-20deg); }
 
 /* sidebar sits flush on the far left; the content column is centered in the rest */
@@ -143,8 +144,8 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 .rail {
   position: sticky; top: 63px; align-self: start; height: calc(100vh - 63px); overflow-y: auto;
   padding: 24px 18px 28px 20px; border-right: 1px solid var(--line); scrollbar-width: thin;
-  background: color-mix(in srgb, var(--bg) 58%, transparent);
-  -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6);
+  background: color-mix(in srgb, var(--bg) 38%, transparent);
+  -webkit-backdrop-filter: blur(8px) saturate(1.3); backdrop-filter: blur(8px) saturate(1.3);
 }
 .rail { transition: padding .3s; }
 .layout { transition: grid-template-columns .35s cubic-bezier(.4, 0, .2, 1); }
@@ -202,7 +203,7 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
   .rail-tab {
     display: grid; place-items: center; position: fixed; left: clamp(16px, 3vw, 32px); bottom: clamp(16px, 3vw, 32px); z-index: 35;
     width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line-2);
-    background: color-mix(in srgb, var(--bg) 80%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--bg) 80%, transparent); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
     color: var(--warn); cursor: pointer; box-shadow: var(--shadow); font-size: 20px;
   }
   .rail-tab span { display: none; }
@@ -236,7 +237,7 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 }
 .hero-name { display: inline-block; overflow: hidden; padding: 0 .04em .1em 0; margin-bottom: -.1em; }
 .hero-name .ch { display: inline-block; will-change: transform; }
-.hero-year { font-weight: 300; color: var(--ink-3); }
+.hero-year { font-weight: 400; color: var(--ink-3); }
 .hero-full { margin: 0 0 clamp(28px, 4vw, 44px); color: var(--ink-2); max-width: 60ch; font-size: clamp(16px, 1.7vw, 19px); }
 
 .clock {
@@ -248,6 +249,12 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 .digits { display: flex; gap: 4px; }
 /* digit size follows the space the clock has (9 digits + separators must fit) */
 .hero-left { container-type: inline-size; min-width: 0; }
+/* reserve the hero's and timeline's space before the data arrives, so nothing below jumps (CLS) */
+.digits { min-height: calc(var(--dw) * 1.4); }
+.hero-full { min-height: 1.5em; }
+.hero-picks { min-height: 56px; }
+.venue { min-height: 128px; }
+.timeline { min-height: 210px; }
 /* width ≈ 9 digits + 3 separators (~.5 each) + 6 gaps (.28 each) + 5 inner 4px gaps ≈ 12.2 × dw + 20px */
 .clock { --dw: clamp(24px, calc((100cqi - 24px) / 12.4), 66px); }
 .digit {
@@ -259,7 +266,6 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
   box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .04);
   font-size: calc(var(--dw) * 1.03); font-weight: 500; line-height: 1;
 }
-.digit::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--line); }
 .digit span { position: absolute; inset: 0; display: grid; place-items: center; }
 .sep { font-size: calc(var(--dw) * .8); color: var(--ink-3); line-height: calc(var(--dw) * 1.4); }
 .clock.is-hot .digit { color: var(--hot); }
@@ -293,8 +299,8 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 .venue {
   margin: 0; align-self: end; display: flex; flex-direction: column; gap: 10px;
   padding: 18px 20px; border-radius: 18px; border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
-  background: color-mix(in srgb, var(--bg) 55%, transparent);
-  backdrop-filter: blur(14px) saturate(1.3); -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  background: color-mix(in srgb, var(--bg) 35%, transparent);
+  backdrop-filter: blur(6px) saturate(1.3); -webkit-backdrop-filter: blur(6px) saturate(1.3);
   box-shadow: var(--shadow);
 }
 .venue figcaption { display: flex; flex-direction: column; gap: 2px; color: var(--ink); }
@@ -388,6 +394,11 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 .tl-pin.est .dot { background: var(--bg); border: 1.5px dashed var(--ink-2); box-shadow: none; }
 .tl-pin:hover .lbl, .tl-pin:focus-visible .lbl { color: var(--ink); border-color: var(--ink-2); transform: translateY(-2px); }
 .tl-pin:hover { z-index: 2; }
+/* only the label and dot take clicks, so tall overlapping pins don't steal each other's taps */
+.tl-pin { pointer-events: none; }
+.tl-pin .lbl, .tl-pin .dot { pointer-events: auto; cursor: pointer; }
+/* rows off screen skip layout and paint until they scroll near */
+.card { content-visibility: auto; contain-intrinsic-size: auto 82px; }
 
 /* resubmission path on the timeline */
 .timeline.has-path .timeline-inner { height: calc(var(--axis) + 96px); }
@@ -449,7 +460,7 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
   margin: clamp(32px, 5vw, 48px) 0 0;
   padding: 12px 0;
   background: color-mix(in srgb, var(--bg) 82%, transparent);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   border-bottom: 1px solid transparent; transition: border-color .3s;
 }
 .controls.is-stuck { border-color: var(--line); }
@@ -605,7 +616,7 @@ kbd { font: 11px var(--mono); padding: 2px 6px; border: 1px solid var(--line-2);
   position: fixed; right: clamp(16px, 3vw, 32px); bottom: clamp(16px, 3vw, 32px); z-index: 30;
   display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%;
   border: 1px solid var(--line-2); background: color-mix(in srgb, var(--bg) 80%, transparent);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
   color: var(--ink); cursor: pointer; box-shadow: var(--shadow);
   transition: opacity .25s, transform .25s, border-color .2s, background .2s;
 }
@@ -635,41 +646,6 @@ kbd { font: 11px var(--mono); padding: 2px 6px; border: 1px solid var(--line-2);
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
-/* ---------- planner: a separate full-screen view ---------- */
-.planner-btn {
-  display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 14px; border-radius: 999px;
-  border: 1px solid var(--line); color: var(--ink); font: 500 13.5px var(--sans); cursor: pointer;
-}
-.planner-btn svg { color: var(--accent); }
-.planner { position: fixed; inset: 0; z-index: 60; display: grid; place-items: start center; padding: 80px clamp(12px, 3vw, 40px) 40px; overflow-y: auto; }
-.planner[hidden] { display: none; }
-.planner-backdrop { position: fixed; inset: 0; background: color-mix(in srgb, var(--bg) 55%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
-.planner-sheet {
-  position: relative; width: min(1180px, 100%); padding: clamp(18px, 3vw, 32px); border-radius: 26px;
-  background: color-mix(in srgb, var(--bg) 78%, transparent); border: 1px solid var(--glass-rim, var(--line-2));
-  -webkit-backdrop-filter: blur(28px) saturate(1.8); backdrop-filter: blur(28px) saturate(1.8);
-  box-shadow: inset 0 1px 0 var(--glass-hl, transparent), 0 40px 120px -30px rgba(0, 0, 0, .6);
-}
-.planner-head { display: grid; grid-template-columns: 1fr auto auto; gap: 16px; align-items: start; margin-bottom: 8px; }
-.planner-title h2 { margin: 4px 0 6px; font: 700 clamp(24px, 3vw, 34px)/1.1 var(--sans); letter-spacing: -.03em; }
-.planner-title p { margin: 0; color: var(--ink-2); font-size: 14.5px; max-width: 60ch; }
-.planner-pick { display: flex; flex-direction: column; gap: 4px; font: 500 11.5px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); }
-.planner-pick select {
-  font: 600 15px var(--sans); color: var(--ink); background: var(--card); border: 1px solid var(--line-2);
-  border-radius: 12px; padding: 9px 12px; max-width: 320px; text-transform: none; letter-spacing: 0;
-}
-.planner-tl { margin-top: 18px; }
-.planner .path-panel { margin-top: 10px; padding: 0; background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
-.planner .path-panel::before { display: none; }
-html.planner-open { overflow: hidden; }
-@media (max-width: 760px) {
-  .planner { padding-top: 70px; }
-  .planner-head { grid-template-columns: 1fr auto; }
-  .planner-pick { grid-column: 1 / -1; grid-row: 2; }
-  .planner-btn span { display: none; }
-  .planner-btn { padding: 0 10px; }
-}
-
 /* home timeline: lit-up next venues */
 .lg-reb { background: var(--warn); }
 .lg-dec { background: var(--ok); }
@@ -685,11 +661,11 @@ html.planner-open { overflow: hidden; }
 .planner-btn svg { color: var(--accent); }
 .planner { position: fixed; inset: 0; z-index: 60; display: grid; place-items: start center; padding: 80px clamp(12px, 3vw, 40px) 40px; overflow-y: auto; }
 .planner[hidden] { display: none; }
-.planner-backdrop { position: fixed; inset: 0; background: color-mix(in srgb, var(--bg) 55%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.planner-backdrop { position: fixed; inset: 0; background: color-mix(in srgb, var(--bg) 55%, transparent); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
 .planner-sheet {
   position: relative; width: min(1180px, 100%); padding: clamp(18px, 3vw, 32px); border-radius: 26px;
-  background: color-mix(in srgb, var(--bg) 78%, transparent); border: 1px solid var(--glass-rim, var(--line-2));
-  -webkit-backdrop-filter: blur(28px) saturate(1.8); backdrop-filter: blur(28px) saturate(1.8);
+  background: color-mix(in srgb, var(--bg) 62%, transparent); border: 1px solid var(--glass-rim, var(--line-2));
+  -webkit-backdrop-filter: blur(5px) saturate(1.4); backdrop-filter: blur(5px) saturate(1.4);
   box-shadow: inset 0 1px 0 var(--glass-hl, transparent), 0 40px 120px -30px rgba(0, 0, 0, .6);
 }
 .planner-head { display: grid; grid-template-columns: 1fr auto auto; gap: 16px; align-items: start; margin-bottom: 8px; }
@@ -725,8 +701,8 @@ html.planner-open { overflow: hidden; }
 }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
-    --glass-tint: rgba(255, 255, 255, .62);
-    --glass-tint-2: rgba(255, 255, 255, .28);
+    --glass-tint: rgba(255, 255, 255, .42);
+    --glass-tint-2: rgba(255, 255, 255, .14);
     --glass-rim: rgba(255, 255, 255, .85);
     --glass-hl: rgba(255, 255, 255, .95);
     --glass-sheen: rgba(255, 255, 255, .55);
@@ -734,8 +710,8 @@ html.planner-open { overflow: hidden; }
   }
 }
 :root[data-theme="light"] {
-  --glass-tint: rgba(255, 255, 255, .62);
-  --glass-tint-2: rgba(255, 255, 255, .28);
+  --glass-tint: rgba(255, 255, 255, .42);
+  --glass-tint-2: rgba(255, 255, 255, .14);
   --glass-rim: rgba(255, 255, 255, .85);
   --glass-hl: rgba(255, 255, 255, .95);
   --glass-sheen: rgba(255, 255, 255, .55);
@@ -745,49 +721,132 @@ html.planner-open { overflow: hidden; }
 .topbar, .pick, .venue, .path-panel, .digit, .seg, .icon-btn, .to-top, .rail-tab,
 .chip, .search, .btn:not(.btn-primary), .tl-pin .lbl, .path-item, .rail-toggle, .path-close, .planner-btn {
   background: linear-gradient(160deg, var(--glass-tint), var(--glass-tint-2));
-  -webkit-backdrop-filter: blur(22px) saturate(1.9);
-  backdrop-filter: blur(22px) saturate(1.9);
+  -webkit-backdrop-filter: blur(8px) saturate(1.4);
+  backdrop-filter: blur(8px) saturate(1.4);
   border-color: var(--glass-rim);
   box-shadow: inset 0 1px 0 var(--glass-hl), inset 0 -1px 1px rgba(255, 255, 255, .05), var(--glass-shadow);
 }
 .topbar { border-bottom: 1px solid var(--glass-rim); box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .04), 0 8px 30px -18px rgba(0, 0, 0, .5); }
 .tl-pin .lbl, .chip, .path-item { box-shadow: inset 0 1px 0 var(--glass-hl); }
 
-/* The mouse is a light source. app.js keeps --mx / --my at the cursor (viewport px); the light layers use
-   background-attachment: fixed, so every glass piece shows its own slice of one shared light:
-   ::before is the glow on the surface (plus a fixed top-left sheen), ::after lights up the rim nearest the cursor. */
-:root { --mx: -1000px; --my: -1000px; --light: rgba(255, 255, 255, .26); --rim-light: rgba(255, 255, 255, .95); }
-@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --light: rgba(255, 255, 255, .95); --rim-light: color-mix(in srgb, var(--accent) 80%, #fff); } }
-:root[data-theme="light"] { --light: rgba(255, 255, 255, .95); --rim-light: color-mix(in srgb, var(--accent) 80%, #fff); }
+/* The mouse is a light source. For surfaces within ~520px of the cursor, app.js sets --lx / --ly to the cursor
+   position in that element's own coordinates; everything else keeps the off-screen default, so a mouse move only
+   repaints the few surfaces near it. The properties don't inherit, so a lit parent never leaks its position.
+   ::before = glow on the surface (+ a static top-left sheen), ::after = the rim nearest the cursor.
+   Brightness falls off roughly with the square of the distance (stops at 40 / 100 / 190 / 320 / 450px);
+   --ls scales the light down on large surfaces such as rows and bars so they don't wash out. */
+@property --lx { syntax: "<length>"; inherits: false; initial-value: -1000px; }
+@property --ly { syntax: "<length>"; inherits: false; initial-value: -1000px; }
+:root { --lc: 255 255 255; --la: .32; --rc: 255 255 255; --ra: 1; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --la: .95; --rc: 61 90 254; --ra: .85; } }
+:root[data-theme="light"] { --la: .95; --rc: 61 90 254; --ra: .85; }
 
-.topbar, .pick, .venue, .path-panel, .to-top, .rail-tab, .search, .chip, .btn:not(.btn-primary), .planner-btn, .seg,
-.icon-btn, .path-item, .rail-toggle, .path-close, .photo-next, .tl-pin .lbl { isolation: isolate; }
-.pick, .venue, .path-panel, .to-top, .rail-tab, .search, .chip, .btn:not(.btn-primary), .planner-btn, .seg,
-.icon-btn, .path-item, .rail-toggle, .path-close, .photo-next, .tl-pin .lbl { position: relative; }
+.topbar, .rail, .controls, .card, .rail-item, .fold-toggle, .digit, .pick, .venue, .path-panel, .planner-sheet, .to-top, .rail-tab, .search, .chip, .btn, .planner-btn, .seg, .icon-btn, .path-item, .rail-toggle, .path-close, .photo-next, .tl-pin .lbl { isolation: isolate; }
+.card, .rail-item, .fold-toggle, .digit, .pick, .venue, .path-panel, .to-top, .rail-tab, .search, .chip, .btn,
+.planner-btn, .seg, .icon-btn, .path-item, .rail-toggle, .path-close, .photo-next, .tl-pin .lbl { position: relative; }
+.topbar, .rail, .controls, .card, .rail-item, .fold-toggle { --ls: .75; }
+.planner-sheet { --ls: .55; }
 
-.topbar::before, .pick::before, .venue::before, .path-panel::before, .to-top::before, .rail-tab::before, .search::before,
-.chip::before, .btn:not(.btn-primary)::before, .planner-btn::before, .seg::before, .icon-btn::before, .path-item::before,
-.rail-toggle::before, .path-close::before, .photo-next::before, .tl-pin .lbl::before, .digit::before {
+.topbar::before,
+.rail::before,
+.controls::before,
+.card::before,
+.rail-item::before,
+.fold-toggle::before,
+.digit::before,
+.pick::before,
+.venue::before,
+.path-panel::before,
+.planner-sheet::before,
+.to-top::before,
+.rail-tab::before,
+.search::before,
+.chip::before,
+.btn::before,
+.planner-btn::before,
+.seg::before,
+.icon-btn::before,
+.path-item::before,
+.rail-toggle::before,
+.path-close::before,
+.photo-next::before,
+.tl-pin .lbl::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
   background:
-    radial-gradient(240px circle at var(--mx) var(--my), var(--light), transparent 75%),
+    radial-gradient(circle 560px at var(--lx) var(--ly),
+    rgb(var(--lc) / calc(var(--la) * var(--ls, 1) * 1)) 0,
+    rgb(var(--lc) / calc(var(--la) * var(--ls, 1) * .62)) 40px,
+    rgb(var(--lc) / calc(var(--la) * var(--ls, 1) * .36)) 100px,
+    rgb(var(--lc) / calc(var(--la) * var(--ls, 1) * .18)) 190px,
+    rgb(var(--lc) / calc(var(--la) * var(--ls, 1) * .07)) 320px,
+    rgb(var(--lc) / calc(var(--la) * var(--ls, 1) * .02)) 450px,
+    transparent 560px),
     radial-gradient(120% 70% at 15% -10%, var(--glass-sheen), transparent 55%);
-  background-attachment: fixed, scroll;
 }
-.digit::before { z-index: 0; }
+.card::before, .rail::before, .controls::before, .fold-toggle::before, .rail-item::before { background-image:
+    radial-gradient(circle 560px at var(--lx) var(--ly),
+    rgb(var(--lc) / calc(var(--la) * var(--ls, 1) * 1)) 0,
+    rgb(var(--lc) / calc(var(--la) * var(--ls, 1) * .62)) 40px,
+    rgb(var(--lc) / calc(var(--la) * var(--ls, 1) * .36)) 100px,
+    rgb(var(--lc) / calc(var(--la) * var(--ls, 1) * .18)) 190px,
+    rgb(var(--lc) / calc(var(--la) * var(--ls, 1) * .07)) 320px,
+    rgb(var(--lc) / calc(var(--la) * var(--ls, 1) * .02)) 450px,
+    transparent 560px); }
 
-.pick::after, .venue::after, .path-panel::after, .to-top::after, .rail-tab::after, .search::after, .chip::after,
-.btn:not(.btn-primary)::after, .planner-btn::after, .seg::after, .icon-btn::after, .path-item::after, .photo-next::after,
-.tl-pin .lbl::after {
-  content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; padding: 1px;
-  background: radial-gradient(200px circle at var(--mx) var(--my), var(--rim-light), transparent 75%);
-  padding: 1.5px;
-  background-attachment: fixed;
+.digit::after,
+.pick::after,
+.venue::after,
+.path-panel::after,
+.planner-sheet::after,
+.to-top::after,
+.rail-tab::after,
+.search::after,
+.chip::after,
+.btn::after,
+.planner-btn::after,
+.seg::after,
+.icon-btn::after,
+.path-item::after,
+.rail-toggle::after,
+.path-close::after,
+.photo-next::after,
+.tl-pin .lbl::after,
+.rail-item::after {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; padding: 1.5px;
+  background: radial-gradient(circle 420px at var(--lx) var(--ly),
+    rgb(var(--rc) / calc(var(--ra) * 1)) 0,
+    rgb(var(--rc) / calc(var(--ra) * .65)) 50px,
+    rgb(var(--rc) / calc(var(--ra) * .35)) 120px,
+    rgb(var(--rc) / calc(var(--ra) * .15)) 220px,
+    rgb(var(--rc) / calc(var(--ra) * .05)) 330px,
+    transparent 420px);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   mask-composite: exclude;
 }
+/* The full-width / full-height bars skip backdrop blur entirely (measured: the sidebar and top bar alone cost
+   about half of every frame while the background moves) and use a clear tint instead. */
+.rail, .topbar, .controls { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+.rail { background: color-mix(in srgb, var(--bg) 55%, transparent); }
+.topbar { background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 78%, transparent), color-mix(in srgb, var(--bg) 62%, transparent)); }
+.controls { background: color-mix(in srgb, var(--bg) 90%, transparent); }
+
+/* backdrop blur is expensive (it re-renders whenever what's behind moves), so only the big panels keep it;
+   small pieces use a denser tint that reads the same without the cost */
+:root { --tint-a: rgba(26, 30, 40, .38); --tint-b: rgba(26, 30, 40, .18); }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --tint-a: rgba(255, 255, 255, .55); --tint-b: rgba(255, 255, 255, .3); } }
+:root[data-theme="light"] { --tint-a: rgba(255, 255, 255, .55); --tint-b: rgba(255, 255, 255, .3); }
+.digit, .chip, .search, .btn:not(.btn-primary), .seg, .icon-btn, .tl-pin .lbl, .path-item, .rail-toggle, .path-close,
+.planner-btn, .photo-next {
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  background: linear-gradient(160deg, var(--tint-a), var(--tint-b));
+}
+.chip.is-on { background: var(--ink); }
+/* the digit's split line moves from ::after (now the rim) into its background */
+.digit { background:
+  linear-gradient(transparent calc(50% - .5px), var(--line) calc(50% - .5px), var(--line) calc(50% + .5px), transparent calc(50% + .5px)),
+  linear-gradient(160deg, var(--tint-a), var(--tint-b)); }
 
 /* pressed / accented glass keeps its tint */
 .pick[aria-pressed="true"] {

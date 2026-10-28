@@ -10,6 +10,9 @@
   if (hasGsap && window.Flip) gsap.registerPlugin(Flip);
   if (hasGsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 
+  // Build id from our own script URL (?v=<commit> on the live site, "dev" locally). Data URLs carry it too, so they
+  // match the <link rel="preload"> in index.html and every deploy busts the browser cache.
+  const BUILD = (document.currentScript && new URL(document.currentScript.src).searchParams.get("v")) || "dev";
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 
@@ -157,11 +160,6 @@
       c.area.map(a => `<span class="tag">${esc(a)}</span>`).join("") +
       (c.status !== "confirmed" ? `<span class="tag tag-est">estimated</span>` : "") +
       (c.kind === "workshop" ? `<span class="tag tag-ws">workshop proposals</span>` : "");
-    $(".c-date", el).textContent = c.date || "TBA";
-    $(".c-place", el).textContent = c.place || "TBA";
-    $(".c-note", el).textContent = c.note || "";
-    if (!c.note) $(".c-note", el).remove();
-    if (!c.abs) $(".c-abs", el).remove();
     const steps = $$(".c-steps li", el);
     const setStep = (li, text, title) => {
       $("b", li).textContent = text;
@@ -172,16 +170,26 @@
     // "rebuttal": false means the venue has none; a missing field means not announced yet.
     setStep(steps[1], c.rebuttal ? fmtRange(c.rebuttal) : (c.rebuttal === false ? "none" : "TBA"), c.rebuttal ? fmtRange(c.rebuttal, true) : "");
     setStep(steps[2], c.decision ? fmtDay(c.decision) : "TBA", c.decision ? fmtDay(c.decision, true) : "");
-    if (!c.decision || c.kind === "workshop") $(".c-plan", el).remove();
-    const link = $(".c-link", el);
-    link.href = c.link;
-    $(".c-ics", el).addEventListener("click", () => icsFor(c));
     c.el = el;
     c.refs = {
       days: $(".c-days", el), unit: $(".c-unit", el), hms: $(".c-hms", el), bar: $(".bar i", el),
-      ddl: $(".c-ddl", el), abs: $(".c-abs dd", el), steps,
+      ddl: $(".c-ddl", el), abs: null, steps,
     };
     return el;
+  }
+
+  // The fold-out details (venue, note, links) are built the first time a row is opened.
+  function buildMore(c) {
+    const more = $("#moreTpl").content.firstElementChild.cloneNode(true);
+    $(".c-date", more).textContent = c.date || "TBA";
+    $(".c-place", more).textContent = c.place || "TBA";
+    if (c.note) $(".c-note", more).textContent = c.note; else $(".c-note", more).remove();
+    if (c.abs) { c.refs.abs = $(".c-abs dd", more); c.refs.abs.textContent = fmtTime(c.abs); } else $(".c-abs", more).remove();
+    if (!c.decision || c.kind === "workshop") $(".c-plan", more).remove();
+    $(".c-link", more).href = c.link;
+    $(".c-ics", more).addEventListener("click", () => icsFor(c));
+    c.el.appendChild(more);
+    return more;
   }
 
   function paintTimes() {
@@ -375,8 +383,11 @@
 
   // data/cities.json: hand-off from scripts/fetch_city_photos.py (Unsplash). Wikipedia is the fallback.
   let cityPhotos = {};
-  const loadCityPhotos = fetch("data/cities.json", { cache: "no-cache" })
+  const loadCityPhotos = fetch(`data/cities.json?v=${BUILD}`)
     .then(r => (r.ok ? r.json() : {})).then(j => { cityPhotos = j || {}; }).catch(() => {});
+
+  // Entrance tweens end with clearProps: "transform" — a leftover transform on an element or its parent turns the
+  // glass light's background-attachment: fixed into local, which would put the light in the wrong place.
 
   // Several photos per city; show a different one each time (never the same twice in a row).
   const lastPhoto = {};
@@ -458,7 +469,7 @@
     $("#heroLink").href = c.link;
     if (hasGsap && !reduced) {
       gsap.fromTo(chars, { yPercent: 110 }, { yPercent: 0, duration: first ? 1.1 : 0.7, ease: "expo.out", stagger: 0.04, delay: first ? 0.15 : 0 });
-      gsap.fromTo(["#heroYear", "#heroFull", ".hero-foot"], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.06, delay: first ? 0.4 : 0.1 });
+      gsap.fromTo(["#heroYear", "#heroFull", ".hero-foot"], { opacity: 0, y: 12 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.7, ease: "power3.out", stagger: 0.06, delay: first ? 0.4 : 0.1 });
     }
   }
 
@@ -560,7 +571,7 @@
       gsap.fromTo($$(".tl-src .dot, .tl-reb .dot, .tl-dec .dot", tl), { scale: 0.3 }, { scale: 1, duration: 0.5, ease: "back.out(3)", stagger: 0.03 });
     } else if (hasGsap && !reduced && !opts.quiet) {
       gsap.fromTo($(".tl-axis", tl), { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut" });
-      gsap.fromTo($$(".tl-pin", tl), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: "back.out(2)", stagger: 0.05, delay: 0.4 });
+      gsap.fromTo($$(".tl-pin", tl), { opacity: 0, y: 14 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.6, ease: "back.out(2)", stagger: 0.05, delay: 0.4 });
     }
   }
 
@@ -620,7 +631,7 @@
       </div>
       <div class="path-stages">${path.stages.map(stage).join("")}</div>
       <p class="path-note">Ranked by ${esc((data.tiers && data.tiers.source) || "venue grade")}: grade A first, then B, then unlisted; then same field, with CCF as a tie-break. Check each venue's dual-submission and withdrawal rules before moving a paper.</p>`;
-    if (hasGsap && !reduced) gsap.fromTo($$(".path-item", panel), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out", stagger: 0.03 });
+    if (hasGsap && !reduced) gsap.fromTo($$(".path-item", panel), { opacity: 0, y: 8 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.35, ease: "power2.out", stagger: 0.03 });
   }
 
   /* ---------- planner (its own view, so the home screen stays clean) ---------- */
@@ -643,7 +654,7 @@
     renderTimeline(confs.filter(c => c.ddl > now && c.kind !== "workshop"), now, { el: $("#planTimeline"), path: true });
     if (wasHidden && hasGsap && !reduced) {
       gsap.fromTo(".planner-backdrop", { opacity: 0 }, { opacity: 1, duration: 0.3 });
-      gsap.fromTo(".planner-sheet", { opacity: 0, y: 30, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "power3.out" });
+      gsap.fromTo(".planner-sheet", { opacity: 0, y: 30, scale: 0.98 }, { opacity: 1, y: 0, clearProps: "transform", scale: 1, duration: 0.45, ease: "power3.out" });
     }
   }
 
@@ -755,7 +766,7 @@
     if (flipState) {
       Flip.from(flipState, {
         duration: 0.45, ease: "power3.inOut", stagger: 0.012,
-        onEnter: els => gsap.fromTo(els, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }),
+        onEnter: els => gsap.fromTo(els, { opacity: 0, y: 10 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.4, ease: "power2.out" }),
         onComplete: () => {
           gsap.set(cards, { clearProps: "transform,opacity" });
           if (window.ScrollTrigger) ScrollTrigger.refresh();
@@ -846,7 +857,7 @@
         body.hidden = !open;
         if (open && animate && hasGsap && !reduced) {
           gsap.fromTo($$(".card", body).filter(el => el.style.display !== "none").slice(0, 20),
-            { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out", stagger: 0.02 });
+            { opacity: 0, y: 12 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.4, ease: "power3.out", stagger: 0.02 });
         }
         if (window.ScrollTrigger) ScrollTrigger.refresh();
       };
@@ -875,16 +886,49 @@
     window.addEventListener("resize", sizeBg);
     if (window.ResizeObserver) new ResizeObserver(sizeBg).observe($("#hero"));
 
-    // the mouse is the light source for the glass (see --mx / --my in style.css)
+    // Mouse light (off by default; the bulb in the top bar turns it on). Only surfaces that are on screen and within
+    // LIGHT_RANGE of the cursor get --lx / --ly (cursor position in their own box), so each move repaints just those.
+    const LIT = ".topbar, .rail, .controls, .card, .rail-item, .fold-toggle, .digit, .pick, .venue, .path-panel, .planner-sheet, " +
+      ".to-top, .rail-tab, .search, .chip, .btn, .planner-btn, .seg, .icon-btn, .path-item, .rail-toggle, .path-close, .photo-next, .tl-pin .lbl";
+    const LIGHT_RANGE = 520;
+    const light = { on: false, x: -1e4, y: -1e4, queued: false, visible: new Set(), lit: new Set() };
+    const io = new IntersectionObserver(entries => {
+      for (const en of entries) en.isIntersecting ? light.visible.add(en.target) : light.visible.delete(en.target);
+      queueLight();
+    }, { rootMargin: "120px" });
+    let rescanQueued = false;
+    const rescan = () => { rescanQueued = false; $$(LIT).forEach(el => io.observe(el)); };
+    const mo = new MutationObserver(() => { if (!rescanQueued) { rescanQueued = true; requestAnimationFrame(rescan); } });
+    const paintLight = () => {
+      light.queued = false;
+      const near = [];
+      for (const el of light.visible) {  // read every box first, then write, so layout is computed once
+        if (!el.isConnected) { light.visible.delete(el); continue; }
+        const r = el.getBoundingClientRect();
+        const dx = Math.max(r.left - light.x, 0, light.x - r.right), dy = Math.max(r.top - light.y, 0, light.y - r.bottom);
+        if (dx * dx + dy * dy < LIGHT_RANGE * LIGHT_RANGE) near.push([el, light.x - r.left, light.y - r.top]);
+      }
+      const now = new Set();
+      for (const [el, lx, ly] of near) { el.style.setProperty("--lx", lx + "px"); el.style.setProperty("--ly", ly + "px"); now.add(el); }
+      for (const el of light.lit) if (!now.has(el)) { el.style.removeProperty("--lx"); el.style.removeProperty("--ly"); }
+      light.lit = now;
+    };
+    const queueLight = () => { if (light.on && !light.queued) { light.queued = true; requestAnimationFrame(paintLight); } };
+    const setLight = on => {
+      light.on = on;
+      $("#lightBtn").setAttribute("aria-pressed", on);
+      store.set("light", on);
+      if (on) { rescan(); mo.observe(document.body, { childList: true, subtree: true }); queueLight(); }
+      else { mo.disconnect(); io.disconnect(); light.visible.clear(); for (const el of light.lit) { el.style.removeProperty("--lx"); el.style.removeProperty("--ly"); } light.lit.clear(); }
+    };
     if (!reduced && matchMedia("(pointer: fine)").matches) {
-      const root = document.documentElement.style;
-      let lx = -1000, ly = -1000, queued = false;
-      const paint = () => { root.setProperty("--mx", lx + "px"); root.setProperty("--my", ly + "px"); queued = false; };
-      window.addEventListener("pointermove", e => {
-        lx = e.clientX; ly = e.clientY;
-        if (!queued) { queued = true; requestAnimationFrame(paint); }
-      }, { passive: true });
-      document.addEventListener("pointerleave", () => { lx = ly = -1000; requestAnimationFrame(paint); });
+      window.addEventListener("pointermove", e => { light.x = e.clientX; light.y = e.clientY; queueLight(); }, { passive: true });
+      window.addEventListener("scroll", queueLight, { passive: true });
+      document.addEventListener("pointerleave", () => { light.x = light.y = -1e4; queueLight(); });
+      $("#lightBtn").addEventListener("click", () => setLight(!light.on));
+      setLight(store.get("light", false));
+    } else {
+      $("#lightBtn").hidden = true;
     }
 
     // the background photo drifts a little with the mouse
@@ -986,7 +1030,8 @@
     document.addEventListener("click", e => {
       const btn = e.target.closest(".row-toggle");
       if (!btn) return;
-      const card = btn.closest(".card"), more = $(".row-more", card);
+      const card = btn.closest(".card");
+      const more = $(".row-more", card) || buildMore(confs.find(x => x.id === card.dataset.id));
       const open = !card.classList.contains("is-open");
       card.classList.toggle("is-open", open);
       btn.setAttribute("aria-expanded", open);
@@ -1068,7 +1113,7 @@
         const fresh = els.map(el => list.find(x => x.el === el)).filter(c => c && !c.revealed);
         if (!fresh.length) return;
         fresh.forEach(c => { c.revealed = true; growBar(c); });
-        gsap.to(fresh.map(c => c.el), { opacity: 1, y: 0, duration: 0.6, ease: "expo.out", stagger: 0.035 });
+        gsap.to(fresh.map(c => c.el), { opacity: 1, y: 0, clearProps: "transform", duration: 0.6, ease: "expo.out", stagger: 0.035 });
       },
     });
   }
@@ -1097,7 +1142,7 @@
     bind();
     tickNow(Date.now());
     try {
-      const res = await fetch("data/conferences.json", { cache: "no-cache" });
+      const res = await fetch(`data/conferences.json?v=${BUILD}`);
       if (!res.ok) throw new Error(res.status);
       data = await res.json();
     } catch (err) {
