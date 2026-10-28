@@ -265,6 +265,28 @@
       "note": "Projected from ICLR 2027 (discussion Nov 5–18, decisions Dec 16)."
     },
     {
+      "id": "naacl27",
+      "title": "NAACL",
+      "year": 2027,
+      "full_name": "Annual Conference of the North American Chapter of the Association for Computational Linguistics",
+      "area": [
+        "NLP"
+      ],
+      "ccf": "B",
+      "link": "https://2027.naacl.org/calls/main_conference_papers/",
+      "deadline": "2026-10-12 23:59",
+      "timezone": "AoE",
+      "date": "Jun 1 – 5, 2027",
+      "place": "San Francisco, USA",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-11-24",
+        "2026-11-30"
+      ],
+      "decision": "2027-02-10",
+      "note": "Submitted through the ARR October cycle (shared with COLING 2027). Meta-reviews Dec 18, NAACL commitment Dec 23, camera-ready Mar 3, 2027."
+    },
+    {
       "id": "iclr27",
       "title": "ICLR",
       "year": 2027,
