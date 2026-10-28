@@ -37,10 +37,10 @@
   </header>
 
   <div class="layout">
-  <aside class="rail" aria-label="Your selection">
+  <aside class="rail" aria-label="My conferences">
     <div class="rail-head">
-      <h2>Your selection</h2>
-      <span class="rail-sel" id="railSel">All areas</span>
+      <h2>My conferences</h2>
+      <span class="rail-sel" id="railSel"></span>
     </div>
     <div id="rail"></div>
   </aside>
@@ -96,6 +96,7 @@
       <div class="toggles">
         <label class="tg"><input type="checkbox" id="onlyConfirmed"><span>Confirmed only</span></label>
         <label class="tg"><input type="checkbox" id="ccfA"><span>CCF-A</span></label>
+        <label class="tg"><input type="checkbox" id="onlyStarred"><span>★ Starred</span></label>
       </div>
     </section>
 
@@ -133,6 +134,9 @@
   <template id="cardTpl">
     <article class="card">
       <div class="row-main">
+        <button type="button" class="star" aria-pressed="false" aria-label="Star this conference" title="Pin to My conferences">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg>
+        </button>
         <button type="button" class="row-toggle" aria-expanded="false">
           <span class="row-name"><b class="c-name"></b> <span class="c-year"></span></span>
           <span class="c-tags"></span>

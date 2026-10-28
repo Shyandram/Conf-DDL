@@ -1070,6 +1070,52 @@
       ],
       "decision": "2026-08-07",
       "note": "Reviews due Jun 26; camera-ready Aug 28; no deadline extensions. Timezone not stated on official page."
+    },
+    {
+      "id": "bmvc27",
+      "title": "BMVC",
+      "year": 2027,
+      "full_name": "British Machine Vision Conference",
+      "area": [
+        "CV"
+      ],
+      "ccf": "C",
+      "link": "https://bmva.org/bmvc",
+      "abstract_deadline": "2027-05-21 23:59",
+      "deadline": "2027-05-28 23:59",
+      "timezone": "AoE",
+      "date": "Nov 2027",
+      "place": "UK (TBA)",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-07-02",
+        "2027-07-09"
+      ],
+      "decision": "2027-08-06",
+      "note": "Projected from BMVC 2026 (abstract May 22, paper May 29, rebuttal Jul 3–10, decisions Aug 7). No 2027 call yet."
+    },
+    {
+      "id": "eccv28",
+      "title": "ECCV",
+      "year": 2028,
+      "full_name": "European Conference on Computer Vision",
+      "area": [
+        "CV"
+      ],
+      "ccf": "B",
+      "link": "https://eccv.ecva.net/",
+      "abstract_deadline": "2028-02-24 23:00",
+      "deadline": "2028-03-02 23:00",
+      "timezone": "UTC+1",
+      "date": "Sep 2028",
+      "place": "TBA",
+      "status": "estimated",
+      "rebuttal": [
+        "2028-04-30",
+        "2028-05-09"
+      ],
+      "decision": "2028-06-15",
+      "note": "Projected from ECCV 2026 (registration Feb 26, paper Mar 5 23:00 CET, rebuttal May 2–11, decisions Jun 17). Venue not announced."
     }
   ]
 }

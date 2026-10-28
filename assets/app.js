@@ -23,6 +23,8 @@
     areas: new Set(store.get("areas", [])),
     onlyConfirmed: store.get("onlyConfirmed", false),
     ccfA: store.get("ccfA", false),
+    onlyStarred: store.get("onlyStarred", false),
+    starred: new Set(store.get("starred", [])),
     tz: store.get("tz", "local"),
     showPast: false,
   };
@@ -90,6 +92,7 @@
   function matches(c) {
     if (state.onlyConfirmed && c.status !== "confirmed") return false;
     if (state.ccfA && c.ccf !== "A") return false;
+    if (state.onlyStarred && !state.starred.has(c.id)) return false;
     if (state.areas.size && !c.area.some(a => state.areas.has(a))) return false;
     if (state.q) {
       const hay = [c.title, c.year, c.full_name, c.place, c.date, c.note, ...c.area, ...c.area.map(a => data.areas[a] || "")].join(" ").toLowerCase();
@@ -128,6 +131,7 @@
   function buildCard(c) {
     const el = $("#cardTpl").content.firstElementChild.cloneNode(true);
     el.dataset.id = c.id;
+    $(".star", el).setAttribute("aria-pressed", state.starred.has(c.id));
     el.classList.toggle("is-est", c.status !== "confirmed");
     $(".c-name", el).textContent = c.title;
     $(".c-year", el).textContent = c.year;
@@ -354,24 +358,25 @@
     return t.d >= 1 ? `${t.d}d` : `${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`;
   }
 
-  function renderRail(visible, now) {
-    const sel = [
-      state.areas.size ? [...state.areas].join(" · ") : "All areas",
-      state.onlyConfirmed && "confirmed",
-      state.ccfA && "CCF-A",
-      state.q && `“${state.q}”`,
-    ].filter(Boolean).join(" · ");
-    $("#railSel").textContent = sel;
-
-    const up = visible.filter(c => c.group === "up");
-    const review = visible.filter(c => c.group === "review");
+  // The rail lists only the conferences the viewer has starred, whatever the filters say.
+  function renderRail(now) {
+    const picked = confs.filter(c => state.starred.has(c.id));
+    $("#railSel").textContent = picked.length ? `${picked.length} starred` : "";
+    if (!picked.length) {
+      $("#rail").innerHTML = `<p class="rail-empty">Click the <b>☆</b> next to a conference to pin it here.</p>`;
+      railItems = [];
+      return;
+    }
+    const up = picked.filter(c => c.group === "up");
+    const review = picked.filter(c => c.group === "review");
+    const done = picked.filter(c => c.group === "done");
     const item = (c, sub) => `<li><button type="button" class="rail-item${c.status !== "confirmed" ? " is-est" : ""}" data-id="${esc(c.id)}">
         <span class="r-name">${esc(c.title)} ${esc(c.year)}</span><span class="r-left"></span>
         <span class="r-sub">${esc(sub)}</span></button></li>`;
     $("#rail").innerHTML =
-      `<div class="rail-group">Deadlines · ${up.length}</div>` +
-      (up.length ? `<ul class="rail-list">${up.map(c => item(c, fmtShort.format(c.ddl) + (c.place && c.place !== "TBA" ? " · " + c.place : ""))).join("")}</ul>` : `<p class="rail-empty">No open deadlines.</p>`) +
-      (review.length ? `<div class="rail-group">In review · ${review.length}</div><ul class="rail-list">${review.map(c => item(c, "")).join("")}</ul>` : "");
+      (up.length ? `<div class="rail-group">Deadlines · ${up.length}</div><ul class="rail-list">${up.map(c => item(c, fmtShort.format(c.ddl) + (c.place && c.place !== "TBA" ? " · " + c.place : ""))).join("")}</ul>` : "") +
+      (review.length ? `<div class="rail-group">In review · ${review.length}</div><ul class="rail-list">${review.map(c => item(c, "")).join("")}</ul>` : "") +
+      (done.length ? `<div class="rail-group">Decided · ${done.length}</div><ul class="rail-list">${done.map(c => item(c, c.dec ? "decided " + fmtDay(c.decision) : "closed")).join("")}</ul>` : "");
     railItems = $$(".rail-item", $("#rail")).map(el => ({ el, c: confs.find(x => x.id === el.dataset.id) }));
     tickRail(now);
   }
@@ -388,7 +393,7 @@
         continue;
       }
       const ph = reviewPhase(c, now);
-      if (!ph.label) continue;
+      if (!ph.label) { left.textContent = "✓"; continue; }
       left.textContent = shortLeft(ph.at - now);
       $(".r-sub", el).textContent = ph.label;
       el.classList.toggle("in-review", !ph.open);
@@ -410,7 +415,16 @@
   function apply({ animate = true } = {}) {
     const now = Date.now();
     const cards = confs.map(c => c.el);
-    const flipState = animate && hasGsap && window.Flip && !reduced ? Flip.getState(cards) : null;
+    const useFlip = animate && hasGsap && window.Flip && !reduced;
+
+    if (useFlip) {
+      // Settle every row first: finish pending reveals and drop half-done tweens,
+      // so Flip measures clean positions.
+      gsap.killTweensOf(cards);
+      confs.forEach(c => { if (c.group !== "done") c.revealed = true; });
+      gsap.set(cards, { clearProps: "transform,opacity" });
+    }
+    const flipState = useFlip ? Flip.getState(cards) : null;
 
     const n = { up: 0, review: 0, done: 0 };
     const visible = [];
@@ -428,13 +442,16 @@
     const upcomingVisible = visible.filter(c => c.ddl > now);
     setHero(upcomingVisible[0] || confs.find(c => c.ddl > now) || null);
     renderTimeline(upcomingVisible, now);
-    renderRail(visible, now);
+    renderRail(now);
 
     if (flipState) {
       Flip.from(flipState, {
-        duration: 0.55, ease: "power3.inOut", absolute: true, stagger: 0.015, prune: true,
-        onEnter: els => gsap.fromTo(els, { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power2.out" }),
-        onLeave: els => gsap.to(els, { opacity: 0, scale: 0.94, duration: 0.3, ease: "power2.in" }),
+        duration: 0.45, ease: "power3.inOut", stagger: 0.012,
+        onEnter: els => gsap.fromTo(els, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }),
+        onComplete: () => {
+          gsap.set(cards, { clearProps: "transform,opacity" });
+          if (window.ScrollTrigger) ScrollTrigger.refresh();
+        },
       });
     }
   }
@@ -443,6 +460,8 @@
     store.set("areas", [...state.areas]);
     store.set("onlyConfirmed", state.onlyConfirmed);
     store.set("ccfA", state.ccfA);
+    store.set("onlyStarred", state.onlyStarred);
+    store.set("starred", [...state.starred]);
   }
 
   function bind() {
@@ -467,8 +486,21 @@
       if (e.key === "Escape" && document.activeElement === $("#q")) { $("#q").value = ""; state.q = ""; apply(); $("#q").blur(); }
     });
 
-    const oc = $("#onlyConfirmed"), ca = $("#ccfA");
-    oc.checked = state.onlyConfirmed; ca.checked = state.ccfA;
+    const oc = $("#onlyConfirmed"), ca = $("#ccfA"), os = $("#onlyStarred");
+    oc.checked = state.onlyConfirmed; ca.checked = state.ccfA; os.checked = state.onlyStarred;
+    os.addEventListener("change", () => { state.onlyStarred = os.checked; persist(); apply(); });
+
+    document.addEventListener("click", e => {
+      const btn = e.target.closest(".star");
+      if (!btn) return;
+      const id = btn.closest(".card").dataset.id;
+      const on = !state.starred.has(id);
+      on ? state.starred.add(id) : state.starred.delete(id);
+      btn.setAttribute("aria-pressed", on);
+      if (on && hasGsap && !reduced) gsap.fromTo(btn, { scale: 0.6, rotate: -30 }, { scale: 1, rotate: 0, duration: 0.5, ease: "back.out(3)" });
+      persist();
+      if (state.onlyStarred) apply(); else renderRail(Date.now());
+    });
     oc.addEventListener("change", () => { state.onlyConfirmed = oc.checked; persist(); apply(); });
     ca.addEventListener("change", () => { state.ccfA = ca.checked; persist(); apply(); });
 
@@ -592,8 +624,11 @@
     ScrollTrigger.batch(list.map(c => c.el), {
       start: "top 92%", once: true,
       onEnter: els => {
-        gsap.to(els, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out", stagger: 0.035, overwrite: true });
-        els.forEach(el => growBar(list.find(c => c.el === el)));
+        // skip rows a filter change already revealed, so this never fights a running Flip
+        const fresh = els.map(el => list.find(x => x.el === el)).filter(c => c && !c.revealed);
+        if (!fresh.length) return;
+        fresh.forEach(c => { c.revealed = true; growBar(c); });
+        gsap.to(fresh.map(c => c.el), { opacity: 1, y: 0, duration: 0.6, ease: "expo.out", stagger: 0.035 });
       },
     });
   }
