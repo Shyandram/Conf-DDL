@@ -282,6 +282,42 @@
       }
     ]
   },
+  "Europe": {
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1515784638688-3f7e90ebb446?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NHx8RXVyb3BlJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxOTAwNzR8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#d9d9d9",
+        "alt": "white and brown concrete buildings near bodies of water",
+        "photographer": "Libby Penner",
+        "photographer_url": "https://unsplash.com/@libby_penner?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/white-and-brown-concrete-buildings-near-bodies-of-water-T6hnY1p4q3I?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1541503506238-58dbe11ef244?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTJ8fEV1cm9wZSUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTkwMDc0fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#c0c0c0",
+        "alt": "aerial view of buildings",
+        "photographer": "Alex Vasey",
+        "photographer_url": "https://unsplash.com/@alexrvasey?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/aerial-view-of-buildings-zMbxBDg4qBc?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1546610072-90a8cdd6aa4d?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8RXVyb3BlJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxOTAwNzR8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "houses near body of water",
+        "photographer": "Mathilda Khoo",
+        "photographer_url": "https://unsplash.com/@mcthilda?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/houses-near-body-of-water-avCtoCI4vAo?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1566745609223-23bce7140997?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OHx8RXVyb3BlJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxOTAwNzR8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "assorted-colored buildings",
+        "photographer": "Samuele Giglio",
+        "photographer_url": "https://unsplash.com/@samuelegiglio?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/assorted-colored-buildings-ovOZ2vxZlKA?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
+  },
   "Hanoi": {
     "photos": [
       {
@@ -429,70 +465,262 @@
   },
   "Lancaster": {
     "query": "Lancaster Lancashire England",
-    "src": "https://images.unsplash.com/photo-1653990173025-967602c11ed9?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8TGFuY2FzdGVyJTIwTGFuY2FzaGlyZSUyMEVuZ2xhbmR8ZW58MXwwfHx8MTc5MzE4MTc3NHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#8c8ca6",
-    "alt": "a train traveling across a sandy beach under a cloudy sky",
-    "photographer": "Asher Legg",
-    "photographer_url": "https://unsplash.com/@leggie02?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/a-train-traveling-across-a-sandy-beach-under-a-cloudy-sky-51kRnqy1-Vs?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1653990173025-967602c11ed9?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8TGFuY2FzdGVyJTIwTGFuY2FzaGlyZSUyMEVuZ2xhbmR8ZW58MXwwfHx8MTc5MzE5MDA3Nnww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#8c8ca6",
+        "alt": "a train traveling across a sandy beach under a cloudy sky",
+        "photographer": "Asher Legg",
+        "photographer_url": "https://unsplash.com/@leggie02?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-train-traveling-across-a-sandy-beach-under-a-cloudy-sky-51kRnqy1-Vs?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Lausanne": {
     "query": "Lausanne Lake Geneva",
-    "src": "https://images.unsplash.com/photo-1571296242627-99043222b0ce?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTV8fExhdXNhbm5lJTIwTGFrZSUyMEdlbmV2YXxlbnwxfDB8fHwxNzkzMTgxNzc2fDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#738c40",
-    "alt": "wide-angle photography of buildings beside lake during daytime",
-    "photographer": "Gabriel Garcia Marengo",
-    "photographer_url": "https://unsplash.com/@gabrielgm?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/wide-angle-photography-of-buildings-beside-lake-during-daytime-_rIJPPZM0Aw?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1668719774778-48494c30a66d?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTB8fExhdXNhbm5lJTIwTGFrZSUyMEdlbmV2YXxlbnwxfDB8fHwxNzkzMTkwMDc4fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#737326",
+        "alt": "a green field with houses and trees by a body of water",
+        "photographer": "Oksana Bürki",
+        "photographer_url": "https://unsplash.com/@xeniaweb?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-green-field-with-houses-and-trees-by-a-body-of-water-B-AMV0437bw?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1657469181135-49569d70bff5?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Nnx8TGF1c2FubmUlMjBMYWtlJTIwR2VuZXZhfGVufDF8MHx8fDE3OTMxOTAwNzh8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#8ca6c0",
+        "alt": "a boat on the water",
+        "photographer": "Stephen H",
+        "photographer_url": "https://unsplash.com/@stteee?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-boat-on-the-water-3Bh9wb4NrD0?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1668719773092-304843ea6208?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTN8fExhdXNhbm5lJTIwTGFrZSUyMEdlbmV2YXxlbnwxfDB8fHwxNzkzMTkwMDc4fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#8cc0d9",
+        "alt": "a town on a hill by the water",
+        "photographer": "Oksana Bürki",
+        "photographer_url": "https://unsplash.com/@xeniaweb?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-town-on-a-hill-by-the-water-e96eyFowT50?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1699470740879-bde4d7db985c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NHx8TGF1c2FubmUlMjBMYWtlJTIwR2VuZXZhfGVufDF8MHx8fDE3OTMxOTAwNzh8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#a6c0d9",
+        "alt": "a view of a mountain range with a lake in the foreground",
+        "photographer": "T Fang",
+        "photographer_url": "https://unsplash.com/@tqfang?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-view-of-a-mountain-range-with-a-lake-in-the-foreground-q24KCVOaKJ0?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Los Angeles": {
-    "src": "https://images.unsplash.com/photo-1471039497385-b6d6ba609f9c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NHx8TG9zJTIwQW5nZWxlcyUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDMyfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#f3d9d9",
-    "alt": "The One Wilshire building and surrounding skyscrapers in the Los Angeles skyline at dusk",
-    "photographer": "Owen Lystrup",
-    "photographer_url": "https://unsplash.com/@owencavlys?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/one-wilshire-building-in-los-angeles-boLgiM0qwkg?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1471039497385-b6d6ba609f9c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NHx8TG9zJTIwQW5nZWxlcyUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDMyfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#f3d9d9",
+        "alt": "The One Wilshire building and surrounding skyscrapers in the Los Angeles skyline at dusk",
+        "photographer": "Owen Lystrup",
+        "photographer_url": "https://unsplash.com/@owencavlys?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/one-wilshire-building-in-los-angeles-boLgiM0qwkg?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1517462035531-76bc910a6903?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8TG9zJTIwQW5nZWxlcyUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDMyfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#260c0c",
+        "alt": "aerial view of cityscape at night",
+        "photographer": "Denys Nevozhai",
+        "photographer_url": "https://unsplash.com/@dnevozhai?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/aerial-view-of-cityscape-at-night-aOLc2ENmTzo?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1513711487224-63b774e12f4d?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OHx8TG9zJTIwQW5nZWxlcyUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDMyfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#c0d9d9",
+        "alt": "aerial photo of buildings",
+        "photographer": "Nathan Dumlao",
+        "photographer_url": "https://unsplash.com/@nate_dumlao?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/aerial-photo-of-buildings-rDudzYhHQG8?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1454238554694-bb0049b8dc5a?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Nnx8TG9zJTIwQW5nZWxlcyUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDMyfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#0c59c0",
+        "alt": "timelapse of city lanscape",
+        "photographer": "Jeremy Bishop",
+        "photographer_url": "https://unsplash.com/@jeremybishop?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/timelapse-of-city-lanscape-KthnAO0Nlpw?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Lucca": {
-    "src": "https://images.unsplash.com/photo-1786340716450-c2a99347ad4c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8THVjY2ElMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQzNHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#c0a68c",
-    "alt": "A cyclist and pedestrians in a large yellow plaza surrounded by historic buildings",
-    "photographer": "Filiz Elaerts",
-    "photographer_url": "https://unsplash.com/@filizelaerts?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/cyclist-and-pedestrians-in-yellow-plaza-Rupn4EU_7fI?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1786340716450-c2a99347ad4c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8THVjY2ElMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQzNHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#c0a68c",
+        "alt": "A cyclist and pedestrians in a large yellow plaza surrounded by historic buildings",
+        "photographer": "Filiz Elaerts",
+        "photographer_url": "https://unsplash.com/@filizelaerts?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/cyclist-and-pedestrians-in-yellow-plaza-Rupn4EU_7fI?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1781785027725-fdcf6122e690?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8THVjY2ElMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQzNHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#595940",
+        "alt": "Historic italian city with a tall tower and distant mountains",
+        "photographer": "Madalina Zamfira",
+        "photographer_url": "https://unsplash.com/@madalinaz?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/historic-italian-city-with-a-tall-tower-and-distant-mountains-ySgWmMzs9-4?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1783441183889-75d7a324c746?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NHx8THVjY2ElMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQzNHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#a67359",
+        "alt": "Historic italian town with a tall bell tower and mountains",
+        "photographer": "Wojciech Wyszkowski",
+        "photographer_url": "https://unsplash.com/@fotodruk?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/historic-italian-town-with-a-tall-bell-tower-and-mountains-wIZ8YuPC6R4?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Macau": {
-    "src": "https://images.unsplash.com/photo-1555331446-6690621341e8?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Nnx8TWFjYXUlMjBza3lsaW5lfGVufDF8MHx8fDE3OTMxODE0MzV8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#0c2626",
-    "alt": "white and pink concrete high-rise buildings during daytime",
-    "photographer": "Vernon Raineil Cenzon",
-    "photographer_url": "https://unsplash.com/@thevernon?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/white-and-pink-concrete-high-rise-buildings-during-daytime-j78Zl7TbnCY?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1555331446-6690621341e8?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Nnx8TWFjYXUlMjBza3lsaW5lfGVufDF8MHx8fDE3OTMxODE0MzV8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#0c2626",
+        "alt": "white and pink concrete high-rise buildings during daytime",
+        "photographer": "Vernon Raineil Cenzon",
+        "photographer_url": "https://unsplash.com/@thevernon?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/white-and-pink-concrete-high-rise-buildings-during-daytime-j78Zl7TbnCY?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1555331446-0ff637678740?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8TWFjYXUlMjBza3lsaW5lfGVufDF8MHx8fDE3OTMxODE0MzV8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#735959",
+        "alt": "skyline sky view",
+        "photographer": "Vernon Raineil Cenzon",
+        "photographer_url": "https://unsplash.com/@thevernon?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/skyline-sky-view-I0fnFdtE9zc?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1561958635-a4f95d86c771?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8TWFjYXUlMjBza3lsaW5lfGVufDF8MHx8fDE3OTMxODE0MzV8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#f3c0a6",
+        "alt": "cityscape under red sky",
+        "photographer": "Nathan John",
+        "photographer_url": "https://unsplash.com/@jnate?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/cityscape-under-red-sky-Hz-oLWIyts0?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1516037551965-fadf81e1bcc3?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8TWFjYXUlMjBza3lsaW5lfGVufDF8MHx8fDE3OTMxODE0MzV8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#404040",
+        "alt": "city buildings under cloudy sky",
+        "photographer": "Wojciech Portnicki",
+        "photographer_url": "https://unsplash.com/@auror?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-buildings-under-cloudy-sky-JORWItSkxPE?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Malmö": {
-    "src": "https://images.unsplash.com/photo-1581196598931-6ee285b60e31?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8TWFsbSVDMyVCNiUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDM3fDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#402626",
-    "alt": "city skyline during night time",
-    "photographer": "Krisztian Tabori",
-    "photographer_url": "https://unsplash.com/@ktabori?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/city-skyline-during-night-time-BywYl0Fp3pI?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1581196598931-6ee285b60e31?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8TWFsbSVDMyVCNiUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTkwMDg3fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#402626",
+        "alt": "city skyline during night time",
+        "photographer": "Krisztian Tabori",
+        "photographer_url": "https://unsplash.com/@ktabori?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-skyline-during-night-time-BywYl0Fp3pI?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1581196598638-2aa9cba1432a?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8TWFsbSVDMyVCNiUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTkwMDg3fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "city with high rise buildings during night time",
+        "photographer": "Krisztian Tabori",
+        "photographer_url": "https://unsplash.com/@ktabori?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-with-high-rise-buildings-during-night-time-CIepBIPUxs8?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1581196598590-697c0c43df40?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8TWFsbSVDMyVCNiUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTkwMDg3fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "city skyline during night time",
+        "photographer": "Krisztian Tabori",
+        "photographer_url": "https://unsplash.com/@ktabori?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-skyline-during-night-time-Y8rkJgEpkh4?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1787132777557-99d450b75b9c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OXx8TWFsbSVDMyVCNiUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTkwMDg3fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#d9d9f3",
+        "alt": "Low angle view of a modern grey brick building against a pale sky",
+        "photographer": "Ellodev",
+        "photographer_url": "https://unsplash.com/@ellodev?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/modern-grey-brick-building-facade-NT2m4w89Da0?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Mexico / Central America": {
     "query": "Mexico City skyline day",
-    "src": "https://images.unsplash.com/photo-1562797854-2d46460a9cbe?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OXx8TWV4aWNvJTIwQ2l0eSUyMHNreWxpbmUlMjBkYXl8ZW58MXwwfHx8MTc5MzE4MTc3OHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#738c8c",
-    "alt": "high angle photo of cityscape",
-    "photographer": "Zion Arellano",
-    "photographer_url": "https://unsplash.com/@zion016?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/high-angle-photo-of-cityscape-S4FhdmVOIQo?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1562797854-2d46460a9cbe?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OXx8TWV4aWNvJTIwQ2l0eSUyMHNreWxpbmUlMjBkYXl8ZW58MXwwfHx8MTc5MzE5MDA4OXww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#738c8c",
+        "alt": "high angle photo of cityscape",
+        "photographer": "Zion Arellano",
+        "photographer_url": "https://unsplash.com/@zion016?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/high-angle-photo-of-cityscape-S4FhdmVOIQo?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1615950630831-36407b92cf09?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NHx8TWV4aWNvJTIwQ2l0eSUyMHNreWxpbmUlMjBkYXl8ZW58MXwwfHx8MTc5MzE5MDA4OXww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#a6c0c0",
+        "alt": "gray concrete building under blue sky during daytime",
+        "photographer": "Gus Lepe",
+        "photographer_url": "https://unsplash.com/@guslepe?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/gray-concrete-building-under-blue-sky-during-daytime-u7CiaEeqjlk?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1711025716267-e75c2a8598da?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Nnx8TWV4aWNvJTIwQ2l0eSUyMHNreWxpbmUlMjBkYXl8ZW58MXwwfHx8MTc5MzE5MDA4OXww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#a6a6a6",
+        "alt": "a city skyline with tall buildings and a cloudy sky",
+        "photographer": "Carl Campbell",
+        "photographer_url": "https://unsplash.com/@carlbcampbell?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-city-skyline-with-tall-buildings-and-a-cloudy-sky-nKOvyhHXT34?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1674681512517-e2ea0c423b9d?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8TWV4aWNvJTIwQ2l0eSUyMHNreWxpbmUlMjBkYXl8ZW58MXwwfHx8MTc5MzE5MDA4OXww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#a6c0d9",
+        "alt": "a view of a city from the top of a hill",
+        "photographer": "Anton Lukin",
+        "photographer_url": "https://unsplash.com/@antonlukin?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-view-of-a-city-from-the-top-of-a-hill-8A4E8bGLUqY?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Montréal": {
-    "src": "https://images.unsplash.com/photo-1585886309215-03a15afc624a?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8TW9udHIlQzMlQTlhbCUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDQxfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#0c73c0",
-    "alt": "city skyline under blue sky during daytime",
-    "photographer": "Tiago Louvize",
-    "photographer_url": "https://unsplash.com/@tiagolouvize?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/city-skyline-under-blue-sky-during-daytime-r4gsIYkI97c?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1585886309215-03a15afc624a?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8TW9udHIlQzMlQTlhbCUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDQxfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#0c73c0",
+        "alt": "city skyline under blue sky during daytime",
+        "photographer": "Tiago Louvize",
+        "photographer_url": "https://unsplash.com/@tiagolouvize?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-skyline-under-blue-sky-during-daytime-r4gsIYkI97c?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1592658275438-8eaa19770021?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8TW9udHIlQzMlQTlhbCUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDQxfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#8cc0d9",
+        "alt": "city skyline under blue sky during daytime",
+        "photographer": "Céline Chamiot-Poncet",
+        "photographer_url": "https://unsplash.com/@celinecp?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-skyline-under-blue-sky-during-daytime-Yr4LvlUfDvg?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1612196755540-602022b439cc?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8TW9udHIlQzMlQTlhbCUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDQxfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#c0d9f3",
+        "alt": "city skyline under gray cloudy sky during daytime",
+        "photographer": "Olivier Collet",
+        "photographer_url": "https://unsplash.com/@ocollet?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-skyline-under-gray-cloudy-sky-during-daytime-IDPwa7orpMI?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1791168547219-51356a633d6d?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8TW9udHIlQzMlQTlhbCUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDQxfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#0c59d9",
+        "alt": "A large white ferris wheel above green trees and a blue canal",
+        "photographer": "Rafael Rodrigues",
+        "photographer_url": "https://unsplash.com/@rafaelrodrigues?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/ferris-wheel-above-blue-canal-aUqkWLZOshc?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Osaka": {
     "src": "https://images.unsplash.com/photo-1560291544-5e71ac7776c4?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NHx8T3Nha2ElMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQ0M3ww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
