@@ -1,9 +1,21 @@
 {
   "Anaheim": {
-    "query": "Anaheim California aerial"
+    "query": "Anaheim California aerial",
+    "src": "https://images.unsplash.com/photo-1494001300670-0a3dc75bf355?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8QW5haGVpbSUyMENhbGlmb3JuaWElMjBhZXJpYWx8ZW58MXwwfHx8MTc5MzE4MTc2N3ww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#26260c",
+    "alt": "hills under clear blue sky",
+    "photographer": "Derek Liang",
+    "photographer_url": "https://unsplash.com/@derekrliang?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/hills-under-clear-blue-sky-LOWy6Kz7XJk?utm_source=conf_ddl&utm_medium=referral"
   },
   "Athens": {
-    "query": "Athens Acropolis cityscape"
+    "query": "Athens Acropolis cityscape",
+    "src": "https://images.unsplash.com/photo-1603565816030-6b389eeb23cb?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8QXRoZW5zJTIwQWNyb3BvbGlzJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE3Njl8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#8c8c8c",
+    "alt": "acropolis of athens at golden hour",
+    "photographer": "Constantinos Kollias",
+    "photographer_url": "https://unsplash.com/@ckollias?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/acropolis-of-athens-at-golden-hour-yqBvJJ8jGBQ?utm_source=conf_ddl&utm_medium=referral"
   },
   "Auckland": {
     "src": "https://images.unsplash.com/photo-1604367078108-3ed095682132?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8QXVja2xhbmQlMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQwOHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
@@ -38,7 +50,13 @@
     "photo_url": "https://unsplash.com/photos/golden-gate-bridge-during-daytime-gZXx8lKAb7Y?utm_source=conf_ddl&utm_medium=referral"
   },
   "Denver": {
-    "query": "Denver skyline"
+    "query": "Denver skyline",
+    "src": "https://images.unsplash.com/photo-1546156929-a4c0ac411f47?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8N3x8RGVudmVyJTIwc2t5bGluZXxlbnwxfDB8fHwxNzkzMTgxNzcxfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#d9f3f3",
+    "alt": "aerial photo of city",
+    "photographer": "Cassie Gallegos",
+    "photographer_url": "https://unsplash.com/@theadventurebitch?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/aerial-photo-of-city-tjoxkIODoCE?utm_source=conf_ddl&utm_medium=referral"
   },
   "Dublin": {
     "src": "https://images.unsplash.com/photo-1584958416995-614bafcc67f0?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTN8fER1YmxpbiUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDE4fDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
@@ -73,13 +91,31 @@
     "photo_url": "https://unsplash.com/photos/city-during-night-7JyJZVHOzJk?utm_source=conf_ddl&utm_medium=referral"
   },
   "Kyoto": {
-    "query": "Kyoto temple cityscape"
+    "query": "Kyoto temple cityscape",
+    "src": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8S3lvdG8lMjB0ZW1wbGUlMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTc3M3ww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#260c0c",
+    "alt": "two women in purple and pink kimono standing on street",
+    "photographer": "Sorasak",
+    "photographer_url": "https://unsplash.com/@boontohhgraphy?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/two-women-in-purple-and-pink-kimono-standing-on-street-_UIN-pFfJ7c?utm_source=conf_ddl&utm_medium=referral"
   },
   "Lancaster": {
-    "query": "Lancaster Lancashire England"
+    "query": "Lancaster Lancashire England",
+    "src": "https://images.unsplash.com/photo-1653990173025-967602c11ed9?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8TGFuY2FzdGVyJTIwTGFuY2FzaGlyZSUyMEVuZ2xhbmR8ZW58MXwwfHx8MTc5MzE4MTc3NHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#8c8ca6",
+    "alt": "a train traveling across a sandy beach under a cloudy sky",
+    "photographer": "Asher Legg",
+    "photographer_url": "https://unsplash.com/@leggie02?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/a-train-traveling-across-a-sandy-beach-under-a-cloudy-sky-51kRnqy1-Vs?utm_source=conf_ddl&utm_medium=referral"
   },
   "Lausanne": {
-    "query": "Lausanne Lake Geneva"
+    "query": "Lausanne Lake Geneva",
+    "src": "https://images.unsplash.com/photo-1571296242627-99043222b0ce?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTV8fExhdXNhbm5lJTIwTGFrZSUyMEdlbmV2YXxlbnwxfDB8fHwxNzkzMTgxNzc2fDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#738c40",
+    "alt": "wide-angle photography of buildings beside lake during daytime",
+    "photographer": "Gabriel Garcia Marengo",
+    "photographer_url": "https://unsplash.com/@gabrielgm?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/wide-angle-photography-of-buildings-beside-lake-during-daytime-_rIJPPZM0Aw?utm_source=conf_ddl&utm_medium=referral"
   },
   "Los Angeles": {
     "src": "https://images.unsplash.com/photo-1471039497385-b6d6ba609f9c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NHx8TG9zJTIwQW5nZWxlcyUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDMyfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
@@ -114,7 +150,13 @@
     "photo_url": "https://unsplash.com/photos/city-skyline-during-night-time-BywYl0Fp3pI?utm_source=conf_ddl&utm_medium=referral"
   },
   "Mexico / Central America": {
-    "query": "Mexico City skyline day"
+    "query": "Mexico City skyline day",
+    "src": "https://images.unsplash.com/photo-1562797854-2d46460a9cbe?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OXx8TWV4aWNvJTIwQ2l0eSUyMHNreWxpbmUlMjBkYXl8ZW58MXwwfHx8MTc5MzE4MTc3OHww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
+    "color": "#738c8c",
+    "alt": "high angle photo of cityscape",
+    "photographer": "Zion Arellano",
+    "photographer_url": "https://unsplash.com/@zion016?utm_source=conf_ddl&utm_medium=referral",
+    "photo_url": "https://unsplash.com/photos/high-angle-photo-of-cityscape-S4FhdmVOIQo?utm_source=conf_ddl&utm_medium=referral"
   },
   "Montréal": {
     "src": "https://images.unsplash.com/photo-1585886309215-03a15afc624a?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8TW9udHIlQzMlQTlhbCUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNDQxfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
