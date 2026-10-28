@@ -7,7 +7,7 @@ Live countdowns to the main conference deadlines in computer vision, ML and AI (
 - **Search** (`/` to focus) and area filters (CV, ML, AI, NLP, Graphics, …), Confirmed-only and CCF-A toggles
 - **Local / AoE** time display, light and dark themes
 - **.ics export** with 7-day and 1-day reminders
-- A **Passed** list for the deadlines that have closed
+- **Review timeline** on every card: submit → rebuttal → decision; after submission closes, the card counts down to the rebuttal window and then the decision
 
 Plain static site: `index.html`, `assets/`, and one data file, `data/conferences.json`. No build step.
 Animations use GSAP (Flip + ScrollTrigger) from cdnjs, and the page respects `prefers-reduced-motion`.
@@ -46,12 +46,16 @@ To edit by hand, add an entry to `data/conferences.json`:
   "date": "Sep 2028",
   "place": "TBA",
   "status": "estimated",
+  "rebuttal": ["2028-05-01", "2028-05-10"],
+  "decision": "2028-06-15",
   "note": "Projected from ECCV 2026."
 }
 ```
 
 - `timezone`: `AoE`, `UTC`, `UTC+8`, `UTC-7`, `PST`, `PDT`, `CET`, …
 - `status`: `confirmed` (from the official CFP) or `estimated` (projected from the previous cycle)
-- `abstract_deadline`, `ccf`, `note` are optional
+- `rebuttal`: `[start, end]` dates, or `false` if the venue has no rebuttal. Leave it out while unannounced (shows TBA)
+- `decision`: date of the final decision / notification
+- `abstract_deadline`, `rebuttal`, `decision`, `ccf`, `note` are optional
 
 Then run `python3 scripts/validate.py`.

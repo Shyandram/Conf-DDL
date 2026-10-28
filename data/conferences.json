@@ -16,7 +16,9 @@
       "title": "CVPR",
       "year": 2027,
       "full_name": "IEEE/CVF Conference on Computer Vision and Pattern Recognition",
-      "area": ["CV"],
+      "area": [
+        "CV"
+      ],
       "ccf": "A",
       "link": "https://cvpr.thecvf.com/Conferences/2027/CallForPapers",
       "abstract_deadline": "2026-11-10 23:59",
@@ -25,14 +27,21 @@
       "date": "Jun 2027",
       "place": "TBA",
       "status": "confirmed",
-      "note": "Paper enrollment Nov 10, supplementary Nov 23. Rebuttal Jan 25 – Feb 1, decisions Feb 25, 2027. No extensions."
+      "rebuttal": [
+        "2027-01-25",
+        "2027-02-01"
+      ],
+      "decision": "2027-02-25",
+      "note": "Paper enrollment Nov 10, supplementary Nov 23. No extensions."
     },
     {
       "id": "acl27",
       "title": "ACL",
       "year": 2027,
       "full_name": "Annual Meeting of the Association for Computational Linguistics",
-      "area": ["NLP"],
+      "area": [
+        "NLP"
+      ],
       "ccf": "A",
       "link": "https://2027.aclweb.org/",
       "deadline": "2027-01-04 23:59",
@@ -40,14 +49,17 @@
       "date": "Aug 2027",
       "place": "TBA",
       "status": "estimated",
-      "note": "Reported ARR submission deadline; the official site still lists it as TBA."
+      "decision": "2027-04-03",
+      "note": "Reported ARR deadline; the official site still lists it as TBA. Decision projected from ACL 2026 (Apr 4)."
     },
     {
       "id": "ijcai27",
       "title": "IJCAI",
       "year": 2027,
       "full_name": "International Joint Conference on Artificial Intelligence",
-      "area": ["AI"],
+      "area": [
+        "AI"
+      ],
       "ccf": "A",
       "link": "https://www.ijcai.org/",
       "deadline": "2027-01-15 23:59",
@@ -55,14 +67,21 @@
       "date": "Aug 2027",
       "place": "Kyoto, Japan",
       "status": "estimated",
-      "note": "Projected from the previous cycle; trackers range from Jan 4 to Jan 19."
+      "rebuttal": [
+        "2027-04-06",
+        "2027-04-09"
+      ],
+      "decision": "2027-04-28",
+      "note": "Projected from IJCAI-ECAI 2026 (response Apr 7–10, notification Apr 29). Trackers put the deadline anywhere from Jan 4 to Jan 19."
     },
     {
       "id": "icml27",
       "title": "ICML",
       "year": 2027,
       "full_name": "International Conference on Machine Learning",
-      "area": ["ML"],
+      "area": [
+        "ML"
+      ],
       "ccf": "A",
       "link": "https://icml.cc/",
       "abstract_deadline": "2027-01-16 23:59",
@@ -71,14 +90,22 @@
       "date": "Jul 2027",
       "place": "TBA",
       "status": "estimated",
-      "note": "Projected from the ICML 2026 cycle. Call for papers not yet published."
+      "rebuttal": [
+        "2027-03-23",
+        "2027-04-06"
+      ],
+      "decision": "2027-04-29",
+      "note": "Projected from ICML 2026 (response Mar 24 – Apr 7, notification Apr 30). Call for papers not yet published."
     },
     {
       "id": "siggraph27",
       "title": "SIGGRAPH",
       "year": 2027,
       "full_name": "ACM SIGGRAPH Technical Papers",
-      "area": ["CG", "CV"],
+      "area": [
+        "CG",
+        "CV"
+      ],
       "ccf": "A",
       "link": "https://www.siggraph.org/",
       "deadline": "2027-01-22 22:00",
@@ -93,7 +120,10 @@
       "title": "ICIP",
       "year": 2027,
       "full_name": "IEEE International Conference on Image Processing",
-      "area": ["SP", "CV"],
+      "area": [
+        "SP",
+        "CV"
+      ],
       "ccf": "C",
       "link": "https://signalprocessingsociety.org/event-names/icip",
       "deadline": "2027-02-03 23:59",
@@ -101,14 +131,18 @@
       "date": "Oct 2027",
       "place": "TBA",
       "status": "estimated",
-      "note": "Early February in recent years (Feb 4, 2026; Feb 5, 2025)."
+      "rebuttal": false,
+      "decision": "2027-04-21",
+      "note": "No rebuttal. Projected from ICIP 2026 (deadline Feb 4, notification Apr 22)."
     },
     {
       "id": "iccv27",
       "title": "ICCV",
       "year": 2027,
       "full_name": "IEEE/CVF International Conference on Computer Vision",
-      "area": ["CV"],
+      "area": [
+        "CV"
+      ],
       "ccf": "A",
       "link": "https://iccv.thecvf.com/",
       "abstract_deadline": "2027-03-01 23:59",
@@ -117,14 +151,22 @@
       "date": "Oct 2 – 8, 2027",
       "place": "Hong Kong",
       "status": "estimated",
-      "note": "Projected from ICCV 2025 (Mar 7, 2025)."
+      "rebuttal": [
+        "2027-05-10",
+        "2027-05-17"
+      ],
+      "decision": "2027-06-21",
+      "note": "Projected from ICCV 2025 (deadline Mar 7, rebuttal May 9–16, decisions Jun 20)."
     },
     {
       "id": "mm27",
       "title": "ACM MM",
       "year": 2027,
       "full_name": "ACM International Conference on Multimedia",
-      "area": ["MM", "CV"],
+      "area": [
+        "MM",
+        "CV"
+      ],
       "ccf": "A",
       "link": "https://acmmm.org/",
       "deadline": "2027-04-01 23:59",
@@ -132,14 +174,17 @@
       "date": "Oct 2027",
       "place": "TBA",
       "status": "estimated",
-      "note": "MM 2026 regular papers were due Apr 1, 2026."
+      "decision": "2027-07-06",
+      "note": "Optional OpenReview rebuttal. Projected from MM 2026 (deadline Apr 1, notification Jul 7)."
     },
     {
       "id": "neurips27",
       "title": "NeurIPS",
       "year": 2027,
       "full_name": "Conference on Neural Information Processing Systems",
-      "area": ["ML"],
+      "area": [
+        "ML"
+      ],
       "ccf": "A",
       "link": "https://neurips.cc/",
       "abstract_deadline": "2027-05-04 23:59",
@@ -148,14 +193,21 @@
       "date": "Dec 2027",
       "place": "TBA",
       "status": "estimated",
-      "note": "Projected from NeurIPS 2026 (abstract May 4, paper May 6)."
+      "rebuttal": [
+        "2027-07-26",
+        "2027-08-02"
+      ],
+      "decision": "2027-09-23",
+      "note": "Projected from NeurIPS 2026 (rebuttal Jul 27 – Aug 3, notification Sep 24)."
     },
     {
       "id": "wacv28r1",
       "title": "WACV",
       "year": 2028,
       "full_name": "IEEE/CVF Winter Conference on Applications of Computer Vision · Round 1",
-      "area": ["CV"],
+      "area": [
+        "CV"
+      ],
       "ccf": "",
       "link": "https://wacv.thecvf.com/",
       "deadline": "2027-06-25 23:59",
@@ -163,14 +215,17 @@
       "date": "Mar 2028",
       "place": "TBA",
       "status": "estimated",
-      "note": "Projected from WACV 2027 Round 1 (Jun 26, 2026)."
+      "decision": "2027-08-06",
+      "note": "Projected from WACV 2027 Round 1 (deadline Jun 26, first-round decisions Aug 7)."
     },
     {
       "id": "aaai28",
       "title": "AAAI",
       "year": 2028,
       "full_name": "AAAI Conference on Artificial Intelligence",
-      "area": ["AI"],
+      "area": [
+        "AI"
+      ],
       "ccf": "A",
       "link": "https://aaai.org/",
       "abstract_deadline": "2027-07-20 23:59",
@@ -179,14 +234,21 @@
       "date": "Feb 2028",
       "place": "TBA",
       "status": "estimated",
-      "note": "Projected from AAAI-27 (abstract Jul 21, paper Jul 28, 2026)."
+      "rebuttal": [
+        "2027-10-18",
+        "2027-10-24"
+      ],
+      "decision": "2027-11-29",
+      "note": "Projected from AAAI-27 (feedback Oct 19–25, decisions Nov 30)."
     },
     {
       "id": "iclr28",
       "title": "ICLR",
       "year": 2028,
       "full_name": "International Conference on Learning Representations",
-      "area": ["ML"],
+      "area": [
+        "ML"
+      ],
       "ccf": "",
       "link": "https://iclr.cc/",
       "abstract_deadline": "2027-09-17 23:59",
@@ -195,14 +257,21 @@
       "date": "Apr 2028",
       "place": "TBA",
       "status": "estimated",
-      "note": "Projected from ICLR 2027 (abstract Sep 18, paper Sep 25, 2026)."
+      "rebuttal": [
+        "2027-11-04",
+        "2027-11-17"
+      ],
+      "decision": "2027-12-15",
+      "note": "Projected from ICLR 2027 (discussion Nov 5–18, decisions Dec 16)."
     },
     {
       "id": "iclr27",
       "title": "ICLR",
       "year": 2027,
       "full_name": "International Conference on Learning Representations",
-      "area": ["ML"],
+      "area": [
+        "ML"
+      ],
       "ccf": "",
       "link": "https://iclr.cc/Conferences/2027/CallForPapers",
       "abstract_deadline": "2026-09-18 23:59",
@@ -211,29 +280,40 @@
       "date": "Apr 26 – 30, 2027",
       "place": "California, USA",
       "status": "confirmed",
-      "note": "Reviews out Nov 5, final decisions Dec 16, 2026."
+      "rebuttal": [
+        "2026-11-05",
+        "2026-11-18"
+      ],
+      "decision": "2026-12-16",
+      "note": "Author–reviewer discussion Nov 5–18, then reviewer–AC discussion until Dec 16."
     },
     {
       "id": "icassp27",
       "title": "ICASSP",
       "year": 2027,
       "full_name": "IEEE International Conference on Acoustics, Speech and Signal Processing",
-      "area": ["SP"],
+      "area": [
+        "SP"
+      ],
       "ccf": "B",
       "link": "https://2027.ieeeicassp.org/",
-      "deadline": "2026-09-16 23:59",
+      "deadline": "2026-09-23 23:59",
       "timezone": "AoE",
       "date": "May 16 – 21, 2027",
       "place": "Toronto, Canada",
       "status": "confirmed",
-      "note": "Acceptance notification January 2027."
+      "rebuttal": false,
+      "decision": "2027-01-13",
+      "note": "Full-paper deadline extended from Sep 16 to Sep 23. No rebuttal. Final papers due Jan 27, 2027."
     },
     {
       "id": "icra27",
       "title": "ICRA",
       "year": 2027,
       "full_name": "IEEE International Conference on Robotics and Automation",
-      "area": ["RO"],
+      "area": [
+        "RO"
+      ],
       "ccf": "B",
       "link": "https://2027.ieee-icra.org/announcements/call-for-technical-papers/",
       "deadline": "2026-09-15 23:59",
@@ -241,14 +321,18 @@
       "date": "May 24 – 28, 2027",
       "place": "Seoul, South Korea",
       "status": "confirmed",
-      "note": "Journal transfer deadline Dec 31, 2026. Notification Jan 31, 2027."
+      "rebuttal": false,
+      "decision": "2027-01-31",
+      "note": "No rebuttal. Journal transfer deadline Dec 31, 2026."
     },
     {
       "id": "wacv27r2",
       "title": "WACV",
       "year": 2027,
       "full_name": "IEEE/CVF Winter Conference on Applications of Computer Vision · Round 2",
-      "area": ["CV"],
+      "area": [
+        "CV"
+      ],
       "ccf": "",
       "link": "https://wacv.thecvf.com/Conferences/2027/AuthorGuides",
       "deadline": "2026-08-28 23:59",
@@ -256,14 +340,18 @@
       "date": "Mar 2027",
       "place": "TBA",
       "status": "confirmed",
-      "note": "Camera-ready due Nov 2, 2026."
+      "rebuttal": false,
+      "decision": "2026-10-09",
+      "note": "No rebuttal in Round 2. Camera-ready due Nov 2, 2026."
     },
     {
       "id": "3dv27",
       "title": "3DV",
       "year": 2027,
       "full_name": "International Conference on 3D Vision",
-      "area": ["CV"],
+      "area": [
+        "CV"
+      ],
       "ccf": "",
       "link": "https://3dvconf.github.io/",
       "deadline": "2026-08-28 23:59",
@@ -271,14 +359,17 @@
       "date": "Apr 6 – 9, 2027",
       "place": "Thessaloniki, Greece",
       "status": "confirmed",
-      "note": "Final notifications Dec 2, 2026."
+      "decision": "2026-12-02",
+      "note": "Supplementary was due Sep 2, 2026."
     },
     {
       "id": "aaai27",
       "title": "AAAI",
       "year": 2027,
       "full_name": "AAAI Conference on Artificial Intelligence",
-      "area": ["AI"],
+      "area": [
+        "AI"
+      ],
       "ccf": "A",
       "link": "https://aaai.org/conference/aaai/aaai-27/",
       "abstract_deadline": "2026-07-21 23:59",
@@ -287,14 +378,21 @@
       "date": "Feb 16 – 23, 2027",
       "place": "Montréal, Canada",
       "status": "confirmed",
-      "note": "Notification Nov 17, camera-ready Dec 14, 2026."
+      "rebuttal": [
+        "2026-10-19",
+        "2026-10-25"
+      ],
+      "decision": "2026-11-30",
+      "note": "Phase 1 rejections Sep 24. Camera-ready Dec 14, 2026."
     },
     {
       "id": "wacv27r1",
       "title": "WACV",
       "year": 2027,
       "full_name": "IEEE/CVF Winter Conference on Applications of Computer Vision · Round 1",
-      "area": ["CV"],
+      "area": [
+        "CV"
+      ],
       "ccf": "",
       "link": "https://wacv.thecvf.com/Conferences/2027/AuthorGuides",
       "deadline": "2026-06-26 23:59",
@@ -302,14 +400,17 @@
       "date": "Mar 2027",
       "place": "TBA",
       "status": "confirmed",
-      "note": "Final decisions Oct 9, 2026."
+      "decision": "2026-08-07",
+      "note": "First-round decisions (accept / revise / reject) Aug 7; revised papers continue to Round 2."
     },
     {
       "id": "neurips26",
       "title": "NeurIPS",
       "year": 2026,
       "full_name": "Conference on Neural Information Processing Systems",
-      "area": ["ML"],
+      "area": [
+        "ML"
+      ],
       "ccf": "A",
       "link": "https://neurips.cc/Conferences/2026/Dates",
       "abstract_deadline": "2026-05-04 23:59",
@@ -318,14 +419,21 @@
       "date": "Dec 6 – 12, 2026",
       "place": "Sydney, Australia",
       "status": "confirmed",
-      "note": "Author notification Sep 24, 2026."
+      "rebuttal": [
+        "2026-07-27",
+        "2026-08-03"
+      ],
+      "decision": "2026-09-24",
+      "note": "Rebuttal closed Aug 3; reviewer–AC discussion to Aug 10."
     },
     {
       "id": "eccv26",
       "title": "ECCV",
       "year": 2026,
       "full_name": "European Conference on Computer Vision",
-      "area": ["CV"],
+      "area": [
+        "CV"
+      ],
       "ccf": "B",
       "link": "https://eccv.ecva.net/",
       "abstract_deadline": "2026-02-26 23:00",
@@ -334,6 +442,11 @@
       "date": "Sep 8 – 12, 2026",
       "place": "Malmö, Sweden",
       "status": "confirmed",
+      "rebuttal": [
+        "2026-05-02",
+        "2026-05-11"
+      ],
+      "decision": "2026-06-17",
       "note": "Next edition: ECCV 2028."
     }
   ]

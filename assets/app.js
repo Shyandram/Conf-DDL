@@ -59,6 +59,13 @@
   const fmtAoE = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "Etc/GMT+12" });
   const fmtShort = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" });
 
+  // Milestone dates are nominal calendar days, so format them without shifting time zones.
+  const fmtDayUTC = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", timeZone: "UTC" });
+  const fmtDayFull = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+  const dayUTC = str => { const [y, m, d] = String(str).slice(0, 10).split("-").map(Number); return Date.UTC(y, m - 1, d); };
+  const fmtDay = (str, full) => (full ? fmtDayFull : fmtDayUTC).format(dayUTC(str));
+  const fmtRange = ([a, b], full) => `${fmtDay(a)} – ${fmtDay(b, full)}`;
+
   const fmtTime = ms => (state.tz === "aoe" ? fmtAoE.format(ms) + " AoE" : fmtLocal.format(ms));
 
   function split(ms) {
@@ -130,13 +137,23 @@
     $(".c-note", el).textContent = c.note || "";
     if (!c.note) $(".c-note", el).remove();
     if (!c.abs) $(".c-abs", el).remove();
+    const steps = $$(".c-steps li", el);
+    const setStep = (li, text, title) => {
+      $("b", li).textContent = text;
+      li.title = title || "";
+      li.classList.toggle("na", text === "TBA" || text === "none");
+    };
+    setStep(steps[0], fmtDay(c.deadline), fmtDay(c.deadline, true));
+    // "rebuttal": false means the venue has none; a missing field means not announced yet.
+    setStep(steps[1], c.rebuttal ? fmtRange(c.rebuttal) : (c.rebuttal === false ? "none" : "TBA"), c.rebuttal ? fmtRange(c.rebuttal, true) : "");
+    setStep(steps[2], c.decision ? fmtDay(c.decision) : "TBA", c.decision ? fmtDay(c.decision, true) : "");
     const link = $(".c-link", el);
     link.href = c.link;
     $(".c-ics", el).addEventListener("click", () => icsFor(c));
     c.el = el;
     c.refs = {
       days: $(".c-days", el), unit: $(".c-unit", el), hms: $(".c-hms", el), bar: $(".bar i", el),
-      ddl: $(".c-ddl", el), abs: $(".c-abs dd", el),
+      ddl: $(".c-ddl", el), abs: $(".c-abs dd", el), steps,
     };
     return el;
   }
@@ -149,14 +166,45 @@
     if (heroConf) $("#heroWhen").textContent = fmtTime(heroConf.ddl);
   }
 
+  // Where a submitted paper is in review: what comes next and when.
+  function reviewPhase(c, now) {
+    if (c.reb && now < c.reb[0]) return { step: 1, label: "to rebuttal", at: c.reb[0] };
+    if (c.reb && now < c.reb[1]) return { step: 1, label: "rebuttal closes", at: c.reb[1], open: true };
+    if (c.dec && now < c.dec) return { step: 2, label: "to decision", at: c.dec };
+    return { step: c.dec ? 3 : 1, label: null };
+  }
+
+  function paintSteps(c, now) {
+    const phase = c.ddl > now ? { step: 0 } : reviewPhase(c, now);
+    const key = phase.step + (phase.open ? "o" : "");
+    if (c.stepKey === key) return phase;
+    c.stepKey = key;
+    c.refs.steps.forEach((li, i) => {
+      li.classList.toggle("done", i < phase.step);
+      li.classList.toggle("now", i === phase.step);
+    });
+    c.el.classList.toggle("in-review", c.ddl <= now && phase.label != null);
+    c.el.classList.toggle("in-rebuttal", !!phase.open);
+    return phase;
+  }
+
   function tickCard(c, now) {
     const left = c.ddl - now;
     const r = c.refs;
+    const phase = paintSteps(c, now);
+    if (left <= 0 && phase.label) {
+      const t = split(phase.at - now);
+      r.days.textContent = t.d;
+      r.unit.textContent = t.d === 1 ? "day" : "days";
+      r.hms.textContent = `${phase.label} · ${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`;
+      r.bar.style.width = "100%";
+      return;
+    }
     if (left <= 0) {
       const ago = Math.floor(-left / DAY);
       r.days.textContent = ago;
       r.unit.textContent = ago === 1 ? "day ago" : "days ago";
-      r.hms.textContent = "closed";
+      r.hms.textContent = c.dec ? "decided" : "closed";
       r.bar.style.width = "100%";
       return;
     }
@@ -317,7 +365,8 @@
       if (show) { visible.push(c); c.ddl > now ? up++ : past++; }
     }
     $("#countUp").textContent = up;
-    $("#countPast").textContent = past;
+    const reviewing = visible.filter(c => c.ddl <= now && reviewPhase(c, now).label).length;
+    $("#countPast").textContent = past + (reviewing ? ` · ${reviewing} in review` : "");
     $("#emptyUp").hidden = up > 0;
 
     const upcomingVisible = visible.filter(c => c.ddl > now);
@@ -430,7 +479,14 @@
   function build() {
     const now = Date.now();
     confs = data.conferences
-      .map(c => ({ ...c, area: c.area || [], ddl: parseDeadline(c.deadline, c.timezone), abs: parseDeadline(c.abstract_deadline, c.timezone) }))
+      .map(c => ({
+        ...c, area: c.area || [],
+        ddl: parseDeadline(c.deadline, c.timezone),
+        abs: parseDeadline(c.abstract_deadline, c.timezone),
+        // rebuttal opens at the start of its first day and closes at the end of its last
+        reb: Array.isArray(c.rebuttal) ? [parseDeadline(c.rebuttal[0].slice(0, 10) + " 00:00", c.timezone), parseDeadline(c.rebuttal[1], c.timezone)] : null,
+        dec: c.decision ? parseDeadline(c.decision.slice(0, 10) + " 00:00", c.timezone) : null,
+      }))
       .filter(c => c.ddl != null);
     const up = confs.filter(c => c.ddl > now).sort((a, b) => a.ddl - b.ddl);
     const past = confs.filter(c => c.ddl <= now).sort((a, b) => b.ddl - a.ddl);
@@ -472,7 +528,7 @@
     const now = Date.now();
     if (now >= nextBoundary) { heroConf = null; build(); }
     tickHero(now);
-    for (const c of confs) if (c.ddl > now - DAY && c.el.style.display !== "none") tickCard(c, now);
+    for (const c of confs) if (c.el.style.display !== "none") tickCard(c, now);
   }
 
   async function init() {

@@ -96,7 +96,7 @@
 
     <section aria-label="Passed deadlines" class="passed-sec">
       <button type="button" class="section-head passed-toggle" id="passedToggle" aria-expanded="false">
-        <h2>Passed <span class="count" id="countPast"></span></h2>
+        <h2>Submission closed <span class="count" id="countPast"></span></h2>
         <span class="chev" aria-hidden="true">↓</span>
       </button>
       <div class="cards cards-past" id="passed" hidden></div>
@@ -119,6 +119,11 @@
       </div>
       <p class="c-full"></p>
       <div class="bar"><i></i></div>
+      <ol class="c-steps" aria-label="Review timeline">
+        <li data-step="sub"><i></i><span>Submit</span><b></b></li>
+        <li data-step="reb"><i></i><span>Rebuttal</span><b></b></li>
+        <li data-step="dec"><i></i><span>Decision</span><b></b></li>
+      </ol>
       <dl class="c-meta">
         <div class="c-abs"><dt>Abstract</dt><dd></dd></div>
         <div><dt>Paper</dt><dd class="c-ddl"></dd></div>

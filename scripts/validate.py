@@ -26,6 +26,18 @@ def main() -> int:
         for key in ("deadline", "abstract_deadline"):
             if c.get(key) and not DATE.match(c[key]):
                 errors.append(f"{where}: bad {key} '{c[key]}' (want YYYY-MM-DD HH:MM)")
+        reb = c.get("rebuttal")
+        if reb is not None and reb is not False:
+            if not (isinstance(reb, list) and len(reb) == 2 and all(DATE.match(x) for x in reb)) or reb[0] > reb[1]:
+                errors.append(f"{where}: rebuttal must be [\"YYYY-MM-DD\", \"YYYY-MM-DD\"] in order")
+            elif reb[0][:10] < c.get("deadline", "")[:10]:
+                errors.append(f"{where}: rebuttal starts before the paper deadline")
+        dec = c.get("decision")
+        if dec is not None:
+            if not DATE.match(dec):
+                errors.append(f"{where}: bad decision '{dec}' (want YYYY-MM-DD)")
+            elif dec[:10] < (((reb or None) or [None, c.get("deadline", "")])[1] or "")[:10]:
+                errors.append(f"{where}: decision comes before the rebuttal / deadline")
         if c.get("timezone") and not TZ.match(c["timezone"]):
             errors.append(f"{where}: unknown timezone '{c['timezone']}'")
         if c.get("status") not in ("confirmed", "estimated"):
