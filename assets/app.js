@@ -282,6 +282,32 @@
     $("#heroScope").textContent = scope;
     setHero(c);
     tickHero(now);
+    pickSub(now);
+  }
+
+  // Small countdown under the big one: the next rebuttal / decision among papers in review
+  // (starred ones first, then whatever the filters show), skipping the hero's own conference.
+  let subConf = null;
+
+  function pickSub(now) {
+    const review = confs.filter(c => c.group === "review" && c !== heroConf && reviewPhase(c, now).label);
+    const starred = review.filter(c => state.starred.has(c.id));
+    const pool = starred.length ? starred : review.filter(c => c.el.style.display !== "none");
+    subConf = pool.sort((a, b) => reviewPhase(a, now).at - reviewPhase(b, now).at)[0] || null;
+    $("#subClock").hidden = !subConf;
+    if (subConf) $("#subName").textContent = `${subConf.title} ${subConf.year}`;
+    tickSub(now);
+  }
+
+  function tickSub(now) {
+    if (!subConf) return;
+    const ph = reviewPhase(subConf, now);
+    if (!ph.label) { pickSub(now); return; }
+    const t = split(ph.at - now);
+    $("#subKind").textContent = ph.open ? "Rebuttal closes" : ph.step === 1 ? "Rebuttal opens" : "Decision";
+    $("#subLeft").textContent = `${t.d}d ${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`;
+    $("#subWhen").textContent = fmtDayFull.format(dayUTC(ph.step === 2 ? subConf.decision : ph.open ? subConf.rebuttal[1] : subConf.rebuttal[0]));
+    $("#subClock").classList.toggle("is-open", !!ph.open);
   }
 
   function setHero(c) {
@@ -570,6 +596,11 @@
     });
 
     $("#heroIcs").addEventListener("click", () => heroConf && icsFor(heroConf));
+    $("#subClock").addEventListener("click", () => {
+      if (!subConf) return;
+      subConf.el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
+      subConf.el.classList.remove("flash"); void subConf.el.offsetWidth; subConf.el.classList.add("flash");
+    });
 
     const jump = e => {
       const pin = e.target.closest(".tl-pin, .rail-item");
@@ -685,6 +716,7 @@
     tickNow(now);
     if (now >= nextBoundary) { heroConf = null; build(); }
     tickHero(now);
+    tickSub(now);
     tickRail(now);
     for (const c of confs) if (c.el.style.display !== "none") tickCard(c, now);
   }
