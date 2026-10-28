@@ -53,15 +53,15 @@ def get(path, key, **params):
         return json.load(r)
 
 
-# Only scenery: skylines, streets, landmarks, nature. Anything that mentions people, food, animals, vehicles
-# up close or indoor shots is dropped (also from photos already saved, see clean()).
+# Scenery and street scenes: skylines, streets, landmarks, nature. Passers-by and traffic are fine; photos about
+# a person (portraits, couples, kids), food, pets, indoor shots or maps are dropped (also from saved photos, see clean()).
 NOT_SCENERY = re.compile(
-    r"\b(person|people|persons|woman|women|man|men|girl|girls|boy|boys|kid|kids|child|children|baby|crowd|couple|"
-    r"family|friends|tourists?|pedestrians?|cyclists?|hikers?|portrait|selfie|face|hands?|wedding|bride|model|kimono|"
+    r"\b(woman|women|man|men|girl|girls|boy|boys|kid|kids|child|children|baby|couple|family|friends|"
+    r"portrait|selfie|face|hands?|wedding|bride|model|kimono|"
     r"food|coffee|drink|dish|meal|restaurant|cafe|bar|beer|wine|plate|"
     r"dog|dogs|cat|cats|horse|pet|"
-    r"car|cars|bus|taxi|bike|motorcycle|interior|indoor|room|bedroom|office|desk|laptop|"
-    r"text|sign|signage|poster|map|flag|logo)\b")
+    r"interior|indoor|room|bedroom|office|desk|laptop|"
+    r"poster|map|flag|logo)\b")
 
 
 def is_scenery(text):
@@ -115,7 +115,7 @@ def main(argv):
             print(f"… stopping at {MAX_PER_RUN} cities this run; the next run continues")
             break
         done += 1
-        query = entry.get("query") or QUERY_OVERRIDES.get(city) or f"{city} cityscape landscape"
+        query = entry.get("query") or QUERY_OVERRIDES.get(city) or f"{city} cityscape street"
         try:
             res = get("/search/photos", key, query=query, orientation="landscape", per_page=15, content_filter="high")
         except Exception as e:  # rate limit or network: keep what we have

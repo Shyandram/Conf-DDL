@@ -50,7 +50,7 @@ All paths in the page are relative, so it works both under `/Conf-DDL/` and at t
 
 The countdown's background is a photo of the host city. Photos come from Unsplash via
 `scripts/fetch_city_photos.py`, which writes `data/cities.json` (photo URL plus photographer credit).
-Only scenery is kept (no people, food, animals, vehicles or indoor shots); a place without photos yet shows none until the next run.
+Only scenery and street scenes are kept (no portraits, food, pets or indoor shots); a place without photos yet shows none until the next run.
 
 One-time setup:
 

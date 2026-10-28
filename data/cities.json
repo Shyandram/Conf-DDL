@@ -594,6 +594,14 @@
         "photographer": "Wojciech Wyszkowski",
         "photographer_url": "https://unsplash.com/@fotodruk?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/historic-italian-town-with-a-tall-bell-tower-and-mountains-wIZ8YuPC6R4?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1786340716450-c2a99347ad4c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8THVjY2ElMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTQzNHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#c0a68c",
+        "alt": "A cyclist and pedestrians in a large yellow plaza surrounded by historic buildings",
+        "photographer": "Filiz Elaerts",
+        "photographer_url": "https://unsplash.com/@filizelaerts?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/cyclist-and-pedestrians-in-yellow-plaza-Rupn4EU_7fI?utm_source=conf_ddl&utm_medium=referral"
       }
     ]
   },
