@@ -7,11 +7,10 @@
   <meta name="description" content="Countdowns to the main conference deadlines in computer vision, machine learning, AI and NLP, with rebuttal and decision dates.">
   <meta name="theme-color" content="#0a0c10">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0c10'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23d4ff3a' stroke-width='2.5'/%3E%3Cpath d='M16 10v6l4 3' stroke='%23d4ff3a' stroke-width='2.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- fonts load without blocking the first paint -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"></noscript>
+  <!-- Geist / Geist Mono as variable fonts (one file each), fetched early; font-display: optional in style.css means
+       no late swap, so text never jumps when the font arrives -->
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist@5.3.0/files/geist-latin-wght-normal.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.3.0/files/geist-mono-latin-wght-normal.woff2">
   <link rel="stylesheet" href="assets/style.css?v=dev">
   <!-- start the data downloads right away; app.js fetches the same versioned URLs -->
   <link rel="preload" as="fetch" href="data/conferences.json?v=dev" crossorigin>

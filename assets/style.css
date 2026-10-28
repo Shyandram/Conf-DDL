@@ -1,3 +1,12 @@
+@font-face {
+  font-family: "Geist"; font-style: normal; font-weight: 100 900; font-display: optional;
+  src: url("https://cdn.jsdelivr.net/npm/@fontsource-variable/geist@5.3.0/files/geist-latin-wght-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "Geist Mono"; font-style: normal; font-weight: 100 900; font-display: optional;
+  src: url("https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.3.0/files/geist-mono-latin-wght-normal.woff2") format("woff2-variations");
+}
+
 :root {
   --bg: #0a0c10;
   --bg-2: #10131a;
@@ -232,10 +241,10 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 .hero-updated { font: 13px var(--mono); color: var(--ink-3); }
 .hero-title {
   margin: 16px 0 6px; display: flex; align-items: baseline; gap: .25em; flex-wrap: wrap;
-  font-family: var(--sans); font-weight: 700; line-height: .95; letter-spacing: -.05em;
+  font-family: var(--sans); font-weight: 700; line-height: 1; letter-spacing: -.05em;
   font-size: clamp(44px, 8vw, 104px);
 }
-.hero-name { display: inline-block; overflow: hidden; padding: 0 .04em .1em 0; margin-bottom: -.1em; }
+.hero-name { display: inline-flex; overflow: hidden; padding: 0 .04em .1em 0; margin-bottom: -.1em; }
 .hero-name .ch { display: inline-block; will-change: transform; }
 .hero-year { font-weight: 400; color: var(--ink-3); }
 .hero-full { margin: 0 0 clamp(28px, 4vw, 44px); color: var(--ink-2); max-width: 60ch; font-size: clamp(16px, 1.7vw, 19px); }
@@ -871,9 +880,14 @@ html.planner-open { overflow: hidden; }
 @media (max-width: 760px) {
   .hero-picks { min-height: 76px; }
   .venue { min-height: 180px; }
-  .hero-full { min-height: 3em; }
   .hero-foot { min-height: 118px; }
 }
 @media (max-width: 760px), (pointer: coarse) { .grain { display: none; } }
-/* sized for the final web font (Geist is taller than the fallback), so the swap doesn't push the hero down */
-.hero-title { min-height: 1.3em; }
+/* line-height 1 + flex children: the title is 1.1em tall whatever the font or text, so it never shifts on load */
+.hero-title { min-height: 1.1em; }
+/* the mouse-light toggle only exists for mouse users; hiding it in CSS (not JS) keeps the top bar from shifting */
+@media (pointer: coarse), (hover: none) { #lightBtn { display: none; } }
+/* the line above the title and the subtitle get their text from the data; reserve their final line heights */
+.hero-meta { min-height: 18px; }
+.hero-full { min-height: 1.55em; }
+@media (max-width: 760px) { .hero-full { min-height: 3.1em; } }
