@@ -9,7 +9,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0c10'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23d4ff3a' stroke-width='2.5'/%3E%3Cpath d='M16 10v6l4 3' stroke='%23d4ff3a' stroke-width='2.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -21,6 +21,10 @@
       <span class="brand-mark" aria-hidden="true"></span>
       <span>Conf<em>DDL</em></span>
     </a>
+    <div class="now" aria-label="Current time">
+      <span class="now-local"><span class="now-dot" aria-hidden="true"></span><time id="nowLocal"></time></span>
+      <span class="now-aoe">AoE <time id="nowAoE"></time></span>
+    </div>
     <div class="topbar-right">
       <div class="seg" role="group" aria-label="Time zone">
         <button type="button" data-tz="local" class="is-on">Local</button>
@@ -31,6 +35,15 @@
       </button>
     </div>
   </header>
+
+  <div class="layout">
+  <aside class="rail" aria-label="Your selection">
+    <div class="rail-head">
+      <h2>Your selection</h2>
+      <span class="rail-sel" id="railSel">All areas</span>
+    </div>
+    <div id="rail"></div>
+  </aside>
 
   <main>
     <section class="hero" id="hero" aria-live="polite">
@@ -94,14 +107,23 @@
       <p class="empty" id="emptyUp" hidden>Nothing matches. Try clearing a filter.</p>
     </section>
 
-    <section aria-label="Passed deadlines" class="passed-sec">
+    <section aria-label="In review">
+      <div class="section-head">
+        <h2>In review <span class="count" id="countReview"></span></h2>
+      </div>
+      <div class="cards" id="review"></div>
+      <p class="empty" id="emptyReview" hidden>Nothing in review matches your filters.</p>
+    </section>
+
+    <section aria-label="Decided" class="passed-sec">
       <button type="button" class="section-head passed-toggle" id="passedToggle" aria-expanded="false">
-        <h2>Submission closed <span class="count" id="countPast"></span></h2>
+        <h2>Decided <span class="count" id="countPast"></span></h2>
         <span class="chev" aria-hidden="true">↓</span>
       </button>
       <div class="cards cards-past" id="passed" hidden></div>
     </section>
   </main>
+  </div>
 
   <footer class="foot">
     <p>Deadlines marked <span class="tag tag-est">estimated</span> are projected from the previous cycle. Always check the official call for papers.</p>
@@ -110,30 +132,32 @@
 
   <template id="cardTpl">
     <article class="card">
-      <div class="card-top">
-        <div class="card-title">
-          <h3><span class="c-name"></span> <span class="c-year"></span></h3>
-          <div class="c-tags"></div>
-        </div>
+      <div class="row-main">
+        <button type="button" class="row-toggle" aria-expanded="false">
+          <span class="row-name"><b class="c-name"></b> <span class="c-year"></span></span>
+          <span class="c-tags"></span>
+          <span class="c-full"></span>
+        </button>
+        <div class="row-ddl"><span class="lbl">Deadline</span><span class="c-ddl"></span></div>
+        <ol class="c-steps" aria-label="Review timeline">
+          <li data-step="sub"><i></i><span>Submit</span><b></b></li>
+          <li data-step="reb"><i></i><span>Rebuttal</span><b></b></li>
+          <li data-step="dec"><i></i><span>Decision</span><b></b></li>
+        </ol>
         <div class="c-count"><b class="c-days"></b><span class="c-unit"></span><small class="c-hms"></small></div>
       </div>
-      <p class="c-full"></p>
       <div class="bar"><i></i></div>
-      <ol class="c-steps" aria-label="Review timeline">
-        <li data-step="sub"><i></i><span>Submit</span><b></b></li>
-        <li data-step="reb"><i></i><span>Rebuttal</span><b></b></li>
-        <li data-step="dec"><i></i><span>Decision</span><b></b></li>
-      </ol>
-      <dl class="c-meta">
-        <div class="c-abs"><dt>Abstract</dt><dd></dd></div>
-        <div><dt>Paper</dt><dd class="c-ddl"></dd></div>
-        <div><dt>Conference</dt><dd class="c-date"></dd></div>
-        <div><dt>Where</dt><dd class="c-place"></dd></div>
-      </dl>
-      <p class="c-note"></p>
-      <div class="c-actions">
-        <a class="link c-link" target="_blank" rel="noopener">Website ↗</a>
-        <button type="button" class="link c-ics">.ics</button>
+      <div class="row-more" hidden>
+        <dl class="c-meta">
+          <div class="c-abs"><dt>Abstract</dt><dd></dd></div>
+          <div><dt>Conference</dt><dd class="c-date"></dd></div>
+          <div><dt>Where</dt><dd class="c-place"></dd></div>
+        </dl>
+        <p class="c-note"></p>
+        <div class="c-actions">
+          <a class="link c-link" target="_blank" rel="noopener">Website ↗</a>
+          <button type="button" class="link c-ics">Add to calendar (.ics)</button>
+        </div>
       </div>
     </article>
   </template>

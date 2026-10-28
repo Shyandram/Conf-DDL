@@ -64,7 +64,11 @@
   const fmtDayFull = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
   const dayUTC = str => { const [y, m, d] = String(str).slice(0, 10).split("-").map(Number); return Date.UTC(y, m - 1, d); };
   const fmtDay = (str, full) => (full ? fmtDayFull : fmtDayUTC).format(dayUTC(str));
-  const fmtRange = ([a, b], full) => `${fmtDay(a)} – ${fmtDay(b, full)}`;
+  const fmtRange = ([a, b], full) => {
+    const sameMonth = a.slice(0, 7) === b.slice(0, 7);
+    if (sameMonth && !full) return `${fmtDay(a)}–${Number(b.slice(8, 10))}`;
+    return `${fmtDay(a)} – ${fmtDay(b, full)}`;
+  };
 
   const fmtTime = ms => (state.tz === "aoe" ? fmtAoE.format(ms) + " AoE" : fmtLocal.format(ms));
 
@@ -341,6 +345,57 @@
     }
   }
 
+  /* ---------- left rail ---------- */
+
+  let railItems = [];
+
+  function shortLeft(ms) {
+    const t = split(ms);
+    return t.d >= 1 ? `${t.d}d` : `${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`;
+  }
+
+  function renderRail(visible, now) {
+    const sel = [
+      state.areas.size ? [...state.areas].join(" · ") : "All areas",
+      state.onlyConfirmed && "confirmed",
+      state.ccfA && "CCF-A",
+      state.q && `“${state.q}”`,
+    ].filter(Boolean).join(" · ");
+    $("#railSel").textContent = sel;
+
+    const up = visible.filter(c => c.group === "up");
+    const review = visible.filter(c => c.group === "review");
+    const item = (c, sub) => `<li><button type="button" class="rail-item${c.status !== "confirmed" ? " is-est" : ""}" data-id="${esc(c.id)}">
+        <span class="r-name">${esc(c.title)} ${esc(c.year)}</span><span class="r-left"></span>
+        <span class="r-sub">${esc(sub)}</span></button></li>`;
+    $("#rail").innerHTML =
+      `<div class="rail-group">Deadlines · ${up.length}</div>` +
+      (up.length ? `<ul class="rail-list">${up.map(c => item(c, fmtShort.format(c.ddl) + (c.place && c.place !== "TBA" ? " · " + c.place : ""))).join("")}</ul>` : `<p class="rail-empty">No open deadlines.</p>`) +
+      (review.length ? `<div class="rail-group">In review · ${review.length}</div><ul class="rail-list">${review.map(c => item(c, "")).join("")}</ul>` : "");
+    railItems = $$(".rail-item", $("#rail")).map(el => ({ el, c: confs.find(x => x.id === el.dataset.id) }));
+    tickRail(now);
+  }
+
+  function tickRail(now) {
+    for (const { el, c } of railItems) {
+      const left = $(".r-left", el);
+      el.classList.toggle("is-hero", c === heroConf);
+      if (c.ddl > now) {
+        left.textContent = shortLeft(c.ddl - now);
+        const u = urgency(c.ddl - now);
+        el.classList.toggle("u-hot", u === "hot");
+        el.classList.toggle("u-warn", u === "warn");
+        continue;
+      }
+      const ph = reviewPhase(c, now);
+      if (!ph.label) continue;
+      left.textContent = shortLeft(ph.at - now);
+      $(".r-sub", el).textContent = ph.label;
+      el.classList.toggle("in-review", !ph.open);
+      el.classList.toggle("in-rebuttal", !!ph.open);
+    }
+  }
+
   /* ---------- filters ---------- */
 
   function renderChips() {
@@ -357,21 +412,23 @@
     const cards = confs.map(c => c.el);
     const flipState = animate && hasGsap && window.Flip && !reduced ? Flip.getState(cards) : null;
 
-    let up = 0, past = 0;
+    const n = { up: 0, review: 0, done: 0 };
     const visible = [];
     for (const c of confs) {
       const show = matches(c);
       c.el.style.display = show ? "" : "none";
-      if (show) { visible.push(c); c.ddl > now ? up++ : past++; }
+      if (show) { visible.push(c); n[c.group]++; }
     }
-    $("#countUp").textContent = up;
-    const reviewing = visible.filter(c => c.ddl <= now && reviewPhase(c, now).label).length;
-    $("#countPast").textContent = past + (reviewing ? ` · ${reviewing} in review` : "");
-    $("#emptyUp").hidden = up > 0;
+    $("#countUp").textContent = n.up;
+    $("#countReview").textContent = n.review;
+    $("#countPast").textContent = n.done;
+    $("#emptyUp").hidden = n.up > 0;
+    $("#emptyReview").hidden = n.review > 0;
 
     const upcomingVisible = visible.filter(c => c.ddl > now);
     setHero(upcomingVisible[0] || confs.find(c => c.ddl > now) || null);
     renderTimeline(upcomingVisible, now);
+    renderRail(visible, now);
 
     if (flipState) {
       Flip.from(flipState, {
@@ -440,14 +497,14 @@
       $("#passedToggle").setAttribute("aria-expanded", state.showPast);
       grid.hidden = !state.showPast;
       if (state.showPast && hasGsap && !reduced) {
-        gsap.fromTo($$(".card", grid).filter(el => el.style.display !== "none"), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.03 });
+        gsap.fromTo($$(".card", grid).filter(el => el.style.display !== "none"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out", stagger: 0.025 });
       }
     });
 
     $("#heroIcs").addEventListener("click", () => heroConf && icsFor(heroConf));
 
-    $("#timeline").addEventListener("click", e => {
-      const pin = e.target.closest(".tl-pin");
+    const jump = e => {
+      const pin = e.target.closest(".tl-pin, .rail-item");
       if (!pin) return;
       const c = confs.find(x => x.id === pin.dataset.id);
       if (!c) return;
@@ -455,16 +512,25 @@
       c.el.classList.remove("flash");
       void c.el.offsetWidth;
       c.el.classList.add("flash");
-    });
+    };
+    $("#timeline").addEventListener("click", jump);
+    $("#rail").addEventListener("click", jump);
 
-    // cursor-following glow on cards
-    document.addEventListener("pointermove", e => {
-      const card = e.target.closest?.(".card");
-      if (!card) return;
-      const r = card.getBoundingClientRect();
-      card.style.setProperty("--mx", `${e.clientX - r.left}px`);
-      card.style.setProperty("--my", `${e.clientY - r.top}px`);
-    }, { passive: true });
+    // rows fold open to show the details
+    document.addEventListener("click", e => {
+      const btn = e.target.closest(".row-toggle");
+      if (!btn) return;
+      const card = btn.closest(".card"), more = $(".row-more", card);
+      const open = !card.classList.contains("is-open");
+      card.classList.toggle("is-open", open);
+      btn.setAttribute("aria-expanded", open);
+      if (open) more.hidden = false;
+      if (hasGsap && !reduced) {
+        gsap.fromTo(more, { height: open ? 0 : more.offsetHeight, opacity: open ? 0 : 1 },
+          { height: open ? "auto" : 0, opacity: open ? 1 : 0, duration: 0.3, ease: "power2.out",
+            onComplete: () => { if (!open) more.hidden = true; gsap.set(more, { clearProps: "height,opacity" }); } });
+      } else if (!open) more.hidden = true;
+    });
 
     if (hasGsap && window.ScrollTrigger) {
       ScrollTrigger.create({
@@ -488,21 +554,29 @@
         dec: c.decision ? parseDeadline(c.decision.slice(0, 10) + " 00:00", c.timezone) : null,
       }))
       .filter(c => c.ddl != null);
-    const up = confs.filter(c => c.ddl > now).sort((a, b) => a.ddl - b.ddl);
-    const past = confs.filter(c => c.ddl <= now).sort((a, b) => b.ddl - a.ddl);
-    confs = [...up, ...past];
-    nextBoundary = up.length ? up[0].ddl : Infinity;
+    // Three groups: still open, submitted and in review, decided.
+    confs.forEach(c => {
+      c.phase = c.ddl > now ? null : reviewPhase(c, now);
+      c.group = c.ddl > now ? "up" : c.phase.label ? "review" : "done";
+    });
+    const up = confs.filter(c => c.group === "up").sort((a, b) => a.ddl - b.ddl);
+    const review = confs.filter(c => c.group === "review").sort((a, b) => a.phase.at - b.phase.at);
+    const past = confs.filter(c => c.group === "done").sort((a, b) => b.ddl - a.ddl);
+    confs = [...up, ...review, ...past];
+    // rebuild when a deadline passes or a paper in review gets its decision
+    nextBoundary = Math.min(up.length ? up[0].ddl : Infinity, ...review.map(c => c.dec || Infinity));
 
-    const upEl = $("#upcoming"), pastEl = $("#passed");
-    upEl.innerHTML = ""; pastEl.innerHTML = "";
+    const upEl = $("#upcoming"), reviewEl = $("#review"), pastEl = $("#passed");
+    upEl.innerHTML = ""; reviewEl.innerHTML = ""; pastEl.innerHTML = "";
     up.forEach(c => upEl.appendChild(buildCard(c)));
+    review.forEach(c => { reviewEl.appendChild(buildCard(c)); c.el.classList.add("is-past"); });
     past.forEach(c => { pastEl.appendChild(buildCard(c)); c.el.classList.add("is-past"); });
 
     renderChips();
     paintTimes();
     apply({ animate: false });
     confs.forEach(c => tickCard(c, now));
-    revealCards(up);
+    revealCards([...up, ...review]);
   }
 
   function revealCards(list) {
@@ -514,25 +588,39 @@
       else c.refs.bar.style.width = w;
     };
     if (!hasGsap || reduced || !window.ScrollTrigger) { list.forEach(growBar); return; }
-    gsap.set(list.map(c => c.el), { opacity: 0, y: 28 });
+    gsap.set(list.map(c => c.el), { opacity: 0, y: 14 });
     ScrollTrigger.batch(list.map(c => c.el), {
       start: "top 92%", once: true,
       onEnter: els => {
-        gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: "expo.out", stagger: 0.06, overwrite: true });
+        gsap.to(els, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out", stagger: 0.035, overwrite: true });
         els.forEach(el => growBar(list.find(c => c.el === el)));
       },
     });
   }
 
+  const fmtNowLocal = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", timeZoneName: "short" });
+  const fmtNowAoE = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "Etc/GMT+12" });
+
+  const narrow = matchMedia("(max-width: 640px)");
+  const fmtNowShort = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+  function tickNow(now) {
+    $("#nowLocal").textContent = (narrow.matches ? fmtNowShort : fmtNowLocal).format(now);
+    $("#nowAoE").textContent = fmtNowAoE.format(now);
+  }
+
   function tick() {
     const now = Date.now();
+    tickNow(now);
     if (now >= nextBoundary) { heroConf = null; build(); }
     tickHero(now);
+    tickRail(now);
     for (const c of confs) if (c.el.style.display !== "none") tickCard(c, now);
   }
 
   async function init() {
     bind();
+    tickNow(Date.now());
     try {
       const res = await fetch("data/conferences.json", { cache: "no-cache" });
       if (!res.ok) throw new Error(res.status);
