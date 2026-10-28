@@ -766,11 +766,35 @@
 
   const feedSlug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const feedUrl = path => new URL(`calendar/${path}`, location.href.split("#")[0]).href;
-  // the Worker that merges starred series into one live feed (worker/), when index.html names one
-  const mineFeed = slugs => {
+  // The Worker (worker/) that serves "My conferences" as one live feed, when index.html names one. This browser
+  // gets a random id the first time the dialog opens; the Worker keeps the id's starred series, and the page
+  // sends them again whenever a star changes, so the subscribed URL stays the same and follows the stars.
+  const calWorker = () => {
     const base = ($('meta[name="confddl-calendar-worker"]') || {}).content;
-    return base ? new URL(`my.ics?s=${slugs.join(",")}`, base.replace(/\/?$/, "/")).href : "";
+    return base ? base.replace(/\/?$/, "/") : "";
   };
+  function calId(create) {
+    let id = store.get("calId", "");
+    if (!id && create) {
+      const bytes = crypto.getRandomValues(new Uint8Array(16));
+      id = btoa(String.fromCharCode(...bytes)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+      store.set("calId", id);
+    }
+    return id;
+  }
+  const mineFeed = () => (calWorker() && calId(true) ? `${calWorker()}u/${calId()}.ics` : "");
+  let starSyncTimer = 0;
+  function syncStars(now = false) {
+    const base = calWorker(), id = calId(false);
+    if (!base || !id) return; // nothing to keep in step until this browser has a calendar link
+    clearTimeout(starSyncTimer);
+    starSyncTimer = setTimeout(() => {
+      const body = JSON.stringify({ series: [...state.starred].map(feedSlug).sort() });
+      if (body === store.get("calSynced", "")) return;
+      fetch(`${base}u/${id}`, { method: "PUT", headers: { "content-type": "application/json" }, body, keepalive: true })
+        .then(r => { if (r.ok) store.set("calSynced", body); }).catch(() => {});
+    }, now ? 0 : 800);
+  }
   function feedRow(label, path, sub = "", url = "") {
     const https = url || feedUrl(path);
     const webcal = https.replace(/^https?:/, "webcal:");
@@ -783,13 +807,15 @@
   }
   function openFeeds() {
     const starred = [...state.starred].sort();
+    if (calWorker()) { calId(true); syncStars(true); }
     const count = pred => confs.filter(pred).length;
     $("#feedsBody").innerHTML =
       `<h3 class="feeds-h">Everything</h3><ul class="feeds-list">${feedRow("All conferences", "all.ics", `${confs.length} entries · deadlines, rebuttals and decisions`)}</ul>` +
       `<h3 class="feeds-h">My conferences</h3>` +
-      (starred.length && mineFeed(starred.map(feedSlug))
-        ? `<ul class="feeds-list">${feedRow("All my conferences in one", "", starred.join(", "), mineFeed(starred.map(feedSlug)))}</ul>
-          <p class="feeds-empty">Star more later? Subscribe again from here: the link lists your starred series.</p>`
+      (calWorker()
+        ? `<ul class="feeds-list">${feedRow("All my conferences in one", "", starred.length ? starred.join(", ") : "nothing starred yet", mineFeed())}</ul>
+          <p class="feeds-empty">One subscription that follows your stars: star or unstar a conference here and the calendar changes with it
+            on its next refresh, no need to subscribe again. The link belongs to this browser (stars are saved per browser).</p>`
         : starred.length
         ? `<ul class="feeds-list"><li class="feed"><span class="feed-name"><b>All my conferences in one</b><small>${esc(starred.join(", "))}</small></span>
             <span class="feed-acts"><button type="button" class="link feed-mine">Download .ics</button></span></li></ul>
@@ -949,6 +975,7 @@
     store.set("gradeA", state.gradeA);
     store.set("onlyStarred", state.onlyStarred);
     store.set("starred", [...state.starred]);
+    syncStars();
   }
 
   // scroll a row into view and flash it

@@ -26,4 +26,14 @@ jobs:
             echo "::notice::CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID are not set; skipping the deploy (see worker/README.md)."
             exit 0
           fi
+          # the KV namespace that keeps each browser's starred series: made on the first deploy, then reused
+          api="https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/storage/kv/namespaces"
+          auth="Authorization: Bearer $CLOUDFLARE_API_TOKEN"
+          title="conf-ddl-calendar-stars"
+          kv_id=$(curl -fsS -H "$auth" "$api?per_page=100" | python3 -c "import json,sys; print(next((n['id'] for n in json.load(sys.stdin)['result'] if n['title'] == '$title'), ''))")
+          if [ -z "$kv_id" ]; then
+            kv_id=$(curl -fsS -X POST -H "$auth" -H "Content-Type: application/json" -d "{\"title\": \"$title\"}" "$api" | python3 -c "import json,sys; print(json.load(sys.stdin)['result']['id'])")
+            echo "Created KV namespace $title"
+          fi
+          printf '\n[[kv_namespaces]]\nbinding = "STARS"\nid = "%s"\n' "$kv_id" >> worker/wrangler.toml
           cd worker && npx --yes wrangler@4 deploy
