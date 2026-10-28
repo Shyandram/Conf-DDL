@@ -1,0 +1,60 @@
+name: Refresh city photos
+
+# Picks an Unsplash city photo for each host city into data/cities.json.
+# Needs the repository secret UNSPLASH_ACCESS_KEY (free key from unsplash.com/developers).
+on:
+  workflow_dispatch:
+    inputs:
+      refresh:
+        description: 'Re-pick photos: "all", or city names separated by commas (e.g. Tokyo, Hong Kong). Empty = only cities without a photo.'
+        required: false
+        default: ""
+  push:
+    branches: [main]
+    paths: [data/conferences.json]
+  schedule:
+    - cron: "17 3 * * *"  # daily: fills in any cities the hourly API limit left out
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: city-photos
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch photos
+        env:
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+          REFRESH: ${{ github.event.inputs.refresh }}
+        run: |
+          if [ "$REFRESH" = "all" ]; then
+            python3 scripts/fetch_city_photos.py --refresh
+          elif [ -n "$REFRESH" ]; then
+            IFS=',' read -ra CITIES <<< "$REFRESH"
+            args=()
+            for c in "${CITIES[@]}"; do args+=("$(echo "$c" | xargs)"); done
+            python3 scripts/fetch_city_photos.py --refresh "${args[@]}"
+          else
+            python3 scripts/fetch_city_photos.py
+          fi
+      - name: Commit and redeploy if anything changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- data/cities.json; then
+            echo "No new photos."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/cities.json
+          git commit -m "Update city photos"
+          git push
+          # pushes made with GITHUB_TOKEN don't start other workflows, so start the deploy explicitly
+          gh workflow run pages.yml --ref main

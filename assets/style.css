@@ -298,8 +298,9 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 .venue-city { font-size: 26px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
 .venue-country { font-size: 15px; color: var(--ink-2); }
 .venue-dates { font: 500 13px var(--mono); color: var(--ink-2); margin-top: 4px; }
-.venue-credit { font: 11.5px var(--mono); color: var(--ink-3); text-decoration: none; }
-.venue-credit:hover { color: var(--ink); text-decoration: underline; }
+.venue-credit { font: 11.5px var(--mono); color: var(--ink-3); }
+.venue-credit a { color: inherit; text-decoration: underline; text-decoration-color: var(--line-2); }
+.venue-credit a:hover { color: var(--ink); }
 .venue.is-tba .venue-city { font-size: 20px; }
 
 /* row of small countdowns under the big one; the pressed chip is what the big clock shows */

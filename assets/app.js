@@ -360,6 +360,11 @@
     return job;
   }
 
+  // data/cities.json: hand-off from scripts/fetch_city_photos.py (Unsplash). Wikipedia is the fallback.
+  let cityPhotos = {};
+  const loadCityPhotos = fetch("data/cities.json", { cache: "no-cache" })
+    .then(r => (r.ok ? r.json() : {})).then(j => { cityPhotos = j || {}; }).catch(() => {});
+
   async function setVenue(c) {
     const fig = $("#venue"), img = $("#venueImg"), credit = $("#venueCredit");
     img.classList.remove("is-loaded");
@@ -374,7 +379,9 @@
     $("#venueDates").textContent = c ? c.date || "" : "";
     if (!place) return;
     const token = (fig.dataset.token = String(Math.random()));
-    const found = (await wikiImage(city)) || (city.includes("/") && (await wikiImage(city.split("/")[0].trim())))
+    await loadCityPhotos;
+    const un = cityPhotos[city];
+    const found = (un && un.src && { src: un.src, unsplash: un }) || (await wikiImage(city)) || (city.includes("/") && (await wikiImage(city.split("/")[0].trim())))
       || (country && (await wikiImage(COUNTRY_NAMES[country] || country)));
     if (!found || fig.dataset.token !== token) return;
     const pre = new Image();
@@ -382,7 +389,15 @@
       if (fig.dataset.token !== token) return;
       img.style.backgroundImage = `url("${found.src}")`;
       img.classList.add("is-loaded");
-      if (found.page) { credit.href = found.page; credit.hidden = false; }
+      if (found.unsplash) {
+        const u = found.unsplash;
+        credit.innerHTML = `Photo by <a href="${esc(u.photographer_url)}" target="_blank" rel="noopener">${esc(u.photographer)}</a>` +
+          ` on <a href="${esc(u.photo_url)}" target="_blank" rel="noopener">Unsplash</a>`;
+        credit.hidden = false;
+      } else if (found.page) {
+        credit.innerHTML = `Photo: <a href="${esc(found.page)}" target="_blank" rel="noopener">Wikipedia</a>`;
+        credit.hidden = false;
+      }
     };
     pre.src = found.src;
   }

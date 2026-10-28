@@ -42,6 +42,24 @@ All paths in the page are relative, so it works both under `/Conf-DDL/` and at t
 3. Once DNS resolves, tick **Enforce HTTPS**.
 4. Optional but recommended: verify the domain under **GitHub account Settings → Pages** so nobody else can claim it.
 
+## City photos (Unsplash)
+
+The countdown's background is a photo of the host city. Photos come from Unsplash via
+`scripts/fetch_city_photos.py`, which writes `data/cities.json` (photo URL plus photographer credit).
+Cities without an entry fall back to the Wikipedia image.
+
+One-time setup:
+
+1. Create a free app at <https://unsplash.com/oauth/applications> and copy its **Access Key**.
+2. In this repo: **Settings → Secrets and variables → Actions → New repository secret**,
+   name `UNSPLASH_ACCESS_KEY`, value = the key.
+3. **Actions → Refresh city photos → Run workflow.**
+
+The workflow also runs when `data/conferences.json` changes and once a day; it commits new photos and redeploys.
+The free tier allows 50 requests an hour, so the first fill takes two runs (24 cities each).
+To swap a photo you don't like, run the workflow with `refresh` set to the city name (e.g. `Tokyo`), or `all`.
+In `data/cities.json` you can also give a city a custom `"query"`, or `"pin": true` to keep its photo.
+
 ## Adding or updating a conference
 
 Ask Claude Code in this repo, e.g. *"search for the ECCV 2028 deadline and add it"*. It follows `CLAUDE.md`.
