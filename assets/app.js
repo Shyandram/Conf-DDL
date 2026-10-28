@@ -766,8 +766,13 @@
 
   const feedSlug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const feedUrl = path => new URL(`calendar/${path}`, location.href.split("#")[0]).href;
-  function feedRow(label, path, sub = "") {
-    const https = feedUrl(path);
+  // the Worker that merges starred series into one live feed (worker/), when index.html names one
+  const mineFeed = slugs => {
+    const base = ($('meta[name="confddl-calendar-worker"]') || {}).content;
+    return base ? new URL(`my.ics?s=${slugs.join(",")}`, base.replace(/\/?$/, "/")).href : "";
+  };
+  function feedRow(label, path, sub = "", url = "") {
+    const https = url || feedUrl(path);
     const webcal = https.replace(/^https?:/, "webcal:");
     return `<li class="feed"><span class="feed-name"><b>${esc(label)}</b>${sub ? `<small>${esc(sub)}</small>` : ""}</span>
       <span class="feed-acts">
@@ -782,7 +787,10 @@
     $("#feedsBody").innerHTML =
       `<h3 class="feeds-h">Everything</h3><ul class="feeds-list">${feedRow("All conferences", "all.ics", `${confs.length} entries · deadlines, rebuttals and decisions`)}</ul>` +
       `<h3 class="feeds-h">My conferences</h3>` +
-      (starred.length
+      (starred.length && mineFeed(starred.map(feedSlug))
+        ? `<ul class="feeds-list">${feedRow("All my conferences in one", "", starred.join(", "), mineFeed(starred.map(feedSlug)))}</ul>
+          <p class="feeds-empty">Star more later? Subscribe again from here: the link lists your starred series.</p>`
+        : starred.length
         ? `<ul class="feeds-list"><li class="feed"><span class="feed-name"><b>All my conferences in one</b><small>${esc(starred.join(", "))}</small></span>
             <span class="feed-acts"><button type="button" class="link feed-mine">Download .ics</button></span></li></ul>
           <p class="feeds-empty">One file with every starred series. It is a snapshot: import it again after you star more, or to pick up
