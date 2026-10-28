@@ -1487,52 +1487,172 @@
     ]
   },
   "Tampere": {
-    "src": "https://images.unsplash.com/photo-1631631479543-d554c5d9fe5c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Nnx8VGFtcGVyZSUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNzAxfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#8cc0d9",
-    "alt": "a view of a city with a lake in the foreground",
-    "photographer": "Juho Luomala",
-    "photographer_url": "https://unsplash.com/@juho_aleksi_luomala?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/a-view-of-a-city-with-a-lake-in-the-foreground-B0gMEF964sw?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1675614919945-39eb0d0548b5?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8VGFtcGVyZSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjIzNTA3fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#595959",
+        "alt": "a city at night with a lot of traffic",
+        "photographer": "Juho Luomala",
+        "photographer_url": "https://unsplash.com/@juho_aleksi_luomala?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-city-at-night-with-a-lot-of-traffic-q2LYXfAzMr8?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1675614920230-5764af32f7d5?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8OHx8VGFtcGVyZSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjIzNTA3fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#0c2640",
+        "alt": "a large factory with a lot of smoke coming out of it",
+        "photographer": "Juho Luomala",
+        "photographer_url": "https://unsplash.com/@juho_aleksi_luomala?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-large-factory-with-a-lot-of-smoke-coming-out-of-it-3dbeuYslo28?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1675614919834-6173644afde6?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8N3x8VGFtcGVyZSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjIzNTA3fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#0c2659",
+        "alt": "a body of water with a building in the background",
+        "photographer": "Juho Luomala",
+        "photographer_url": "https://unsplash.com/@juho_aleksi_luomala?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-body-of-water-with-a-building-in-the-background-8uk0pwO4KfM?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1770200287746-dee7d85beac3?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8VGFtcGVyZSUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjIzNTA3fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#260c0c",
+        "alt": "City lights at night with a tall tower",
+        "photographer": "Mikko Immonen",
+        "photographer_url": "https://unsplash.com/@lahelohi?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-lights-at-night-with-a-tall-tower-u2mYl_o4pHs?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Thessaloniki": {
-    "src": "https://images.unsplash.com/photo-1682944856348-0665d4b8d81c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8VGhlc3NhbG9uaWtpJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE3MDN8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#262626",
-    "alt": "a sunset over a city and a body of water",
-    "photographer": "Bill Moum",
-    "photographer_url": "https://unsplash.com/@billmoum?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/a-sunset-over-a-city-and-a-body-of-water-03KQcr2vXcw?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1788798420490-0794beb5eb32?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8VGhlc3NhbG9uaWtpJTIwY2l0eXNjYXBlJTIwc3RyZWV0fGVufDF8MHx8fDE3OTMyMjM1MDl8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#c0c0c0",
+        "alt": "An aerial view of a city intersection with parked cars and apartment buildings",
+        "photographer": "koutsou23",
+        "photographer_url": "https://unsplash.com/@koutsou23?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-intersection-with-apartment-buildings-40sQYviu_JI?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Tokyo": {
-    "src": "https://images.unsplash.com/photo-1551322120-c697cf88fbdc?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8VG9reW8lMjBjaXR5c2NhcGV8ZW58MXwwfHx8MTc5MzE4MTcwNXww&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#d9f3f3",
-    "alt": "aerial photography of red tower surrounded by buildings during daytime",
-    "photographer": "Jaison Lin",
-    "photographer_url": "https://unsplash.com/@jaison333?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/aerial-photography-of-red-tower-surrounded-by-buildings-during-daytime-2WHTac8jVA8?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1483239546567-ccc4ce2b344a?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTR8fFRva3lvJTIwY2l0eXNjYXBlJTIwc3RyZWV0fGVufDF8MHx8fDE3OTMyMjM1MTF8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "fish eye photography of red and white tower and cityscape",
+        "photographer": "Steven Diaz",
+        "photographer_url": "https://unsplash.com/@stevendiazphoto?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/fish-eye-photography-of-red-and-white-tower-and-cityscape-LS2cytbaiUM?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1624239842466-af90582c5338?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8VG9reW8lMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5MzIyMzUxMXww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#d9c0c0",
+        "alt": "aerial view of city buildings during night time",
+        "photographer": "Matt Palmer",
+        "photographer_url": "https://unsplash.com/@mattpalmer?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/aerial-view-of-city-buildings-during-night-time-t95bgk5ktfs?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1633257482413-f8554dcc52fa?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8N3x8VG9reW8lMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5MzIyMzUxMXww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "an aerial view of a city at night",
+        "photographer": "Paz ifical",
+        "photographer_url": "https://unsplash.com/@pazifical?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/an-aerial-view-of-a-city-at-night-P1Z0WVpSnYQ?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1668392297073-d3dfcd81ae63?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTB8fFRva3lvJTIwY2l0eXNjYXBlJTIwc3RyZWV0fGVufDF8MHx8fDE3OTMyMjM1MTF8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#d9c0a6",
+        "alt": "a city with a tall tower",
+        "photographer": "Kate Branch",
+        "photographer_url": "https://unsplash.com/@katebranch?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-city-with-a-tall-tower-VNIbuiOfLe4?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Toronto": {
-    "src": "https://images.unsplash.com/photo-1546614409-810f10108b74?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8VG9yb250byUyMGNpdHlzY2FwZXxlbnwxfDB8fHwxNzkzMTgxNzA3fDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#0c2626",
-    "alt": "aerial photography of Toronto, Canada",
-    "photographer": "Patrick Tomasso",
-    "photographer_url": "https://unsplash.com/@impatrickt?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/aerial-photography-of-toronto-canada-lZbRV_a4Yxg?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1508715551211-68b10fac6002?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8VG9yb250byUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjIzNTE0fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#404040",
+        "alt": "black Audi car near gray car on roadway",
+        "photographer": "Sanjeev Kugan",
+        "photographer_url": "https://unsplash.com/@sksquared?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/black-audi-car-near-gray-car-on-roadway-wMyiFGBupMU?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1561034887-1beaa1c61b7f?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8VG9yb250byUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjIzNTE0fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "urban photo of an intersection",
+        "photographer": "Patrick Tomasso",
+        "photographer_url": "https://unsplash.com/@impatrickt?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/urban-photo-of-an-intersection-bADBj2DonXU?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1586432850335-c53c2805e6a9?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Nnx8VG9yb250byUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjIzNTE0fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "Skyscrapers and city buildings along a street in downtown Toronto under a clear sky",
+        "photographer": "Udayaditya Barua",
+        "photographer_url": "https://unsplash.com/@nookscribe?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/skyscrapers-and-city-buildings-in-toronto-abpnvFAA95A?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1631169413859-9fb940a76f3d?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8VG9yb250byUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzMjIzNTE0fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#8c4059",
+        "alt": "space needle tower during dusk",
+        "photographer": "Venrick Azcueta",
+        "photographer_url": "https://unsplash.com/@venrick?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/space-needle-tower-during-dusk-HtGvaLAb_bM?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Tucson": {
-    "src": "https://images.unsplash.com/photo-1536936343740-68cb2a95f935?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8VHVjc29uJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE3MDl8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#0c2640",
-    "alt": "high rise buildings",
-    "photographer": "Michael D",
-    "photographer_url": "https://unsplash.com/@alienaperture?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/high-rise-buildings-2cDIzRnVq0Q?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1770489779075-eca1171989cd?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8VHVjc29uJTIwY2l0eXNjYXBlJTIwc3RyZWV0fGVufDF8MHx8fDE3OTMyMjM1MTZ8MA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#8c8c8c",
+        "alt": "Blue ford mustang with racing stripes on street",
+        "photographer": "Steven Council",
+        "photographer_url": "https://unsplash.com/@stevencouncilphotography?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/blue-ford-mustang-with-racing-stripes-on-street-n1SuiX93Rvk?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "UK": {
-    "src": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8TG9uZG9uJTIwc2t5bGluZXxlbnwxfDB8fHwxNzkzMTgxNzExfDA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
-    "color": "#d9d9d9",
-    "alt": "aerial photography of London skyline during daytime",
-    "photographer": "Benjamin Davies",
-    "photographer_url": "https://unsplash.com/@bendavisual?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/aerial-photography-of-london-skyline-during-daytime-Oja2ty_9ZLM?utm_source=conf_ddl&utm_medium=referral"
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8TG9uZG9uJTIwc2t5bGluZXxlbnwxfDB8fHwxNzkzMjIzNTE4fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#d9d9d9",
+        "alt": "aerial photography of London skyline during daytime",
+        "photographer": "Benjamin Davies",
+        "photographer_url": "https://unsplash.com/@bendavisual?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/aerial-photography-of-london-skyline-during-daytime-Oja2ty_9ZLM?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1486299267070-83823f5448dd?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8TG9uZG9uJTIwc2t5bGluZXxlbnwxfDB8fHwxNzkzMjIzNTE4fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#d9d9d9",
+        "alt": "Big Ben, London",
+        "photographer": "Marcin Nowak",
+        "photographer_url": "https://unsplash.com/@marcin?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/big-ben-london-iXqTqC-f6jI?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1513026705753-bc3fffca8bf4?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8NXx8TG9uZG9uJTIwc2t5bGluZXxlbnwxfDB8fHwxNzkzMjIzNTE4fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#404040",
+        "alt": "An aerial view of Tower Bridge and the River Thames in London at night",
+        "photographer": "Giammarco Boscaro",
+        "photographer_url": "https://unsplash.com/@giamboscaro?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/tower-bridge-and-river-thames-in-london-q140lHKzXZY?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1490642914619-7955a3fd483c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTJ8fExvbmRvbiUyMHNreWxpbmV8ZW58MXwwfHx8MTc5MzIyMzUxOHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262640",
+        "alt": "aerial photography of city buildings",
+        "photographer": "enrico bet",
+        "photographer_url": "https://unsplash.com/@henry_be?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/aerial-photography-of-city-buildings-DpI-_wydgJM?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Xiamen": {
     "src": "https://images.unsplash.com/photo-1709229919646-3699ead369b5?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8WGlhbWVuJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE3MTJ8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
