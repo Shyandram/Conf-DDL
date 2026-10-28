@@ -405,14 +405,18 @@
 
   // Several photos per city; show a different one each time (never the same twice in a row).
   const lastPhoto = {};
+  // "*" is every photo in the database: the backdrop for an entry whose venue has none (TBA, online, not fetched yet)
+  let allPhotos = null;
   const photosOf = city => {
+    if (city === "*") return (allPhotos ||= Object.entries(cityPhotos).flatMap(([k, e]) =>
+      (e.photos || (e.src ? [e] : [])).map(ph => ({ ...ph, from: k }))));
     const entry = cityPhotos[city];
     return entry ? (entry.photos || (entry.src ? [entry] : [])) : [];
   };
   function pickCityPhoto(city, advance) {
     const list = photosOf(city);
     if (!list.length) return null;
-    let i = advance && lastPhoto[city] != null ? lastPhoto[city] + 1 : Math.floor(Math.random() * list.length);
+    let i = advance && city !== "*" && lastPhoto[city] != null ? lastPhoto[city] + 1 : Math.floor(Math.random() * list.length);
     if (!advance && list.length > 1 && i === lastPhoto[city]) i += 1;
     i %= list.length;
     lastPhoto[city] = i;
@@ -432,13 +436,13 @@
     $("#venueCity").textContent = !place ? (virtual ? "Online" : "Venue to be announced") : city || COUNTRY_NAMES[country] || country;
     $("#venueCountry").textContent = city ? country : place ? "city TBA" : "";
     $("#venueDates").textContent = c ? c.date || "" : "";
-    if (!place) return;
     const token = (fig.dataset.token = String(Math.random()));
     await loadCityPhotos;
-    const un = pickCityPhoto(key, advance);
-    const many = photosOf(key).length;
+    const pool = place && photosOf(key).length ? key : "*";
+    const un = pickCityPhoto(pool, advance);
+    const many = photosOf(pool).length;
     $("#photoNext").hidden = many < 2;
-    $("#photoCount").textContent = many > 1 ? `${lastPhoto[key] + 1}/${many}` : "";
+    $("#photoCount").textContent = many > 1 && pool !== "*" ? `${lastPhoto[pool] + 1}/${many}` : "";
     if (!un || fig.dataset.token !== token) return;
     const found = { src: un.src, unsplash: un };
     const pre = new Image();
@@ -448,7 +452,7 @@
       img.style.backgroundImage = `url("${found.src}")`;
       img.classList.add("is-loaded");
       const u = found.unsplash;
-      credit.innerHTML = `Photo by <a href="${esc(u.photographer_url)}" target="_blank" rel="noopener">${esc(u.photographer)}</a>` +
+      credit.innerHTML = (u.from ? `${esc(u.from)} · ` : "") + `Photo by <a href="${esc(u.photographer_url)}" target="_blank" rel="noopener">${esc(u.photographer)}</a>` +
         ` on <a href="${esc(u.photo_url)}" target="_blank" rel="noopener">Unsplash</a>`;
       credit.hidden = false;
     };

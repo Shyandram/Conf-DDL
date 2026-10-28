@@ -1088,3 +1088,9 @@ html.planner-open { overflow: hidden; }
   .digit { width: calc(var(--dw) * .66); font-size: calc(var(--dw) * .98); background: none; border: 0; border-radius: 0; box-shadow: none; }
   .digit::before, .digit::after { display: none; }
 }
+
+/* GitHub link: an icon in the top bar where there is room, and always a line in the footer */
+.gh-btn { text-decoration: none; }
+@media (max-width: 640px) { .gh-btn { display: none; } }
+.foot-gh { display: inline-flex; align-items: center; gap: 7px; color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--line-2); padding-bottom: 1px; }
+.foot-gh:hover { color: var(--ink); border-color: var(--ink); }
