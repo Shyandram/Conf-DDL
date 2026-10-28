@@ -8,6 +8,7 @@ Static GitHub Pages site of conference deadline countdowns. All data lives in `d
 2. Add or update the entry in `data/conferences.json` (schema in `README.md`):
    - `deadline` / `abstract_deadline` as `YYYY-MM-DD HH:MM` in the timezone the CFP states, with `timezone` set to match (`AoE` = UTC-12).
    - `status: "confirmed"` only when the date comes from the official site. If it is projected from last year's cycle, use `"estimated"` and say so in `note`.
+   - `place` as `"City, Country"`; if only the country is known, `"Country (TBA)"` (e.g. `"Japan (TBA)"`) so it gets a country photo; `"TBA"` if unknown.
    - `id` = lowercase short name + 2-digit year (`iccv27`); use a suffix for rounds (`wacv28r1`).
    - Also record the review timeline: `rebuttal` as `["YYYY-MM-DD", "YYYY-MM-DD"]` (or `false` if the venue has no rebuttal; omit if unannounced) and `decision` as `YYYY-MM-DD`.
    - When an estimated entry becomes official, update it in place and flip `status`.

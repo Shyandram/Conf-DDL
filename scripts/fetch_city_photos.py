@@ -24,7 +24,7 @@ UTM = "utm_source=conf_ddl&utm_medium=referral"
 PHOTOS_PER_CITY = 4
 MAX_PER_RUN = 9  # 1 search + 4 download pings per city; the demo tier allows 50 requests an hour
 
-# Places that aren't a city name on their own.
+# Places that aren't a city name on their own (country-only keys search for the country's scenery).
 QUERY_OVERRIDES = {
     "UK": "London skyline",
     "California": "San Francisco skyline",
@@ -36,10 +36,13 @@ QUERY_OVERRIDES = {
 
 
 def city_of(place):
-    """Same rule as setVenue() in assets/app.js: everything before the last comma, minus (TBA)/(tentative)."""
+    """Photo key, same rule as venueOf() in assets/app.js: the city ("Seattle, USA" → Seattle), or the
+    country when only that is known ("UK (TBA)" / "TBA, UK" → UK)."""
     if not place or place.strip().upper() == "TBA":
         return ""
     parts = [p.strip() for p in re.sub(r"\s*\((?:TBA|tentative)\)", "", place, flags=re.I).split(",") if p.strip()]
+    if parts and parts[0].upper() == "TBA":
+        parts = parts[1:]
     return ", ".join(parts[:-1]) if len(parts) > 1 else (parts[0] if parts else "")
 
 

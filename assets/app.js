@@ -372,6 +372,18 @@
 
   // Host city card next to the clock, with a photo from Wikipedia when one exists.
   const COUNTRY_NAMES = { USA: "United States", UK: "United Kingdom" };
+
+  // "City, Country" → city + country. When only the country is known — "Japan (TBA)", "TBA, Japan" —
+  // city is empty and photos are filed under the country. Same rule as city_of() in scripts/fetch_city_photos.py.
+  function venueOf(place) {
+    if (!place || /^\s*TBA\s*$/i.test(place)) return { city: "", country: "", key: "" };
+    const unsure = /\((?:TBA|tentative)\)/i.test(place);
+    const parts = place.replace(/\s*\((?:TBA|tentative)\)/gi, "").split(",").map(x => x.trim()).filter(Boolean);
+    if (parts[0] && /^TBA$/i.test(parts[0])) parts.shift();
+    if (parts.length > 1) return { city: parts.slice(0, -1).join(", "), country: parts[parts.length - 1], key: parts.slice(0, -1).join(", ") };
+    const one = parts[0] || "";
+    return unsure || /^TBA,/i.test(place.trim()) ? { city: "", country: one, key: one } : { city: one, country: "", key: one };
+  }
   const wikiCache = new Map();
 
   async function wikiImage(title) {
@@ -416,22 +428,21 @@
     const fig = $("#venue"), img = $("#venueImg"), credit = $("#venueCredit");
     img.classList.remove("is-loaded");
     credit.hidden = true;
-    const place = c && c.place && !/^TBA$/i.test(c.place) ? c.place : "";
-    const parts = place.replace(/\s*\((?:TBA|tentative)\)/i, "").split(",").map(x => x.trim()).filter(Boolean);
-    const city = parts.length > 1 ? parts.slice(0, -1).join(", ") : parts[0] || "";
-    const country = parts.length > 1 ? parts[parts.length - 1] : "";
+    const { city, country, key } = venueOf(c && c.place);
+    const place = key;
     fig.classList.toggle("is-tba", !place);
-    $("#venueCity").textContent = place ? city : "Venue to be announced";
-    $("#venueCountry").textContent = country;
+    // only the country known ("Japan (TBA)" or "TBA, Japan"): show the country, file the photo under it
+    $("#venueCity").textContent = !place ? "Venue to be announced" : city || COUNTRY_NAMES[country] || country;
+    $("#venueCountry").textContent = city ? country : place ? "city TBA" : "";
     $("#venueDates").textContent = c ? c.date || "" : "";
     if (!place) return;
     const token = (fig.dataset.token = String(Math.random()));
     await loadCityPhotos;
-    const un = pickCityPhoto(city, advance);
-    const many = photosOf(city).length;
+    const un = pickCityPhoto(key, advance);
+    const many = photosOf(key).length;
     $("#photoNext").hidden = many < 2;
-    $("#photoCount").textContent = many > 1 ? `${lastPhoto[city] + 1}/${many}` : "";
-    const found = (un && { src: un.src, unsplash: un }) || (await wikiImage(city)) || (city.includes("/") && (await wikiImage(city.split("/")[0].trim())))
+    $("#photoCount").textContent = many > 1 ? `${lastPhoto[key] + 1}/${many}` : "";
+    const found = (un && { src: un.src, unsplash: un }) || (city && (await wikiImage(city))) || (key.includes("/") && (await wikiImage(key.split("/")[0].trim())))
       || (country && (await wikiImage(COUNTRY_NAMES[country] || country)));
     if (!found || fig.dataset.token !== token) return;
     const pre = new Image();
@@ -517,14 +528,23 @@
     // Labels hang to the right of their pin; stack them on rows so none overlap.
     const W = Math.max(tl.clientWidth, 720);
     const rowEnd = [];
-    const pins = list.filter(c => c.ddl >= +start && c.ddl < +end).sort((a, b) => a.ddl - b.ddl).map(c => {
-      const px = x(c.ddl);
-      const label = `${c.title} ${String(c.year).slice(2)}`;
-      const left = (px / 100) * W, right = left + label.length * 7.8 + 24;
+    // home timeline also pins each review: rebuttal (amber block: when it opens, or closes once open) and decision (green block)
+    const events = list.flatMap(c => [
+      { c, at: c.ddl, ev: "ddl" },
+      ...(opts.el ? [] : [
+        c.reb && now < c.reb[1] && { c, at: now < c.reb[0] ? c.reb[0] : c.reb[1], ev: "reb" }, // upcoming review dates only,
+        c.dec && now < c.dec && { c, at: c.dec, ev: "dec" }, // so the past months stay light
+      ]),
+    ]).filter(e => e && e.at >= +start && e.at < +end).sort((a, b) => a.at - b.at);
+    const pins = events.map(e => {
+      const px = x(e.at);
+      const label = `${e.c.title} ${String(e.c.year).slice(2)}`;
+      const lw = label.length * 7.8 + 24, flip = (px / 100) * W + lw > W; // near the right edge the label hangs left
+      const left = (px / 100) * W - (flip ? lw : 0), right = left + lw;
       let row = rowEnd.findIndex(r => r < left);
       if (row === -1) row = rowEnd.length;
       rowEnd[row] = right;
-      return { c, px, label, row };
+      return { ...e, px, label, row, flip };
     });
     const ROW = 26, axis = 8 + Math.max(rowEnd.length, 1) * ROW + 18;
     tl.style.setProperty("--axis", axis + "px");
@@ -541,36 +561,14 @@
       }
       return " tl-dim";
     };
-    pins.forEach(({ c, px, label, row }) => {
+    const tipOf = (c, ev) => `${c.title} ${c.year} · ` + (ev === "reb" ? `rebuttal ${fmtRange(c.rebuttal)}` : ev === "dec" ? `decision ${fmtDay(c.decision)}` : `deadline ${fmtShort.format(c.ddl)}`);
+    pins.forEach(({ c, at, ev, px, label, row, flip }) => {
       const top = 8 + row * ROW;
-      html += `<button type="button" class="tl-pin${c.status !== "confirmed" ? " est" : ""}${c.ddl <= now ? " past" : ""}${role(c)}" data-id="${esc(c.id)}"
-        style="left:${px}%;top:${top}px;height:${axis + 5.5 - top}px" title="${esc(c.title + " " + c.year + " · " + fmtShort.format(c.ddl))}">
+      const cls = ev === "ddl" ? (c.status !== "confirmed" ? " est" : "") + role(c) : ` ev-${ev}${lit ? " tl-dim" : ""}`;
+      html += `<button type="button" class="tl-pin${cls}${at <= now ? " past" : ""}${flip ? " flip" : ""}" data-id="${esc(c.id)}"
+        style="${flip ? `right:${100 - px}%` : `left:${px}%`};top:${top}px;height:${axis + 5.5 - top}px" title="${esc(tipOf(c, ev))}">
         <span class="lbl">${esc(label)}</span><span class="stem"></span><span class="dot"></span></button>`;
     });
-    // under the months: each conference's review — amber rebuttal window, a line to a green decision mark
-    let revH = 0;
-    if (!opts.el) {
-      const revEnd = [], RROW = 22, top0 = axis + 40;
-      const revs = list.filter(c => c.dec || c.reb).map(c => {
-        const a = c.reb ? c.reb[0] : c.dec, b = c.dec || c.reb[1];
-        return { c, a, b };
-      }).filter(r => r.b >= +start && r.a < +end).sort((p, q) => p.a - q.a);
-      revs.forEach(({ c, a, b }) => {
-        const L = Math.max(0, x(a)), R = Math.min(100, x(b)), inner = t => (R > L ? ((Math.min(100, Math.max(0, x(t))) - L) / (R - L)) * 100 : 0);
-        const label = `${c.title} ${String(c.year).slice(2)}`;
-        const lw = 14 + label.length * 7.2, flip = (R / 100) * W + lw > W; // near the right edge the label goes on the left
-        const left = (L / 100) * W - (flip ? lw : 0), right = (R / 100) * W + (flip ? 0 : lw) + 8;
-        let row = revEnd.findIndex(e => e < left);
-        if (row === -1) row = revEnd.length;
-        revEnd[row] = right;
-        const tip = [label, c.reb && `rebuttal ${fmtRange(c.rebuttal)}`, c.dec && `decision ${fmtDay(c.decision)}`].filter(Boolean).join(" · ");
-        const reb = c.reb ? `<span class="rv-reb" style="left:${inner(c.reb[0])}%;width:${inner(c.reb[1]) - inner(c.reb[0])}%"></span>` : "";
-        html += `<button type="button" class="tl-rev${flip ? " flip" : ""}${b <= now ? " past" : ""}${role(c)}" data-id="${esc(c.id)}" title="${esc(tip)}"
-          style="left:${L}%;width:${R - L}%;top:${top0 + row * RROW}px"><span class="rv-line"></span>${reb}${c.dec ? `<span class="rv-dec"></span>` : ""}<span class="rv-lbl">${esc(label)}</span></button>`;
-      });
-      revH = revEnd.length ? revEnd.length * RROW + 14 : 0;
-    }
-    tl.style.setProperty("--rev", revH + "px");
     // review window of the selected conference, and arcs to where it could go next
     if (path) {
       const clampX = ms => Math.min(100, Math.max(0, x(ms)));
@@ -603,7 +601,7 @@
       gsap.fromTo($$(".tl-src .dot, .tl-reb .dot, .tl-dec .dot", tl), { scale: 0.3 }, { scale: 1, duration: 0.5, ease: "back.out(3)", stagger: 0.03 });
     } else if (hasGsap && fx && !opts.quiet) {
       gsap.fromTo($(".tl-axis", tl), { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "expo.inOut" });
-      gsap.fromTo($$(".tl-pin", tl), { opacity: 0, y: 14 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.6, ease: "back.out(2)", stagger: 0.05, delay: 0.4 });
+      gsap.fromTo($$(".tl-pin", tl), { opacity: 0, y: 14 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.6, ease: "back.out(2)", stagger: { amount: 0.9 }, delay: 0.4 });
     }
   }
 
@@ -1043,7 +1041,7 @@
       c.el.classList.add("flash");
     };
     $("#timeline").addEventListener("click", e => {
-      const pin = e.target.closest(".tl-pin, .tl-rev");
+      const pin = e.target.closest(".tl-pin");
       if (!pin) return;
       // click lights up the next venues (and shows it in the big countdown); clicking it again clears
       const again = state.lightId === pin.dataset.id;
