@@ -1764,6 +1764,94 @@
       "rebuttal": false,
       "decision": "2027-07-15",
       "note": "Projected from IEEE VIS 2026 (abstract Mar 21, paper Mar 31, 1st-round notification Jun 6, revision Jul 1, final notification Jul 15). No rebuttal; two-round review. Dates/venue (Chicago) from third-party listings, not yet on official site."
+    },
+    {
+      "id": "avreason26t1",
+      "title": "AV Reasoning · Gen",
+      "series": "PAI-AV Reasoning",
+      "year": 2026,
+      "full_name": "NVIDIA Physical AI AV Reasoning Challenge · Track 1: Chain-of-Causation Generation",
+      "area": [
+        "CV",
+        "RO"
+      ],
+      "ccf": "",
+      "kind": "challenge",
+      "timezone": "AoE",
+      "place": "Online",
+      "status": "confirmed",
+      "rebuttal": false,
+      "link": "https://huggingface.co/spaces/nvidia/PhysicalAI-AV-OOD-Reasoning-Challenge-2026",
+      "deadline": "2026-10-31 23:59",
+      "date": "Winners early Dec 2026",
+      "decision": "2026-11-15",
+      "note": "Multi-camera clip → natural-language chain-of-causation explanation (6 rollouts, AlpaJudge top-1 score). Winner gets an NVIDIA DGX Spark. Final results Nov 15. Official dates are marked tentative; the page gives no time zone, AoE assumed (as in the AlpaSim challenge)."
+    },
+    {
+      "id": "avreason26t2",
+      "title": "AV Reasoning · Auto-label",
+      "series": "PAI-AV Reasoning",
+      "year": 2026,
+      "full_name": "NVIDIA Physical AI AV Reasoning Challenge · Track 2: Reasoning Auto-Labeling",
+      "area": [
+        "CV",
+        "RO"
+      ],
+      "ccf": "",
+      "kind": "challenge",
+      "timezone": "AoE",
+      "place": "Online",
+      "status": "confirmed",
+      "rebuttal": false,
+      "link": "https://huggingface.co/spaces/nvidia/PhysicalAI-AV-OOD-Reasoning-Challenge-2026",
+      "deadline": "2026-10-31 23:59",
+      "date": "Winners early Dec 2026",
+      "decision": "2026-11-15",
+      "note": "Auto-generate chain-of-causation labels for the PAI-AV OOD validation clips (1 rollout). Leaderboard-only, no prize. Official dates are marked tentative; the page gives no time zone, AoE assumed."
+    },
+    {
+      "id": "alpasim26t1",
+      "title": "AlpaSim · PAI-AV",
+      "series": "AlpaSim",
+      "year": 2026,
+      "full_name": "AlpaSim E2E Closed-Loop Challenge · Track 1: PAI-AV",
+      "area": [
+        "CV",
+        "RO"
+      ],
+      "ccf": "",
+      "kind": "challenge",
+      "timezone": "AoE",
+      "place": "Online",
+      "status": "confirmed",
+      "rebuttal": false,
+      "link": "https://nvidia-alpasime2eclosedloopchallenge2026.hf.space/",
+      "deadline": "2026-10-31 23:59",
+      "date": "Results at NeurIPS 2026 (World Models in Physical AI workshop)",
+      "decision": "2026-11-15",
+      "note": "Closed-loop driving policies in AlpaSim, scenes from 9 countries. Leaderboard and technical report both due Oct 31 AoE; registration closed Oct 18. Final results targeted Nov 15. Two DGX Spark prizes (1st place + innovation); winners' video due Dec 3."
+    },
+    {
+      "id": "alpasim26t2",
+      "title": "AlpaSim · nuPlan",
+      "series": "AlpaSim",
+      "year": 2026,
+      "full_name": "AlpaSim E2E Closed-Loop Challenge · Track 2: nuPlan",
+      "area": [
+        "CV",
+        "RO"
+      ],
+      "ccf": "",
+      "kind": "challenge",
+      "timezone": "AoE",
+      "place": "Online",
+      "status": "confirmed",
+      "rebuttal": false,
+      "link": "https://nvidia-alpasime2eclosedloopchallenge2026.hf.space/",
+      "deadline": "2026-11-16 23:59",
+      "date": "Results at NeurIPS 2026 (World Models in Physical AI workshop)",
+      "decision": "2026-11-23",
+      "note": "nuPlan / NAVSIM-style policies on a private evaluation set. Extended from Oct 31: leaderboard and technical report due Nov 16 AoE; registration closed Oct 18. Final results targeted Nov 23. Two DGX Spark prizes (1st place + innovation); winners' video due Dec 3."
     }
   ]
 }

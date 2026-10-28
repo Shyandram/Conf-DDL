@@ -91,6 +91,8 @@
 
   // Stars follow the conference series (all years of CVPR), not one edition.
   const seriesOf = c => c.series || c.title;
+  // workshop proposals and challenges take no papers, so the planner never suggests them
+  const notPaper = c => c.kind === "workshop" || c.kind === "challenge";
   const isStarred = c => state.starred.has(seriesOf(c));
   // Venue grade from the ranking list in data/conferences.json ("tiers": NYCU CS top-conference list).
   const gradeOf = c => {
@@ -164,7 +166,8 @@
       (c.ccf ? `<span class="tag tag-ccf">CCF-${esc(c.ccf)}</span>` : "") +
       c.area.map(a => `<span class="tag">${esc(a)}</span>`).join("") +
       (c.status !== "confirmed" ? `<span class="tag tag-est">estimated</span>` : "") +
-      (c.kind === "workshop" ? `<span class="tag tag-ws">workshop proposals</span>` : c.kind === "workshop-paper" ? `<span class="tag tag-ws">workshop</span>` : "");
+      (c.kind === "workshop" ? `<span class="tag tag-ws">workshop proposals</span>` : c.kind === "workshop-paper" ? `<span class="tag tag-ws">workshop</span>` :
+       c.kind === "challenge" ? `<span class="tag tag-ws">challenge</span>` : "");
     const steps = $$(".c-steps li", el);
     const setStep = (li, text, title) => {
       $("b", li).textContent = text;
@@ -192,7 +195,7 @@
     $(".c-place", more).textContent = c.place || "TBA";
     if (c.note) $(".c-note", more).textContent = c.note; else $(".c-note", more).remove();
     if (c.abs) { c.refs.abs = $(".c-abs dd", more); c.refs.abs.textContent = fmtTime(c.abs); } else $(".c-abs", more).remove();
-    if (!c.decision || c.kind === "workshop") $(".c-plan", more).remove();
+    if (!c.decision || notPaper(c)) $(".c-plan", more).remove();
     $(".c-link", more).href = c.link;
     $(".c-ics", more).addEventListener("click", () => icsFor(c));
     c.el.appendChild(more);
@@ -421,7 +424,7 @@
     const place = key;
     fig.classList.toggle("is-tba", !place);
     // only the country known ("Japan (TBA)" or "TBA, Japan"): show the country, file the photo under it
-    $("#venueCity").textContent = !place ? (virtual ? "Virtual conference" : "Venue to be announced") : city || COUNTRY_NAMES[country] || country;
+    $("#venueCity").textContent = !place ? (virtual ? "Online" : "Venue to be announced") : city || COUNTRY_NAMES[country] || country;
     $("#venueCountry").textContent = city ? country : place ? "city TBA" : "";
     $("#venueDates").textContent = c ? c.date || "" : "";
     if (!place) return;
@@ -658,7 +661,7 @@
     const tier = c => ({ A: 3, B: 2 }[gradeOf(c)] || 1);
     const ccf = c => ({ A: 3, B: 2, C: 1 }[c.ccf] || 0);
     const score = c => tier(c) * 100 + (c.area.some(a => src.area.includes(a)) ? 40 : 0) + ccf(c) * 5 + (c.status === "confirmed" ? 1 : 0);
-    const pool = confs.filter(c => c.kind !== "workshop" && seriesOf(c) !== seriesOf(src) && c.ddl > now);
+    const pool = confs.filter(c => !notPaper(c) && seriesOf(c) !== seriesOf(src) && c.ddl > now);
     const within = (a, b) => pool.filter(c => c.ddl >= a && c.ddl < b).sort((p, q) => score(q) - score(p) || p.ddl - q.ddl);
     const stages = [];
     if (src.reb) stages.push({ key: "reb", from: src.reb[0], to: src.dec, list: within(Math.max(src.reb[0], now), src.dec) });
@@ -721,7 +724,7 @@
 
   /* ---------- planner (its own view, so the home screen stays clean) ---------- */
 
-  const plannable = now => confs.filter(c => c.dec && c.kind !== "workshop" && (c.group === "up" || c.group === "review"))
+  const plannable = now => confs.filter(c => c.dec && !notPaper(c) && (c.group === "up" || c.group === "review"))
     .sort((a, b) => a.ddl - b.ddl);
 
   function openPlanner(id) {
