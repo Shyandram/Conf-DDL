@@ -1,36 +1,60 @@
-# Conf DDL
+<a href="https://conf-ddl.shyandram.dev/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/banner-dark.svg">
+    <img src="docs/banner-light.svg" alt="Conf DDL: every deadline, counting down" width="100%">
+  </picture>
+</a>
 
-Live countdowns to CV, ML, AI and NLP conference deadlines, including rebuttal and decision dates. **→ [conf-ddl.shyandram.dev](https://conf-ddl.shyandram.dev/)**
-
-[![Code: MIT](https://img.shields.io/badge/code-MIT-555?style=flat-square)](LICENSE)
-[![Data: CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-555?style=flat-square)](data/LICENSE)
+<h1 align="center">Conf DDL · Every deadline, counting down</h1>
 
 <p align="center">
-  <img src="docs/desktop-light.jpg" alt="CVPR 2027 countdown over a photo of Seattle" width="68%">
-  <img src="docs/phone.jpg" alt="Phone layout" width="22%">
+  Live countdowns to computer vision, ML, AI and NLP conference deadlines.<br>
+  The countdown follows each paper from submission through rebuttal to the decision.
 </p>
 
-## Features
+<p align="center">
+  <a href="https://conf-ddl.shyandram.dev/"><b>Open the site →</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/shyandram/conf-ddl/issues">Suggest a conference</a>
+  &nbsp;·&nbsp;
+  <a href="LICENSE">MIT</a> / <a href="data/LICENSE">CC BY 4.0</a>
+</p>
 
-- **Countdown** to the next deadline over a photo of the host city, then to its rebuttal and decision
-- **Search and filters** by field, CCF-A, NYCU A, confirmed-only; a 12-month timeline
-- **Planner** for where to resubmit after rebuttal or rejection
-- **★ Star** a series to follow it every year; stars sync between devices
-- **Calendar subscriptions** that update with the data (all, per field, per series, or your starred ones)
-- **Share** a countdown with `#c=<id>` (e.g. `#c=cvpr27`)
-- Local / AoE time, light and dark themes, works on phones
+<br>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/desktop-dark.jpg">
+    <img src="docs/desktop-light.jpg" alt="The CVPR 2027 countdown over a photo of Seattle" width="70%">
+  </picture>
+  &nbsp;
+  <img src="docs/phone.jpg" alt="Phone layout" width="22.5%">
+</p>
+
+## What it does
+
+| | |
+|---|---|
+| **⏱ Countdown** | The next deadline, over a photo of the host city. After submission closes, it counts down to the rebuttal and then the decision. |
+| **⌕ Search and filters** | Filter by field, CCF-A, NYCU A or confirmed dates, and see everything on a 12-month timeline. |
+| **↻ Planner** | Find where a paper can go next, during the rebuttal or after the decision. |
+| **★ Star** | Follow a series every year. Stars sync between your phone and computer. |
+| **▦ Calendar** | Subscribe to a feed that updates with the data: all deadlines, one field, one series, or just your starred ones. |
+| **↗ Share** | `…/#c=cvpr27` opens the page with that countdown. |
+
+The page shows both local time and AoE, has light and dark themes, and works on phones.
 
 ## Run locally
 
 ```bash
-python3 -m http.server 8000   # open http://localhost:8000
+python3 -m http.server 8000   # → http://localhost:8000
 ```
 
-Pushing to `main` deploys to GitHub Pages (`.github/workflows/pages.yml`).
+Every push to `main` validates the data and deploys to GitHub Pages.
 
 ## Add a conference
 
-Ask Claude Code, e.g. *"add the ECCV 2028 deadline"*; it follows [`CLAUDE.md`](CLAUDE.md). You can also [open an issue](https://github.com/shyandram/conf-ddl/issues) with the call-for-papers link. To edit by hand, add an entry to `data/conferences.json`:
+Ask Claude Code, e.g. *"add the ECCV 2028 deadline"*. It follows [`CLAUDE.md`](CLAUDE.md). You can also edit `data/conferences.json` by hand:
 
 ```json
 {
@@ -42,22 +66,31 @@ Ask Claude Code, e.g. *"add the ECCV 2028 deadline"*; it follows [`CLAUDE.md`](C
 }
 ```
 
-**Required:** `id`, `title`, `year`, `full_name`, `area`, `link`, `deadline` (`YYYY-MM-DD HH:MM`), `timezone` (`AoE`, `UTC+8`, `PDT`, …), `status` (`confirmed` or `estimated`).
-**Optional:** `abstract_deadline`, `date`, `place` (`"City, Country"`, `"Japan (TBA)"`, `"TBA"`, `"Virtual"`), `rebuttal` (`[start, end]` or `false`), `decision`, `ccf`, `kind` (`workshop` / `workshop-paper` / `challenge`), `series`, `note`.
+<details>
+<summary><b>Fields</b></summary>
+<br>
 
-Then run `python3 scripts/validate.py`.
+**Required:** `id` · `title` · `year` · `full_name` · `area` · `link` · `deadline` (`YYYY-MM-DD HH:MM`) · `timezone` (`AoE`, `UTC+8`, `PDT`, …) · `status` (`confirmed` / `estimated`)
 
-## Optional services
+**Optional:** `abstract_deadline` · `date` · `place` (`"City, Country"`, `"Japan (TBA)"`, `"TBA"`, `"Virtual"`) · `rebuttal` (`[start, end]` or `false`) · `decision` · `ccf` · `kind` (`workshop` / `workshop-paper` / `challenge`) · `series` · `note`
 
-- **City photos:** add an `UNSPLASH_ACCESS_KEY` secret, then run *Actions → Refresh city photos*. It writes the photos to `data/cities.json`.
-- **"My conferences" calendar and star sync:** a Cloudflare Worker. See [`worker/README.md`](worker/README.md).
+Check your changes with `python3 scripts/validate.py`.
+</details>
+
+<details>
+<summary><b>Optional services</b></summary>
+<br>
+
+- **City photos:** add an `UNSPLASH_ACCESS_KEY` secret, then run *Actions → Refresh city photos*.
+- **My conferences calendar and star sync:** a small Cloudflare Worker. See [`worker/README.md`](worker/README.md).
+</details>
 
 ## License
 
-Both licenses require credit.
+Reuse is welcome, with credit.
 
 - **Code:** [MIT](LICENSE).
 - **Conference data:** [CC BY 4.0](data/LICENSE). Credit it as *"Deadline data from [Conf DDL](https://github.com/shyandram/conf-ddl), CC BY 4.0"*.
-- **City photos:** these belong to their photographers, under the [Unsplash License](https://unsplash.com/license).
+- **City photos:** these belong to their photographers on [Unsplash](https://unsplash.com/license).
 
-Dates marked *estimated* are projections. Always check the official call for papers.
+<sub>Dates marked <i>estimated</i> are projected from the previous cycle. Always confirm with the official call for papers.</sub>

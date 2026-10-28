@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 400" width="1280" height="400" role="img" aria-label="Conf DDL: every conference deadline, counting down">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0a0c10"/><stop offset="1" stop-color="#141823"/></linearGradient>
+<radialGradient id="glow" cx=".82" cy=".1" r=".7"><stop offset="0" stop-color="#d4ff3a" stop-opacity="0.16"/><stop offset="1" stop-color="#d4ff3a" stop-opacity="0"/></radialGradient>
+<pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="1" opacity=".5"/></pattern></defs>
+<rect width="1280" height="400" rx="28" fill="url(#bg)"/>
+<rect width="1280" height="400" rx="28" fill="url(#grid)" opacity=".55"/>
+<rect width="1280" height="400" rx="28" fill="url(#glow)"/>
+<circle cx="92" cy="96" r="20" fill="none" stroke="#d4ff3a" stroke-width="4"/><path d="M92 84v12l8 6" fill="none" stroke="#d4ff3a" stroke-width="4" stroke-linecap="round"/>
+<text x="128" y="106" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="30" font-weight="600" fill="#f4f5f7" letter-spacing="-.5">Conf<tspan font-weight="400" fill="#a9afbd">DDL</tspan></text>
+<text x="72" y="214" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="64" font-weight="700" fill="#f4f5f7" letter-spacing="-2.5">Every deadline,</text>
+<text x="72" y="286" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="64" font-weight="400" fill="#5c6373" letter-spacing="-2.5">counting down.</text>
+<text x="74" y="344" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="17" fill="#a9afbd" letter-spacing="1.5">DEADLINES · REBUTTALS · DECISIONS</text>
+<rect x="700" y="150" width="56" height="80" rx="11" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)"/>
+<line x1="700" y1="190.0" x2="756" y2="190.0" stroke="rgba(255,255,255,.14)"/>
+<text x="728.0" y="210.0" text-anchor="middle" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="56" font-weight="500" fill="#ff5a4e">1</text>
+<rect x="762" y="150" width="56" height="80" rx="11" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)"/>
+<line x1="762" y1="190.0" x2="818" y2="190.0" stroke="rgba(255,255,255,.14)"/>
+<text x="790.0" y="210.0" text-anchor="middle" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="56" font-weight="500" fill="#ff5a4e">9</text>
+<text x="702" y="258" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#5c6373" letter-spacing="2">DAYS</text>
+<rect x="838" y="150" width="56" height="80" rx="11" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)"/>
+<line x1="838" y1="190.0" x2="894" y2="190.0" stroke="rgba(255,255,255,.14)"/>
+<text x="866.0" y="210.0" text-anchor="middle" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="56" font-weight="500" fill="#ff5a4e">1</text>
+<rect x="900" y="150" width="56" height="80" rx="11" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)"/>
+<line x1="900" y1="190.0" x2="956" y2="190.0" stroke="rgba(255,255,255,.14)"/>
+<text x="928.0" y="210.0" text-anchor="middle" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="56" font-weight="500" fill="#ff5a4e">8</text>
+<text x="840" y="258" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#5c6373" letter-spacing="2">HRS</text>
+<rect x="976" y="150" width="56" height="80" rx="11" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)"/>
+<line x1="976" y1="190.0" x2="1032" y2="190.0" stroke="rgba(255,255,255,.14)"/>
+<text x="1004.0" y="210.0" text-anchor="middle" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="56" font-weight="500" fill="#ff5a4e">5</text>
+<rect x="1038" y="150" width="56" height="80" rx="11" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)"/>
+<line x1="1038" y1="190.0" x2="1094" y2="190.0" stroke="rgba(255,255,255,.14)"/>
+<text x="1066.0" y="210.0" text-anchor="middle" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="56" font-weight="500" fill="#ff5a4e">6</text>
+<text x="978" y="258" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#5c6373" letter-spacing="2">MIN</text>
+<rect x="1114" y="150" width="56" height="80" rx="11" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)"/>
+<line x1="1114" y1="190.0" x2="1170" y2="190.0" stroke="rgba(255,255,255,.14)"/>
+<text x="1142.0" y="210.0" text-anchor="middle" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="56" font-weight="500" fill="#ff5a4e">3</text>
+<rect x="1176" y="150" width="56" height="80" rx="11" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)"/>
+<line x1="1176" y1="190.0" x2="1232" y2="190.0" stroke="rgba(255,255,255,.14)"/>
+<text x="1204.0" y="210.0" text-anchor="middle" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="56" font-weight="500" fill="#ff5a4e">2</text>
+<text x="1116" y="258" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#5c6373" letter-spacing="2">SEC</text>
+<rect x="700" y="300" width="164" height="62" rx="12" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)"/>
+<text x="714" y="322" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="#d4ff3a" letter-spacing="1.5">DEADLINE</text>
+<text x="714" y="347" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#f4f5f7">CVPR 27</text>
+<text x="850" y="347" text-anchor="end" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="15" fill="#a9afbd">19d</text>
+<rect x="874" y="300" width="164" height="62" rx="12" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)"/>
+<text x="888" y="322" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="#c98a0b" letter-spacing="1.5">REBUTTAL</text>
+<text x="888" y="347" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#f4f5f7">ICLR 27</text>
+<text x="1024" y="347" text-anchor="end" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="15" fill="#a9afbd">34d</text>
+<rect x="1048" y="300" width="164" height="62" rx="12" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.14)"/>
+<text x="1062" y="322" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="11" fill="#14955f" letter-spacing="1.5">DECISION</text>
+<text x="1062" y="347" font-family="Inter, 'Segoe UI', system-ui, -apple-system, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#f4f5f7">AAAI 27</text>
+<text x="1198" y="347" text-anchor="end" font-family="'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace" font-size="15" fill="#a9afbd">96d</text>
+</svg>
