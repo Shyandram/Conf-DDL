@@ -586,7 +586,8 @@ kbd { font: 11px var(--mono); padding: 2px 6px; border: 1px solid var(--line-2);
 .c-meta { display: flex; flex-wrap: wrap; gap: 8px 32px; margin: 0; }
 .c-meta dd { margin: 3px 0 0; font-size: 14px; }
 .c-note { margin: 0; font-size: 14px; color: var(--ink-2); line-height: 1.5; max-width: 80ch; }
-.c-actions { display: flex; gap: 18px; }
+.c-actions { display: flex; flex-wrap: wrap; gap: 10px 18px; }
+.c-actions .link { white-space: nowrap; }
 .link {
   border: 0; background: none; padding: 0; cursor: pointer; font: 500 13px var(--mono);
   color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--line-2); transition: color .2s, border-color .2s;
@@ -649,7 +650,7 @@ kbd { font: 11px var(--mono); padding: 2px 6px; border: 1px solid var(--line-2);
   .seg button { padding: 5px 9px; }
   .hero-actions { margin-left: 0; width: 100%; }
   .controls { top: 63px; }
-  .toggles { width: 100%; }
+  .toggles { width: 100%; flex-wrap: wrap; gap: 10px 14px; }
   .timeline:not(.planner-tl) { min-height: 0; }
   .sep { display: none; }
   .clock { gap: 10px; --dw: clamp(24px, calc((100cqi - 56px) / 9.1), 52px); }
@@ -657,6 +658,10 @@ kbd { font: 11px var(--mono); padding: 2px 6px; border: 1px solid var(--line-2);
 /* small phones: the status bar already shows the time, so the top bar keeps room for its buttons */
 @media (max-width: 480px) {
   .now { display: none; }
+  /* call for papers on its own row, then calendar and share side by side */
+  .hero-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero-actions > * { justify-content: center; text-align: center; }
+  #heroLink { grid-column: 1 / -1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
