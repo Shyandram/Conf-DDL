@@ -758,6 +758,42 @@
     history.replaceState(null, "", location.pathname + location.search);
   }
 
+  /* ---------- calendar feeds: .ics files built on deploy by scripts/build_calendar.py ---------- */
+
+  const feedSlug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  function feedRow(label, path, sub = "") {
+    const https = new URL(`calendar/${path}`, location.href.split("#")[0]).href;
+    const webcal = https.replace(/^https?:/, "webcal:");
+    return `<li class="feed"><span class="feed-name"><b>${esc(label)}</b>${sub ? `<small>${esc(sub)}</small>` : ""}</span>
+      <span class="feed-acts">
+        <a class="link" href="https://calendar.google.com/calendar/render?cid=${encodeURIComponent(webcal)}" target="_blank" rel="noopener">Google</a>
+        <a class="link" href="${esc(webcal)}">Apple / Outlook</a>
+        <button type="button" class="link feed-copy" data-url="${esc(https)}">Copy link</button>
+      </span></li>`;
+  }
+  function openFeeds() {
+    const starred = [...state.starred].sort();
+    const count = pred => confs.filter(pred).length;
+    $("#feedsBody").innerHTML =
+      `<h3 class="feeds-h">Everything</h3><ul class="feeds-list">${feedRow("All conferences", "all.ics", `${confs.length} entries · deadlines, rebuttals and decisions`)}</ul>` +
+      `<h3 class="feeds-h">My conferences</h3>` +
+      (starred.length
+        ? `<ul class="feeds-list">${starred.map(s => feedRow(s, `series/${feedSlug(s)}.ics`, "every edition, including future years")).join("")}</ul>`
+        : `<p class="feeds-empty">Star a conference (☆ next to its name) to get a calendar for just that series here.</p>`) +
+      `<h3 class="feeds-h">By field</h3><ul class="feeds-list">${Object.entries(data.areas || {})
+        .filter(([a]) => count(c => c.area.includes(a)))
+        .map(([a, label]) => feedRow(label, `area/${feedSlug(a)}.ics`, `${count(c => c.area.includes(a))} entries`)).join("")}</ul>`;
+    const box = $("#feeds"), wasHidden = box.hidden;
+    box.hidden = false;
+    document.documentElement.classList.add("planner-open");
+    if (wasHidden && hasGsap && !reduced) gsap.fromTo(".feeds-sheet", { opacity: 0, y: 16 }, { opacity: 1, y: 0, clearProps: "transform", duration: dur(0.35), ease: "power3.out" });
+  }
+  function closeFeeds() {
+    if ($("#feeds").hidden) return;
+    $("#feeds").hidden = true;
+    if ($("#planner").hidden) document.documentElement.classList.remove("planner-open");
+  }
+
   /* ---------- left rail ---------- */
 
   let railItems = [];
@@ -1191,7 +1227,16 @@
       if (hop) openPlanner(hop.dataset.id); // chain: plan the next hop from the chosen venue
     });
     $("#planSrc").addEventListener("change", e => openPlanner(e.target.value));
-    document.addEventListener("keydown", e => { if (e.key === "Escape") closePlanner(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") { closePlanner(); closeFeeds(); } });
+    $("#calBtn").addEventListener("click", openFeeds);
+    $("#feeds").addEventListener("click", async e => {
+      if (e.target.closest("[data-close]")) return closeFeeds();
+      const btn = e.target.closest(".feed-copy");
+      if (!btn) return;
+      if (!(await copyText(btn.dataset.url))) { window.prompt("Copy this link", btn.dataset.url); return; }
+      btn.textContent = "Copied ✓";
+      setTimeout(() => { btn.textContent = "Copy link"; }, 1800);
+    });
 
     // rows fold open to show the details
     document.addEventListener("click", e => {

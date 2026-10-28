@@ -45,6 +45,10 @@
         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 18c4 0 4-12 8-12s4 12 8 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="4" cy="18" r="2" fill="currentColor"/><circle cx="20" cy="18" r="2" fill="currentColor"/></svg>
         <span>Planner</span>
       </button>
+      <button type="button" class="planner-btn" id="calBtn" title="Subscribe in Google, Apple or Outlook Calendar">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Calendar</span>
+      </button>
       <div class="seg" role="group" aria-label="Time zone">
         <button type="button" data-tz="local" class="is-on">Local</button>
         <button type="button" data-tz="aoe">AoE</button>
@@ -231,6 +235,22 @@
       <div id="planSrcCard"></div>
       <div class="timeline planner-tl" id="planTimeline"></div>
       <div id="pathPanel"></div>
+    </div>
+  </div>
+
+  <div class="planner feeds" id="feeds" hidden role="dialog" aria-modal="true" aria-labelledby="feedsTitle">
+    <div class="planner-backdrop" data-close></div>
+    <div class="planner-sheet feeds-sheet">
+      <header class="planner-head">
+        <div class="planner-title">
+          <span class="planner-kicker">Calendar</span>
+          <h2 id="feedsTitle">Subscribe to the deadlines</h2>
+        </div>
+        <button type="button" class="planner-close" data-close aria-label="Close">✕</button>
+      </header>
+      <p class="pp-note">A subscribed calendar keeps itself up to date: when a date is added or corrected here, your calendar app picks it up
+        on its next refresh (Apple and Outlook: every few hours; Google: within about a day). Deadlines come with reminders 7 days and 1 day before.</p>
+      <div id="feedsBody"></div>
     </div>
   </div>
 
