@@ -1358,3 +1358,64 @@ html.on-now .to-top { display: none !important; }
   background: color-mix(in srgb, var(--bg) 72%, transparent); border-radius: 18px 0 0 0;
   -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2);
 }
+
+/* ---------- the timeline standing up (countdown page in two columns or portrait) ---------- */
+#pgNow .timeline.is-vert { overflow: hidden; margin-top: 2px; }
+.tlv { position: relative; flex: none; }
+.tlv-past { position: absolute; left: 0; right: 0; top: 0; background: color-mix(in srgb, var(--ink) 4%, transparent); border-radius: 8px 8px 0 0; }
+.tlv-axis { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line-2); }
+.tlv-tick { position: absolute; width: 10px; height: 1px; background: var(--line-2); }
+.tlv-month {
+  position: absolute; left: 0; translate: 0 -50%; text-align: right; white-space: nowrap;
+  font: 11px var(--mono); text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3);
+}
+.tlv-month.is-now { color: var(--accent); font-weight: 600; }
+.tlv-today { position: absolute; right: 0; height: 0; border-top: 1px dashed var(--accent); z-index: 1; pointer-events: none; }
+.tlv-today span {
+  position: absolute; right: 0; top: -15px; font: 10px var(--mono); color: var(--accent);
+  text-transform: uppercase; letter-spacing: .1em;
+}
+.tlv-pin {
+  position: absolute; width: calc(var(--tlx) + var(--tlw)); height: 0; padding: 0; border: 0; background: none;
+  pointer-events: none; transition: opacity .3s;
+}
+.tlv-pin .stem { position: absolute; left: 0; top: 0; width: var(--tlx); height: 1px; background: var(--line-2); }
+.tlv-pin .dot {
+  position: absolute; left: -5px; top: -5px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent); pointer-events: auto; cursor: pointer; z-index: 1;
+}
+.tlv-pin .lbl {
+  position: absolute; left: var(--tlx); top: -10px; max-width: var(--tlw); height: 20px; box-sizing: border-box;
+  display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font: 500 11.5px/18px var(--mono); padding: 0 6px; border-radius: 6px;
+  background: var(--bg-2); border: 1px solid var(--line); color: var(--ink-2);
+  pointer-events: auto; cursor: pointer; transition: color .2s, border-color .2s;
+}
+.tlv-pin:hover { z-index: 3; }
+.tlv-pin:hover .lbl, .tlv-pin:focus-visible .lbl { color: var(--ink); border-color: var(--ink-2); }
+.tlv-pin.est .dot { background: var(--bg); border: 1.5px dashed var(--ink-2); box-shadow: none; }
+.tlv-pin.past { opacity: .55; }
+.tlv-pin.ev-reb .dot { background: var(--warn); border: 0; }
+.tlv-pin.ev-dec .dot { background: var(--ok); border: 0; border-radius: 2px; rotate: 45deg; }
+.tlv-pin.tl-dim { opacity: .25; }
+.tlv-pin.tl-dim:hover { opacity: .85; }
+.tlv-pin.tl-src .dot { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent), 0 0 14px var(--accent); }
+.tlv-pin.tl-src .lbl { border-color: var(--accent); color: var(--ink); font-weight: 700; }
+.tlv-pin.tl-reb .dot { background: var(--warn); border: 0; box-shadow: 0 0 0 3px color-mix(in srgb, var(--warn) 25%, transparent); }
+.tlv-pin.tl-dec .dot { background: var(--ok); border: 0; box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 25%, transparent); }
+.tlv-pin.tl-reb .lbl { border-color: color-mix(in srgb, var(--warn) 60%, transparent); }
+.tlv-pin.tl-dec .lbl { border-color: color-mix(in srgb, var(--ok) 60%, transparent); }
+.tlv-pin.tl-top .lbl { color: var(--ink); font-weight: 700; }
+.tlv-bare, .tlv-dot {
+  position: absolute; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; padding: 0; border: 0; border-radius: 50%;
+  background: var(--accent); cursor: pointer; transition: transform .2s, opacity .3s;
+}
+.tlv-bare::after, .tlv-dot::after { content: ""; position: absolute; inset: -6px; }
+.tlv-bare.est { background: var(--bg); border: 1.5px dashed var(--ink-2); }
+.tlv-bare.past { opacity: .4; }
+.tlv-bare.ev-reb, .tlv-dot.ev-reb, .tlv-bare.tl-reb { background: var(--warn); border: 0; }
+.tlv-bare.ev-dec, .tlv-dot.ev-dec, .tlv-bare.tl-dec { background: var(--ok); border: 0; border-radius: 2px; rotate: 45deg; }
+.tlv-dot { z-index: 2; }
+.tlv-bare:hover, .tlv-dot:hover, .tlv-bare:focus-visible, .tlv-dot:focus-visible { transform: scale(1.6); opacity: 1; }
+.timeline.has-glow .tlv-bare.tl-dim, .timeline.has-glow .tlv-dot.tl-dim { opacity: .25; }
+@media (max-height: 480px) { #pgNow.m-cols .legend { display: none; } }

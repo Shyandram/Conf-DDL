@@ -616,31 +616,58 @@
       }));
       html += `<svg class="tl-arcs" viewBox="0 0 100 70" preserveAspectRatio="none" aria-hidden="true">${arcs.join("")}</svg>`;
     }
-    // phones: the same dates as a list, one row per month
+    // tall boxes (the countdown page in two columns, or in portrait): the same axis, standing up.
+    // Time runs down a line on the left, names hang to its right in up to four lanes; the rest stay bare dots.
     if (narrow && !opts.el) {
-      const items = [...events, ...list.filter(c => c !== sel).map(c => ({ c, ...(next(c) || {}) })).filter(e => e.ev && e.at < +end)];
-      const months = Array.from({ length: 13 }, (_, i) => { const m = new Date(start); m.setMonth(m.getMonth() + i); return { m, items: [] }; });
-      items.forEach(e => {
-        const d = new Date(e.at), i = (d.getFullYear() - start.getFullYear()) * 12 + d.getMonth() - start.getMonth();
-        if (months[i]) months[i].items.push(e);
+      const H = Math.max(tl.clientHeight, 110), Wd = Math.max(tl.clientWidth, 220);
+      const AX = 46, PAD = 12, SLOT = 22;
+      const y = ms => PAD + ((ms - start) / span) * (H - 2 * PAD);
+      const lanes = Math.max(1, Math.min(4, Math.floor((Wd - AX - 14) / 118)));
+      const laneW = (Wd - AX - 14) / lanes;
+      const nowM = new Date(now);
+      const gap = (H - 2 * PAD) / 13;
+      const sameAsNow = i => { const m = new Date(start); m.setMonth(m.getMonth() + i); return m.getMonth() === nowM.getMonth() && m.getFullYear() === nowM.getFullYear(); };
+      let v = `<div class="tlv" style="height:${H}px"><div class="tlv-past" style="height:${y(now)}px"></div><div class="tlv-axis" style="left:${AX}px"></div>`;
+      for (let i = 0; i < 13; i++) {
+        const m = new Date(start); m.setMonth(m.getMonth() + i);
+        const n = new Date(m); n.setMonth(n.getMonth() + 1);
+        const isNow = m.getMonth() === nowM.getMonth() && m.getFullYear() === nowM.getFullYear();
+        const label = m.toLocaleString(undefined, { month: "short" }) + (m.getMonth() === 0 || isNow ? ` ’${String(m.getFullYear()).slice(2)}` : "");
+        if (i) v += `<i class="tlv-tick" style="top:${y(+m)}px;left:${AX - 5}px"></i>`;
+        // a short box names every other month (always this one and January)
+        if (gap >= 15 || isNow || m.getMonth() === 0 || (i % 2 === 1 && !sameAsNow(i - 1) && !sameAsNow(i + 1)))
+          v += `<span class="tlv-month${isNow ? " is-now" : ""}" style="top:${(y(+m) + y(+n)) / 2}px;width:${AX - 10}px">${esc(label)}</span>`;
+      }
+      v += `<div class="tlv-today" style="top:${y(now)}px;left:${AX}px"><span>today</span></div>`;
+      const used = Array.from({ length: lanes }, () => []);
+      const placed = [...events].sort((p, q) => rank(q) - rank(p)).map(e => {
+        const cy = y(e.at), lo = cy - SLOT / 2, hi = cy + SLOT / 2;
+        const lane = used.findIndex(L => L.every(([a, b]) => hi <= a || lo >= b));
+        if (lane !== -1) used[lane].push([lo, hi]);
+        return { ...e, cy, lane };
       });
-      const thisMonth = new Date(now).getMonth(), thisYear = new Date(now).getFullYear();
-      html = `<div class="tl-months">` + months.map(({ m, items }) => {
-        const isNow = m.getMonth() === thisMonth && m.getFullYear() === thisYear, isPast = !isNow && +m < now;
-        const name = m.toLocaleString(undefined, { month: "short" }), yr = m.getMonth() === 0 || isNow ? ` ’${String(m.getFullYear()).slice(2)}` : "";
-        const chips = items.sort((a, b) => a.at - b.at).map(e => {
-          const cls = `tl-chip ev-${e.ev}${e.ev === "ddl" && e.c.status !== "confirmed" ? " est" : ""}${e.at <= now ? " past" : ""}${role(e.c)}`;
-          const text = e.text || `${e.c.title} ${String(e.c.year).slice(2)}`;
-          return `<button type="button" class="${cls}" data-id="${esc(e.c.id)}" title="${esc(tipOf(e.c))}">${esc(text)}${e.text ? "" : `<small>${new Date(e.at).getDate()}</small>`}</button>`;
-        }).join("");
-        return `<div class="tl-mrow${isNow ? " is-now" : ""}${isPast ? " is-past" : ""}"><span class="tl-mname">${esc(name)}<small>${esc(yr)}</small></span><div class="tl-mchips">${chips || `<span class="tl-mempty">—</span>`}</div></div>`;
-      }).join("") + `</div>`;
-      const keep = $(".tl-months", tl)?.scrollTop;
-      tl.innerHTML = html;
-      if (opts.quiet && keep != null) $(".tl-months", tl).scrollTop = keep; // a tap re-renders; stay where the reader was
-      else { const row = $(".tl-mrow.is-now", tl), box = $(".tl-months", tl); if (row && box) box.scrollTop = row.offsetTop - box.offsetTop - 8; }
+      // far lanes first, so nearer labels sit on top of the stems that pass behind them
+      placed.sort((p, q) => q.lane - p.lane).forEach(p => {
+        const cls = (p.ev === "ddl" ? (p.c.status !== "confirmed" ? " est" : "") : ` ev-${p.ev}`) + role(p.c) + (p.at <= now ? " past" : "");
+        const tip = esc(tipOf(p.c));
+        if (p.lane === -1) {
+          v += `<button type="button" class="tlv-bare${cls}" data-id="${esc(p.c.id)}" style="top:${p.cy}px;left:${AX}px" title="${tip}" aria-label="${tip}"></button>`;
+          return;
+        }
+        const label = p.text || `${p.c.title} ${String(p.c.year).slice(2)}`;
+        v += `<button type="button" class="tlv-pin${cls}" data-id="${esc(p.c.id)}" style="top:${p.cy}px;left:${AX}px;--tlx:${14 + p.lane * laneW}px;--tlw:${laneW - 6}px" title="${tip}">
+          <span class="stem"></span><span class="dot"></span><span class="lbl">${esc(label)}</span></button>`;
+      });
+      list.forEach(c => {
+        const n = c !== sel && next(c);
+        if (!n || n.at >= +end) return;
+        v += `<button type="button" class="tlv-dot ev-${n.ev}${role(c)}" data-id="${esc(c.id)}" style="top:${y(n.at)}px;left:${AX}px" title="${esc(tipOf(c))}" aria-label="${esc(tipOf(c))}"></button>`;
+      });
+      tl.innerHTML = v + `</div>`;
+      tl.classList.add("is-vert");
     } else {
       tl.innerHTML = html + `</div>`;
+      tl.classList.remove("is-vert");
     }
     tl.classList.toggle("has-path", !!path);
     tl.classList.toggle("has-glow", !!glow);
@@ -1222,11 +1249,13 @@
       };
       const head = () => $(".section-head", wrap).offsetHeight + 12;
       const strip = () => { const inner = $(".timeline-inner", wrap); return head() + (inner ? inner.offsetHeight + 8 : 170); };
-      const list = () => head() + Math.min(220, Math.max(150, room * 0.3)); // a few month rows at least
+      const list = () => head() + Math.min(320, Math.max(190, room * 0.36)); // room for the standing axis
       if (!(W >= 700 && tryMode("m-h", 2, 0.9, strip))) {
         if (W / Math.max(room, 1) >= 1.15) tryMode("m-cols", 4, 0.3, () => 0);
         else tryMode("m-v", 4, 0.3, list);
       }
+      // the standing axis is laid out in pixels for its box; draw it again now that the hero has settled
+      if (tlVertical && timelineList.length) renderTimeline(timelineList, Date.now(), { quiet: true });
       // the city photo: behind the whole screen when the timeline sits beside the hero;
       // otherwise it ends just inside the timeline, which then sits on solid ground
       const bg = $(".page-bg");
@@ -1628,7 +1657,7 @@
     window.addEventListener("hashchange", openShared);
     $("#rail").addEventListener("click", jump);
     $("#timeline").addEventListener("click", e => {
-      const pin = e.target.closest(".tl-pin, .tl-dot, .tl-bare, .tl-chip");
+      const pin = e.target.closest(".tl-pin, .tl-dot, .tl-bare, .tlv-pin, .tlv-bare, .tlv-dot");
       if (!pin) return;
       // click lights up the next venues (and shows it in the big countdown); clicking it again clears
       const again = state.lightId === pin.dataset.id;
