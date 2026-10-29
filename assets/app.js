@@ -1036,6 +1036,7 @@
       if (show) { visible.push(c); n[c.group]++; }
     }
     $("#countUp").textContent = n.up;
+    $("#pnCount").textContent = $("#pgNextN").textContent = n.up;
     $("#countReview").textContent = n.review;
     $("#countPast").textContent = n.done;
     // "★ Mine" with nothing starred: offer quick stars instead of three empty tabs
@@ -1106,7 +1107,8 @@
 
   // scroll a row into view and flash it
   function flashCard(c) {
-    if (c.group !== state.tab) showTab(c.group, false); // its tab first
+    if (page !== 1) { goPage(1, () => flashCard(c)); return; } // the list page first
+    if (c.group !== state.tab) showTab(c.group, false); // then its tab
     c.el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
     c.el.classList.remove("flash");
     void c.el.offsetWidth;
@@ -1146,11 +1148,172 @@
     const m = location.hash.match(/^#c=([\w-]+)/);
     const c = m && confs.find(x => x.id === m[1]);
     if (!c) return;
-    state.lightId = state.manualId = c.id;
-    state.manualScope = "shared link";
+    showCountdown(c.id, "shared link");
+  }
+  // put a conference in the big countdown (and light up its next venues), on the countdown page
+  function showCountdown(id, scope = null) {
+    state.lightId = state.manualId = id;
+    state.manualScope = scope;
     refreshPicks(Date.now());
     renderTimeline(timelineList, Date.now(), { quiet: true });
-    window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    const top = () => window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    page === 0 ? top() : goPage(0, top, 0);
+  }
+
+  /* ---------- two pages: the countdown (hero + timeline) and the conference list ----------
+     Swipe sideways on a phone, swipe on a trackpad, press ← / →, or tap the tabs at the bottom.
+     The page out of view keeps its width (so it lays out and measures as usual) but no height,
+     so the window scroll belongs to the page in view; each page remembers where it was. */
+  let page = 0;
+  const pagePos = [0, 0];
+  let goPage = () => {};
+  function initPager() {
+    const pager = $("#pager"), track = $("#pagerTrack"), pgs = [$("#pgNow"), $("#pgList")];
+    const nav = $("#pagerNav"), navBtns = $$("[data-go]", nav);
+    const W = () => pager.clientWidth;
+    const setGlide = p => nav.style.setProperty("--p", p);
+    const mark = i => {
+      pgs.forEach((el, k) => { el.classList.toggle("is-cur", k === i); el.inert = k !== i; });
+      navBtns.forEach((b, k) => b.setAttribute("aria-selected", k === i));
+      document.body.dataset.page = i ? "list" : "now";
+      setGlide(i);
+    };
+    // show both pages, the incoming one shifted so it appears where it will sit after the switch
+    const beginMove = to => {
+      pager.classList.add("is-moving");
+      pgs[to].style.transform = `translateY(${window.scrollY - pagePos[to]}px)`;
+    };
+    const endMove = () => {
+      pager.classList.remove("is-moving");
+      pgs.forEach(el => { el.style.transform = ""; });
+      track.style.transition = track.style.transform = "";
+    };
+    let done = null;
+    const finish = (to, after) => {
+      endMove();
+      page = to;
+      mark(to);
+      store.set("page", to);
+      window.scrollTo({ top: pagePos[to], behavior: "instant" });
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+      if (after) requestAnimationFrame(after);
+    };
+    goPage = (to, after, pos) => {
+      if (to === page) { after && after(); return; }
+      pagePos[page] = window.scrollY;
+      if (pos != null) pagePos[to] = pos;
+      if (reduced) { finish(to, after); return; }
+      beginMove(to);
+      track.style.transition = "transform .38s cubic-bezier(.2, .8, .2, 1)";
+      track.style.transform = `translateX(${-to * 100}%)`;
+      nav.style.setProperty("--p", to);
+      clearTimeout(done);
+      const end = () => { clearTimeout(done); track.removeEventListener("transitionend", end); finish(to, after); };
+      track.addEventListener("transitionend", end);
+      done = setTimeout(end, 500); // in case transitionend never comes
+    };
+
+    page = location.hash.startsWith("#c=") ? 0 : store.get("page", 0) === 1 ? 1 : 0;
+    mark(page);
+    track.style.transform = "";
+    pager.classList.toggle("on-list", page === 1); // first paint without a slide
+    requestAnimationFrame(() => pager.classList.remove("on-list"));
+
+    document.addEventListener("click", e => {
+      const b = e.target.closest("[data-go]");
+      if (!b) return;
+      const to = +b.dataset.go;
+      // tapping the tab you're on goes back to the top of that page
+      if (to === page) window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+      else goPage(to, null, to === 1 && b.classList.contains("pg-next") ? 0 : undefined);
+    });
+    document.addEventListener("keydown", e => {
+      if (e.altKey || e.ctrlKey || e.metaKey || e.target.closest("input, textarea, select, [contenteditable]")) return;
+      if ($(".planner:not([hidden])")) return;
+      if (e.key === "ArrowRight" && page === 0) goPage(1);
+      if (e.key === "ArrowLeft" && page === 1) goPage(0);
+    });
+
+    // touch: follow the finger once the gesture is clearly sideways
+    const sideScroller = el => {
+      for (; el && el !== pager; el = el.parentElement) {
+        const ox = getComputedStyle(el).overflowX;
+        if ((ox === "auto" || ox === "scroll") && el.scrollWidth > el.clientWidth + 1) return el;
+      }
+      return null;
+    };
+    let g = null;
+    pager.addEventListener("touchstart", e => {
+      if (e.touches.length !== 1) { g = null; return; }
+      const t = e.touches[0], sc = sideScroller(e.target);
+      g = { x: t.clientX, y: t.clientY, t: performance.now(), dx: 0, lock: null,
+        // a row that scrolls sideways (area chips…) keeps the swipe unless it is already at that end
+        atStart: !sc || sc.scrollLeft <= 0, atEnd: !sc || sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 1 };
+    }, { passive: true });
+    pager.addEventListener("touchmove", e => {
+      if (!g) return;
+      const t = e.touches[0], dx = t.clientX - g.x, dy = t.clientY - g.y;
+      if (!g.lock) {
+        if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+        const side = Math.abs(dx) > Math.abs(dy) * 1.3 && (dx < 0 ? g.atEnd : g.atStart);
+        if (!side) { g = null; return; }
+        g.lock = true;
+        g.to = 1 - page;
+        pagePos[page] = window.scrollY;
+        clearTimeout(done);
+        track.style.transition = "none";
+        beginMove(g.to);
+      }
+      e.preventDefault();
+      // past the first or last page the track only gives a little
+      const toward = (dx < 0 && page === 0) || (dx > 0 && page === 1);
+      g.dx = toward ? dx : dx * 0.25;
+      track.style.transform = `translateX(calc(${-page * 100}% + ${g.dx}px))`;
+      setGlide(Math.min(1, Math.max(0, page - g.dx / W())));
+    }, { passive: false });
+    const release = () => {
+      if (!g || !g.lock) { g = null; return; }
+      const v = g.dx / (performance.now() - g.t);
+      const toward = (g.dx < 0 && page === 0) || (g.dx > 0 && page === 1);
+      const go = toward && (Math.abs(g.dx) > W() * 0.25 || Math.abs(v) > 0.45);
+      g = null;
+      if (go) {
+        const to = 1 - page;
+        track.style.transition = "transform .3s cubic-bezier(.2, .8, .2, 1)";
+        track.style.transform = `translateX(${-to * 100}%)`;
+        setGlide(to);
+        const end = () => { clearTimeout(done); track.removeEventListener("transitionend", end); finish(to); };
+        track.addEventListener("transitionend", end);
+        done = setTimeout(end, 450);
+      } else {
+        track.style.transition = "transform .25s ease";
+        track.style.transform = `translateX(${-page * 100}%)`;
+        setGlide(page);
+        const end = () => { clearTimeout(done); track.removeEventListener("transitionend", end); endMove(); };
+        track.addEventListener("transitionend", end);
+        done = setTimeout(end, 350);
+      }
+    };
+    pager.addEventListener("touchend", release);
+    pager.addEventListener("touchcancel", release);
+
+    // trackpad: a clear sideways swipe flips the page once
+    let acc = 0, cool = 0, accTimer;
+    pager.addEventListener("wheel", e => {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY) * 1.5) return;
+      const sc = sideScroller(e.target);
+      if (sc && !(e.deltaX > 0 ? sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 1 : sc.scrollLeft <= 0)) return;
+      e.preventDefault();
+      if (performance.now() < cool) return;
+      acc += e.deltaX;
+      clearTimeout(accTimer);
+      accTimer = setTimeout(() => { acc = 0; }, 200);
+      if (Math.abs(acc) > 80) {
+        const to = acc > 0 ? 1 : 0;
+        acc = 0;
+        if (to !== page) { cool = performance.now() + 700; goPage(to); }
+      }
+    }, { passive: false });
   }
   const clearShared = () => {
     state.manualScope = null;
@@ -1175,7 +1338,7 @@
       qTimer = setTimeout(() => { state.q = e.target.value.trim().toLowerCase(); apply(); }, 140);
     });
     document.addEventListener("keydown", e => {
-      if (e.key === "/" && document.activeElement !== $("#q")) { e.preventDefault(); $("#q").focus(); }
+      if (e.key === "/" && document.activeElement !== $("#q")) { e.preventDefault(); goPage(1, () => $("#q").focus()); }
       if (e.key === "Escape" && document.activeElement === $("#q")) { $("#q").value = ""; state.q = ""; apply(); $("#q").blur(); }
     });
 
@@ -1366,6 +1529,7 @@
       if (window.ScrollTrigger) setTimeout(() => ScrollTrigger.refresh(), 400);
     });
     $("#railTab").addEventListener("click", () => setDrawer(true));
+    $("#pnMine").addEventListener("click", () => setDrawer(true));
     $("#railBackdrop").addEventListener("click", () => setDrawer(false));
     $("#rail").addEventListener("click", e => { if (narrowRail.matches && e.target.closest(".rail-item")) setDrawer(false); });
     narrowRail.addEventListener("change", () => setDrawer(false));
@@ -1405,6 +1569,12 @@
       if (again) return;
       const top = $("#hero").getBoundingClientRect().top + window.scrollY - 70;
       if (window.scrollY > top) window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+    });
+    document.addEventListener("click", e => {
+      const b = e.target.closest(".c-focus");
+      if (!b) return;
+      clearShared();
+      showCountdown(b.closest(".card").dataset.id);
     });
 
     $("#tlLegend").addEventListener("click", e => {
@@ -1585,6 +1755,7 @@
   }
 
   async function init() {
+    initPager();
     bind();
     tickNow(Date.now());
     try {
