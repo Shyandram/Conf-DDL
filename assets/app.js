@@ -507,7 +507,9 @@
   let tlVertical = matchMedia("(max-width: 640px)").matches;
 
   // The month list scrolls; once this month is out of sight, a "Today" button takes the reader back.
+  let tlAnchor = null; // {m, dy}: the month at the top of the list once the reader scrolls it themselves
   function tlToday(tl, smooth = true) {
+    tlAnchor = null;
     const row = $(".tl-mrow.is-now", tl), box = $(".tl-months", tl);
     if (row && box) box.scrollTo({ top: row.offsetTop - box.offsetTop - 8, behavior: smooth && !reduced ? "smooth" : "auto" });
   }
@@ -520,7 +522,15 @@
       btn.hidden = !off;
       btn.dataset.dir = off;
     };
-    box.addEventListener("scroll", check, { passive: true });
+    let touched = 0; // scrolls soon after the reader's own wheel, touch or drag are theirs
+    for (const ev of ["wheel", "touchstart", "pointerdown", "keydown"]) box.addEventListener(ev, () => { touched = Date.now(); }, { passive: true });
+    box.addEventListener("scroll", () => {
+      check();
+      if (Date.now() - touched > 1500) return;
+      const top = box.getBoundingClientRect().top, rows = $$(".tl-mrow", box);
+      const r = rows.find(x => x.getBoundingClientRect().bottom > top + 1) || rows[0];
+      tlAnchor = { m: r.dataset.m, dy: top - r.getBoundingClientRect().top };
+    }, { passive: true });
     btn.addEventListener("click", () => tlToday(tl));
     requestAnimationFrame(check);
   }
@@ -670,11 +680,12 @@
           const text = e.text || `${e.c.title} ${String(e.c.year).slice(2)}`;
           return `<button type="button" class="${cls}" data-id="${esc(e.c.id)}" title="${esc(tipOf(e.c))}">${esc(text)}${e.text ? "" : `<small>${new Date(e.at).getDate()}</small>`}</button>`;
         }).join("");
-        return `<div class="tl-mrow${isNow ? " is-now" : ""}${isPast ? " is-past" : ""}"><span class="tl-mname">${esc(name)}<small>${esc(yr)}</small></span><div class="tl-mchips">${chips || `<span class="tl-mempty">—</span>`}</div></div>`;
+        return `<div class="tl-mrow${isNow ? " is-now" : ""}${isPast ? " is-past" : ""}" data-m="${m.getFullYear()}-${m.getMonth()}"><span class="tl-mname">${esc(name)}<small>${esc(yr)}</small></span><div class="tl-mchips">${chips || `<span class="tl-mempty">—</span>`}</div></div>`;
       }).join("") + `</div>`;
-      const keep = $(".tl-months", tl)?.scrollTop;
       tl.innerHTML = html + `<button type="button" class="tl-back" hidden><i></i>Today</button>`;
-      if (opts.quiet && keep != null) $(".tl-months", tl).scrollTop = keep; // a tap re-renders; stay where the reader was
+      // a re-render keeps the month the reader scrolled to; otherwise the list opens on this month
+      const back = opts.quiet && tlAnchor && $(`.tl-mrow[data-m="${tlAnchor.m}"]`, tl), box = $(".tl-months", tl);
+      if (back) box.scrollTop = back.offsetTop - box.offsetTop + tlAnchor.dy;
       else tlToday(tl, false);
       watchToday(tl);
       tl.classList.remove("is-vert");
@@ -1282,6 +1293,8 @@
       pg.style.setProperty("--now-h", Math.max(0, Math.floor(vh - top)) + "px");
       pg.style.setProperty("--nav-room", Math.ceil(navRoom) + "px");
       const room = vh - top - navRoom, W = pg.clientWidth;
+      // how far the page's right edge is from the screen's, for the right sidebar to reach it
+      pg.style.setProperty("--edge", Math.max(0, Math.round(document.documentElement.clientWidth - pg.getBoundingClientRect().right)) + "px");
       const heroH = () => hero.getBoundingClientRect().height;
       const useList = v => {
         if (tlVertical === v) return;

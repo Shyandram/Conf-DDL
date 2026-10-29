@@ -1452,36 +1452,45 @@ html.on-now .to-top { display: none !important; }
 .tl-back[data-dir="down"] i { rotate: 135deg; margin-top: -3px; }
 .tl-back:hover { background: var(--accent); }
 
-/* ---------- two columns: the timeline is a side panel, not half the screen ---------- */
-#pgNow.m-cols { grid-template-columns: minmax(0, 1fr) clamp(236px, 27vw, 360px); }
-#pgNow.m-cols .timeline-wrap { padding-left: clamp(12px, 1.4vw, 20px); }
+/* ---------- two columns: the timeline is a right sidebar, a mirror of the left one ----------
+   It runs from the top bar to the bottom of the screen at the right edge, and folds to a 52px strip. */
+#pgNow.m-cols {
+  --side-out: var(--edge, clamp(16px, 4vw, 48px)); --side-w: clamp(260px, 26vw, 380px);
+  grid-template-columns: minmax(0, 1fr) calc(var(--side-w) - var(--side-out));
+  overflow-x: visible; overflow-y: clip;
+}
+#pgNow.m-cols.tl-folded { --side-w: 52px; }
+/* at rest the page out of view is hidden anyway, so the sidebar may reach past the centred column to the screen edge */
+html.on-now .pager:not(.is-moving) { overflow-x: visible; }
+#pgNow.m-cols .timeline-wrap {
+  margin: 0 calc(-1 * var(--side-out)) calc(-1 * var(--nav-room, 76px)) 0;
+  padding: clamp(14px, 3dvh, 24px) 18px 16px; border-radius: 0; border-left: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  -webkit-backdrop-filter: blur(8px) saturate(1.3); backdrop-filter: blur(8px) saturate(1.3);
+}
+@media (max-width: 1100px) { #pgNow.m-cols .timeline-wrap { padding-bottom: var(--nav-room, 76px); } }
 #pgNow.m-cols .section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 8px; }
 #pgNow.m-cols .section-head .legend { flex-basis: 100%; }
+#pgNow.m-cols .section-head h2 { font-size: 16px; }
 #pgNow.m-cols .tl-seg button { padding: 3px 7px; min-height: 24px; }
 #pgNow.m-cols .tl-mrow { grid-template-columns: 40px 1fr; gap: 8px; }
 #pgNow.m-cols .tl-mname { font-size: 11.5px; }
 #pgNow.m-cols .tl-chip { padding: 3px 7px; font-size: 11px; }
-
-/* ---------- two columns: the timeline folds into a thin strip ---------- */
+/* the fold button looks like the left sidebar's: » folds it to the right edge, « brings it back */
 .tl-fold { display: none; }
 #pgNow.m-cols .tl-fold {
-  display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0; border-radius: 999px;
-  border: 1px solid var(--line-2); background: var(--bg-2); color: var(--ink-2); cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 28px; padding: 0 9px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink-2); cursor: pointer;
+  font: 500 13px var(--mono); transition: color .2s, border-color .2s;
 }
-#pgNow.m-cols .tl-fold:hover { color: var(--ink); border-color: var(--ink-2); }
-.tl-fold i { width: 7px; height: 7px; border: solid currentColor; border-width: 2px 2px 0 0; rotate: 45deg; margin-left: -3px; }
+#pgNow.m-cols .tl-fold:hover { color: var(--ink); border-color: var(--line-2); }
+.tl-fold i::before { content: "»"; font-style: normal; }
 .tl-fold span { display: none; }
-#pgNow.m-cols.tl-folded { grid-template-columns: minmax(0, 1fr) 46px; }
-#pgNow.m-cols.tl-folded .timeline-wrap { position: relative; padding: 0; }
+#pgNow.m-cols.tl-folded .timeline-wrap { padding: 16px 10px; }
 #pgNow.m-cols.tl-folded .timeline-wrap > :not(.section-head),
 #pgNow.m-cols.tl-folded .section-head > :not(.tl-ctl), #pgNow.m-cols.tl-folded .tl-seg { display: none; }
-#pgNow.m-cols.tl-folded .tl-fold {
-  position: absolute; inset: 0; width: auto; height: auto; border: 0; border-radius: 18px 0 0 0;
-  background: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 14px;
-  padding-top: clamp(14px, 3dvh, 36px);
-}
-#pgNow.m-cols.tl-folded .tl-fold:hover { background: color-mix(in srgb, var(--ink) 5%, transparent); }
-#pgNow.m-cols.tl-folded .tl-fold i { rotate: -135deg; margin: 0 0 0 3px; }
+#pgNow.m-cols.tl-folded .tl-fold { flex-direction: column; width: 32px; height: auto; padding: 10px 0; }
+#pgNow.m-cols.tl-folded .tl-fold i::before { content: "«"; }
 #pgNow.m-cols.tl-folded .tl-fold span {
-  display: block; writing-mode: vertical-rl; font: 600 12px var(--mono); letter-spacing: .14em; text-transform: uppercase;
+  display: block; writing-mode: vertical-rl; font: 600 11.5px var(--mono); letter-spacing: .14em; text-transform: uppercase;
 }
