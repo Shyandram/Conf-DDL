@@ -498,7 +498,6 @@
       $("#photoNext").hidden = scenes.length < 2;
       $("#photoNext").title = "Show this place at another time of day";
       $("#photoCount").textContent = pick;
-      $(".page-bg").dataset.tint = "";
     } else {
       delete fig.dataset.shown;
       const pool = place && photosOf(key).length ? key : "*";
@@ -507,8 +506,6 @@
       $("#photoNext").hidden = many < 2;
       $("#photoNext").title = "Show another photo of this city";
       $("#photoCount").textContent = many > 1 && pool !== "*" ? `${lastPhoto[pool] + 1}/${many}` : "";
-      // a daytime photo, toned toward the hour it is there
-      $(".page-bg").dataset.tint = entry && entry.lat != null ? phaseAt(entry, Date.now()) : "";
       if (un) shown = { src: un.src, credit: (un.from ? `${esc(un.from)} · ` : "") + `Photo by <a href="${esc(un.photographer_url)}" target="_blank" rel="noopener">${esc(un.photographer)}</a>` +
         ` on <a href="${esc(un.photo_url)}" target="_blank" rel="noopener">Unsplash</a>` };
     }
@@ -554,7 +551,6 @@
     venueSky(entry);
     const phase = phaseAt(entry, Date.now());
     if (fig.dataset.shown && !fig.dataset.scene && NEAR[phase].find(p => entry.scenes[p]) !== fig.dataset.shown) setVenue(heroConf);
-    else if (!fig.dataset.shown) $(".page-bg").dataset.tint = phase;
   }, 30000);
 
   function setHero(c) {
