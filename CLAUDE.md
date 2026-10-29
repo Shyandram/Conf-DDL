@@ -23,6 +23,7 @@ Static GitHub Pages site of conference deadline countdowns. All data lives in `d
 - **Place data:** every place in `data/cities.json` has `lat`, `lon` and an IANA `tz` (filled by `scripts/gen_scenes.py` from Open-Meteo, no key). A new host city gets them on the next run of that script; run it without `OPENAI_API_KEY` to fill places only.
 - **Scenes:** *Actions → Generate city scenes* (`.github/workflows/scenes.yml`) makes a 2.5:1 panorama per city with OpenAI image generation (`OPENAI_API_KEY` secret):
   - one day picture, then edits of it into dawn, dusk and night;
-  - saved under `assets/scenes/<slug>/` and listed in `scenes`.
+  - saved under `assets/scenes/<slug>/` and listed in `scenes`; each city's `scene_prompt` sets the view (viewpoint and landmarks);
+  - redrawing keeps the previous set in `assets/scenes/<slug>/old-<date>/`, listed under `scenes_archive`.
   - The page picks the mood from the sun's height at the venue (`sunAt` / `phaseAt` in `assets/app.js`); cities without scenes keep their Unsplash photos, toned to the hour.
 - **City links:** `tourism` is the official visitor site; `famous` lists 3 sights, each with `url` = its own official site, or no `url` when none was verified. The owner wants official sites only (no Wikipedia or travel wikis); check every URL before adding it.

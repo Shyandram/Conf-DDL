@@ -59,7 +59,9 @@ jobs:
             for c in "${LIST[@]}"; do args+=("$(echo "$c" | xargs)"); done
           fi
           python3 scripts/gen_scenes.py "${args[@]}"
+      # also after a failure or a cancel: every city finished so far is kept
       - name: Commit and redeploy if anything changed
+        if: always()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |

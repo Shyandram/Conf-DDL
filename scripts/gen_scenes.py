@@ -12,7 +12,8 @@ Needs OPENAI_API_KEY (a repository secret; see .github/workflows/scenes.yml). Wi
   python3 scripts/gen_scenes.py Tokyo Seattle   # just these (redo them if they have scenes)
   options: --limit N (default 4), --quality low|medium|high (default medium), --model NAME (default gpt-image-2),
            --phases night,dusk (redo only these moods from the saved day picture)
-In data/cities.json a city can carry "scene_prompt" to say what the panorama should show.
+In data/cities.json each city carries "scene_prompt": the view to draw (viewpoint and landmarks). Redrawing a city
+keeps its previous set in assets/scenes/<slug>/old-<date>/ (listed under "scenes_archive"), so nothing is lost.
 """
 import base64
 import hashlib
@@ -104,10 +105,12 @@ def subject(city, country, entry):
     return f"{city}, {country}" if country and country.lower() != city.lower() else city
 
 
-def day_prompt(what):
+def day_prompt(what, own_view=False):
+    view = (f"A photorealistic ultra-wide panoramic photograph: {what}." if own_view else
+            f"A photorealistic ultra-wide panoramic photograph of {what}: a recognisable, characteristic view of the place "
+            "as a travel photographer would frame it, from a slightly elevated viewpoint.")
     return (
-        f"A photorealistic ultra-wide panoramic photograph of {what}: a recognisable, characteristic view of the place "
-        "as a travel photographer would frame it, from a slightly elevated viewpoint. Clear late-morning daylight, "
+        f"{view} Clear late-morning daylight, "
         "natural colours, crisp detail across the whole width. The horizon sits in the lower half, the upper third is "
         "open sky, so text can sit over it. No people in close-up, no text, no signs in focus, no watermark, no border, "
         "no fisheye distortion."
@@ -190,6 +193,25 @@ def save(png, path):
     return img
 
 
+def archive(city, entry, folder, phases=PHASES):
+    """Before a city (or some of its moods) is drawn again, move those pictures into old-<date>/ and list them under
+    scenes_archive."""
+    if not entry.get("scenes") or not any((folder / f"{p}.webp").exists() for p in phases):
+        return
+    dest = folder / f"old-{time.strftime('%Y%m%d-%H%M')}"
+    dest.mkdir(parents=True, exist_ok=True)
+    kept = {}
+    for p in phases:
+        if (folder / f"{p}.webp").exists():
+            (folder / f"{p}.webp").rename(dest / f"{p}.webp")
+            kept[p] = f"assets/scenes/{slug(city)}/{dest.name}/{p}.webp"
+    entry.setdefault("scenes_archive", []).append(
+        {"scenes": kept, "model": entry.get("scene_model"), "prompt": entry.get("scene_prompt_used")})
+    if phases == PHASES:
+        entry.pop("scenes", None)
+    print(f"  kept the previous scenes in {dest.relative_to(ROOT)}")
+
+
 def write(cities):
     CITIES.write_text(json.dumps(dict(sorted(cities.items())), indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
@@ -246,13 +268,16 @@ def main(argv):
         folder = OUT / slug(city)
         print(f"+ {city}: {what} ({model}, {quality})")
         try:
-            if only and (folder / "day.webp").exists():
+            if only and "day" not in only and (folder / "day.webp").exists():  # new moods from the saved day
                 from PIL import Image
                 buf = io.BytesIO()
                 Image.open(folder / "day.webp").convert("RGB").save(buf, "PNG")
                 day_png = buf.getvalue()
             else:
-                day_png = generate(key, model, quality, day_prompt(what))
+                day_png = generate(key, model, quality, day_prompt(what, bool(entry.get("scene_prompt"))))
+                archive(city, entry, folder)  # only once the new picture is in hand
+            if only:
+                archive(city, entry, folder, [p for p in only if p != "day"] + (["day"] if "day" in only else []))
             lum = {}
             if not only or "day" in only:
                 lum["day"] = brightness(save(day_png, folder / "day.webp"))
@@ -281,6 +306,7 @@ def main(argv):
                 for p in PHASES if (folder / f"{p}.webp").exists()}
         entry["scenes"] = have
         entry["scene_model"] = model
+        entry["scene_prompt_used"] = what
         write(cities)
     left = sum(1 for c in wanted if c in cities and not cities[c].get("scenes"))
     print(f"{len(wanted)} places, {len(wanted) - left} with scenes, {left} to go")
