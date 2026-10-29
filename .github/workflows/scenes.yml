@@ -1,0 +1,77 @@
+name: Generate city scenes
+
+# Panoramic backdrops for host cities in four moods (dawn, day, dusk, night), made with OpenAI image generation.
+# Needs the repository secret OPENAI_API_KEY. Started by hand; each city costs four images (one picture, three edits).
+on:
+  workflow_dispatch:
+    inputs:
+      cities:
+        description: 'City names separated by commas (e.g. Tokyo, Seattle). Empty = cities without scenes yet.'
+        required: false
+        default: ""
+      limit:
+        description: "At most this many cities per run"
+        required: false
+        default: "4"
+      quality:
+        description: "Image quality"
+        type: choice
+        options: [medium, low, high]
+        default: medium
+      phases:
+        description: 'Redo only these moods from the saved day picture, e.g. "night,dusk". Empty = all four.'
+        required: false
+        default: ""
+      model:
+        description: "OpenAI image model"
+        required: false
+        default: "gpt-image-2"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: city-scenes
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Pillow
+        run: python3 -m pip install --quiet pillow
+      - name: Generate
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CITIES: ${{ github.event.inputs.cities }}
+          LIMIT: ${{ github.event.inputs.limit }}
+          QUALITY: ${{ github.event.inputs.quality }}
+          PHASES: ${{ github.event.inputs.phases }}
+          MODEL: ${{ github.event.inputs.model }}
+        run: |
+          args=(--limit "${LIMIT:-4}" --quality "${QUALITY:-medium}" --model "${MODEL:-gpt-image-2}")
+          [ -n "$PHASES" ] && args+=(--phases "$PHASES")
+          if [ -n "$CITIES" ]; then
+            IFS=',' read -ra LIST <<< "$CITIES"
+            for c in "${LIST[@]}"; do args+=("$(echo "$c" | xargs)"); done
+          fi
+          python3 scripts/gen_scenes.py "${args[@]}"
+      - name: Commit and redeploy if anything changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git add data/cities.json assets/scenes || true
+          if git diff --cached --quiet; then
+            echo "Nothing new."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Add generated city scenes"
+          git pull --rebase origin main
+          git push
+          # pushes made with GITHUB_TOKEN don't start other workflows, so start the deploy explicitly
+          gh workflow run pages.yml --ref main

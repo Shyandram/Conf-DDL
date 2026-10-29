@@ -35,7 +35,7 @@
 
 | | |
 |---|---|
-| **⏱ Countdown** | The next deadline, over a photo of the host city. After submission closes, it counts down to the rebuttal and then the decision. |
+| **⏱ Countdown** | The next deadline, over a panorama of the host city at its current hour there (dawn, day, dusk or night), with the local time and links to the city's sights and official visitor site. After submission closes, it counts down to the rebuttal and then the decision. |
 | **⌕ Search and filters** | Filter by field, NYCU A/B, CCF-A/B or confirmed dates, and see everything on a timeline (3 months to a year, as an axis or month by month). |
 | **↻ Planner** | Find where a paper can go next, during the rebuttal or after the decision. |
 | **★ Star** | Follow a series every year. Stars sync between your phone and computer. |
@@ -82,6 +82,7 @@ Check your changes with `python3 scripts/validate.py`.
 <br>
 
 - **City photos:** add an `UNSPLASH_ACCESS_KEY` secret, then run *Actions → Refresh city photos*.
+- **City scenes:** add an `OPENAI_API_KEY` secret, then run *Actions → Generate city scenes* (four images per city).
 - **My conferences calendar and star sync:** a small Cloudflare Worker. See [`worker/README.md`](worker/README.md).
 </details>
 

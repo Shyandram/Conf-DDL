@@ -1,5 +1,5 @@
 // Keeps the heavy, never-changing files on the device after the first download:
-// city photos (Unsplash CDN), the web fonts and the GSAP library.
+// city photos (Unsplash CDN), the generated city scenes (their URLs carry a content hash), the web fonts and GSAP.
 // The site's own pages, scripts and data are left to the network so updates show up right away.
 const CACHE = "confddl-media-v1";
 const MAX_ENTRIES = 120;
@@ -15,7 +15,9 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
   const { request } = event;
-  if (request.method !== "GET" || !CACHEABLE.test(request.url)) return;
+  const url = new URL(request.url);
+  const scene = url.origin === self.location.origin && url.pathname.includes("/assets/scenes/") && url.searchParams.has("v");
+  if (request.method !== "GET" || !(CACHEABLE.test(request.url) || scene)) return;
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
     const hit = await cache.match(request.url);

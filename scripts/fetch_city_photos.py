@@ -134,7 +134,7 @@ def main(argv):
             except Exception:
                 pass
         cities[city] = {
-            **({"query": entry["query"]} if entry.get("query") else {}),
+            **entry,  # keeps the query, the place (lat, lon, tz) and the generated scenes
             "photos": [{
                 "src": p["urls"]["raw"] + "&w=1600&q=70&fit=max&auto=format",
                 "color": p.get("color"),

@@ -26,6 +26,24 @@
         "photographer_url": "https://unsplash.com/@shxdow_lxns?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/the-outside-of-a-building-lit-up-at-night-vhXfv3vEGMo?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 33.8353,
+    "lon": -117.9145,
+    "tz": "America/Los_Angeles",
+    "tourism": "https://www.visitanaheim.org/",
+    "famous": [
+      {
+        "name": "Disneyland Resort",
+        "url": "https://disneyland.disney.go.com/"
+      },
+      {
+        "name": "Angel Stadium",
+        "url": "https://www.mlb.com/angels/ballpark"
+      },
+      {
+        "name": "Anaheim Packing House",
+        "url": "https://www.anaheimpackingdistrict.com/"
+      }
     ]
   },
   "Athens": {
@@ -63,6 +81,23 @@
         "photographer_url": "https://unsplash.com/@aussieactive?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/parthenon-greece-during-night-sHDQCcOTD4Y?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 37.9838,
+    "lon": 23.7278,
+    "tz": "Europe/Athens",
+    "tourism": "https://www.thisisathens.org/",
+    "famous": [
+      {
+        "name": "Acropolis Museum",
+        "url": "https://www.theacropolismuseum.gr/"
+      },
+      {
+        "name": "National Archaeological Museum",
+        "url": "https://www.namuseum.gr/"
+      },
+      {
+        "name": "Plaka"
+      }
     ]
   },
   "Auckland": {
@@ -98,6 +133,23 @@
         "photographer": "Tim Marshall",
         "photographer_url": "https://unsplash.com/@timmarshall?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/silhouette-of-city-skyline-during-sunset-qsLlwLXqdnU?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": -36.8485,
+    "lon": 174.7635,
+    "tz": "Pacific/Auckland",
+    "tourism": "https://www.aucklandnz.com/",
+    "famous": [
+      {
+        "name": "Sky Tower",
+        "url": "https://www.skycityauckland.co.nz/sky-tower/"
+      },
+      {
+        "name": "Auckland Museum",
+        "url": "https://www.aucklandmuseum.com/"
+      },
+      {
+        "name": "Waiheke Island"
       }
     ]
   },
@@ -135,6 +187,22 @@
         "photographer_url": "https://unsplash.com/@co?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/urban-street-leading-to-a-capitol-building-under-cloudy-sky-E0M6eeSPXOs?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 30.2672,
+    "lon": -97.7431,
+    "tz": "America/Chicago",
+    "tourism": "https://www.austintexas.org/",
+    "famous": [
+      {
+        "name": "Texas State Capitol",
+        "url": "https://tspb.texas.gov/prop/tc/tc/capitol.html"
+      },
+      {
+        "name": "Lady Bird Lake"
+      },
+      {
+        "name": "Congress Avenue bats"
+      }
     ]
   },
   "Bremen": {
@@ -170,6 +238,22 @@
         "photographer": "Jahanzeb Ahsan",
         "photographer_url": "https://unsplash.com/@jahan_photobox?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-body-of-water-with-a-bridge-and-buildings-in-the-background-wJQKDpRvOAA?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 53.0758,
+    "lon": 8.8072,
+    "tz": "Europe/Berlin",
+    "tourism": "https://www.bremen.eu/tourism",
+    "famous": [
+      {
+        "name": "Bremen Town Hall",
+        "url": "https://www.rathaus.bremen.de/"
+      },
+      {
+        "name": "Town Musicians"
+      },
+      {
+        "name": "Schnoor"
       }
     ]
   },
@@ -207,6 +291,23 @@
         "photographer_url": "https://unsplash.com/@nicosmit99?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/people-swim-in-a-lagoon-with-a-city-skyline-background-W8_8ZgMfbw8?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": -27.4679,
+    "lon": 153.0281,
+    "tz": "Australia/Brisbane",
+    "tourism": "https://visit.brisbane.qld.au/",
+    "famous": [
+      {
+        "name": "South Bank",
+        "url": "https://visitsouthbank.com.au/"
+      },
+      {
+        "name": "Lone Pine Koala Sanctuary",
+        "url": "https://lonepinekoalasanctuary.com/"
+      },
+      {
+        "name": "Story Bridge"
+      }
     ]
   },
   "Budapest": {
@@ -242,6 +343,23 @@
         "photographer": "Krisztian Tabori",
         "photographer_url": "https://unsplash.com/@ktabori?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/red-boat-on-body-of-water-near-bridge-and-buildings-during-daytime-Tew_Hh58xQk?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 47.4984,
+    "lon": 19.0404,
+    "tz": "Europe/Budapest",
+    "tourism": "https://www.budapestinfo.hu/",
+    "famous": [
+      {
+        "name": "Hungarian Parliament",
+        "url": "https://www.parlament.hu/en/web/house-of-the-national-assembly"
+      },
+      {
+        "name": "Széchenyi Thermal Bath",
+        "url": "https://www.szechenyibath.hu/"
+      },
+      {
+        "name": "Buda Castle"
       }
     ]
   },
@@ -279,6 +397,23 @@
         "photographer_url": "https://unsplash.com/@anik3t?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/aerial-view-of-buildings-during-night-time-glJWMokjais?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 37.7749,
+    "lon": -122.4194,
+    "tz": "America/Los_Angeles",
+    "tourism": "https://www.visitcalifornia.com/",
+    "famous": [
+      {
+        "name": "Golden Gate Bridge",
+        "url": "https://www.goldengate.org/"
+      },
+      {
+        "name": "Yosemite",
+        "url": "https://www.nps.gov/yose/"
+      },
+      {
+        "name": "Big Sur"
+      }
     ]
   },
   "Cape Town": {
@@ -315,6 +450,24 @@
         "photographer_url": "https://unsplash.com/@adrienolichon?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/colorful-houses-and-a-construction-crane-in-a-city-tCVY_EC5JeU?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": -33.9258,
+    "lon": 18.4232,
+    "tz": "Africa/Johannesburg",
+    "tourism": "https://www.capetown.travel/",
+    "famous": [
+      {
+        "name": "Table Mountain Cableway",
+        "url": "https://www.tablemountain.net/"
+      },
+      {
+        "name": "Robben Island",
+        "url": "https://www.robben-island.org.za/"
+      },
+      {
+        "name": "V&A Waterfront",
+        "url": "https://www.waterfront.co.za/"
+      }
     ]
   },
   "Chicago": {
@@ -350,6 +503,23 @@
         "photographer": "Karthik Pansetty",
         "photographer_url": "https://unsplash.com/@karthikpansetty?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-view-of-a-city-skyline-at-night-ooxzN4NB24I?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 41.85,
+    "lon": -87.65,
+    "tz": "America/Chicago",
+    "tourism": "https://www.choosechicago.com/",
+    "famous": [
+      {
+        "name": "Art Institute",
+        "url": "https://www.artic.edu/"
+      },
+      {
+        "name": "Navy Pier",
+        "url": "https://navypier.org/"
+      },
+      {
+        "name": "Cloud Gate"
       }
     ]
   },
@@ -388,6 +558,24 @@
         "photographer_url": "https://unsplash.com/@tylerdelgado?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/silhouette-of-bench-near-body-of-water-during-daytime-8KxpPRAlqXs?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 39.7392,
+    "lon": -104.9847,
+    "tz": "America/Denver",
+    "tourism": "https://www.visitdenver.com/",
+    "famous": [
+      {
+        "name": "Red Rocks",
+        "url": "https://www.redrocksonline.com/"
+      },
+      {
+        "name": "Denver Art Museum",
+        "url": "https://www.denverartmuseum.org/"
+      },
+      {
+        "name": "Union Station",
+        "url": "https://unionstationindenver.com/"
+      }
     ]
   },
   "Dublin": {
@@ -423,6 +611,23 @@
         "photographer": "Margaux Bebin",
         "photographer_url": "https://unsplash.com/@margauxbebin?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-body-of-water-with-buildings-in-the-background-w9OaYkcIQuU?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 53.3331,
+    "lon": -6.2489,
+    "tz": "Europe/Dublin",
+    "tourism": "https://www.visitdublin.com/",
+    "famous": [
+      {
+        "name": "Book of Kells",
+        "url": "https://www.tcd.ie/visitors/book-of-kells/"
+      },
+      {
+        "name": "Guinness Storehouse",
+        "url": "https://www.guinness-storehouse.com/"
+      },
+      {
+        "name": "Temple Bar"
       }
     ]
   },
@@ -460,6 +665,24 @@
         "photographer_url": "https://unsplash.com/@grisu48?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/apartment-building-behind-park-with-bicycles-MxyPqc8J1hs?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 51.4408,
+    "lon": 5.4778,
+    "tz": "Europe/Amsterdam",
+    "tourism": "https://www.thisiseindhoven.com/",
+    "famous": [
+      {
+        "name": "Van Abbemuseum",
+        "url": "https://vanabbemuseum.nl/"
+      },
+      {
+        "name": "Philips Museum",
+        "url": "https://www.philips-museum.com/"
+      },
+      {
+        "name": "Strijp-S",
+        "url": "https://strijp-s.nl/"
+      }
     ]
   },
   "Europe": {
@@ -495,6 +718,24 @@
         "photographer": "Samuele Giglio",
         "photographer_url": "https://unsplash.com/@samuelegiglio?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/assorted-colored-buildings-ovOZ2vxZlKA?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 48.8534,
+    "lon": 2.3488,
+    "tz": "Europe/Paris",
+    "tourism": "https://visiteurope.com/",
+    "famous": [
+      {
+        "name": "Eiffel Tower",
+        "url": "https://www.toureiffel.paris/"
+      },
+      {
+        "name": "Colosseum",
+        "url": "https://colosseo.it/"
+      },
+      {
+        "name": "Sagrada Família",
+        "url": "https://sagradafamilia.org/"
       }
     ]
   },
@@ -532,6 +773,23 @@
         "photographer_url": "https://unsplash.com/@bune?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-bronze-boar-statue-in-a-busy-street-market-wWU_bdftiTM?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 43.7792,
+    "lon": 11.2463,
+    "tz": "Europe/Rome",
+    "tourism": "https://www.feelflorence.it/",
+    "famous": [
+      {
+        "name": "Duomo",
+        "url": "https://duomo.firenze.it/"
+      },
+      {
+        "name": "Uffizi",
+        "url": "https://www.uffizi.it/"
+      },
+      {
+        "name": "Ponte Vecchio"
+      }
     ]
   },
   "Hanoi": {
@@ -567,6 +825,21 @@
         "photographer": "Ashim D’Silva",
         "photographer_url": "https://unsplash.com/@randomlies?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/aerial-photography-of-buildings-_BMszxTLuB4?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 21.0245,
+    "lon": 105.8412,
+    "tz": "Asia/Bangkok",
+    "tourism": "https://vietnam.travel/",
+    "famous": [
+      {
+        "name": "Hoàn Kiếm Lake"
+      },
+      {
+        "name": "Temple of Literature"
+      },
+      {
+        "name": "Old Quarter"
       }
     ]
   },
@@ -604,6 +877,23 @@
         "photographer_url": "https://unsplash.com/@kadm_creations?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/green-grass-field-near-body-of-water-during-daytime-tJs5W6jN6Dc?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 21.3069,
+    "lon": -157.8583,
+    "tz": "Pacific/Honolulu",
+    "tourism": "https://www.gohawaii.com/",
+    "famous": [
+      {
+        "name": "Hawaiʻi Volcanoes",
+        "url": "https://www.nps.gov/havo/"
+      },
+      {
+        "name": "Diamond Head",
+        "url": "https://dlnr.hawaii.gov/dsp/parks/oahu/diamond-head-state-monument/"
+      },
+      {
+        "name": "Waikīkī"
+      }
     ]
   },
   "Hong Kong": {
@@ -639,6 +929,23 @@
         "photographer": "Ruslan Bardash",
         "photographer_url": "https://unsplash.com/@ruslanbardash?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/birds-eye-view-photography-of-city-buildings-WMSvsWzhM0g?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 22.25,
+    "lon": 114.1667,
+    "tz": "Asia/Hong_Kong",
+    "tourism": "https://www.discoverhongkong.com/",
+    "famous": [
+      {
+        "name": "The Peak",
+        "url": "https://www.thepeak.com.hk/"
+      },
+      {
+        "name": "Star Ferry",
+        "url": "https://www.starferry.com.hk/"
+      },
+      {
+        "name": "Victoria Harbour"
       }
     ]
   },
@@ -676,6 +983,22 @@
         "photographer_url": "https://unsplash.com/@elliot_ra8?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/city-skyline-under-blue-sky-during-daytime-PqE1B5FENoU?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 3.1412,
+    "lon": 101.6865,
+    "tz": "Asia/Kuala_Lumpur",
+    "tourism": "https://www.malaysia.travel/",
+    "famous": [
+      {
+        "name": "Petronas Twin Towers",
+        "url": "https://www.petronastwintowers.com.my/"
+      },
+      {
+        "name": "Batu Caves"
+      },
+      {
+        "name": "Merdeka Square"
+      }
     ]
   },
   "Kyoto": {
@@ -705,6 +1028,23 @@
         "photographer_url": "https://unsplash.com/@davidemrich?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/red-temple-near-trees-f6hlrIboDUY?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 35.0211,
+    "lon": 135.7538,
+    "tz": "Asia/Tokyo",
+    "tourism": "https://kyoto.travel/en/",
+    "famous": [
+      {
+        "name": "Fushimi Inari",
+        "url": "https://inari.jp/en/"
+      },
+      {
+        "name": "Kinkaku-ji",
+        "url": "https://www.shokoku-ji.jp/en/kinkakuji/"
+      },
+      {
+        "name": "Arashiyama"
+      }
     ]
   },
   "Lancaster": {
@@ -717,6 +1057,23 @@
         "photographer": "Asher Legg",
         "photographer_url": "https://unsplash.com/@leggie02?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-train-traveling-across-a-sandy-beach-under-a-cloudy-sky-51kRnqy1-Vs?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 54.0465,
+    "lon": -2.7999,
+    "tz": "Europe/London",
+    "tourism": "https://lancasterandmorecambebay.com/",
+    "famous": [
+      {
+        "name": "Lancaster Castle",
+        "url": "https://www.lancastercastle.com/"
+      },
+      {
+        "name": "Williamson Park"
+      },
+      {
+        "name": "Lancaster Priory",
+        "url": "https://www.lancasterpriory.org/"
       }
     ]
   },
@@ -755,6 +1112,23 @@
         "photographer_url": "https://unsplash.com/@tqfang?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-view-of-a-mountain-range-with-a-lake-in-the-foreground-q24KCVOaKJ0?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 46.516,
+    "lon": 6.6328,
+    "tz": "Europe/Zurich",
+    "tourism": "https://www.lausanne-tourisme.ch/",
+    "famous": [
+      {
+        "name": "Olympic Museum",
+        "url": "https://www.olympics.com/museum"
+      },
+      {
+        "name": "Lavaux vineyards",
+        "url": "https://www.lavaux-unesco.ch/"
+      },
+      {
+        "name": "Lausanne Cathedral"
+      }
     ]
   },
   "Los Angeles": {
@@ -791,6 +1165,24 @@
         "photographer_url": "https://unsplash.com/@jeremybishop?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/timelapse-of-city-lanscape-KthnAO0Nlpw?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 34.0522,
+    "lon": -118.2437,
+    "tz": "America/Los_Angeles",
+    "tourism": "https://www.discoverlosangeles.com/",
+    "famous": [
+      {
+        "name": "Griffith Observatory",
+        "url": "https://griffithobservatory.org/"
+      },
+      {
+        "name": "Getty Center",
+        "url": "https://www.getty.edu/"
+      },
+      {
+        "name": "Santa Monica Pier",
+        "url": "https://www.santamonicapier.org/"
+      }
     ]
   },
   "Lucca": {
@@ -818,6 +1210,21 @@
         "photographer": "Filiz Elaerts",
         "photographer_url": "https://unsplash.com/@filizelaerts?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/cyclist-and-pedestrians-in-yellow-plaza-Rupn4EU_7fI?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 43.8437,
+    "lon": 10.5045,
+    "tz": "Europe/Rome",
+    "tourism": "https://www.turismo.lucca.it/",
+    "famous": [
+      {
+        "name": "City walls"
+      },
+      {
+        "name": "Guinigi Tower"
+      },
+      {
+        "name": "Piazza dell'Anfiteatro"
       }
     ]
   },
@@ -855,6 +1262,22 @@
         "photographer_url": "https://unsplash.com/@auror?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/city-buildings-under-cloudy-sky-JORWItSkxPE?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 22.1578,
+    "lon": 113.5597,
+    "tz": "Asia/Macau",
+    "tourism": "https://www.macaotourism.gov.mo/",
+    "famous": [
+      {
+        "name": "Macau Tower",
+        "url": "https://www.macautower.com.mo/"
+      },
+      {
+        "name": "Ruins of St. Paul's"
+      },
+      {
+        "name": "Senado Square"
+      }
     ]
   },
   "Malmö": {
@@ -890,6 +1313,22 @@
         "photographer": "Ellodev",
         "photographer_url": "https://unsplash.com/@ellodev?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/modern-grey-brick-building-facade-NT2m4w89Da0?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 55.6059,
+    "lon": 13.0007,
+    "tz": "Europe/Stockholm",
+    "tourism": "https://malmo.se/malmotown",
+    "famous": [
+      {
+        "name": "Øresund Bridge",
+        "url": "https://www.oresundsbron.com/"
+      },
+      {
+        "name": "Malmö Castle"
+      },
+      {
+        "name": "Turning Torso"
       }
     ]
   },
@@ -927,6 +1366,23 @@
         "photographer_url": "https://unsplash.com/@bondoki1?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-long-road-leading-to-a-mountain-at-sunset-h-HntdjrvIc?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 31.6342,
+    "lon": -7.9999,
+    "tz": "Africa/Casablanca",
+    "tourism": "https://www.visitmorocco.com/",
+    "famous": [
+      {
+        "name": "Jardin Majorelle",
+        "url": "https://www.jardinmajorelle.com/"
+      },
+      {
+        "name": "Musée YSL",
+        "url": "https://www.museeyslmarrakech.com/"
+      },
+      {
+        "name": "Jemaa el-Fnaa"
+      }
     ]
   },
   "Melbourne": {
@@ -962,6 +1418,24 @@
         "photographer": "Jiachen Lin",
         "photographer_url": "https://unsplash.com/@jiachenlin?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-narrow-alley-with-graffiti-on-the-walls-irg4-B_y--U?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": -37.814,
+    "lon": 144.9633,
+    "tz": "Australia/Melbourne",
+    "tourism": "https://www.visitmelbourne.com/",
+    "famous": [
+      {
+        "name": "MCG",
+        "url": "https://www.mcg.org.au/"
+      },
+      {
+        "name": "Federation Square",
+        "url": "https://fedsquare.com/"
+      },
+      {
+        "name": "Great Ocean Road",
+        "url": "https://www.visitgreatoceanroad.org.au/"
       }
     ]
   },
@@ -1000,6 +1474,20 @@
         "photographer_url": "https://unsplash.com/@antonlukin?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-view-of-a-city-from-the-top-of-a-hill-8A4E8bGLUqY?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 19.4285,
+    "lon": -99.1277,
+    "tz": "America/Mexico_City",
+    "famous": [
+      {
+        "name": "Chichén Itzá"
+      },
+      {
+        "name": "Zócalo"
+      },
+      {
+        "name": "Tikal"
+      }
     ]
   },
   "Montréal": {
@@ -1036,6 +1524,24 @@
         "photographer_url": "https://unsplash.com/@rafaelrodrigues?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/ferris-wheel-above-blue-canal-aUqkWLZOshc?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 45.5088,
+    "lon": -73.5878,
+    "tz": "America/Toronto",
+    "tourism": "https://www.mtl.org/",
+    "famous": [
+      {
+        "name": "Old Montréal",
+        "url": "https://www.vieux.montreal.qc.ca/"
+      },
+      {
+        "name": "Notre-Dame Basilica",
+        "url": "https://www.basiliquenotredame.ca/"
+      },
+      {
+        "name": "Mount Royal",
+        "url": "https://www.lemontroyal.qc.ca/"
+      }
     ]
   },
   "Orlando": {
@@ -1047,6 +1553,24 @@
         "photographer": "𝕡𝕒𝕨𝕤 𝕒𝕟𝕕 𝕡𝕣𝕚𝕟𝕥𝕤",
         "photographer_url": "https://unsplash.com/@paws_and_prints?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/city-skyline-with-lake-and-blue-sky-j8Ki8rtn_hQ?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 28.5383,
+    "lon": -81.3792,
+    "tz": "America/New_York",
+    "tourism": "https://www.visitorlando.com/",
+    "famous": [
+      {
+        "name": "Walt Disney World",
+        "url": "https://disneyworld.disney.go.com/"
+      },
+      {
+        "name": "Universal Orlando",
+        "url": "https://www.universalorlando.com/"
+      },
+      {
+        "name": "Kennedy Space Center",
+        "url": "https://www.kennedyspacecenter.com/"
       }
     ]
   },
@@ -1084,6 +1608,23 @@
         "photographer_url": "https://unsplash.com/@gronemo?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/an-aerial-view-of-a-city-with-a-river-running-through-it-JMKBNpWHnyQ?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 34.6938,
+    "lon": 135.5011,
+    "tz": "Asia/Tokyo",
+    "tourism": "https://osaka-info.jp/en/",
+    "famous": [
+      {
+        "name": "Osaka Castle",
+        "url": "https://www.osakacastle.net/"
+      },
+      {
+        "name": "Universal Studios Japan",
+        "url": "https://www.usj.co.jp/web/en/us"
+      },
+      {
+        "name": "Dōtonbori"
+      }
     ]
   },
   "Pittsburgh": {
@@ -1119,6 +1660,24 @@
         "photographer": "Walter Martin",
         "photographer_url": "https://unsplash.com/@rise13law?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-very-tall-bridge-with-a-very-tall-building-in-the-background-aovF51DmYtU?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 40.4406,
+    "lon": -79.9959,
+    "tz": "America/New_York",
+    "tourism": "https://www.visitpittsburgh.com/",
+    "famous": [
+      {
+        "name": "Andy Warhol Museum",
+        "url": "https://www.warhol.org/"
+      },
+      {
+        "name": "Duquesne Incline",
+        "url": "https://www.duquesneincline.org/"
+      },
+      {
+        "name": "Fallingwater",
+        "url": "https://fallingwater.org/"
       }
     ]
   },
@@ -1156,6 +1715,23 @@
         "photographer_url": "https://unsplash.com/@anniespratt?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/an-empty-street-in-a-city-with-buildings-WaGxItTLDvk?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 41.1485,
+    "lon": -8.611,
+    "tz": "Europe/Lisbon",
+    "tourism": "https://visitporto.travel/",
+    "famous": [
+      {
+        "name": "Livraria Lello",
+        "url": "https://www.livrarialello.pt/"
+      },
+      {
+        "name": "Serralves",
+        "url": "https://www.serralves.pt/"
+      },
+      {
+        "name": "Dom Luís I Bridge"
+      }
     ]
   },
   "Rio de Janeiro": {
@@ -1167,6 +1743,22 @@
         "photographer": "Ben Tripp",
         "photographer_url": "https://unsplash.com/@bentripp?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/ornate-wavy-sidewalk-beside-a-road-with-parked-cars-dqB0kX4O8_w?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": -22.9064,
+    "lon": -43.1822,
+    "tz": "America/Sao_Paulo",
+    "tourism": "https://visit.rio/",
+    "famous": [
+      {
+        "name": "Christ the Redeemer"
+      },
+      {
+        "name": "Sugarloaf cable car",
+        "url": "https://www.bondinho.com.br/"
+      },
+      {
+        "name": "Copacabana"
       }
     ]
   },
@@ -1204,6 +1796,23 @@
         "photographer_url": "https://unsplash.com/@wasimz33?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-large-building-with-a-clock-tower-on-top-of-it-MzQ4RHrRNT4?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 41.8919,
+    "lon": 12.5113,
+    "tz": "Europe/Rome",
+    "tourism": "https://www.turismoroma.it/",
+    "famous": [
+      {
+        "name": "Colosseum",
+        "url": "https://colosseo.it/"
+      },
+      {
+        "name": "Vatican Museums",
+        "url": "https://www.museivaticani.va/"
+      },
+      {
+        "name": "Trevi Fountain"
+      }
     ]
   },
   "San Diego": {
@@ -1231,6 +1840,24 @@
         "photographer": "Chloe",
         "photographer_url": "https://unsplash.com/@chloe_loe?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/vibrant-sunset-sky-behind-a-building-palm-trees-and-streetlamp-KOIyzXNxZF8?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 32.7157,
+    "lon": -117.1647,
+    "tz": "America/Los_Angeles",
+    "tourism": "https://www.sandiego.org/",
+    "famous": [
+      {
+        "name": "Balboa Park",
+        "url": "https://www.balboapark.org/"
+      },
+      {
+        "name": "San Diego Zoo",
+        "url": "https://zoo.sandiegozoo.org/"
+      },
+      {
+        "name": "USS Midway Museum",
+        "url": "https://www.midway.org/"
       }
     ]
   },
@@ -1268,6 +1895,24 @@
         "photographer_url": "https://unsplash.com/@pixeldan?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/photograph-of-city-high-rise-buildings-eQUEEHYmLCE?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 37.7749,
+    "lon": -122.4194,
+    "tz": "America/Los_Angeles",
+    "tourism": "https://www.sftravel.com/",
+    "famous": [
+      {
+        "name": "Golden Gate Bridge",
+        "url": "https://www.goldengate.org/"
+      },
+      {
+        "name": "Alcatraz",
+        "url": "https://www.nps.gov/alca/"
+      },
+      {
+        "name": "Cable cars",
+        "url": "https://www.sfmta.com/getting-around/muni/cable-cars"
+      }
     ]
   },
   "San Jose": {
@@ -1303,6 +1948,24 @@
         "photographer": "César Badilla Miranda",
         "photographer_url": "https://unsplash.com/@xbmpro?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-birds-eye-view-of-a-city-street-UDiphEmFMcE?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 37.3394,
+    "lon": -121.895,
+    "tz": "America/Los_Angeles",
+    "tourism": "https://www.sanjose.org/",
+    "famous": [
+      {
+        "name": "Winchester Mystery House",
+        "url": "https://winchestermysteryhouse.com/"
+      },
+      {
+        "name": "The Tech Interactive",
+        "url": "https://www.thetech.org/"
+      },
+      {
+        "name": "Santana Row",
+        "url": "https://www.santanarow.com/"
       }
     ]
   },
@@ -1340,6 +2003,24 @@
         "photographer_url": "https://unsplash.com/@joshhild?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-building-that-has-a-sign-on-the-side-of-it-HSED8ngsK4Q?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 47.6062,
+    "lon": -122.3321,
+    "tz": "America/Los_Angeles",
+    "tourism": "https://visitseattle.org/",
+    "famous": [
+      {
+        "name": "Space Needle",
+        "url": "https://www.spaceneedle.com/"
+      },
+      {
+        "name": "Pike Place Market",
+        "url": "https://www.pikeplacemarket.org/"
+      },
+      {
+        "name": "MoPOP",
+        "url": "https://www.mopop.org/"
+      }
     ]
   },
   "Seoul": {
@@ -1375,6 +2056,38 @@
         "photographer": "Evgeniya Pron",
         "photographer_url": "https://unsplash.com/@evgeniya_pron?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-group-of-people-walking-down-a-street-next-to-tall-buildings-I8Kd2OxYxT4?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 37.566,
+    "lon": 126.9784,
+    "tz": "Asia/Seoul",
+    "tourism": "https://english.visitseoul.net/",
+    "famous": [
+      {
+        "name": "N Seoul Tower",
+        "url": "https://www.nseoultower.co.kr/"
+      },
+      {
+        "name": "Gyeongbokgung"
+      },
+      {
+        "name": "Bukchon Hanok Village"
+      }
+    ]
+  },
+  "Shenyang": {
+    "lat": 41.7922,
+    "lon": 123.4328,
+    "tz": "Asia/Shanghai",
+    "famous": [
+      {
+        "name": "Mukden Palace"
+      },
+      {
+        "name": "Fuling Tomb"
+      },
+      {
+        "name": "Zhaoling Tomb"
       }
     ]
   },
@@ -1412,6 +2125,24 @@
         "photographer_url": "https://unsplash.com/@iridescentstars?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/white-high-rise-buildign-9OKmIHa5LdQ?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 1.3667,
+    "lon": 103.8,
+    "tz": "Asia/Singapore",
+    "tourism": "https://www.visitsingapore.com/",
+    "famous": [
+      {
+        "name": "Gardens by the Bay",
+        "url": "https://www.gardensbythebay.com.sg/"
+      },
+      {
+        "name": "Marina Bay Sands",
+        "url": "https://www.marinabaysands.com/"
+      },
+      {
+        "name": "Botanic Gardens",
+        "url": "https://www.nparks.gov.sg/sbg"
+      }
     ]
   },
   "South America": {
@@ -1447,6 +2178,20 @@
         "photographer": "Nikolai Kolosov",
         "photographer_url": "https://unsplash.com/@nikolaikolosov?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/colorful-buildings-line-a-quiet-city-street-with-parked-cars-V9Ktiote_iI?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": -23.5475,
+    "lon": -46.6361,
+    "tz": "America/Sao_Paulo",
+    "famous": [
+      {
+        "name": "Machu Picchu"
+      },
+      {
+        "name": "Iguazu Falls"
+      },
+      {
+        "name": "Patagonia"
       }
     ]
   },
@@ -1484,6 +2229,22 @@
         "photographer_url": "https://unsplash.com/@sergei_gussev?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-row-of-buildings-next-to-a-body-of-water-RdMlHYi__5s?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 48.5839,
+    "lon": 7.7455,
+    "tz": "Europe/Paris",
+    "tourism": "https://www.visitstrasbourg.fr/",
+    "famous": [
+      {
+        "name": "European Parliament",
+        "url": "https://visiting.europarl.europa.eu/"
+      },
+      {
+        "name": "Cathedral"
+      },
+      {
+        "name": "Petite France"
+      }
     ]
   },
   "Sydney": {
@@ -1519,6 +2280,23 @@
         "photographer": "International Student Navigator Australia",
         "photographer_url": "https://unsplash.com/@isnaaus?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-group-of-people-walking-down-a-street-next-to-tall-buildings-zm6nEokWgyw?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": -33.8678,
+    "lon": 151.2073,
+    "tz": "Australia/Sydney",
+    "tourism": "https://www.sydney.com/",
+    "famous": [
+      {
+        "name": "Sydney Opera House",
+        "url": "https://www.sydneyoperahouse.com/"
+      },
+      {
+        "name": "BridgeClimb",
+        "url": "https://www.bridgeclimb.com/"
+      },
+      {
+        "name": "Bondi Beach"
       }
     ]
   },
@@ -1556,6 +2334,23 @@
         "photographer_url": "https://unsplash.com/@lahelohi?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/city-lights-at-night-with-a-tall-tower-u2mYl_o4pHs?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 61.4991,
+    "lon": 23.7871,
+    "tz": "Europe/Helsinki",
+    "tourism": "https://visittampere.fi/",
+    "famous": [
+      {
+        "name": "Särkänniemi",
+        "url": "https://sarkanniemi.fi/"
+      },
+      {
+        "name": "Moomin Museum",
+        "url": "https://www.muumimuseo.fi/"
+      },
+      {
+        "name": "Tampere Cathedral"
+      }
     ]
   },
   "Thessaloniki": {
@@ -1567,6 +2362,21 @@
         "photographer": "koutsou23",
         "photographer_url": "https://unsplash.com/@koutsou23?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/city-intersection-with-apartment-buildings-40sQYviu_JI?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 40.6407,
+    "lon": 22.9349,
+    "tz": "Europe/Athens",
+    "tourism": "https://thessaloniki.travel/",
+    "famous": [
+      {
+        "name": "White Tower"
+      },
+      {
+        "name": "Rotunda"
+      },
+      {
+        "name": "Aristotelous Square"
       }
     ]
   },
@@ -1604,6 +2414,23 @@
         "photographer_url": "https://unsplash.com/@katebranch?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/a-city-with-a-tall-tower-VNIbuiOfLe4?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 35.6895,
+    "lon": 139.6917,
+    "tz": "Asia/Tokyo",
+    "tourism": "https://www.gotokyo.org/en/",
+    "famous": [
+      {
+        "name": "Sensō-ji",
+        "url": "https://www.senso-ji.jp/"
+      },
+      {
+        "name": "Tokyo Skytree",
+        "url": "https://www.tokyo-skytree.jp/"
+      },
+      {
+        "name": "Shibuya Crossing"
+      }
     ]
   },
   "Toronto": {
@@ -1640,6 +2467,23 @@
         "photographer_url": "https://unsplash.com/@venrick?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/space-needle-tower-during-dusk-HtGvaLAb_bM?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 43.7064,
+    "lon": -79.3986,
+    "tz": "America/Toronto",
+    "tourism": "https://www.destinationtoronto.com/",
+    "famous": [
+      {
+        "name": "CN Tower",
+        "url": "https://www.cntower.ca/"
+      },
+      {
+        "name": "Royal Ontario Museum",
+        "url": "https://www.rom.on.ca/"
+      },
+      {
+        "name": "Toronto Islands"
+      }
     ]
   },
   "Tucson": {
@@ -1651,6 +2495,24 @@
         "photographer": "Steven Council",
         "photographer_url": "https://unsplash.com/@stevencouncilphotography?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/blue-ford-mustang-with-racing-stripes-on-street-n1SuiX93Rvk?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ],
+    "lat": 32.2217,
+    "lon": -110.9265,
+    "tz": "America/Phoenix",
+    "tourism": "https://www.visittucson.org/",
+    "famous": [
+      {
+        "name": "Saguaro National Park",
+        "url": "https://www.nps.gov/sagu/"
+      },
+      {
+        "name": "Desert Museum",
+        "url": "https://www.desertmuseum.org/"
+      },
+      {
+        "name": "San Xavier del Bac",
+        "url": "https://www.patronatosanxavier.org/"
       }
     ]
   },
@@ -1688,6 +2550,24 @@
         "photographer_url": "https://unsplash.com/@henry_be?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/aerial-photography-of-city-buildings-DpI-_wydgJM?utm_source=conf_ddl&utm_medium=referral"
       }
+    ],
+    "lat": 51.5085,
+    "lon": -0.1257,
+    "tz": "Europe/London",
+    "tourism": "https://www.visitbritain.com/",
+    "famous": [
+      {
+        "name": "British Museum",
+        "url": "https://www.britishmuseum.org/"
+      },
+      {
+        "name": "Stonehenge",
+        "url": "https://www.english-heritage.org.uk/visit/places/stonehenge/"
+      },
+      {
+        "name": "Edinburgh Castle",
+        "url": "https://www.edinburghcastle.scot/"
+      }
     ]
   },
   "Xiamen": {
@@ -1696,6 +2576,21 @@
     "alt": "a view of a city and a body of water",
     "photographer": "Letian Zhang",
     "photographer_url": "https://unsplash.com/@clippit?utm_source=conf_ddl&utm_medium=referral",
-    "photo_url": "https://unsplash.com/photos/a-view-of-a-city-and-a-body-of-water-XjHNLadzEjY?utm_source=conf_ddl&utm_medium=referral"
+    "photo_url": "https://unsplash.com/photos/a-view-of-a-city-and-a-body-of-water-XjHNLadzEjY?utm_source=conf_ddl&utm_medium=referral",
+    "lat": 24.4798,
+    "lon": 118.0819,
+    "tz": "Asia/Shanghai",
+    "famous": [
+      {
+        "name": "Gulangyu"
+      },
+      {
+        "name": "Nanputuo Temple"
+      },
+      {
+        "name": "Xiamen University",
+        "url": "https://en.xmu.edu.cn/"
+      }
+    ]
   }
 }

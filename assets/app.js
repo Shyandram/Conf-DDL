@@ -200,6 +200,8 @@
     const more = $("#moreTpl").content.firstElementChild.cloneNode(true);
     $(".c-date", more).textContent = c.date || "TBA";
     $(".c-place", more).textContent = c.place || "TBA";
+    const known = cityLinks(cityPhotos[venueOf(c.place).key], false);
+    if (known) $(".c-known", more).innerHTML = known; else $(".c-city", more).remove();
     if (c.note) $(".c-note", more).textContent = c.note; else $(".c-note", more).remove();
     if (c.abs) { c.refs.abs = $(".c-abs dd", more); c.refs.abs.textContent = fmtTime(c.abs); } else $(".c-abs", more).remove();
     if (!c.decision || notPaper(c)) $(".c-plan", more).remove();
@@ -428,12 +430,48 @@
     return { ...list[i], src: list[i].src.replace(/([?&])w=\d+/, `$1w=${w}`).replace(/([?&])q=\d+/, "$1q=70") };
   }
 
+  // ---------- the venue's own clock and sky ----------
+  // The sun's height (degrees) at a place and moment, after SunCalc (Vladimir Agafonkin, BSD); rising = before noon.
+  function sunAt(lat, lon, t) {
+    const rad = Math.PI / 180, d = t / 864e5 - 10957.5; // days since J2000.0
+    const M = rad * (357.5291 + 0.98560028 * d);
+    const L = M + rad * (1.9148 * Math.sin(M) + 0.02 * Math.sin(2 * M) + 0.0003 * Math.sin(3 * M)) + rad * 102.9372 + Math.PI;
+    const e = rad * 23.4397, dec = Math.asin(Math.sin(e) * Math.sin(L));
+    const ra = Math.atan2(Math.sin(L) * Math.cos(e), Math.cos(L));
+    const H = rad * (280.16 + 360.9856235 * d) + rad * lon - ra, phi = rad * lat;
+    const alt = Math.asin(Math.sin(phi) * Math.sin(dec) + Math.cos(phi) * Math.cos(dec) * Math.cos(H)) / rad;
+    return { alt, rising: Math.sin(H) < 0 };
+  }
+  // night below -8° (about 40 minutes before sunrise or after sunset); dawn and dusk until the sun is 10° up
+  const PHASES = ["dawn", "day", "dusk", "night"];
+  const phaseAt = (entry, t) => {
+    const { alt, rising } = sunAt(entry.lat, entry.lon, t);
+    return alt < -8 ? "night" : alt < 10 ? (rising ? "dawn" : "dusk") : "day";
+  };
+  // the closest mood when a city lacks the one asked for
+  const NEAR = { dawn: ["dawn", "dusk", "day", "night"], day: ["day", "dawn", "dusk", "night"],
+    dusk: ["dusk", "dawn", "night", "day"], night: ["night", "dusk", "dawn", "day"] };
+  const localClock = tz => { try { return new Intl.DateTimeFormat(undefined, { timeZone: tz, hour: "2-digit", minute: "2-digit" }).format(new Date()); } catch { return ""; } };
+
+  // the backdrop cross-fades: the new picture fades in over the old, which leaves once it is covered
+  function showBackdrop(src, cls = "") {
+    const pan = $("#bgPan"), old = $$(".page-bg-img", pan);
+    if (!src) { old.forEach(o => o.classList.remove("is-loaded")); return; }
+    const el = document.createElement("div");
+    el.className = `page-bg-img ${cls}`;
+    el.style.backgroundImage = `url("${src}")`;
+    pan.append(el);
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("is-loaded")));
+    setTimeout(() => old.forEach(o => o.remove()), 1300);
+  }
+
   async function setVenue(c, advance = false) {
-    const fig = $("#venue"), img = $("#venueImg"), credit = $("#venueCredit");
-    img.classList.remove("is-loaded");
-    credit.hidden = true;
+    const fig = $("#venue"), credit = $("#venueCredit");
     const { city, country, key, virtual } = venueOf(c && c.place);
     const place = key;
+    const same = fig.dataset.key === place;
+    fig.dataset.key = place;
+    if (!same) delete fig.dataset.scene; // a scene picked by hand belongs to its city
     fig.classList.toggle("is-tba", !place);
     // only the country known ("Japan (TBA)" or "TBA, Japan"): show the country, file the photo under it
     $("#venueCity").textContent = !place ? (virtual ? "Online" : "Venue to be announced") : city || COUNTRY_NAMES[country] || country;
@@ -441,26 +479,83 @@
     $("#venueDates").textContent = c ? c.date || "" : "";
     const token = (fig.dataset.token = String(Math.random()));
     await loadCityPhotos;
-    const pool = place && photosOf(key).length ? key : "*";
-    const un = pickCityPhoto(pool, advance);
-    const many = photosOf(pool).length;
-    $("#photoNext").hidden = many < 2;
-    $("#photoCount").textContent = many > 1 && pool !== "*" ? `${lastPhoto[pool] + 1}/${many}` : "";
-    if (!un || fig.dataset.token !== token) return;
-    const found = { src: un.src, unsplash: un };
+    if (fig.dataset.token !== token) return;
+    const entry = place ? cityPhotos[key] : null;
+    venueSky(entry);
+    venueLinks(entry);
+
+    // generated panoramas in the mood of the venue's local time; the ↻ button steps through the moods
+    const scenes = entry && entry.scenes && PHASES.filter(p => entry.scenes[p]);
+    let shown;
+    if (scenes && scenes.length) {
+      const now = entry.lat != null ? phaseAt(entry, Date.now()) : "day";
+      let pick = advance ? PHASES[(PHASES.indexOf(fig.dataset.scene || now) + 1) % 4] : fig.dataset.scene || now;
+      if (advance) while (!entry.scenes[pick]) pick = PHASES[(PHASES.indexOf(pick) + 1) % 4];
+      pick = NEAR[pick].find(p => entry.scenes[p]);
+      if (advance) fig.dataset.scene = pick;
+      fig.dataset.shown = pick;
+      shown = { src: entry.scenes[pick], cls: "is-pano", credit: `${pick[0].toUpperCase() + pick.slice(1)} in ${esc(city || COUNTRY_NAMES[country] || country)} · AI-generated scene` };
+      $("#photoNext").hidden = scenes.length < 2;
+      $("#photoNext").title = "Show this place at another time of day";
+      $("#photoCount").textContent = pick;
+      $(".page-bg").dataset.tint = "";
+    } else {
+      delete fig.dataset.shown;
+      const pool = place && photosOf(key).length ? key : "*";
+      const un = pickCityPhoto(pool, advance);
+      const many = photosOf(pool).length;
+      $("#photoNext").hidden = many < 2;
+      $("#photoNext").title = "Show another photo of this city";
+      $("#photoCount").textContent = many > 1 && pool !== "*" ? `${lastPhoto[pool] + 1}/${many}` : "";
+      // a daytime photo, toned toward the hour it is there
+      $(".page-bg").dataset.tint = entry && entry.lat != null ? phaseAt(entry, Date.now()) : "";
+      if (un) shown = { src: un.src, credit: (un.from ? `${esc(un.from)} · ` : "") + `Photo by <a href="${esc(un.photographer_url)}" target="_blank" rel="noopener">${esc(un.photographer)}</a>` +
+        ` on <a href="${esc(un.photo_url)}" target="_blank" rel="noopener">Unsplash</a>` };
+    }
+    if (!shown) { credit.hidden = true; showBackdrop(null); return; }
     const pre = new Image();
     pre.crossOrigin = "anonymous"; // matches how the service worker fetches, so both share one cached copy
     pre.onload = () => {
       if (fig.dataset.token !== token) return;
-      img.style.backgroundImage = `url("${found.src}")`;
-      img.classList.add("is-loaded");
-      const u = found.unsplash;
-      credit.innerHTML = (u.from ? `${esc(u.from)} · ` : "") + `Photo by <a href="${esc(u.photographer_url)}" target="_blank" rel="noopener">${esc(u.photographer)}</a>` +
-        ` on <a href="${esc(u.photo_url)}" target="_blank" rel="noopener">Unsplash</a>`;
+      showBackdrop(shown.src, shown.cls);
+      credit.innerHTML = shown.credit;
       credit.hidden = false;
     };
-    pre.src = found.src;
+    pre.src = shown.src;
   }
+
+  // "18:42 local · dusk" under the venue's name
+  function venueSky(entry) {
+    const el = $("#venueLocal");
+    if (!entry || !entry.tz) { el.hidden = true; return; }
+    const phase = entry.lat != null ? phaseAt(entry, Date.now()) : "";
+    el.innerHTML = `<b>${esc(localClock(entry.tz))}</b> local${phase ? ` · <i class="sky sky-${phase}"></i>${phase}` : ""}`;
+    el.hidden = false;
+  }
+  // what the place is known for, each linked to its own official site, and the official visitor site
+  function cityLinks(entry, label = true) {
+    const famous = (entry && entry.famous) || [], visit = entry && entry.tourism;
+    if (!famous.length && !visit) return "";
+    const link = (href, text, cls = "") => `<a${cls ? ` class="${cls}"` : ""} href="${esc(href)}" target="_blank" rel="noopener">${text}</a>`;
+    return (famous.length ? (label ? `<span class="vl-k">Known for</span> ` : "") +
+      famous.map(f => (f.url ? link(f.url, esc(f.name)) : `<span>${esc(f.name)}</span>`)).join(`<span class="vl-sep">·</span>`) : "") +
+      (visit ? link(visit, "Official visitor site ↗", "vl-visit") : "");
+  }
+  function venueLinks(entry) {
+    const el = $("#venueLinks"), html = cityLinks(entry);
+    el.innerHTML = html;
+    el.hidden = !html;
+  }
+  // every half minute: the venue's clock, and its sky once the mood there changes
+  setInterval(() => {
+    if (document.hidden || !heroConf) return;
+    const fig = $("#venue"), entry = cityPhotos[fig.dataset.key];
+    if (!entry || entry.lat == null) return;
+    venueSky(entry);
+    const phase = phaseAt(entry, Date.now());
+    if (fig.dataset.shown && !fig.dataset.scene && NEAR[phase].find(p => entry.scenes[p]) !== fig.dataset.shown) setVenue(heroConf);
+    else if (!fig.dataset.shown) $(".page-bg").dataset.tint = phase;
+  }, 30000);
 
   function setHero(c) {
     if (c === heroConf) return;

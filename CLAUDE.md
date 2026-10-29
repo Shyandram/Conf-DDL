@@ -18,23 +18,11 @@ Static GitHub Pages site of conference deadline countdowns. All data lives in `d
 4. Run `python3 scripts/validate.py`, then commit and push.
 5. Tell the user which dates are confirmed vs estimated, with source links.
 
-## Next up: panoramic, time-of-day backdrops (not started)
+## City scenes, local time and city links
 
-Planned with the owner; images will come from OpenAI image generation instead of Unsplash.
-
-- **Goal:** each host city gets a wide panorama in four moods: dawn, day, dusk, night. The page shows the one that matches the venue's local time right now and cross-fades when the phase changes.
-- **Place data:** add `lat`, `lon` and an IANA `tz` to each city in `data/cities.json`. Open-Meteo geocoding needs no key.
-- **Phase:** computed in the browser from the sun's position (sunrise and sunset from lat/lon):
-  - dawn: about 40 min before sunrise to 1 h after;
-  - dusk: about 1 h before sunset to 40 min after;
-  - otherwise day or night.
-- **Images:**
-  - a script (new, or an extension of `scripts/fetch_city_photos.py`) and a manual workflow generate the panoramas, with an `OPENAI_API_KEY` repository secret (never in chat or code);
-  - save them as compressed WebP in the repo, one per city and phase;
-  - label them "AI-generated" where the Unsplash credit is today;
-  - keep Unsplash photos as the fallback for a city or phase that has no image yet.
-- **Display:**
-  - wide screens show the whole panorama;
-  - narrow screens pan it slowly, or follow the mouse;
-  - no motion under `prefers-reduced-motion`;
-  - the venue card can show local time and phase (e.g. "Marrakesh · 18:42 dusk").
+- **Place data:** every place in `data/cities.json` has `lat`, `lon` and an IANA `tz` (filled by `scripts/gen_scenes.py` from Open-Meteo, no key). A new host city gets them on the next run of that script; run it without `OPENAI_API_KEY` to fill places only.
+- **Scenes:** *Actions → Generate city scenes* (`.github/workflows/scenes.yml`) makes a 2.5:1 panorama per city with OpenAI image generation (`OPENAI_API_KEY` secret):
+  - one day picture, then edits of it into dawn, dusk and night;
+  - saved under `assets/scenes/<slug>/` and listed in `scenes`.
+  - The page picks the mood from the sun's height at the venue (`sunAt` / `phaseAt` in `assets/app.js`); cities without scenes keep their Unsplash photos, toned to the hour.
+- **City links:** `tourism` is the official visitor site; `famous` lists 3 sights, each with `url` = its own official site, or no `url` when none was verified. The owner wants official sites only (no Wikipedia or travel wikis); check every URL before adding it.

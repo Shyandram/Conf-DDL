@@ -1496,3 +1496,39 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 #pgNow.m-cols.tl-folded .tl-fold span {
   display: block; writing-mode: vertical-rl; font: 600 11.5px var(--mono); letter-spacing: .14em; text-transform: uppercase;
 }
+
+/* ---------- the venue's local time, and what the place is known for ---------- */
+.venue-local { font: 500 12.5px var(--mono); color: var(--ink-2); margin-top: 2px; display: inline-flex; align-items: center; gap: 5px; }
+.venue-local b { color: var(--ink); font-weight: 600; }
+.sky { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.sky-dawn { background: linear-gradient(135deg, #f7a8b8, #ffd59e); }
+.sky-day { background: #f5c33b; box-shadow: 0 0 6px #f5c33b; }
+.sky-dusk { background: linear-gradient(135deg, #ff8a3d, #7a4bd1); }
+.sky-night { background: #2c3e7a; box-shadow: inset -3px -1px 0 #9fb3ff; }
+.venue-links { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 6px; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+.venue-links .vl-k { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); margin-right: 2px; }
+.venue-links a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 2px; }
+.venue-links a:hover { text-decoration-color: currentColor; }
+.venue-links .vl-sep { color: var(--ink-3); }
+.venue-links .vl-visit { flex-basis: 100%; width: fit-content; font: 600 12.5px var(--sans); color: var(--accent); text-decoration: none; margin-top: 2px; }
+.venue-links .vl-visit:hover { text-decoration: underline; }
+.venue-links[hidden], .venue-local[hidden] { display: none; }
+#pgNow.f2 .venue-links .vl-k { display: none; }
+#pgNow.f3 .venue-links, #pgNow.m-cols.f2 .venue-links { display: none; }
+
+/* ---------- the backdrop: generated panoramas pan slowly; a daytime photo is toned to the venue's hour ---------- */
+.page-bg-img.is-pano { animation: pano-pan 140s ease-in-out infinite alternate; }
+@keyframes pano-pan { from { background-position: 0% 45%; } to { background-position: 100% 45%; } }
+@media (prefers-reduced-motion: reduce) { .page-bg-img.is-pano { animation: none; background-position: center 45%; } }
+.page-bg-pan::after { content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity 2s ease, background 2s ease; pointer-events: none; }
+.page-bg-img { transition: opacity 1.1s ease, transform 16s ease-out, filter 2s ease; }
+.page-bg[data-tint="dawn"] .page-bg-img { filter: saturate(1.05) sepia(.12) hue-rotate(-8deg); }
+.page-bg[data-tint="dawn"] .page-bg-pan::after { opacity: 1; background: linear-gradient(180deg, rgba(255, 170, 190, .28), rgba(255, 214, 160, .12) 60%, transparent); }
+.page-bg[data-tint="dusk"] .page-bg-img { filter: saturate(1.15) sepia(.25) hue-rotate(-12deg) brightness(.85); }
+.page-bg[data-tint="dusk"] .page-bg-pan::after { opacity: 1; background: linear-gradient(180deg, rgba(110, 60, 180, .30), rgba(255, 120, 60, .22) 65%, transparent); }
+.page-bg[data-tint="night"] .page-bg-img { filter: brightness(.45) saturate(.75) hue-rotate(12deg); }
+.page-bg[data-tint="night"] .page-bg-pan::after { opacity: 1; background: linear-gradient(180deg, rgba(10, 20, 60, .45), rgba(20, 30, 80, .25)); }
+#pgNow.f2 .venue-local { margin-top: 0; }
+#pgNow.f3 .venue-foot { display: none; } /* short screens keep the venue, its hour and dates; the ↻ button goes */
+.c-meta .c-city { flex-basis: 100%; }
+.c-meta .c-known { margin-top: 4px; }
