@@ -651,12 +651,12 @@
         ctx.globalAlpha = 1;
       } else if (kind === "fog") {
         const c = dark() ? "190, 200, 215" : "245, 247, 250";
-        ctx.fillStyle = `rgba(${c}, ${.10 * level})`; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = `rgba(${c}, ${.04 * level})`; ctx.fillRect(0, 0, W, H);
         for (const p of parts) {
           p.x += p.v * dt;
           if (p.x - p.r > W) p.x = -p.r; else if (p.x + p.r < 0) p.x = W + p.r;
           const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
-          g.addColorStop(0, `rgba(${c}, ${.32 * level})`); g.addColorStop(1, `rgba(${c}, 0)`);
+          g.addColorStop(0, `rgba(${c}, ${.16 * level})`); g.addColorStop(1, `rgba(${c}, 0)`);
           ctx.fillStyle = g; ctx.fillRect(p.x - p.r, p.y - p.r, p.r * 2, p.r * 2);
         }
       }
