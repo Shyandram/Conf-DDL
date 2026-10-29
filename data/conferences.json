@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-28",
+  "updated": "2026-10-29",
   "areas": {
     "CV": "Computer Vision",
     "ML": "Machine Learning",
@@ -1852,6 +1852,54 @@
       "date": "Results at NeurIPS 2026 (World Models in Physical AI workshop)",
       "decision": "2026-11-23",
       "note": "nuPlan / NAVSIM-style policies on a private evaluation set. Extended from Oct 31: leaderboard and technical report due Nov 16 AoE; registration closed Oct 18. Final results targeted Nov 23. Two DGX Spark prizes (1st place + innovation); winners' video due Dec 3."
+    },
+    {
+      "id": "corl26",
+      "year": 2026,
+      "title": "CoRL",
+      "full_name": "Conference on Robot Learning",
+      "area": [
+        "RO",
+        "ML"
+      ],
+      "ccf": "",
+      "timezone": "AoE",
+      "link": "https://2026.corl.org/contributions/instruction-for-authors",
+      "abstract_deadline": "2026-05-25 23:59",
+      "deadline": "2026-05-28 23:59",
+      "date": "Nov 9 – 12, 2026",
+      "place": "Austin, USA",
+      "status": "confirmed",
+      "rebuttal": [
+        "2026-08-04",
+        "2026-08-11"
+      ],
+      "decision": "2026-09-04",
+      "note": "Reviews out Aug 4; one-page PDF rebuttal by Aug 11. Papers with no weak-accept score may be rejected without rebuttal. Camera-ready Oct 12."
+    },
+    {
+      "id": "corl27",
+      "year": 2027,
+      "title": "CoRL",
+      "full_name": "Conference on Robot Learning",
+      "area": [
+        "RO",
+        "ML"
+      ],
+      "ccf": "",
+      "timezone": "AoE",
+      "link": "https://www.corl.org/",
+      "abstract_deadline": "2027-05-24 23:59",
+      "deadline": "2027-05-27 23:59",
+      "date": "Nov 2027",
+      "place": "TBA",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-08-03",
+        "2027-08-10"
+      ],
+      "decision": "2027-09-03",
+      "note": "Projected from CoRL 2026 (abstract May 25, paper May 28, rebuttal Aug 4–11, notification Sep 4). The 2027 call for papers and host city are not announced yet."
     }
   ]
 }
