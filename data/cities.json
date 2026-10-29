@@ -1383,7 +1383,14 @@
       {
         "name": "Jemaa el-Fnaa"
       }
-    ]
+    ],
+    "scenes": {
+      "day": "assets/scenes/marrakesh/day.webp?v=77baeaec",
+      "dawn": "assets/scenes/marrakesh/dawn.webp?v=886004aa",
+      "dusk": "assets/scenes/marrakesh/dusk.webp?v=ffb1de17",
+      "night": "assets/scenes/marrakesh/night.webp?v=78527b06"
+    },
+    "scene_model": "gpt-image-2"
   },
   "Melbourne": {
     "photos": [
