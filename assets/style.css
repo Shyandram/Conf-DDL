@@ -1543,6 +1543,9 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 #pgNow.m-cols.f4 .venue { display: none; }
 
 /* ---------- the venue's weather over the backdrop (app.js draws it) ---------- */
+/* part of the backdrop: it sits between the photo and the veil, so the veil softens it just as it softens the photo */
+.page-bg-pan { z-index: 0; }
+.page-bg::after { z-index: 2; }
 .page-wx {
   position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0; transition: opacity 1.5s ease;
   /* fades out with the photo below it */
