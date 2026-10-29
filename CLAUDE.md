@@ -17,3 +17,24 @@ Static GitHub Pages site of conference deadline countdowns. All data lives in `d
 3. Bump the top-level `updated` date.
 4. Run `python3 scripts/validate.py`, then commit and push.
 5. Tell the user which dates are confirmed vs estimated, with source links.
+
+## Next up: panoramic, time-of-day backdrops (not started)
+
+Planned with the owner; images will come from OpenAI image generation instead of Unsplash.
+
+- **Goal:** each host city gets a wide panorama in four moods: dawn, day, dusk, night. The page shows the one that matches the venue's local time right now and cross-fades when the phase changes.
+- **Place data:** add `lat`, `lon` and an IANA `tz` to each city in `data/cities.json`. Open-Meteo geocoding needs no key.
+- **Phase:** computed in the browser from the sun's position (sunrise and sunset from lat/lon):
+  - dawn: about 40 min before sunrise to 1 h after;
+  - dusk: about 1 h before sunset to 40 min after;
+  - otherwise day or night.
+- **Images:**
+  - a script (new, or an extension of `scripts/fetch_city_photos.py`) and a manual workflow generate the panoramas, with an `OPENAI_API_KEY` repository secret (never in chat or code);
+  - save them as compressed WebP in the repo, one per city and phase;
+  - label them "AI-generated" where the Unsplash credit is today;
+  - keep Unsplash photos as the fallback for a city or phase that has no image yet.
+- **Display:**
+  - wide screens show the whole panorama;
+  - narrow screens pan it slowly, or follow the mouse;
+  - no motion under `prefers-reduced-motion`;
+  - the venue card can show local time and phase (e.g. "Marrakesh · 18:42 dusk").
