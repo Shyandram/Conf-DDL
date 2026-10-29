@@ -1288,3 +1288,51 @@ html { overscroll-behavior-x: none; }
 /* the city photo belongs to the countdown; the list sits on plain ground */
 .page-bg { transition: opacity .45s ease; }
 body[data-page="list"] .page-bg { opacity: 0; }
+
+/* ---------- the countdown page: exactly one screen, never scrolls ---------- */
+html.on-now, html.on-now body { overflow: hidden; overscroll-behavior: none; }
+html.on-now .foot { display: none; }
+html.on-now .to-top { display: none !important; }
+#pgNow {
+  display: flex; flex-direction: column; height: var(--now-h, calc(100dvh - 64px));
+  padding-bottom: var(--nav-room, 76px); box-sizing: border-box; overflow: clip;
+}
+.pager:not(.is-moving) #pgNow:not(.is-cur) { height: 0; padding: 0; }
+#pgNow .hero { flex: none; padding: clamp(10px, 3.4dvh, 56px) 0 clamp(8px, 2.2dvh, 30px); }
+#pgNow .hero-title { margin-top: clamp(6px, 1.6dvh, 16px); }
+#pgNow .hero-full { margin-bottom: clamp(10px, 2.8dvh, 44px); }
+#pgNow .timeline-wrap { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+#pgNow .section-head { flex: none; }
+#pgNow .timeline { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+#pgNow .tl-months { flex: 1 1 auto; min-height: 0; max-height: none; }
+#pgNow .timeline-inner { flex: none; }
+
+/* shed detail when the screen is short (app.js adds these one at a time until it fits) */
+#pgNow.f1 .hero-full { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 0; margin-bottom: 10px; }
+#pgNow.f1 #heroPlace, #pgNow.f1 .hero-foot .dot-sep { display: none; }
+#pgNow.f1 .hero-foot { padding-top: 10px; margin-top: 0; }
+#pgNow.f2 .venue { min-height: 0; padding-top: 10px; padding-bottom: 10px; }
+#pgNow.f2 .venue-kicker, #pgNow.f2 .venue-credit { display: none; }
+#pgNow.f2 .venue figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+#pgNow.f2 .venue-city { font-size: 20px; }
+#pgNow.f2 .hero-body { gap: 12px; }
+#pgNow.f3 .hero-full, #pgNow.f3 .hero-updated { display: none; }
+#pgNow.f3 .hero-picks { min-height: 0; }
+#pgNow.f3 .pick { padding-top: 6px; padding-bottom: 6px; }
+#pgNow.f3 .unit { gap: 4px; }
+#pgNow.f4 .venue { display: none; }
+#pgNow.f4 .hero-foot #heroWhen { display: none; }
+#pgNow.f5 .timeline-wrap { display: none; }
+#pgNow.f3 #heroIcs { display: none; }
+@media (max-width: 640px) {
+  #pgNow .section-head { gap: 4px 10px; margin-bottom: 4px; }
+  #pgNow .section-head h2 { font-size: 18px; }
+  #pgNow .legend { font-size: 11px; }
+  #pgNow .lg-hint { display: none; }
+  #pgNow.f3 .hero-actions { display: grid; grid-template-columns: 2fr 1fr; gap: 8px; width: 100%; }
+}
+#pgNow .hero-foot { min-height: 0; margin-top: clamp(12px, 2.6dvh, 36px); }
+#pgNow .section-head { margin-top: clamp(8px, 2.4dvh, 48px); }
+#pgNow.f2 .hero-picks { min-height: 0; }
+@media (max-width: 640px) { #pgNow.f3 #heroLink { grid-column: auto; } }
+.page-bg { max-height: 100dvh; } /* the countdown page is one screen; the photo never needs to reach further */

@@ -506,6 +506,7 @@
 
   // Home timeline by default; the planner passes its own element and asks for the resubmission path.
   function renderTimeline(list, now, opts = {}) {
+    if (!opts.el) scheduleFit(); // the strip can grow a row (a picked conference adds its dates)
     const tl = opts.el || $("#timeline");
     if (!opts.el) timelineList = list;
     // the past three months for context, then this month and the next nine
@@ -1036,7 +1037,7 @@
       if (show) { visible.push(c); n[c.group]++; }
     }
     $("#countUp").textContent = n.up;
-    $("#pnCount").textContent = $("#pgNextN").textContent = n.up;
+    $("#pnCount").textContent = n.up;
     $("#countReview").textContent = n.review;
     $("#countPast").textContent = n.done;
     // "★ Mine" with nothing starred: offer quick stars instead of three empty tabs
@@ -1167,6 +1168,49 @@
   let page = 0;
   const pagePos = [0, 0];
   let goPage = () => {};
+
+  /* The countdown page is exactly one screen tall on every device: the timeline takes what the hero leaves
+     (and scrolls inside its own box). If the hero leaves too little, it sheds detail step by step
+     (f1…f5, see style.css), and as a last resort it is scaled down. */
+  const FIT = ["f1", "f2", "f3", "f4", "f5"];
+  let fitQueued = false;
+  function fitNow() {
+    const pg = $("#pgNow"), hero = $("#hero"), wrap = $(".timeline-wrap"), nav = $("#pagerNav");
+    if (!pg || !nav) return;
+    const top = $("#pagerTrack").getBoundingClientRect().top + window.scrollY;
+    const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    const navRoom = nav.offsetHeight + 2 * (window.innerHeight - nav.getBoundingClientRect().bottom) ;
+    pg.style.setProperty("--now-h", Math.max(0, Math.floor(vh - top)) + "px");
+    pg.style.setProperty("--nav-room", Math.ceil(navRoom) + "px");
+    const room = vh - top - navRoom;
+    pg.classList.remove(...FIT);
+    hero.style.zoom = "";
+    // what the timeline needs: its strip on wide screens, a few month rows on phones
+    const tlNeed = () => {
+      if (pg.classList.contains("f5")) return 0;
+      const head = $(".section-head", wrap).offsetHeight + 12;
+      const inner = $(".timeline-inner", wrap);
+      return head + (inner ? inner.offsetHeight + 8 : 150);
+    };
+    const heroH = () => hero.getBoundingClientRect().height;
+    // shed detail first, then shrink a little, then drop the venue card, shrink more, and only then the timeline
+    const steps = ["f1", "f2", "f3", 0.85, "f4", 0.72, "f5"];
+    for (const st of steps) {
+      hero.style.zoom = "";
+      const space = room - tlNeed();
+      if (heroH() <= space) return;
+      if (typeof st === "number") {
+        const z = space / heroH();
+        if (z >= st) { hero.style.zoom = z.toFixed(3); return; }
+      } else pg.classList.add(st);
+    }
+    if (heroH() > room) hero.style.zoom = Math.max(0.4, room / heroH()).toFixed(3);
+  }
+  const scheduleFit = () => {
+    if (fitQueued) return;
+    fitQueued = true;
+    requestAnimationFrame(() => { fitQueued = false; fitNow(); });
+  };
   function initPager() {
     const pager = $("#pager"), track = $("#pagerTrack"), pgs = [$("#pgNow"), $("#pgList")];
     const nav = $("#pagerNav"), navBtns = $$("[data-go]", nav);
@@ -1176,6 +1220,7 @@
       pgs.forEach((el, k) => { el.classList.toggle("is-cur", k === i); el.inert = k !== i; });
       navBtns.forEach((b, k) => b.setAttribute("aria-selected", k === i));
       document.body.dataset.page = i ? "list" : "now";
+      document.documentElement.classList.toggle("on-now", !i); // the countdown page never scrolls
       setGlide(i);
     };
     // show both pages, the incoming one shifted so it appears where it will sit after the switch
@@ -1193,6 +1238,7 @@
       endMove();
       page = to;
       mark(to);
+      if (to === 0) { pagePos[0] = 0; fitNow(); }
       store.set("page", to);
       window.scrollTo({ top: pagePos[to], behavior: "instant" });
       if (window.ScrollTrigger) ScrollTrigger.refresh();
@@ -1215,6 +1261,11 @@
 
     page = location.hash.startsWith("#c=") ? 0 : store.get("page", 0) === 1 ? 1 : 0;
     mark(page);
+    fitNow();
+    window.addEventListener("resize", scheduleFit);
+    if (window.visualViewport) window.visualViewport.addEventListener("resize", scheduleFit);
+    if (window.ResizeObserver) new ResizeObserver(scheduleFit).observe($("#hero"));
+    if (document.fonts) document.fonts.ready.then(scheduleFit);
     track.style.transform = "";
     pager.classList.toggle("on-list", page === 1); // first paint without a slide
     requestAnimationFrame(() => pager.classList.remove("on-list"));
@@ -1225,7 +1276,7 @@
       const to = +b.dataset.go;
       // tapping the tab you're on goes back to the top of that page
       if (to === page) window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
-      else goPage(to, null, to === 1 && b.classList.contains("pg-next") ? 0 : undefined);
+      else goPage(to);
     });
     document.addEventListener("keydown", e => {
       if (e.altKey || e.ctrlKey || e.metaKey || e.target.closest("input, textarea, select, [contenteditable]")) return;
