@@ -1419,3 +1419,19 @@ html.on-now .to-top { display: none !important; }
 .tlv-bare:hover, .tlv-dot:hover, .tlv-bare:focus-visible, .tlv-dot:focus-visible { transform: scale(1.6); opacity: 1; }
 .timeline.has-glow .tlv-bare.tl-dim, .timeline.has-glow .tlv-dot.tl-dim { opacity: .25; }
 @media (max-height: 480px) { #pgNow.m-cols .legend { display: none; } }
+
+/* ---------- timeline header: title and its two switches on one line, the legend under them ---------- */
+.timeline-wrap .section-head { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px 12px; }
+.timeline-wrap .section-head .legend { grid-column: 1 / -1; }
+.tl-ctl { display: flex; align-items: center; gap: 6px; }
+.tl-seg button { padding: 4px 9px; font: 600 12px var(--mono); display: inline-grid; place-items: center; min-height: 26px; }
+#pgNow.m-cols .section-head { display: grid; flex-direction: initial; align-items: center; }
+/* week ticks and mid-month marks on the shorter spans */
+.tl-wk { position: absolute; top: calc(var(--axis) - 3px); width: 1px; height: 6px; background: var(--line); }
+.tl-month.tl-mid { font-size: 10.5px; opacity: .7; }
+.tl-month.tl-mid::before { height: 4px; top: -8px; }
+.tlv-wk { position: absolute; width: 6px; height: 1px; background: var(--line); }
+.tlv-month.tlv-mid { font-size: 10px; opacity: .65; }
+/* the month list in the countdown page fills its box */
+#pgNow .timeline.is-list { overflow: hidden; }
+#pgNow .timeline.is-list .tl-months { flex: 1 1 auto; min-height: 0; max-height: none; }

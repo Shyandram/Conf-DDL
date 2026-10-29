@@ -36,7 +36,7 @@
 | | |
 |---|---|
 | **⏱ Countdown** | The next deadline, over a photo of the host city. After submission closes, it counts down to the rebuttal and then the decision. |
-| **⌕ Search and filters** | Filter by field, NYCU A/B, CCF-A/B or confirmed dates, and see everything on a 12-month timeline. |
+| **⌕ Search and filters** | Filter by field, NYCU A/B, CCF-A/B or confirmed dates, and see everything on a timeline (3 months to a year, as an axis or month by month). |
 | **↻ Planner** | Find where a paper can go next, during the rebuttal or after the decision. |
 | **★ Star** | Follow a series every year. Stars sync between your phone and computer. |
 | **▦ Calendar** | Subscribe to a feed that updates with the data: all deadlines, one field, one series, or just your starred ones. |

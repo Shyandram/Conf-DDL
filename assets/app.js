@@ -31,6 +31,8 @@
     q: "",
     areas: new Set(store.get("areas", [])),
     onlyConfirmed: store.get("onlyConfirmed", false),
+    tlView: store.get("tlView", "axis") === "list" ? "list" : "axis", // the timeline as an axis or a list of months
+    tlRange: [3, 6, 12].includes(store.get("tlRange", 12)) ? store.get("tlRange", 12) : 12, // months shown
     // rank filters (gradeA, gradeB, ccfA, ccfB): a conference shows if it matches any one that is on
     ranks: new Set(RANKS.filter(k => store.get(k, false))),
     onlyStarred: store.get("onlyStarred", false), // the "★ Mine" scope above the list
@@ -510,18 +512,33 @@
     if (!opts.el) scheduleFit(); // the strip can grow a row (a picked conference adds its dates)
     const tl = opts.el || $("#timeline");
     if (!opts.el) timelineList = list;
-    // the past three months for context, then this month and the next nine
-    const start = new Date(now); start.setDate(1); start.setHours(0, 0, 0, 0); start.setMonth(start.getMonth() - 3);
-    const end = new Date(start); end.setMonth(end.getMonth() + 13);
+    // the span shown (home timeline only; the planner always shows a year):
+    //   1 year: the past three months for context, then this month and the next nine
+    //   6 months: last month, then this one and the next four
+    //   3 months: the past two weeks, then about ten weeks ahead
+    const range = opts.el ? 12 : state.tlRange;
+    const start = new Date(now); start.setHours(0, 0, 0, 0);
+    if (range === 3) start.setDate(start.getDate() - 14);
+    else { start.setDate(1); start.setMonth(start.getMonth() - (range === 6 ? 1 : 3)); }
+    const end = new Date(start); end.setMonth(end.getMonth() + (range === 12 ? 13 : range));
     const span = end - start;
     const x = ms => ((ms - start) / span) * 100;
+    // month boundaries inside the span, and (for the shorter spans) weeks and mid-months
+    const bounds = [];
+    for (const m = new Date(start.getFullYear(), start.getMonth() + 1, 1); +m < +end; m.setMonth(m.getMonth() + 1)) bounds.push(new Date(m));
+    const monthName = m => m.toLocaleString(undefined, { month: "short" }) + (m.getMonth() === 0 ? ` ’${String(m.getFullYear()).slice(2)}` : "");
+    const mids = range === 3 ? [...bounds.map(m => new Date(m.getFullYear(), m.getMonth() - 1, 15)), new Date(end.getFullYear(), end.getMonth(), 15)]
+      .filter(d => +d > +start && +d < +end) : [];
+    const weeks = [];
+    if (range < 12) for (const d = new Date(start); +d < +end; d.setDate(d.getDate() + 1)) if (d.getDay() === 1) weeks.push(+d);
+    const asList = !opts.el && state.tlView === "list";
 
     let html = `<div class="timeline-inner"><div class="tl-axis"></div>`;
-    for (let i = 1; i < 13; i++) { // no labels on the edges, they would be clipped
-      const m = new Date(start); m.setMonth(m.getMonth() + i);
-      const label = m.toLocaleString(undefined, { month: "short" }) + (m.getMonth() === 0 ? ` ’${String(m.getFullYear()).slice(2)}` : "");
-      html += `<span class="tl-month" style="left:${x(+m)}%">${esc(label)}</span>`;
-    }
+    weeks.forEach(w => { html += `<i class="tl-wk" style="left:${x(w)}%"></i>`; });
+    bounds.forEach(m => { // no labels on the edges, they would be clipped
+      if (x(+m) > 2 && x(+m) < 98) html += `<span class="tl-month" style="left:${x(+m)}%">${esc(monthName(m))}</span>`;
+    });
+    mids.forEach(d => { html += `<span class="tl-month tl-mid" style="left:${x(+d)}%">15</span>`; });
     html += `<div class="tl-past" style="width:${x(now)}%"></div><div class="tl-today" style="left:${x(now)}%"></div>`;
 
     // Labels hang to the right of their pin; stack them on rows so none overlap.
@@ -616,28 +633,57 @@
       }));
       html += `<svg class="tl-arcs" viewBox="0 0 100 70" preserveAspectRatio="none" aria-hidden="true">${arcs.join("")}</svg>`;
     }
+    // the month list (chosen with the Axis / Months switch): the same dates, one row per month
+    if (asList) {
+      const items = [...events, ...list.filter(c => c !== sel).map(c => ({ c, ...(next(c) || {}) })).filter(e => e.ev && e.at >= +start && e.at < +end)];
+      const first = new Date(start); first.setDate(1); first.setHours(0, 0, 0, 0);
+      const months = [];
+      for (const m = new Date(first); +m < +end; m.setMonth(m.getMonth() + 1)) months.push({ m: new Date(m), items: [] });
+      items.forEach(e => {
+        const d = new Date(e.at), i = (d.getFullYear() - first.getFullYear()) * 12 + d.getMonth() - first.getMonth();
+        if (months[i]) months[i].items.push(e);
+      });
+      const thisMonth = new Date(now).getMonth(), thisYear = new Date(now).getFullYear();
+      html = `<div class="tl-months">` + months.map(({ m, items }) => {
+        const isNow = m.getMonth() === thisMonth && m.getFullYear() === thisYear, isPast = !isNow && +m < now;
+        const name = m.toLocaleString(undefined, { month: "short" }), yr = m.getMonth() === 0 || isNow ? ` ’${String(m.getFullYear()).slice(2)}` : "";
+        const chips = items.sort((a, b) => a.at - b.at).map(e => {
+          const cls = `tl-chip ev-${e.ev}${e.ev === "ddl" && e.c.status !== "confirmed" ? " est" : ""}${e.at <= now ? " past" : ""}${role(e.c)}`;
+          const text = e.text || `${e.c.title} ${String(e.c.year).slice(2)}`;
+          return `<button type="button" class="${cls}" data-id="${esc(e.c.id)}" title="${esc(tipOf(e.c))}">${esc(text)}${e.text ? "" : `<small>${new Date(e.at).getDate()}</small>`}</button>`;
+        }).join("");
+        return `<div class="tl-mrow${isNow ? " is-now" : ""}${isPast ? " is-past" : ""}"><span class="tl-mname">${esc(name)}<small>${esc(yr)}</small></span><div class="tl-mchips">${chips || `<span class="tl-mempty">—</span>`}</div></div>`;
+      }).join("") + `</div>`;
+      const keep = $(".tl-months", tl)?.scrollTop;
+      tl.innerHTML = html;
+      if (opts.quiet && keep != null) $(".tl-months", tl).scrollTop = keep; // a tap re-renders; stay where the reader was
+      else { const row = $(".tl-mrow.is-now", tl), box = $(".tl-months", tl); if (row && box) box.scrollTop = row.offsetTop - box.offsetTop - 8; }
+      tl.classList.remove("is-vert");
+      tl.classList.add("is-list");
     // tall boxes (the countdown page in two columns, or in portrait): the same axis, standing up.
     // Time runs down a line on the left, names hang to its right in up to four lanes; the rest stay bare dots.
-    if (narrow && !opts.el) {
+    } else if (narrow && !opts.el) {
       const H = Math.max(tl.clientHeight, 110), Wd = Math.max(tl.clientWidth, 220);
       const AX = 46, PAD = 12, SLOT = 22;
       const y = ms => PAD + ((ms - start) / span) * (H - 2 * PAD);
       const lanes = Math.max(1, Math.min(4, Math.floor((Wd - AX - 14) / 118)));
       const laneW = (Wd - AX - 14) / lanes;
       const nowM = new Date(now);
-      const gap = (H - 2 * PAD) / 13;
-      const sameAsNow = i => { const m = new Date(start); m.setMonth(m.getMonth() + i); return m.getMonth() === nowM.getMonth() && m.getFullYear() === nowM.getFullYear(); };
+      const gap = (H - 2 * PAD) * (30.4 * DAY) / span; // pixels per month
       let v = `<div class="tlv" style="height:${H}px"><div class="tlv-past" style="height:${y(now)}px"></div><div class="tlv-axis" style="left:${AX}px"></div>`;
-      for (let i = 0; i < 13; i++) {
-        const m = new Date(start); m.setMonth(m.getMonth() + i);
-        const n = new Date(m); n.setMonth(n.getMonth() + 1);
+      weeks.forEach(w => { v += `<i class="tlv-wk" style="top:${y(w)}px;left:${AX - 3}px"></i>`; });
+      bounds.forEach(m => { v += `<i class="tlv-tick" style="top:${y(+m)}px;left:${AX - 5}px"></i>`; });
+      // each month is named at the middle of the part of it that shows
+      const segs = [new Date(start), ...bounds].map((m, i, all) => ({ m, a: +m, b: i + 1 < all.length ? +all[i + 1] : +end }));
+      segs.forEach(({ m, a, b }, i) => {
+        if (y(b) - y(a) < 11) return; // a sliver at the edge
         const isNow = m.getMonth() === nowM.getMonth() && m.getFullYear() === nowM.getFullYear();
-        const label = m.toLocaleString(undefined, { month: "short" }) + (m.getMonth() === 0 || isNow ? ` ’${String(m.getFullYear()).slice(2)}` : "");
-        if (i) v += `<i class="tlv-tick" style="top:${y(+m)}px;left:${AX - 5}px"></i>`;
         // a short box names every other month (always this one and January)
-        if (gap >= 15 || isNow || m.getMonth() === 0 || (i % 2 === 1 && !sameAsNow(i - 1) && !sameAsNow(i + 1)))
-          v += `<span class="tlv-month${isNow ? " is-now" : ""}" style="top:${(y(+m) + y(+n)) / 2}px;width:${AX - 10}px">${esc(label)}</span>`;
-      }
+        if (gap < 15 && !isNow && m.getMonth() !== 0 && i % 2 === 0) return;
+        const label = m.toLocaleString(undefined, { month: "short" }) + (m.getMonth() === 0 || isNow ? ` ’${String(m.getFullYear()).slice(2)}` : "");
+        v += `<span class="tlv-month${isNow ? " is-now" : ""}" style="top:${(y(a) + y(b)) / 2}px;width:${AX - 10}px">${esc(label)}</span>`;
+      });
+      mids.forEach(d => { v += `<span class="tlv-month tlv-mid" style="top:${y(+d)}px;width:${AX - 10}px">15</span>`; });
       v += `<div class="tlv-today" style="top:${y(now)}px;left:${AX}px"><span>today</span></div>`;
       const used = Array.from({ length: lanes }, () => []);
       const placed = [...events].sort((p, q) => rank(q) - rank(p)).map(e => {
@@ -665,9 +711,10 @@
       });
       tl.innerHTML = v + `</div>`;
       tl.classList.add("is-vert");
+      tl.classList.remove("is-list");
     } else {
       tl.innerHTML = html + `</div>`;
-      tl.classList.remove("is-vert");
+      tl.classList.remove("is-vert", "is-list");
     }
     tl.classList.toggle("has-path", !!path);
     tl.classList.toggle("has-glow", !!glow);
@@ -1250,12 +1297,12 @@
       const head = () => $(".section-head", wrap).offsetHeight + 12;
       const strip = () => { const inner = $(".timeline-inner", wrap); return head() + (inner ? inner.offsetHeight + 8 : 170); };
       const list = () => head() + Math.min(320, Math.max(190, room * 0.36)); // room for the standing axis
-      if (!(W >= 700 && tryMode("m-h", 2, 0.9, strip))) {
+      if (!(W >= 700 && tryMode("m-h", 2, 0.9, state.tlView === "list" ? list : strip))) {
         if (W / Math.max(room, 1) >= 1.15) tryMode("m-cols", 4, 0.3, () => 0);
         else tryMode("m-v", 4, 0.3, list);
       }
       // the standing axis is laid out in pixels for its box; draw it again now that the hero has settled
-      if (tlVertical && timelineList.length) renderTimeline(timelineList, Date.now(), { quiet: true });
+      if ((tlVertical || state.tlView === "list") && timelineList.length) renderTimeline(timelineList, Date.now(), { quiet: true });
       // the city photo: behind the whole screen when the timeline sits beside the hero;
       // otherwise it ends just inside the timeline, which then sits on solid ground
       const bg = $(".page-bg");
@@ -1657,7 +1704,7 @@
     window.addEventListener("hashchange", openShared);
     $("#rail").addEventListener("click", jump);
     $("#timeline").addEventListener("click", e => {
-      const pin = e.target.closest(".tl-pin, .tl-dot, .tl-bare, .tlv-pin, .tlv-bare, .tlv-dot");
+      const pin = e.target.closest(".tl-pin, .tl-dot, .tl-bare, .tlv-pin, .tlv-bare, .tlv-dot, .tl-chip");
       if (!pin) return;
       // click lights up the next venues (and shows it in the big countdown); clicking it again clears
       const again = state.lightId === pin.dataset.id;
@@ -1675,6 +1722,21 @@
       if (!b) return;
       clearShared();
       showCountdown(b.closest(".card").dataset.id);
+    });
+
+    // Axis / Months and 3M / 6M / 1Y above the timeline
+    const tlCtl = () => {
+      $$("#tlView button").forEach(b => b.classList.toggle("is-on", b.dataset.view === state.tlView));
+      $$("#tlRange button").forEach(b => b.classList.toggle("is-on", +b.dataset.range === state.tlRange));
+    };
+    tlCtl();
+    $(".tl-ctl").addEventListener("click", e => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      if (b.dataset.view) { state.tlView = b.dataset.view; store.set("tlView", state.tlView); }
+      if (b.dataset.range) { state.tlRange = +b.dataset.range; store.set("tlRange", state.tlRange); }
+      tlCtl();
+      renderTimeline(timelineList, Date.now(), { quiet: true });
     });
 
     $("#tlLegend").addEventListener("click", e => {
