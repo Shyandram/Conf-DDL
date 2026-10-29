@@ -1353,3 +1353,8 @@ html.on-now .to-top { display: none !important; }
 #pgNow.m-cols .lg-hint { display: none; }
 #pgNow.m-cols .tl-mrow { grid-template-columns: 50px 1fr; }
 @media (max-width: 1180px) { .now-aoe { display: none; } } /* the top bar keeps room for its buttons */
+/* two columns: the photo runs behind the timeline column too, so that column gets a soft glass of its own */
+#pgNow.m-cols .timeline-wrap {
+  background: color-mix(in srgb, var(--bg) 72%, transparent); border-radius: 18px 0 0 0;
+  -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2);
+}

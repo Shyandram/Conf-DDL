@@ -1223,9 +1223,15 @@
       const head = () => $(".section-head", wrap).offsetHeight + 12;
       const strip = () => { const inner = $(".timeline-inner", wrap); return head() + (inner ? inner.offsetHeight + 8 : 170); };
       const list = () => head() + Math.min(220, Math.max(150, room * 0.3)); // a few month rows at least
-      if (W >= 700 && tryMode("m-h", 2, 0.9, strip)) return;
-      if (W / Math.max(room, 1) >= 1.15) tryMode("m-cols", 4, 0.3, () => 0);
-      else tryMode("m-v", 4, 0.3, list);
+      if (!(W >= 700 && tryMode("m-h", 2, 0.9, strip))) {
+        if (W / Math.max(room, 1) >= 1.15) tryMode("m-cols", 4, 0.3, () => 0);
+        else tryMode("m-v", 4, 0.3, list);
+      }
+      // the city photo: behind the whole screen when the timeline sits beside the hero;
+      // otherwise it ends just inside the timeline, which then sits on solid ground
+      const bg = $(".page-bg");
+      if (pg.classList.contains("m-cols")) bg.style.height = Math.ceil(window.innerHeight) + "px";
+      else bg.style.height = Math.round(wrap.getBoundingClientRect().top - pg.getBoundingClientRect().top + top + 70) + "px";
     } finally { fitting = false; }
   }
   const scheduleFit = () => {
@@ -1508,14 +1514,6 @@
       if (hasGsap && !reduced) gsap.fromTo("#photoNext svg", { rotate: 0 }, { rotate: 360, duration: 0.6, ease: "power2.out" });
     });
 
-    // the photo ends just inside the timeline section, so the timeline and everything below sit on solid ground
-    const sizeBg = () => {
-      const t = $(".timeline-wrap").getBoundingClientRect().top + window.scrollY;
-      $(".page-bg").style.height = Math.round(t + 70) + "px";
-    };
-    sizeBg();
-    window.addEventListener("resize", sizeBg);
-    if (window.ResizeObserver) new ResizeObserver(sizeBg).observe($("#hero"));
 
     // Mouse light (off by default; the bulb in the top bar turns it on). Only surfaces that are on screen and within
     // LIGHT_RANGE of the cursor get --lx / --ly (cursor position in their own box), so each move repaints just those.
