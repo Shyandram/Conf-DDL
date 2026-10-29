@@ -503,6 +503,7 @@
   /* ---------- timeline ---------- */
 
   let timelineList = [];
+  let tlVertical = matchMedia("(max-width: 640px)").matches;
 
   // Home timeline by default; the planner passes its own element and asks for the resubmission path.
   function renderTimeline(list, now, opts = {}) {
@@ -525,7 +526,7 @@
 
     // Labels hang to the right of their pin; stack them on rows so none overlap.
     // phones scroll a wider strip sideways (see style.css); the label budget keeps the height fixed
-    const narrow = matchMedia("(max-width: 640px)").matches; // same breakpoint as the scrolling strip in style.css
+    const narrow = tlVertical; // a list of months instead of the strip: set by the countdown page's layout (fitNow)
     const W = Math.max(tl.clientWidth, 720), MAXROW = 3; // 3 rows of names; a clicked conference adds a 4th for its dates
     // one labelled block per conference, at its deadline; a conference in review also gets a small dot on the
     // axis at its next date — amber for rebuttal (when it opens, or closes once open), green for the decision
@@ -1169,45 +1170,66 @@
   const pagePos = [0, 0];
   let goPage = () => {};
 
-  /* The countdown page is exactly one screen tall on every device: the timeline takes what the hero leaves
-     (and scrolls inside its own box). If the hero leaves too little, it sheds detail step by step
-     (f1…f5, see style.css), and as a last resort it is scaled down. */
-  const FIT = ["f1", "f2", "f3", "f4", "f5"];
-  let fitQueued = false;
+  /* The countdown page is exactly one screen tall on every device, laid out for the shape of the screen:
+       h    wide and tall enough: the hero, then the timeline as a horizontal strip
+       cols landscape: the hero on the left, the timeline as a list of months on the right, full height
+       v    portrait: the hero, then the list of months below it
+     The list of months scrolls inside its own box. If the hero is too tall for its space it sheds detail
+     step by step (f1…f4, see style.css) and then scales down; the timeline always stays. */
+  const FIT = ["f1", "f2", "f3", "f4"], LAYOUTS = ["m-h", "m-cols", "m-v"];
+  let fitQueued = false, fitting = false;
   function fitNow() {
     const pg = $("#pgNow"), hero = $("#hero"), wrap = $(".timeline-wrap"), nav = $("#pagerNav");
-    if (!pg || !nav) return;
-    const top = $("#pagerTrack").getBoundingClientRect().top + window.scrollY;
-    const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-    const navRoom = nav.offsetHeight + 2 * (window.innerHeight - nav.getBoundingClientRect().bottom) ;
-    pg.style.setProperty("--now-h", Math.max(0, Math.floor(vh - top)) + "px");
-    pg.style.setProperty("--nav-room", Math.ceil(navRoom) + "px");
-    const room = vh - top - navRoom;
-    pg.classList.remove(...FIT);
-    hero.style.zoom = "";
-    // what the timeline needs: its strip on wide screens, a few month rows on phones
-    const tlNeed = () => {
-      if (pg.classList.contains("f5")) return 0;
-      const head = $(".section-head", wrap).offsetHeight + 12;
-      const inner = $(".timeline-inner", wrap);
-      return head + (inner ? inner.offsetHeight + 8 : 150);
-    };
-    const heroH = () => hero.getBoundingClientRect().height;
-    // shed detail first, then shrink a little, then drop the venue card, shrink more, and only then the timeline
-    const steps = ["f1", "f2", "f3", 0.85, "f4", 0.72, "f5"];
-    for (const st of steps) {
-      hero.style.zoom = "";
-      const space = room - tlNeed();
-      if (heroH() <= space) return;
-      if (typeof st === "number") {
-        const z = space / heroH();
-        if (z >= st) { hero.style.zoom = z.toFixed(3); return; }
-      } else pg.classList.add(st);
-    }
-    if (heroH() > room) hero.style.zoom = Math.max(0.4, room / heroH()).toFixed(3);
+    if (!pg || !nav || fitting) return;
+    fitting = true;
+    try {
+      const top = $("#pagerTrack").getBoundingClientRect().top + window.scrollY;
+      const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      const navRoom = nav.offsetHeight + 2 * Math.max(8, window.innerHeight - nav.getBoundingClientRect().bottom);
+      pg.style.setProperty("--now-h", Math.max(0, Math.floor(vh - top)) + "px");
+      pg.style.setProperty("--nav-room", Math.ceil(navRoom) + "px");
+      const room = vh - top - navRoom, W = pg.clientWidth;
+      const heroH = () => hero.getBoundingClientRect().height;
+      const useList = v => {
+        if (tlVertical === v) return;
+        tlVertical = v;
+        if (timelineList.length) renderTimeline(timelineList, Date.now(), { quiet: true });
+      };
+      // try one layout: shed up to maxLevel steps, then scale down to minZoom; true if it fits
+      const tryMode = (mode, maxLevel, minZoom, tlNeed) => {
+        pg.classList.remove(...LAYOUTS, ...FIT);
+        pg.classList.add(mode);
+        useList(mode !== "m-h");
+        for (let i = 0; ; i++) {
+          hero.style.zoom = "";
+          const space = room - tlNeed();
+          if (heroH() <= space) return true;
+          if (i >= maxLevel) {
+            // scaling widens the clock's container (its digits size to it), so settle in a few passes
+            let z = space / heroH();
+            if (z < minZoom) return false;
+            for (let k = 0; k < 4; k++) {
+              hero.style.zoom = z.toFixed(3);
+              const h = heroH();
+              if (h <= space && h > space - 4) break;
+              z *= space / h;
+            }
+            if (heroH() > space) hero.style.zoom = (z * space / heroH() - 0.005).toFixed(3);
+            return parseFloat(hero.style.zoom) >= minZoom;
+          }
+          pg.classList.add(FIT[i]);
+        }
+      };
+      const head = () => $(".section-head", wrap).offsetHeight + 12;
+      const strip = () => { const inner = $(".timeline-inner", wrap); return head() + (inner ? inner.offsetHeight + 8 : 170); };
+      const list = () => head() + Math.min(220, Math.max(150, room * 0.3)); // a few month rows at least
+      if (W >= 700 && tryMode("m-h", 2, 0.9, strip)) return;
+      if (W / Math.max(room, 1) >= 1.15) tryMode("m-cols", 4, 0.3, () => 0);
+      else tryMode("m-v", 4, 0.3, list);
+    } finally { fitting = false; }
   }
   const scheduleFit = () => {
-    if (fitQueued) return;
+    if (fitQueued || fitting) return; // fitNow re-renders the timeline itself; don't loop
     fitQueued = true;
     requestAnimationFrame(() => { fitQueued = false; fitNow(); });
   };

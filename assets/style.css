@@ -1322,7 +1322,6 @@ html.on-now .to-top { display: none !important; }
 #pgNow.f3 .unit { gap: 4px; }
 #pgNow.f4 .venue { display: none; }
 #pgNow.f4 .hero-foot #heroWhen { display: none; }
-#pgNow.f5 .timeline-wrap { display: none; }
 #pgNow.f3 #heroIcs { display: none; }
 @media (max-width: 640px) {
   #pgNow .section-head { gap: 4px 10px; margin-bottom: 4px; }
@@ -1336,3 +1335,21 @@ html.on-now .to-top { display: none !important; }
 #pgNow.f2 .hero-picks { min-height: 0; }
 @media (max-width: 640px) { #pgNow.f3 #heroLink { grid-column: auto; } }
 .page-bg { max-height: 100dvh; } /* the countdown page is one screen; the photo never needs to reach further */
+
+/* landscape: hero on the left, the timeline as a full-height list of months on the right */
+#pgNow.m-cols {
+  display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(220px, 1fr); grid-template-rows: minmax(0, 1fr);
+  column-gap: clamp(18px, 3vw, 52px); align-items: stretch;
+}
+#pgNow.m-cols .hero { align-self: center; min-width: 0; }
+#pgNow.m-cols .hero-body { grid-template-columns: minmax(0, 1fr); }
+#pgNow.m-cols .hero-actions { margin-left: 0; }
+#pgNow.m-cols .timeline-wrap {
+  min-height: 0; padding: clamp(10px, 3dvh, 36px) 0 0 clamp(14px, 2vw, 28px); border-left: 1px solid var(--line);
+}
+#pgNow.m-cols .section-head { margin-top: 0; flex-direction: column; align-items: flex-start; gap: 6px; }
+#pgNow.m-cols .section-head h2 { font-size: clamp(17px, 2vw, 24px); }
+#pgNow.m-cols .legend { font-size: 11.5px; }
+#pgNow.m-cols .lg-hint { display: none; }
+#pgNow.m-cols .tl-mrow { grid-template-columns: 50px 1fr; }
+@media (max-width: 1180px) { .now-aoe { display: none; } } /* the top bar keeps room for its buttons */
