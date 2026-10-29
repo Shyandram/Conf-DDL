@@ -1461,3 +1461,27 @@ html.on-now .to-top { display: none !important; }
 #pgNow.m-cols .tl-mrow { grid-template-columns: 40px 1fr; gap: 8px; }
 #pgNow.m-cols .tl-mname { font-size: 11.5px; }
 #pgNow.m-cols .tl-chip { padding: 3px 7px; font-size: 11px; }
+
+/* ---------- two columns: the timeline folds into a thin strip ---------- */
+.tl-fold { display: none; }
+#pgNow.m-cols .tl-fold {
+  display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0; border-radius: 999px;
+  border: 1px solid var(--line-2); background: var(--bg-2); color: var(--ink-2); cursor: pointer;
+}
+#pgNow.m-cols .tl-fold:hover { color: var(--ink); border-color: var(--ink-2); }
+.tl-fold i { width: 7px; height: 7px; border: solid currentColor; border-width: 2px 2px 0 0; rotate: 45deg; margin-left: -3px; }
+.tl-fold span { display: none; }
+#pgNow.m-cols.tl-folded { grid-template-columns: minmax(0, 1fr) 46px; }
+#pgNow.m-cols.tl-folded .timeline-wrap { position: relative; padding: 0; }
+#pgNow.m-cols.tl-folded .timeline-wrap > :not(.section-head),
+#pgNow.m-cols.tl-folded .section-head > :not(.tl-ctl), #pgNow.m-cols.tl-folded .tl-seg { display: none; }
+#pgNow.m-cols.tl-folded .tl-fold {
+  position: absolute; inset: 0; width: auto; height: auto; border: 0; border-radius: 18px 0 0 0;
+  background: none; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 14px;
+  padding-top: clamp(14px, 3dvh, 36px);
+}
+#pgNow.m-cols.tl-folded .tl-fold:hover { background: color-mix(in srgb, var(--ink) 5%, transparent); }
+#pgNow.m-cols.tl-folded .tl-fold i { rotate: -135deg; margin: 0 0 0 3px; }
+#pgNow.m-cols.tl-folded .tl-fold span {
+  display: block; writing-mode: vertical-rl; font: 600 12px var(--mono); letter-spacing: .14em; text-transform: uppercase;
+}

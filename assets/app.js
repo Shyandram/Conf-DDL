@@ -1751,8 +1751,21 @@
       $$("#tlRange button").forEach(b => b.classList.toggle("is-on", +b.dataset.range === state.tlRange));
     };
     tlCtl();
+    // in two columns the timeline can fold into a thin strip, leaving the screen to the countdown
+    const fold = on => {
+      $("#pgNow").classList.toggle("tl-folded", on);
+      $("#tlFold").setAttribute("aria-expanded", String(!on));
+      $("#tlFold").title = on ? "Show the timeline" : "Fold the timeline away";
+    };
+    fold(store.get("tlFold", false));
+    $("#tlFold").addEventListener("click", () => {
+      const on = !$("#pgNow").classList.contains("tl-folded");
+      store.set("tlFold", on);
+      fold(on);
+      fitNow();
+    });
     $(".tl-ctl").addEventListener("click", e => {
-      const b = e.target.closest("button");
+      const b = e.target.closest("button[data-view], button[data-range]");
       if (!b) return;
       if (b.dataset.view) { state.tlView = b.dataset.view; store.set("tlView", state.tlView); }
       if (b.dataset.range) { state.tlRange = +b.dataset.range; store.set("tlRange", state.tlRange); }
