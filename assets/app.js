@@ -1010,11 +1010,12 @@
     const order = Object.keys(data.areas).filter(a => counts[a]);
     $("#chips").innerHTML =
       `<button type="button" class="chip${state.areas.size ? "" : " is-on"}" data-area="">All</button>` +
-      order.map(a => `<button type="button" class="chip${state.areas.has(a) ? " is-on" : ""}" data-area="${esc(a)}" title="${esc(data.areas[a])}">${esc(a)}<b>${counts[a]}</b></button>`).join("");
+      order.map(a => `<button type="button" class="chip${state.areas.has(a) ? " is-on" : ""}" data-area="${esc(a)}" title="${esc(data.areas[a])}"><i class="ck" aria-hidden="true">✓</i>${esc(a)}<b>${counts[a]}</b></button>`).join("");
   }
 
   function apply({ animate = true } = {}) {
     const now = Date.now();
+    $("#clearFilters").hidden = !(state.areas.size || state.onlyConfirmed || state.ccfA || state.gradeA);
     const cards = confs.map(c => c.el);
     const useFlip = animate && hasGsap && window.Flip && !reduced;
 
@@ -1222,6 +1223,12 @@
     });
     oc.addEventListener("change", () => { state.onlyConfirmed = oc.checked; persist(); apply(); });
     ca.addEventListener("change", () => { state.ccfA = ca.checked; persist(); apply(); });
+    $("#clearFilters").addEventListener("click", () => {
+      state.areas.clear(); state.onlyConfirmed = state.ccfA = state.gradeA = false;
+      oc.checked = ca.checked = $("#gradeA").checked = false;
+      $$(".chip").forEach(el => el.classList.toggle("is-on", !el.dataset.area));
+      persist(); apply();
+    });
     const ga = $("#gradeA");
     ga.checked = state.gradeA;
     ga.addEventListener("change", () => { state.gradeA = ga.checked; persist(); apply(); });
@@ -1450,9 +1457,12 @@
     });
 
     // rows fold open to show the details
+    // the whole row opens it (not just the name), except the star and anything else clickable
     document.addEventListener("click", e => {
-      const btn = e.target.closest(".row-toggle");
-      if (!btn) return;
+      const main = e.target.closest(".row-main");
+      if (!main || e.target.closest(".star, a, button:not(.row-toggle)")) return;
+      if (!e.target.closest(".row-toggle") && String(getSelection())) return; // selecting a date to copy it
+      const btn = $(".row-toggle", main);
       const card = btn.closest(".card");
       const more = $(".row-more", card) || buildMore(confs.find(x => x.id === card.dataset.id));
       const open = !card.classList.contains("is-open");

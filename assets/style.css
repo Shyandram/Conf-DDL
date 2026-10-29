@@ -1169,3 +1169,60 @@ html.planner-open { overflow: hidden; }
   .tabs { gap: 12px; }
   .tab { font-size: 15.5px; }
 }
+
+/* ---------- one language for controls ----------
+   pill with a border  = a filter you can switch on (✓ when on)
+   flat label, no border = information about the conference, not clickable
+   rounded button       = an action (open, add, share, plan) */
+.ck { display: none; font-style: normal; font-weight: 700; margin-right: 5px; }
+.chip.is-on .ck { display: inline; }
+.toggles { align-items: center; gap: 6px; flex-wrap: wrap; }
+.ctl-lbl { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); margin-right: 4px; }
+.tg {
+  position: relative; gap: 0; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--card); font: 500 13.5px var(--sans); color: var(--ink-2);
+  box-shadow: inset 0 1px 0 var(--glass-hl); transition: color .2s, border-color .2s, background .2s;
+}
+.tg:hover { color: var(--ink); border-color: var(--line-2); }
+.tg input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; margin: 0; border-radius: inherit; background: none; }
+.tg input::after { content: none; }
+.tg:has(input:checked) { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.tg:has(input:checked) .ck { display: inline; }
+.tg:has(input:focus-visible), .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ctl-clear {
+  border: 0; background: none; cursor: pointer; padding: 6px 4px; margin-left: 4px;
+  font: 500 13px var(--sans); color: var(--accent); text-decoration: underline; text-underline-offset: 3px;
+}
+.ctl-clear[hidden] { display: none; }
+
+/* tags: flat, so they don't read as buttons */
+.tag { border-radius: 4px; }
+.tag:not(.tag-grade, .tag-ccf, .tag-ws, .tag-same, .tag-est) { border-color: transparent; background: color-mix(in srgb, var(--ink) 7%, transparent); }
+.tag-grade-B { border-color: transparent; }
+
+/* the whole row opens; the chevron shows it */
+.row-main { cursor: pointer; }
+.row-main .c-ddl, .row-main .c-steps b { cursor: text; }
+.card:hover .row-toggle::before, .card.is-open .row-toggle::before { color: var(--ink); }
+
+/* actions in an opened row */
+.c-actions { gap: 8px; margin-top: 2px; }
+.act {
+  display: inline-flex; align-items: center; gap: 4px; padding: 7px 13px; border-radius: 10px; cursor: pointer;
+  border: 1px solid var(--line-2); background: var(--card); color: var(--ink); text-decoration: none; white-space: nowrap;
+  font: 500 13.5px var(--sans); transition: border-color .2s, background .2s;
+}
+.act:hover { border-color: var(--u); background: var(--card-hover); }
+.act.c-link { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.act.c-link:hover { background: var(--ink); opacity: .88; }
+
+@media (max-width: 640px) {
+  .toggles { flex-wrap: nowrap; gap: 6px; }
+  .tg { flex: none; padding: 5px 11px; font-size: 13px; }
+  .ctl-lbl { display: none; }
+  .ctl-clear { flex: none; white-space: nowrap; }
+  .tg-more { display: none; }
+  .scope-word { display: inline; }
+  .c-actions .act { flex: 1 1 auto; justify-content: center; }
+}
+@media (max-width: 379px) { .scope-word { display: none; } }
