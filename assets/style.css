@@ -1096,3 +1096,6 @@ html.planner-open { overflow: hidden; }
 .foot-gh:hover { color: var(--ink); border-color: var(--ink); }
 .foot-license { font-size: 13px; }
 .foot-license a { color: inherit; }
+/* timeline legend while it follows a conference */
+.lg-follow b { color: var(--ink); font-weight: 600; }
+.lg-hint { color: var(--ink-3); font-style: italic; }

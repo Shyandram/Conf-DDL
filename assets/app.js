@@ -464,6 +464,7 @@
     const first = heroConf === null;
     heroConf = c;
     setVenue(c);
+    if (!first && !state.lightId && timelineList) renderTimeline(timelineList, Date.now(), { quiet: true }); // it follows the countdown
     const hero = $("#hero");
     if (!c) {
       $("#heroName").textContent = "All clear";
@@ -532,8 +533,11 @@
       if (c.dec && now < c.dec) return { at: c.dec, ev: "dec" };
       return null;
     };
-    // a clicked conference also gets its other dates as blocks of their own, labelled with the date
-    const sel = !opts.el && state.lightId && list.find(c => c.id === state.lightId);
+    // The home timeline always follows one conference: the one clicked, or else the one in the big countdown,
+    // so a first visit already shows where that paper could go next instead of an unexplained wall of pins.
+    const lightId = opts.el ? null : state.lightId || (heroConf && heroConf.id);
+    // the followed conference also gets its other dates as blocks of their own, labelled with the date
+    const sel = lightId && list.find(c => c.id === lightId);
     const extra = !sel ? [] : [
       null,
       sel.reb && { c: sel, at: sel.reb[0], ev: "reb", text: `Rebuttal ${fmtRange(sel.rebuttal)}` },
@@ -542,7 +546,7 @@
     const events = [...list.map(c => ({ c, at: c.ddl, ev: "ddl" })), ...extra].filter(e => e.at >= +start && e.at < +end).sort((a, b) => a.at - b.at);
     const path = opts.path && state.pathId ? resubmitPath(confs.find(c => c.id === state.pathId), now) : null;
     // home timeline: a clicked conference lights up where its paper could go next (no arcs, no panel)
-    const glow = !opts.el && state.lightId ? resubmitPath(confs.find(c => c.id === state.lightId), now) : null;
+    const glow = lightId ? resubmitPath(confs.find(c => c.id === lightId), now) : null;
     const lit = path || glow;
     const role = c => {
       if (!lit) return "";
@@ -554,7 +558,7 @@
       return " tl-dim";
     };
     // labels go to the most useful blocks first; the rest stay as bare dots (name on hover)
-    const rank = e => (e.text || e.c.id === state.lightId ? 1e4 : 0) + (lit && role(e.c) && !role(e.c).includes("dim") ? 2000 : 0)
+    const rank = e => (e.text || e.c.id === lightId ? 1e4 : 0) + (lit && role(e.c) && !role(e.c).includes("dim") ? 2000 : 0)
       + (isStarred(e.c) ? 1000 : 0) + (e.at > now ? 500 : 0) + ({ A: 200, B: 100 }[gradeOf(e.c)] || 0) + (e.c.status === "confirmed" ? 10 : 0) - e.at / 1e13;
     const rows = Array.from({ length: MAXROW }, () => []);
     const pins = events.map(e => {
@@ -639,8 +643,10 @@
     tl.classList.toggle("has-glow", !!glow);
     if (!opts.el) {
       const src = glow && glow.src;
+      // following the big countdown by default: say so and invite a tap; after a tap, offer the way back
       $("#tlLegend").innerHTML = src
-        ? `<span><i class="lg lg-reb"></i>during ${esc(src.title)} rebuttal</span> <span><i class="lg lg-dec"></i>after its decision</span> <button type="button" class="lg-clear">clear</button>`
+        ? `<span class="lg-follow">${state.lightId ? "" : "Next for "}<b>${esc(src.title)} ${String(src.year).slice(-2)}</b></span> <span><i class="lg lg-reb"></i>during its rebuttal</span> <span><i class="lg lg-dec"></i>after its decision</span> ` +
+          (state.lightId ? `<button type="button" class="lg-clear">back to countdown</button>` : `<span class="lg-hint">tap any conference to compare</span>`)
         : `<span><i class="lg lg-solid"></i>deadline</span> <span><i class="lg lg-hollow"></i>estimated</span> <span><i class="lg lg-bar"></i>rebuttal</span> <span><i class="lg lg-dia"></i>decision</span>`;
     }
     if (opts.path) renderPath(path, now);
