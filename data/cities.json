@@ -1618,15 +1618,27 @@
         "name": "Jemaa el-Fnaa"
       }
     ],
-    "scenes": {
-      "day": "assets/scenes/marrakesh/day.webp?v=77baeaec",
-      "dawn": "assets/scenes/marrakesh/dawn.webp?v=886004aa",
-      "dusk": "assets/scenes/marrakesh/dusk.webp?v=ffb1de17",
-      "night": "assets/scenes/marrakesh/night.webp?v=78527b06"
-    },
     "scene_model": "gpt-image-2",
     "scene_prompt": "Marrakesh's medina from a rooftop terrace: the Koutoubia minaret, pink-red flat roofs and palm trees, the High Atlas mountains along the horizon",
-    "scene_prompt_used": "Marrakesh, Morocco"
+    "scene_prompt_used": "Marrakesh's medina from a rooftop terrace: the Koutoubia minaret, pink-red flat roofs and palm trees, the High Atlas mountains along the horizon",
+    "scenes_archive": [
+      {
+        "scenes": {
+          "day": "assets/scenes/marrakesh/old-20261029-2149/day.webp",
+          "dawn": "assets/scenes/marrakesh/old-20261029-2149/dawn.webp",
+          "dusk": "assets/scenes/marrakesh/old-20261029-2149/dusk.webp",
+          "night": "assets/scenes/marrakesh/old-20261029-2149/night.webp"
+        },
+        "model": "gpt-image-2",
+        "prompt": "Marrakesh, Morocco"
+      }
+    ],
+    "scenes": {
+      "day": "assets/scenes/marrakesh/day.webp?v=da66960d",
+      "dawn": "assets/scenes/marrakesh/dawn.webp?v=e9ca18fe",
+      "dusk": "assets/scenes/marrakesh/dusk.webp?v=fd916aad",
+      "night": "assets/scenes/marrakesh/night.webp?v=108b3dd4"
+    }
   },
   "Melbourne": {
     "photos": [
