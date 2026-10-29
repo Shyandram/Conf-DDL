@@ -1514,7 +1514,7 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 .venue-links .vl-visit:hover { text-decoration: underline; }
 .venue-links[hidden], .venue-local[hidden] { display: none; }
 #pgNow.f2 .venue-links .vl-k { display: none; }
-#pgNow.f3 .venue-links, #pgNow.m-cols.f2 .venue-links { display: none; }
+#pgNow.f3:not(.m-cols) .venue-links { display: none; }
 
 /* ---------- the backdrop: generated panoramas pan slowly; a daytime photo is toned to the venue's hour ---------- */
 .page-bg-img.is-pano { animation: pano-pan 140s ease-in-out infinite alternate; }
@@ -1532,3 +1532,20 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 #pgNow.f3 .venue-foot { display: none; } /* short screens keep the venue, its hour and dates; the ↻ button goes */
 .c-meta .c-city { flex-basis: 100%; }
 .c-meta .c-known { margin-top: 4px; }
+
+/* ---------- two columns: the venue card beside the clock when the hero is wide, else a compact two-part card ---------- */
+#pgNow.m-cols .hero { container: hero / inline-size; }
+#pgNow.m-cols .venue {
+  width: fit-content; max-width: 100%; display: grid; grid-template-columns: auto minmax(0, 300px);
+  column-gap: 26px; row-gap: 8px; align-items: start; align-self: start;
+}
+#pgNow.m-cols .venue figcaption { grid-column: 1; grid-row: 1 / span 2; }
+#pgNow.m-cols .venue-links, #pgNow.m-cols .venue-foot { grid-column: 2; }
+#pgNow.m-cols .venue-links:empty, #pgNow.m-cols .venue-links[hidden] + .venue-foot { grid-row: 1; }
+#pgNow.m-cols .venue-foot { justify-content: flex-start; flex-wrap: wrap; }
+#pgNow.m-cols.f2 .venue figcaption { flex-direction: column; align-items: flex-start; gap: 1px; }
+@container hero (min-width: 860px) {
+  #pgNow.m-cols .hero-body { grid-template-columns: minmax(0, 1fr) minmax(240px, 320px); gap: 32px; }
+  #pgNow.m-cols .venue { width: auto; display: flex; flex-direction: column; align-self: end; }
+}
+#pgNow.m-cols.f4 .venue { display: none; }
