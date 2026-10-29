@@ -467,7 +467,6 @@
     const first = heroConf === null;
     heroConf = c;
     setVenue(c);
-    if (!first && !state.lightId && timelineList) renderTimeline(timelineList, Date.now(), { quiet: true }); // it follows the countdown
     const hero = $("#hero");
     if (!c) {
       $("#heroName").textContent = "All clear";
@@ -572,9 +571,9 @@
       if (c.dec && now < c.dec) return { at: c.dec, ev: "dec" };
       return null;
     };
-    // The home timeline always follows one conference: the one clicked, or else the one in the big countdown,
-    // so a first visit already shows where that paper could go next instead of an unexplained wall of pins.
-    const lightId = opts.el ? null : state.lightId || (heroConf && heroConf.id);
+    // The home timeline follows a conference only once the reader taps one (or opens it from a card or a link);
+    // until then every conference is shown alike.
+    const lightId = opts.el ? null : state.lightId;
     // the followed conference also gets its other dates as blocks of their own, labelled with the date
     const sel = lightId && list.find(c => c.id === lightId);
     const extra = !sel ? [] : [
@@ -742,9 +741,9 @@
       const src = glow && glow.src;
       // following the big countdown by default: say so and invite a tap; after a tap, offer the way back
       $("#tlLegend").innerHTML = src
-        ? `<span class="lg-follow">${state.lightId ? "" : "Next for "}<b>${esc(src.title)} ${String(src.year).slice(-2)}</b></span> <span><i class="lg lg-reb"></i>during its rebuttal</span> <span><i class="lg lg-dec"></i>after its decision</span> ` +
-          (state.lightId ? `<button type="button" class="lg-clear">back to countdown</button>` : `<span class="lg-hint">tap any conference to compare</span>`)
-        : `<span><i class="lg lg-solid"></i>deadline</span> <span><i class="lg lg-hollow"></i>estimated</span> <span><i class="lg lg-bar"></i>rebuttal</span> <span><i class="lg lg-dia"></i>decision</span>`;
+        ? `<span class="lg-follow">Next for <b>${esc(src.title)} ${String(src.year).slice(-2)}</b></span> <span><i class="lg lg-reb"></i>during its rebuttal</span> <span><i class="lg lg-dec"></i>after its decision</span> ` +
+          `<button type="button" class="lg-clear">✕ clear</button>`
+        : `<span><i class="lg lg-solid"></i>deadline</span> <span><i class="lg lg-hollow"></i>estimated</span> <span><i class="lg lg-bar"></i>rebuttal</span> <span><i class="lg lg-dia"></i>decision</span> <span class="lg-hint">tap one to see where it could go next</span>`;
     }
     if (opts.path) renderPath(path, now);
 
