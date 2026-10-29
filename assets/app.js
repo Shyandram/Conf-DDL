@@ -455,6 +455,7 @@
   // the backdrop cross-fades: the new picture fades in over the old, which leaves once it is covered
   function showBackdrop(src, cls = "") {
     const pan = $("#bgPan"), old = $$(".page-bg-img", pan);
+    $("#listBgImg").style.backgroundImage = src ? `url("${src}")` : ""; // the list page wears it too, blurred
     if (!src) { old.forEach(o => o.classList.remove("is-loaded")); return; }
     const el = document.createElement("div");
     el.className = `page-bg-img ${cls}`;
@@ -2159,9 +2160,9 @@
     if (hasGsap && window.ScrollTrigger) {
       ScrollTrigger.create({
         trigger: ".controls", start: "top 64px", end: "max",
-        onToggle: self => $(".controls").classList.toggle("is-stuck", self.isActive),
+        onToggle: self => { $(".controls").classList.toggle("is-stuck", self.isActive); $(".list-bar").classList.toggle("is-stuck", self.isActive); },
       });
-    }
+    } else $$(".controls, .list-bar").forEach(el => el.classList.add("is-stuck")); // no way to tell: keep their floor
   }
 
   /* ---------- lifecycle ---------- */

@@ -1622,3 +1622,31 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 .pn-mine span { font: 600 13px var(--mono); }
 .pn-mine span:empty { display: none; }
 .pager-nav .pn-mine[aria-expanded="true"] { background: color-mix(in srgb, var(--warn) 16%, transparent); }
+
+/* ---------- the conference list's ground: the venue's picture, blurred into colour, and two slow glows ---------- */
+.list-bg { position: fixed; inset: 0; z-index: -3; pointer-events: none; overflow: hidden; opacity: 0; transition: opacity .6s ease; }
+body[data-page="list"] .list-bg { opacity: 1; }
+.list-bg-img {
+  position: absolute; inset: -80px; background-size: cover; background-position: center 40%;
+  filter: blur(48px) saturate(1.4); opacity: .42; transition: background-image 1s ease;
+  -webkit-mask: linear-gradient(#000 0%, rgb(0 0 0 / .55) 45%, transparent 85%); mask: linear-gradient(#000 0%, rgb(0 0 0 / .55) 45%, transparent 85%);
+}
+.list-bg::before, .list-bg::after { content: ""; position: absolute; border-radius: 50%; filter: blur(70px); will-change: transform; }
+.list-bg::before {
+  width: 52vw; height: 52vw; left: -14vw; top: -18vw; opacity: .16;
+  background: radial-gradient(circle, var(--accent), transparent 65%); animation: list-glow-a 38s ease-in-out infinite alternate;
+}
+.list-bg::after {
+  width: 46vw; height: 46vw; right: -12vw; top: 28vh; opacity: .14;
+  background: radial-gradient(circle, #5b7cff, transparent 65%); animation: list-glow-b 46s ease-in-out infinite alternate;
+}
+@keyframes list-glow-a { to { transform: translate(18vw, 14vh) scale(1.15); } }
+@keyframes list-glow-b { to { transform: translate(-16vw, 30vh) scale(.9); } }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .list-bg-img { opacity: .3; } :root:not([data-theme="dark"]) .list-bg::before { opacity: .22; } }
+:root[data-theme="light"] .list-bg-img { opacity: .3; }
+:root[data-theme="light"] .list-bg::before { opacity: .22; }
+@media (prefers-reduced-motion: reduce) { .list-bg::before, .list-bg::after { animation: none; } }
+/* the filters and the tabs sit straight on that ground; only once they stick over the scrolling rows do they get a floor */
+.controls, .list-bar { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; transition: background-color .25s, border-color .3s; }
+.controls.is-stuck, .list-bar.is-stuck { background: var(--bg); }
+body[data-page="list"] .topbar { background: color-mix(in srgb, var(--bg) 94%, transparent); }
