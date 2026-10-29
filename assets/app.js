@@ -1294,7 +1294,8 @@
       pg.style.setProperty("--nav-room", Math.ceil(navRoom) + "px");
       const room = vh - top - navRoom, W = pg.clientWidth;
       // how far the page's right edge is from the screen's, for the right sidebar to reach it
-      pg.style.setProperty("--edge", Math.max(0, Math.round(document.documentElement.clientWidth - pg.getBoundingClientRect().right)) + "px");
+      const main = pg.closest("main"), mainRight = main.getBoundingClientRect().right - parseFloat(getComputedStyle(main).paddingRight);
+      pg.style.setProperty("--edge", Math.max(0, Math.round(document.documentElement.clientWidth - mainRight)) + "px");
       const heroH = () => hero.getBoundingClientRect().height;
       const useList = v => {
         if (tlVertical === v) return;
@@ -1402,6 +1403,8 @@
     if (window.visualViewport) window.visualViewport.addEventListener("resize", scheduleFit);
     if (window.ResizeObserver) new ResizeObserver(scheduleFit).observe($("#hero"));
     if (document.fonts) document.fonts.ready.then(scheduleFit);
+    // the left sidebar opening or closing slides the page; the right sidebar re-measures where the screen edge is
+    $(".layout")?.addEventListener("transitionend", e => { if (e.target.classList.contains("layout")) scheduleFit(); });
     track.style.transform = "";
     pager.classList.toggle("on-list", page === 1); // first paint without a slide
     requestAnimationFrame(() => pager.classList.remove("on-list"));

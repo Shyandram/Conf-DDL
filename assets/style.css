@@ -1456,13 +1456,15 @@ html.on-now .to-top { display: none !important; }
    It runs from the top bar to the bottom of the screen at the right edge, and folds to a 52px strip. */
 #pgNow.m-cols {
   --side-out: var(--edge, clamp(16px, 4vw, 48px)); --side-w: clamp(260px, 26vw, 380px);
-  grid-template-columns: minmax(0, 1fr) calc(var(--side-w) - var(--side-out));
+  /* the sidebar's own column is what it takes from the page; on wide screens it may sit wholly in the margin */
+  grid-template-columns: minmax(0, 1fr) max(0px, calc(var(--side-w) - var(--side-out)));
   overflow-x: visible; overflow-y: clip;
 }
 #pgNow.m-cols.tl-folded { --side-w: 52px; }
 /* at rest the page out of view is hidden anyway, so the sidebar may reach past the centred column to the screen edge */
 html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 #pgNow.m-cols .timeline-wrap {
+  width: var(--side-w); box-sizing: border-box; justify-self: end;
   margin: 0 calc(-1 * var(--side-out)) calc(-1 * var(--nav-room, 76px)) 0;
   padding: clamp(14px, 3dvh, 24px) 18px 16px; border-radius: 0; border-left: 1px solid var(--line);
   background: color-mix(in srgb, var(--bg) 62%, transparent);
