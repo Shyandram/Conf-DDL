@@ -452,10 +452,32 @@
     dusk: ["dusk", "dawn", "night", "day"], night: ["night", "dusk", "dawn", "day"] };
   const localClock = tz => { try { return new Intl.DateTimeFormat(undefined, { timeZone: tz, hour: "2-digit", minute: "2-digit" }).format(new Date()); } catch { return ""; } };
 
+  // The list page wears the same picture as a wash of colour: drawn 48 px wide and stretched back up, which blurs it
+  // for free (a CSS blur filter that size made the page switch stutter)
+  function listGround(src) {
+    const cv = $("#listBgImg"), ctx = cv.getContext("2d");
+    if (!src) { ctx.clearRect(0, 0, cv.width, cv.height); return; }
+    const img = new Image();
+    img.onload = () => {
+      const r = Math.max(cv.width / img.naturalWidth, cv.height / img.naturalHeight), w = img.naturalWidth * r, h = img.naturalHeight * r;
+      ctx.imageSmoothingQuality = "high";
+      ctx.globalCompositeOperation = "source-over";
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.drawImage(img, (cv.width - w) / 2, (cv.height - h) * .4, w, h);
+      // fade it out downwards here rather than with a CSS mask, which had to be redrawn on every frame of the switch
+      const fade = ctx.createLinearGradient(0, 0, 0, cv.height);
+      fade.addColorStop(0, "#000"); fade.addColorStop(.45, "rgb(0 0 0 / .55)"); fade.addColorStop(.85, "transparent");
+      ctx.globalCompositeOperation = "destination-in";
+      ctx.fillStyle = fade;
+      ctx.fillRect(0, 0, cv.width, cv.height);
+    };
+    img.src = src;
+  }
+
   // the backdrop cross-fades: the new picture fades in over the old, which leaves once it is covered
   function showBackdrop(src, cls = "") {
     const pan = $("#bgPan"), old = $$(".page-bg-img", pan);
-    $("#listBgImg").style.backgroundImage = src ? `url("${src}")` : ""; // the list page wears it too, blurred
+    listGround(src);
     if (!src) { old.forEach(o => o.classList.remove("is-loaded")); return; }
     const el = document.createElement("div");
     el.className = `page-bg-img ${cls}`;
@@ -1570,10 +1592,12 @@
      step by step (f1…f4, see style.css) and then scales down; the timeline always stays. */
   const FIT = ["f1", "f2", "f3", "f4"], LAYOUTS = ["m-h", "m-cols", "m-v"];
   let fitQueued = false, fitting = false;
+  let fitSize = ""; // the window size the countdown page was last fitted to
   function fitNow() {
     const pg = $("#pgNow"), hero = $("#hero"), wrap = $(".timeline-wrap"), nav = $("#pagerNav");
     if (!pg || !nav || fitting) return;
     fitting = true;
+    fitSize = `${window.innerWidth}x${window.innerHeight}`;
     try {
       const top = $("#pagerTrack").getBoundingClientRect().top + window.scrollY;
       const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
@@ -1663,7 +1687,8 @@
       endMove();
       page = to;
       mark(to);
-      if (to === 0) { pagePos[0] = 0; fitNow(); }
+      // the countdown keeps its fit while away (its own changes re-fit it); only a new window size needs another
+      if (to === 0) { pagePos[0] = 0; if (fitSize !== `${window.innerWidth}x${window.innerHeight}`) fitNow(); }
       store.set("page", to);
       window.scrollTo({ top: pagePos[to], behavior: "instant" });
       if (window.ScrollTrigger) ScrollTrigger.refresh();
@@ -1675,6 +1700,7 @@
       if (pos != null) pagePos[to] = pos;
       if (reduced) { finish(to, after); return; }
       beginMove(to);
+      document.body.dataset.page = to ? "list" : "now"; // the backdrops cross-fade during the slide, not after it
       track.style.transition = "transform .38s cubic-bezier(.2, .8, .2, 1)";
       track.style.transform = `translateX(${-to * 100}%)`;
       nav.style.setProperty("--p", to);

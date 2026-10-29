@@ -1268,7 +1268,7 @@ html { overscroll-behavior-x: none; }
   }
 }
 /* the city photo belongs to the countdown; the list sits on plain ground */
-.page-bg { transition: opacity .45s ease; }
+.page-bg { transition: opacity .4s ease; will-change: opacity; }
 body[data-page="list"] .page-bg { opacity: 0; }
 
 /* ---------- the countdown page: exactly one screen, never scrolls ---------- */
@@ -1624,21 +1624,21 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 .pager-nav .pn-mine[aria-expanded="true"] { background: color-mix(in srgb, var(--warn) 16%, transparent); }
 
 /* ---------- the conference list's ground: the venue's picture, blurred into colour, and two slow glows ---------- */
-.list-bg { position: fixed; inset: 0; z-index: -3; pointer-events: none; overflow: hidden; opacity: 0; transition: opacity .6s ease; }
-body[data-page="list"] .list-bg { opacity: 1; }
+.list-bg { position: fixed; inset: 0; z-index: -3; pointer-events: none; overflow: hidden; opacity: 0; visibility: hidden; will-change: opacity;
+  transition: opacity .4s ease, visibility 0s linear .4s; }
+body[data-page="list"] .list-bg { opacity: 1; visibility: visible; transition: opacity .4s ease; }
 .list-bg-img {
-  position: absolute; inset: -80px; background-size: cover; background-position: center 40%;
-  filter: blur(48px) saturate(1.4); opacity: .42; transition: background-image 1s ease;
-  -webkit-mask: linear-gradient(#000 0%, rgb(0 0 0 / .55) 45%, transparent 85%); mask: linear-gradient(#000 0%, rgb(0 0 0 / .55) 45%, transparent 85%);
+  position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: .42;
 }
-.list-bg::before, .list-bg::after { content: ""; position: absolute; border-radius: 50%; filter: blur(70px); will-change: transform; }
+.list-bg::before, .list-bg::after { content: ""; position: absolute; border-radius: 50%; animation-play-state: paused !important; }
+body[data-page="list"] .list-bg::before, body[data-page="list"] .list-bg::after { animation-play-state: running !important; }
 .list-bg::before {
   width: 52vw; height: 52vw; left: -14vw; top: -18vw; opacity: .16;
-  background: radial-gradient(circle, var(--accent), transparent 65%); animation: list-glow-a 38s ease-in-out infinite alternate;
+  background: radial-gradient(circle, var(--accent), transparent 70%); animation: list-glow-a 38s ease-in-out infinite alternate;
 }
 .list-bg::after {
   width: 46vw; height: 46vw; right: -12vw; top: 28vh; opacity: .14;
-  background: radial-gradient(circle, #5b7cff, transparent 65%); animation: list-glow-b 46s ease-in-out infinite alternate;
+  background: radial-gradient(circle, #5b7cff, transparent 70%); animation: list-glow-b 46s ease-in-out infinite alternate;
 }
 @keyframes list-glow-a { to { transform: translate(18vw, 14vh) scale(1.15); } }
 @keyframes list-glow-b { to { transform: translate(-16vw, 30vh) scale(.9); } }
@@ -1649,4 +1649,51 @@ body[data-page="list"] .list-bg { opacity: 1; }
 /* the filters and the tabs sit straight on that ground; only once they stick over the scrolling rows do they get a floor */
 .controls, .list-bar { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; transition: background-color .25s, border-color .3s; }
 .controls.is-stuck, .list-bar.is-stuck { background: var(--bg); }
-body[data-page="list"] .topbar { background: color-mix(in srgb, var(--bg) 94%, transparent); }
+/* nearly opaque there, so its blur would buy nothing while the list scrolls under it */
+body[data-page="list"] .topbar { background: color-mix(in srgb, var(--bg) 94%, transparent); -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+/* ---------- conference rows as cards: rounded glass on the list's ground, the urgency as a glow from the left ---------- */
+.cards, .list .cards { gap: 8px; border-top: 0; padding-top: 10px; }
+.card {
+  border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--bg-2) 78%, transparent), color-mix(in srgb, var(--bg) 62%, transparent));
+  box-shadow: 0 1px 0 rgb(255 255 255 / .04) inset, 0 8px 24px -16px rgb(0 0 0 / .6);
+  transition: transform .25s cubic-bezier(.2, .8, .2, 1), border-color .25s;
+}
+.card.u-warn, .card.u-hot, .card.is-past.in-rebuttal { box-shadow: 0 1px 0 rgb(255 255 255 / .04) inset, 0 8px 24px -16px rgb(0 0 0 / .6); }
+.card::after {
+  content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 0 3px 3px 0;
+  background: var(--u); opacity: .55; pointer-events: none;
+}
+.card.u-warn, .card.u-hot, .card.in-rebuttal {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--u) 13%, transparent), transparent 38%),
+    linear-gradient(160deg, color-mix(in srgb, var(--bg-2) 78%, transparent), color-mix(in srgb, var(--bg) 62%, transparent));
+}
+.card.u-warn::after, .card.u-hot::after, .card.in-rebuttal::after { opacity: 1; box-shadow: 0 0 12px var(--u); }
+.card.is-past:not(.in-review)::after { opacity: .25; }
+@media (hover: hover) { .card:hover { transform: translateY(-2px); border-color: var(--line-2); } }
+.card.is-open { border-color: var(--line-2); background: linear-gradient(160deg, color-mix(in srgb, var(--bg-2) 92%, transparent), color-mix(in srgb, var(--bg) 80%, transparent)); }
+.card:hover, .card.is-open { background-color: transparent; }
+@media (min-width: 761px) { .row-main { padding: 16px 18px 16px 16px; } }
+.star { width: 36px; height: 36px; border-radius: 10px; }
+@media (min-width: 761px) { .row-main { grid-template-columns: 36px minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1.25fr) max-content; } }
+@media (max-width: 760px) { .row-main { grid-template-columns: 36px minmax(0, 1fr) auto; padding: 14px 12px 14px 8px; } }
+.c-days { font-size: 30px; font-weight: 600; letter-spacing: -.02em; }
+.c-tags .tag { border-radius: 6px; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .card { background: color-mix(in srgb, #fff 72%, transparent); box-shadow: 0 8px 24px -18px rgb(20 30 60 / .35); }
+  :root:not([data-theme="dark"]) .card.u-warn, :root:not([data-theme="dark"]) .card.u-hot { background: linear-gradient(90deg, color-mix(in srgb, var(--u) 10%, transparent), transparent 38%), color-mix(in srgb, #fff 72%, transparent); }
+}
+:root[data-theme="light"] .card { background: color-mix(in srgb, #fff 72%, transparent); box-shadow: 0 8px 24px -18px rgb(20 30 60 / .35); }
+:root[data-theme="light"] .card.u-warn, :root[data-theme="light"] .card.u-hot { background: linear-gradient(90deg, color-mix(in srgb, var(--u) 10%, transparent), transparent 38%), color-mix(in srgb, #fff 72%, transparent); }
+@media (prefers-reduced-motion: reduce) { .card:hover { transform: none; } }
+/* the list scrolls and the countdown doesn't: keep the scrollbar's room on both so nothing shifts when switching */
+@media (hover: hover) and (pointer: fine) { html { scrollbar-gutter: stable; } }
+@media (max-width: 760px) {
+  .row-toggle::before { display: none; } /* the whole card opens it; the chevron only pushed the name onto its own line */
+  .row-name { white-space: normal; min-width: 0; }
+  .row-toggle { gap: 6px 8px; }
+  .c-count { align-self: start; padding-top: 2px; }
+  .row-ddl, .c-steps { padding-left: 0; }
+}
