@@ -1435,3 +1435,29 @@ html.on-now .to-top { display: none !important; }
 /* the month list in the countdown page fills its box */
 #pgNow .timeline.is-list { overflow: hidden; }
 #pgNow .timeline.is-list .tl-months { flex: 1 1 auto; min-height: 0; max-height: none; }
+
+/* ---------- the month list scrolls: a way back to this month ---------- */
+.timeline.is-list { position: relative; }
+.tl-back {
+  position: absolute; left: 50%; translate: -50% 0; z-index: 4; display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px 6px 10px; border-radius: 999px; border: 1px solid var(--line-2); cursor: pointer;
+  background: var(--ink); color: var(--bg); font: 600 12px var(--mono); letter-spacing: .03em;
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--ink) 22%, transparent);
+}
+.tl-back[hidden] { display: none; }
+.tl-back[data-dir="up"] { top: 8px; }
+.tl-back[data-dir="down"] { bottom: 14px; }
+.tl-back i { width: 7px; height: 7px; border: solid currentColor; border-width: 2px 2px 0 0; }
+.tl-back[data-dir="up"] i { rotate: -45deg; margin-top: 3px; }
+.tl-back[data-dir="down"] i { rotate: 135deg; margin-top: -3px; }
+.tl-back:hover { background: var(--accent); }
+
+/* ---------- two columns: the timeline is a side panel, not half the screen ---------- */
+#pgNow.m-cols { grid-template-columns: minmax(0, 1fr) clamp(236px, 27vw, 360px); }
+#pgNow.m-cols .timeline-wrap { padding-left: clamp(12px, 1.4vw, 20px); }
+#pgNow.m-cols .section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 8px; }
+#pgNow.m-cols .section-head .legend { flex-basis: 100%; }
+#pgNow.m-cols .tl-seg button { padding: 3px 7px; min-height: 24px; }
+#pgNow.m-cols .tl-mrow { grid-template-columns: 40px 1fr; gap: 8px; }
+#pgNow.m-cols .tl-mname { font-size: 11.5px; }
+#pgNow.m-cols .tl-chip { padding: 3px 7px; font-size: 11px; }

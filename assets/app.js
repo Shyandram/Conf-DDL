@@ -507,6 +507,25 @@
   let timelineList = [];
   let tlVertical = matchMedia("(max-width: 640px)").matches;
 
+  // The month list scrolls; once this month is out of sight, a "Today" button takes the reader back.
+  function tlToday(tl, smooth = true) {
+    const row = $(".tl-mrow.is-now", tl), box = $(".tl-months", tl);
+    if (row && box) box.scrollTo({ top: row.offsetTop - box.offsetTop - 8, behavior: smooth && !reduced ? "smooth" : "auto" });
+  }
+  function watchToday(tl) {
+    const row = $(".tl-mrow.is-now", tl), box = $(".tl-months", tl), btn = $(".tl-back", tl);
+    if (!row || !box || !btn) return;
+    const check = () => {
+      const r = row.getBoundingClientRect(), b = box.getBoundingClientRect();
+      const off = r.bottom < b.top + 12 ? "up" : r.top > b.bottom - 28 ? "down" : "";
+      btn.hidden = !off;
+      btn.dataset.dir = off;
+    };
+    box.addEventListener("scroll", check, { passive: true });
+    btn.addEventListener("click", () => tlToday(tl));
+    requestAnimationFrame(check);
+  }
+
   // Home timeline by default; the planner passes its own element and asks for the resubmission path.
   function renderTimeline(list, now, opts = {}) {
     if (!opts.el) scheduleFit(); // the strip can grow a row (a picked conference adds its dates)
@@ -655,9 +674,10 @@
         return `<div class="tl-mrow${isNow ? " is-now" : ""}${isPast ? " is-past" : ""}"><span class="tl-mname">${esc(name)}<small>${esc(yr)}</small></span><div class="tl-mchips">${chips || `<span class="tl-mempty">—</span>`}</div></div>`;
       }).join("") + `</div>`;
       const keep = $(".tl-months", tl)?.scrollTop;
-      tl.innerHTML = html;
+      tl.innerHTML = html + `<button type="button" class="tl-back" hidden><i></i>Today</button>`;
       if (opts.quiet && keep != null) $(".tl-months", tl).scrollTop = keep; // a tap re-renders; stay where the reader was
-      else { const row = $(".tl-mrow.is-now", tl), box = $(".tl-months", tl); if (row && box) box.scrollTop = row.offsetTop - box.offsetTop - 8; }
+      else tlToday(tl, false);
+      watchToday(tl);
       tl.classList.remove("is-vert");
       tl.classList.add("is-list");
     // tall boxes (the countdown page in two columns, or in portrait): the same axis, standing up.
@@ -1378,9 +1398,11 @@
       const b = e.target.closest("[data-go]");
       if (!b) return;
       const to = +b.dataset.go;
-      // tapping the tab you're on goes back to the top of that page
-      if (to === page) window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
-      else goPage(to);
+      // tapping the tab you're on goes back to the top of that page (and the timeline back to today)
+      if (to === page) {
+        window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+        if (to === 0) tlToday($("#timeline"));
+      } else goPage(to);
     });
     document.addEventListener("keydown", e => {
       if (e.altKey || e.ctrlKey || e.metaKey || e.target.closest("input, textarea, select, [contenteditable]")) return;
