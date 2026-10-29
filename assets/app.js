@@ -483,6 +483,7 @@
     const entry = place ? cityPhotos[key] : null;
     venueSky(entry);
     venueLinks(entry);
+    updateWeather(entry);
 
     // generated panoramas in the mood of the venue's local time; the ↻ button steps through the moods
     const scenes = entry && entry.scenes && PHASES.filter(p => entry.scenes[p]);
@@ -526,7 +527,11 @@
     const el = $("#venueLocal");
     if (!entry || !entry.tz) { el.hidden = true; return; }
     const phase = entry.lat != null ? phaseAt(entry, Date.now()) : "";
-    el.innerHTML = `<b>${esc(localClock(entry.tz))}</b> local${phase ? ` · <i class="sky sky-${phase}"></i>${phase}` : ""}`;
+    const wx = venueWx && WX_TEXT[venueWx.weather_code];
+    const temp = venueWx && venueWx.temperature_2m != null ? (/-US$/.test(navigator.language) ?
+      `${Math.round(venueWx.temperature_2m * 9 / 5 + 32)}°F` : `${Math.round(venueWx.temperature_2m)}°C`) : "";
+    el.innerHTML = `<b>${esc(localClock(entry.tz))}</b> local${phase ? ` · <i class="sky sky-${phase}"></i>${phase}` : ""}` +
+      (wx ? ` · ${esc(wx)}${temp ? ` ${temp}` : ""}` : "");
     el.hidden = false;
   }
   // what the place is known for, each linked to its own official site, and the official visitor site
@@ -543,12 +548,158 @@
     el.innerHTML = html;
     el.hidden = !html;
   }
+  // ---------- the venue's weather (Open-Meteo, no key), drawn over the backdrop ----------
+  // WMO weather codes → what to draw, how hard, and how to say it
+  const WX_TEXT = { 0: "clear", 1: "mostly clear", 2: "partly cloudy", 3: "overcast", 45: "fog", 48: "freezing fog",
+    51: "light drizzle", 53: "drizzle", 55: "heavy drizzle", 56: "freezing drizzle", 57: "freezing drizzle",
+    61: "light rain", 63: "rain", 65: "heavy rain", 66: "freezing rain", 67: "freezing rain",
+    71: "light snow", 73: "snow", 75: "heavy snow", 77: "snow grains", 80: "showers", 81: "showers", 82: "heavy showers",
+    85: "snow showers", 86: "heavy snow showers", 95: "thunderstorm", 96: "thunderstorm with hail", 99: "thunderstorm with hail" };
+  const WX_DRAW = { 45: ["fog", .7], 48: ["fog", .9], 51: ["rain", .2], 53: ["rain", .3], 55: ["rain", .4], 56: ["rain", .3], 57: ["rain", .4],
+    61: ["rain", .45], 63: ["rain", .7], 65: ["rain", 1], 66: ["rain", .5], 67: ["rain", .8], 71: ["snow", .4], 73: ["snow", .7],
+    75: ["snow", 1], 77: ["snow", .3], 80: ["rain", .6], 81: ["rain", .8], 82: ["rain", 1], 85: ["snow", .6], 86: ["snow", 1],
+    95: ["storm", 1], 96: ["storm", 1], 99: ["storm", 1] };
+  const wxCache = {};
+  async function weatherOf(entry) {
+    const k = `${entry.lat},${entry.lon}`, hit = wxCache[k];
+    if (hit && Date.now() - hit.at < 15 * 60e3) return hit.now;
+    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${entry.lat}&longitude=${entry.lon}` +
+      "&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m&timezone=auto",
+      window.AbortSignal && AbortSignal.timeout ? { signal: AbortSignal.timeout(8000) } : {});
+    if (!r.ok) throw new Error(r.status);
+    const now = (await r.json()).current;
+    wxCache[k] = { at: Date.now(), now };
+    return now;
+  }
+  // ?weather=rain|snow|fog|storm previews a kind of weather whatever the venue's sky
+  const wxPreview = new URLSearchParams(location.search).get("weather");
+  let venueWx = null; // the venue's current conditions, for the line under its name
+  async function updateWeather(entry) {
+    const token = $("#venue").dataset.token;
+    let kind = null, level = 0, wind = 0;
+    venueWx = null;
+    const preview = { rain: "rain", snow: "snow", fog: "fog", storm: "storm" }[wxPreview];
+    if (preview) weather.set(preview, 1, .3); // don't wait for the network to show a preview
+    if (entry && entry.lat != null) {
+      try {
+        const now = await weatherOf(entry);
+        if ($("#venue").dataset.token !== token) return;
+        venueWx = now;
+        [kind, level] = WX_DRAW[now.weather_code] || [null, 0];
+        // wind blowing from the east pushes the rain to the left; ~60 km/h leans it about 30°
+        wind = -Math.sin((now.wind_direction_10m || 0) * Math.PI / 180) * Math.min(1, (now.wind_speed_10m || 0) / 60);
+      } catch { /* no weather: just no drawing */ }
+    }
+    if (preview) [kind, level, wind] = [preview, 1, .3];
+    venueSky(entry);
+    weather.set(kind, level, wind);
+  }
+
+  // rain streaks, drifting snow or rolling fog on a canvas over the photo; it sleeps when nobody can see it
+  const weather = (() => {
+    const cv = $("#wx"), ctx = cv && cv.getContext("2d");
+    let kind = null, level = 0, wind = 0, parts = [], raf = 0, W = 0, H = 0, flash = 0, last = 0;
+    const dpr = Math.min(1.5, window.devicePixelRatio || 1);
+    const dark = () => document.documentElement.dataset.theme === "dark" ||
+      (document.documentElement.dataset.theme !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+    const visible = () => kind && !document.hidden && document.body.dataset.page !== "list" && $("#planner").hidden;
+    function size() {
+      if (!cv) return;
+      const r = cv.getBoundingClientRect();
+      W = Math.max(1, r.width); H = Math.max(1, r.height);
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function seed() {
+      const area = W * H, rnd = Math.random;
+      if (kind === "rain" || kind === "storm") {
+        parts = Array.from({ length: Math.min(420, Math.round(level * area / 5200)) }, () =>
+          ({ x: rnd() * W, y: rnd() * H, len: 10 + rnd() * 16, v: 700 + rnd() * 500, a: .25 + rnd() * .35 }));
+      } else if (kind === "snow") {
+        parts = Array.from({ length: Math.min(260, Math.round(level * area / 7000)) }, () =>
+          ({ x: rnd() * W, y: rnd() * H, r: .8 + rnd() * 2.4, v: 25 + rnd() * 45, ph: rnd() * 6.3, a: .5 + rnd() * .45 }));
+      } else if (kind === "fog") {
+        parts = Array.from({ length: 7 }, (_, i) =>
+          ({ x: rnd() * W, y: H * (.35 + rnd() * .55), r: W * (.25 + rnd() * .3), v: (8 + rnd() * 14) * (i % 2 ? 1 : -1) }));
+      } else parts = [];
+    }
+    function draw(dt) {
+      ctx.clearRect(0, 0, W, H);
+      const ink = dark() ? "255, 255, 255" : "70, 90, 120";
+      if (kind === "rain" || kind === "storm") {
+        const lean = wind * .6;
+        ctx.lineWidth = 1; ctx.lineCap = "round";
+        for (const p of parts) {
+          p.y += p.v * dt; p.x += p.v * lean * dt;
+          if (p.y > H) { p.y = -p.len; p.x = Math.random() * (W + 200) - 100; }
+          ctx.strokeStyle = `rgba(${ink}, ${p.a})`;
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - lean * p.len, p.y - p.len); ctx.stroke();
+        }
+        if (kind === "storm") {
+          if (flash < .02 && Math.random() < dt * .12) flash = 1; // a flash every ~8 s on average
+          if (flash > .02) { ctx.fillStyle = `rgba(235, 240, 255, ${flash * .28})`; ctx.fillRect(0, 0, W, H); flash *= Math.pow(.02, dt); }
+        }
+      } else if (kind === "snow") {
+        ctx.fillStyle = `rgba(${dark() ? "255, 255, 255" : "255, 255, 255"}, .9)`;
+        for (const p of parts) {
+          p.ph += dt; p.y += p.v * dt; p.x += (Math.sin(p.ph) * 12 + wind * 40) * dt;
+          if (p.y > H + 4) { p.y = -4; p.x = Math.random() * W; }
+          if (p.x > W + 4) p.x = -4; else if (p.x < -4) p.x = W + 4;
+          ctx.globalAlpha = p.a;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      } else if (kind === "fog") {
+        const c = dark() ? "190, 200, 215" : "245, 247, 250";
+        ctx.fillStyle = `rgba(${c}, ${.10 * level})`; ctx.fillRect(0, 0, W, H);
+        for (const p of parts) {
+          p.x += p.v * dt;
+          if (p.x - p.r > W) p.x = -p.r; else if (p.x + p.r < 0) p.x = W + p.r;
+          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+          g.addColorStop(0, `rgba(${c}, ${.32 * level})`); g.addColorStop(1, `rgba(${c}, 0)`);
+          ctx.fillStyle = g; ctx.fillRect(p.x - p.r, p.y - p.r, p.r * 2, p.r * 2);
+        }
+      }
+    }
+    function frame(t) {
+      raf = 0;
+      if (!visible()) return;
+      const dt = Math.min(.05, last ? (t - last) / 1000 : 0);
+      last = t;
+      draw(dt);
+      raf = requestAnimationFrame(frame);
+    }
+    function wake() {
+      if (!cv) return;
+      if (!kind) { cancelAnimationFrame(raf); raf = 0; ctx.clearRect(0, 0, W, H); return; }
+      if (reduced) { draw(0); return; } // one still frame, no motion
+      if (visible() && !raf) { last = 0; raf = requestAnimationFrame(frame); }
+    }
+    if (cv) {
+      new ResizeObserver(() => { size(); seed(); if (reduced || !raf) kind && draw(0); }).observe(cv);
+      document.addEventListener("visibilitychange", wake);
+      new MutationObserver(wake).observe(document.body, { attributes: true, attributeFilter: ["data-page"] });
+      new MutationObserver(wake).observe($("#planner"), { attributes: true, attributeFilter: ["hidden"] });
+    }
+    return {
+      set(k, l, w) {
+        const changed = k !== kind || Math.abs(l - level) > .05;
+        kind = k; level = l; wind = w;
+        if (!cv) return;
+        if (changed) { size(); seed(); }
+        cv.classList.toggle("is-on", !!kind);
+        wake();
+      },
+    };
+  })();
+
   // every half minute: the venue's clock, and its sky once the mood there changes
   setInterval(() => {
     if (document.hidden || !heroConf) return;
     const fig = $("#venue"), entry = cityPhotos[fig.dataset.key];
     if (!entry || entry.lat == null) return;
     venueSky(entry);
+    updateWeather(entry); // cached for 15 minutes, so this asks the network only now and then
     const phase = phaseAt(entry, Date.now());
     if (fig.dataset.shown && !fig.dataset.scene && NEAR[phase].find(p => entry.scenes[p]) !== fig.dataset.shown) setVenue(heroConf);
   }, 30000);

@@ -1498,7 +1498,8 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 }
 
 /* ---------- the venue's local time, and what the place is known for ---------- */
-.venue-local { font: 500 12.5px var(--mono); color: var(--ink-2); margin-top: 2px; display: inline-flex; align-items: center; gap: 5px; }
+.venue-local { font: 500 12.5px var(--mono); color: var(--ink-2); margin-top: 2px; display: block; }
+.venue-local .sky { vertical-align: -1px; margin-right: 4px; }
 .venue-local b { color: var(--ink); font-weight: 600; }
 .sky { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
 .sky-dawn { background: linear-gradient(135deg, #f7a8b8, #ffd59e); }
@@ -1540,3 +1541,11 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
   #pgNow.m-cols .venue { width: auto; display: flex; flex-direction: column; align-self: end; }
 }
 #pgNow.m-cols.f4 .venue { display: none; }
+
+/* ---------- the venue's weather over the backdrop (app.js draws it) ---------- */
+.page-wx {
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0; transition: opacity 1.5s ease;
+  /* fades out with the photo below it */
+  -webkit-mask: linear-gradient(#000 calc(100% - 220px), transparent calc(100% - 40px)); mask: linear-gradient(#000 calc(100% - 220px), transparent calc(100% - 40px));
+}
+.page-wx.is-on { opacity: 1; }
