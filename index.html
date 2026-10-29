@@ -185,22 +185,22 @@
     </section>
 
     <section aria-label="Upcoming deadlines">
-      <button type="button" class="section-head fold-toggle" data-fold="upcoming" aria-expanded="true">
+      <button type="button" class="section-head fold-toggle" data-fold="upcoming" aria-expanded="false">
         <h2>Upcoming <span class="count" id="countUp"></span></h2>
         <span class="chev" aria-hidden="true">↓</span>
       </button>
-      <div class="fold-body" id="fold-upcoming">
+      <div class="fold-body" id="fold-upcoming" hidden>
         <div class="cards" id="upcoming"></div>
         <p class="empty" id="emptyUp" hidden>Nothing matches. Try clearing a filter.</p>
       </div>
     </section>
 
     <section aria-label="In review">
-      <button type="button" class="section-head fold-toggle" data-fold="review" aria-expanded="true">
+      <button type="button" class="section-head fold-toggle" data-fold="review" aria-expanded="false">
         <h2>In review <span class="count" id="countReview"></span></h2>
         <span class="chev" aria-hidden="true">↓</span>
       </button>
-      <div class="fold-body" id="fold-review">
+      <div class="fold-body" id="fold-review" hidden>
         <div class="cards" id="review"></div>
         <p class="empty" id="emptyReview" hidden>Nothing in review matches your filters.</p>
       </div>

@@ -26,6 +26,8 @@
     set(k, v) { try { localStorage.setItem("confddl:" + k, JSON.stringify(v)); } catch { /* storage unavailable */ } },
   };
 
+  const foldSetters = {}; // Upcoming / In review / Decided: key → open(true) or back to the saved choice (undefined)
+  let foldSearch = false;
   const state = {
     q: "",
     areas: new Set(store.get("areas", [])),
@@ -1037,6 +1039,11 @@
     $("#countPast").textContent = n.done;
     $("#emptyUp").hidden = n.up > 0;
     $("#emptyReview").hidden = n.review > 0;
+    if (state.q || foldSearch) {
+      foldSearch = !!state.q;
+      const counts = { upcoming: n.up, review: n.review, passed: n.done };
+      for (const k in foldSetters) foldSetters[k](foldSearch && counts[k] > 0 ? true : undefined);
+    }
 
     refreshPicks(now);
     renderTimeline(visible, now); // it keeps the last three months and the next nine
@@ -1195,8 +1202,9 @@
       applyTheme();
     });
 
-    // Upcoming / In review / Decided fold open and shut; the choice is remembered.
-    const folds = store.get("folds", { upcoming: true, review: true, passed: false });
+    // Upcoming / In review / Decided start folded (the countdown and timeline come first); the choice is remembered.
+    // A search opens the sections that have matches for as long as it is typed, without changing the saved choice.
+    const folds = store.get("folds2", { upcoming: false, review: false, passed: false });
     $$(".fold-toggle").forEach(btn => {
       const key = btn.dataset.fold, body = $("#fold-" + key);
       const set = (open, animate) => {
@@ -1208,11 +1216,12 @@
         }
         if (window.ScrollTrigger) ScrollTrigger.refresh();
       };
-      set(folds[key] !== false, false);
+      set(folds[key] === true, false);
+      foldSetters[key] = open => set(open ?? folds[key] === true, false);
       btn.addEventListener("click", () => {
         const open = btn.getAttribute("aria-expanded") !== "true";
         folds[key] = open;
-        store.set("folds", folds);
+        store.set("folds2", folds);
         set(open, true);
       });
     });
