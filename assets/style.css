@@ -1099,3 +1099,73 @@ html.planner-open { overflow: hidden; }
 /* timeline legend while it follows a conference */
 .lg-follow b { color: var(--ink); font-weight: 600; }
 .lg-hint { color: var(--ink-3); font-style: italic; }
+
+/* ---------- conference list: Upcoming / In review / Decided tabs, All / ★ Mine scope ---------- */
+.list { margin-top: clamp(20px, 3vw, 28px); }
+.list-bar { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; border-bottom: 1px solid var(--line); }
+.tabs { display: flex; gap: clamp(14px, 3vw, 30px); }
+.tab {
+  position: relative; border: 0; background: none; cursor: pointer; padding: 10px 0 12px; margin-bottom: -1px;
+  font: 600 clamp(19px, 2.2vw, 24px)/1.1 var(--sans); letter-spacing: -.02em; color: var(--ink-3);
+  border-bottom: 2px solid transparent; transition: color .2s, border-color .2s;
+}
+.tab:hover { color: var(--ink-2); }
+.tab[aria-selected="true"] { color: var(--ink); border-color: var(--ink); }
+.tab .count { margin-left: 7px; font-size: 13px; }
+.scope { margin-bottom: 9px; }
+.scope-n { font: 500 11.5px var(--mono); margin-left: 5px; opacity: .65; }
+.scope-n:empty { display: none; }
+.list .cards { border-top: 0; }
+.mine-empty { padding: 28px 0 8px; color: var(--ink-2); max-width: 62ch; }
+.mine-empty p { margin: 0 0 14px; line-height: 1.55; }
+.mine-empty b { color: var(--ink); }
+.quick-stars { display: flex; flex-wrap: wrap; gap: 6px; }
+.quick-star {
+  padding: 6px 11px; border-radius: 999px; border: 1px dashed var(--line-2); background: none; cursor: pointer;
+  font: 500 13px var(--sans); color: var(--ink-2); transition: color .2s, border-color .2s, background .2s;
+}
+.quick-star:hover { color: var(--warn); border-color: var(--warn); border-style: solid; }
+.rail .quick-stars { margin-top: 10px; }
+
+/* sidebar: personal tools under the agenda */
+.rail-tools { margin-top: 22px; padding-top: 4px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; }
+.rail-tool {
+  display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; width: 100%; text-align: left;
+  padding: 9px 10px; border: 1px solid transparent; border-radius: 10px; background: none; cursor: pointer; color: var(--ink-2);
+  transition: background .2s, border-color .2s;
+}
+.rail-tool:hover { background: var(--card-hover); border-color: var(--line); color: var(--ink); }
+.rail-tool > span:first-child { font-size: 16px; line-height: 1.2; color: var(--accent); }
+.rail-tool b { display: block; font: 600 13.5px var(--sans); color: var(--ink); }
+.rail-tool small { display: block; font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+.rail-tool[hidden] { display: none; }
+@media (max-width: 1100px) { .layout.rail-off .rail > .rail-tools { display: flex; } }
+@media (max-width: 640px) {
+  .list-bar { align-items: center; }
+  .tabs { width: 100%; justify-content: space-between; gap: 8px; }
+  .tab { font-size: 17px; }
+  .tab .count { margin-left: 4px; font-size: 12px; }
+  .scope { margin: 8px 0 10px; }
+}
+/* phones: the sticky filter bar stays short (area chips scroll sideways in one row) so the list keeps the screen */
+@media (max-width: 640px) {
+  .controls { gap: 8px; padding: 8px 0; }
+  .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; width: 100%; margin: 0 -16px; padding: 2px 16px; mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 24px), transparent); }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; padding: 6px 11px; }
+  .toggles { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 14px; }
+  .tg { flex: none; font-size: 13.5px; }
+}
+.list-bar { position: sticky; top: calc(63px + var(--ctl-h, 0px)); z-index: 9; background: var(--bg); }
+.controls.is-stuck { background: var(--bg); }
+@media (max-width: 640px) {
+  .list-bar { flex-wrap: nowrap; }
+  .tabs { width: auto; flex: 1; justify-content: flex-start; gap: 14px; min-width: 0; }
+  .tab { font-size: 16px; white-space: nowrap; }
+  .scope { margin: 0 0 8px; flex: none; }
+  .scope [data-scope="all"] { display: none; }
+  .scope button { padding: 5px 10px; }
+  .scope-word { display: none; }
+  .tabs { gap: 12px; }
+  .tab { font-size: 15.5px; }
+}

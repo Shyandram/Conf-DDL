@@ -26,15 +26,14 @@
     set(k, v) { try { localStorage.setItem("confddl:" + k, JSON.stringify(v)); } catch { /* storage unavailable */ } },
   };
 
-  const foldSetters = {}; // Upcoming / In review / Decided: key → open(true) or back to the saved choice (undefined)
-  let foldSearch = false;
   const state = {
     q: "",
     areas: new Set(store.get("areas", [])),
     onlyConfirmed: store.get("onlyConfirmed", false),
     ccfA: store.get("ccfA", false),
     gradeA: store.get("gradeA", false),
-    onlyStarred: store.get("onlyStarred", false),
+    onlyStarred: store.get("onlyStarred", false), // the "★ Mine" scope above the list
+    tab: store.get("listTab", "up"), // Upcoming / In review / Decided: one tab on show at a time
     heroMode: store.get("heroMode", "deadline"),
     starred: new Set(store.get("starred", [])),
     tz: store.get("tz", "local"),
@@ -836,6 +835,7 @@
   }
   function showStars() {
     for (const c of confs) if (c.el) $(".star", c.el).setAttribute("aria-pressed", isStarred(c));
+    $("#mineCount").textContent = state.starred.size || "";
     if (state.onlyStarred) apply();
     else { const now = Date.now(); refreshPicks(now); renderRail(now); }
   }
@@ -962,7 +962,7 @@
     $("#railSel").textContent = state.starred.size ? [...state.starred].sort().join(" · ") : "";
     $("#railCount").textContent = state.starred.size ? `★ ${state.starred.size}` : "★";
     if (!picked.length) {
-      $("#rail").innerHTML = `<p class="rail-empty">Click the <b>☆</b> next to a conference to follow it. You get every year of it here, including future editions.</p>`;
+      $("#rail").innerHTML = `<p class="rail-empty">Follow a conference to see all its dates here, every year. Tap <b>☆</b> on any row, or start with one of these:</p><div class="quick-stars">${quickStars()}</div>`;
       railItems = [];
       return;
     }
@@ -1037,12 +1037,18 @@
     $("#countUp").textContent = n.up;
     $("#countReview").textContent = n.review;
     $("#countPast").textContent = n.done;
-    $("#emptyUp").hidden = n.up > 0;
-    $("#emptyReview").hidden = n.review > 0;
-    if (state.q || foldSearch) {
-      foldSearch = !!state.q;
-      const counts = { upcoming: n.up, review: n.review, passed: n.done };
-      for (const k in foldSetters) foldSetters[k](foldSearch && counts[k] > 0 ? true : undefined);
+    // "★ Mine" with nothing starred: offer quick stars instead of three empty tabs
+    const noMine = state.onlyStarred && !state.starred.size;
+    $("#mineEmpty").hidden = !noMine;
+    if (noMine) $("#mineEmpty [data-quick]").innerHTML = quickStars();
+    $("#mineCount").textContent = state.starred.size || "";
+    $("#emptyUp").hidden = n.up > 0 || noMine;
+    $("#emptyReview").hidden = n.review > 0 || noMine;
+    $("#emptyPast").hidden = n.done > 0 || noMine;
+    // a search that finds nothing in this tab moves to the first tab that has matches (not remembered)
+    if (state.q && !n[state.tab]) {
+      const hit = ["up", "review", "done"].find(t => n[t]);
+      if (hit) showTab(hit, false);
     }
 
     refreshPicks(now);
@@ -1071,10 +1077,36 @@
     syncStars();
   }
 
+  // Upcoming / In review / Decided tabs
+  function showTab(tab, save = true) {
+    state.tab = tab;
+    if (save) store.set("listTab", tab);
+    $$(".tab").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === tab));
+    $$(".tab-panel").forEach(p => { p.hidden = p.id !== "panel-" + tab; });
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+  }
+  function showScope(mine) {
+    state.onlyStarred = mine;
+    $$("#scope button").forEach(b => b.classList.toggle("is-on", (b.dataset.scope === "mine") === mine));
+  }
+
+  // star or unstar a whole series (every edition), from a row's ☆ or a quick-star button
+  function setSeriesStar(key, on) {
+    on ? state.starred.add(key) : state.starred.delete(key);
+    confs.filter(c => seriesOf(c) === key).forEach(c => c.el && $(".star", c.el).setAttribute("aria-pressed", on));
+    persist();
+    showStars();
+  }
+  // the first series to suggest to someone with no stars: the best-known venues in the data
+  const QUICK = ["CVPR", "ICCV", "ECCV", "NeurIPS", "ICML", "ICLR", "AAAI", "ACL", "EMNLP", "SIGGRAPH", "KDD", "CHI"];
+  const quickStars = () => {
+    const have = new Set(confs.map(seriesOf));
+    return QUICK.filter(k => have.has(k)).map(k => `<button type="button" class="quick-star" data-series="${esc(k)}">☆ ${esc(k)}</button>`).join("");
+  };
+
   // scroll a row into view and flash it
   function flashCard(c) {
-    const body = c.el.closest(".fold-body");
-    if (body && body.hidden) $(`.fold-toggle[data-fold="${body.id.slice(5)}"]`).click(); // open a folded section first
+    if (c.group !== state.tab) showTab(c.group, false); // its tab first
     c.el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" });
     c.el.classList.remove("flash");
     void c.el.offsetWidth;
@@ -1147,9 +1179,33 @@
       if (e.key === "Escape" && document.activeElement === $("#q")) { $("#q").value = ""; state.q = ""; apply(); $("#q").blur(); }
     });
 
-    const oc = $("#onlyConfirmed"), ca = $("#ccfA"), os = $("#onlyStarred");
-    oc.checked = state.onlyConfirmed; ca.checked = state.ccfA; os.checked = state.onlyStarred;
-    os.addEventListener("change", () => { state.onlyStarred = os.checked; persist(); apply(); });
+    const oc = $("#onlyConfirmed"), ca = $("#ccfA");
+    oc.checked = state.onlyConfirmed; ca.checked = state.ccfA;
+    showScope(state.onlyStarred);
+    const narrowScope = matchMedia("(max-width: 640px)");
+    $("#scope").addEventListener("click", e => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      // on phones only "★ Mine" shows, as an on/off toggle; tapping it again goes back to All
+      showScope(b.dataset.scope === "mine" && !(state.onlyStarred && b.dataset.scope === "mine" && narrowScope.matches));
+      persist();
+      apply();
+    });
+    showTab(["up", "review", "done"].includes(state.tab) ? state.tab : "up", false);
+    $(".tabs").addEventListener("click", e => {
+      const b = e.target.closest(".tab");
+      if (!b) return;
+      showTab(b.dataset.tab);
+      // switched from deep in a long list: start the new tab from its top
+      const list = $(".list"), bar = $(".list-bar");
+      if (list.getBoundingClientRect().top < bar.getBoundingClientRect().top - 1)
+        window.scrollTo({ top: list.getBoundingClientRect().top + scrollY - parseFloat(getComputedStyle(bar).top) });
+    });
+    // the tab bar sticks just under the filter bar, whose height changes with the screen and wrapping
+    const ctl = $(".controls");
+    const ctlH = () => document.documentElement.style.setProperty("--ctl-h", ctl.offsetHeight + "px");
+    if (window.ResizeObserver) new ResizeObserver(ctlH).observe(ctl);
+    ctlH();
 
     document.addEventListener("click", e => {
       const btn = e.target.closest(".star");
@@ -1157,12 +1213,12 @@
       const conf = confs.find(c => c.id === btn.closest(".card").dataset.id);
       const key = seriesOf(conf);
       const on = !state.starred.has(key);
-      on ? state.starred.add(key) : state.starred.delete(key);
-      confs.filter(c => seriesOf(c) === key).forEach(c => $(".star", c.el).setAttribute("aria-pressed", on));
       if (on && hasGsap && !reduced) gsap.fromTo(btn, { scale: 0.6, rotate: -30 }, { scale: 1, rotate: 0, duration: 0.5, ease: "back.out(3)" });
-      persist();
-      if (state.onlyStarred) apply();
-      else { const now = Date.now(); refreshPicks(now); renderRail(now); }
+      setSeriesStar(key, on);
+    });
+    document.addEventListener("click", e => {
+      const q = e.target.closest(".quick-star");
+      if (q) setSeriesStar(q.dataset.series, !state.starred.has(q.dataset.series));
     });
     oc.addEventListener("change", () => { state.onlyConfirmed = oc.checked; persist(); apply(); });
     ca.addEventListener("change", () => { state.ccfA = ca.checked; persist(); apply(); });
@@ -1200,30 +1256,6 @@
       themeMode = { auto: "light", light: "dark", dark: "auto" }[themeMode] || "auto";
       store.set("themeMode", themeMode);
       applyTheme();
-    });
-
-    // Upcoming / In review / Decided start folded (the countdown and timeline come first); the choice is remembered.
-    // A search opens the sections that have matches for as long as it is typed, without changing the saved choice.
-    const folds = store.get("folds2", { upcoming: false, review: false, passed: false });
-    $$(".fold-toggle").forEach(btn => {
-      const key = btn.dataset.fold, body = $("#fold-" + key);
-      const set = (open, animate) => {
-        btn.setAttribute("aria-expanded", open);
-        body.hidden = !open;
-        if (open && animate && hasGsap && fx) {
-          gsap.fromTo($$(".card", body).filter(el => el.style.display !== "none").slice(0, 20),
-            { opacity: 0, y: 12 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.4, ease: "power3.out", stagger: 0.02 });
-        }
-        if (window.ScrollTrigger) ScrollTrigger.refresh();
-      };
-      set(folds[key] === true, false);
-      foldSetters[key] = open => set(open ?? folds[key] === true, false);
-      btn.addEventListener("click", () => {
-        const open = btn.getAttribute("aria-expanded") !== "true";
-        folds[key] = open;
-        store.set("folds2", folds);
-        set(open, true);
-      });
     });
 
     $("#heroIcs").addEventListener("click", () => heroConf && icsFor(heroConf));
@@ -1310,20 +1342,20 @@
     toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" }));
 
     const layout = $(".layout"), rt = $("#railToggle");
-    const setRail = open => {
+    const setRail = (open, save) => {
       layout.classList.toggle("rail-off", !open);
       rt.setAttribute("aria-expanded", open);
       rt.title = open ? "Collapse sidebar" : "Show My conferences";
-      store.set("railShown", open);
+      if (save) store.set("railPref", open);
     };
-    // closed until opened (a new key: the old "railOpen" was saved as true on every visit)
-    setRail(store.get("railShown", false));
+    // open on wide screens once something is starred, until the reader folds it away (or opens it) themselves
+    setRail(store.get("railPref", null) ?? state.starred.size > 0);
     // On narrow screens the sidebar is a drawer: the tab opens it, « or the backdrop closes it.
     const narrowRail = matchMedia("(max-width: 1100px)");
     const setDrawer = open => layout.classList.toggle("drawer-open", open);
     rt.addEventListener("click", () => {
       if (narrowRail.matches) { setDrawer(false); return; }
-      setRail(layout.classList.contains("rail-off"));
+      setRail(layout.classList.contains("rail-off"), true);
       if (window.ScrollTrigger) setTimeout(() => ScrollTrigger.refresh(), 400);
     });
     $("#railTab").addEventListener("click", () => setDrawer(true));
@@ -1391,6 +1423,7 @@
     document.addEventListener("keydown", e => { if (e.key === "Escape") { closePlanner(); closeFeeds(); closeSync(); } });
     $("#syncBtn").hidden = !calWorker();
     $("#syncBtn").addEventListener("click", openSync);
+    $("#railCal").addEventListener("click", openFeeds);
     $("#sync").addEventListener("click", async e => {
       if (e.target.closest("[data-close]")) return closeSync();
       const copy = e.target.closest("#syncCopy");

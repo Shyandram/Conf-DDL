@@ -96,9 +96,13 @@
     <div class="rail-head">
       <h2>My conferences</h2>
       <span class="rail-sel" id="railSel"></span>
-      <button type="button" class="link sync-btn" id="syncBtn" hidden title="Keep the same stars on your phone and computer">⇄ Sync with another device</button>
     </div>
     <div id="rail"></div>
+    <div class="rail-tools" id="railTools">
+      <div class="rail-group">Take it with you</div>
+      <button type="button" class="rail-tool" id="railCal"><span aria-hidden="true">▦</span><span><b>Subscribe in your calendar</b><small>one calendar that follows your stars</small></span></button>
+      <button type="button" class="rail-tool" id="syncBtn" hidden><span aria-hidden="true">⇄</span><span><b>Sync with another device</b><small>same stars on phone and computer</small></span></button>
+    </div>
   </aside>
 
   <main>
@@ -180,39 +184,36 @@
         <label class="tg"><input type="checkbox" id="onlyConfirmed"><span>Confirmed only</span></label>
         <label class="tg"><input type="checkbox" id="gradeA"><span>NYCU A</span></label>
         <label class="tg"><input type="checkbox" id="ccfA"><span>CCF-A</span></label>
-        <label class="tg"><input type="checkbox" id="onlyStarred"><span>★ Starred</span></label>
       </div>
     </section>
 
-    <section aria-label="Upcoming deadlines">
-      <button type="button" class="section-head fold-toggle" data-fold="upcoming" aria-expanded="false">
-        <h2>Upcoming <span class="count" id="countUp"></span></h2>
-        <span class="chev" aria-hidden="true">↓</span>
-      </button>
-      <div class="fold-body" id="fold-upcoming" hidden>
+    <section class="list" aria-label="Conferences">
+      <div class="list-bar">
+        <div class="tabs" role="tablist" aria-label="Which conferences">
+          <button type="button" role="tab" class="tab" data-tab="up" aria-selected="true" aria-controls="panel-up">Upcoming<span class="count" id="countUp"></span></button>
+          <button type="button" role="tab" class="tab" data-tab="review" aria-selected="false" aria-controls="panel-review">In review<span class="count" id="countReview"></span></button>
+          <button type="button" role="tab" class="tab" data-tab="done" aria-selected="false" aria-controls="panel-done">Decided<span class="count" id="countPast"></span></button>
+        </div>
+        <div class="seg scope" id="scope" role="group" aria-label="Show">
+          <button type="button" data-scope="all" class="is-on">All</button>
+          <button type="button" data-scope="mine" title="Only the conferences you follow">★<span class="scope-word"> Mine</span><b class="scope-n" id="mineCount"></b></button>
+        </div>
+      </div>
+      <div class="tab-panel" role="tabpanel" id="panel-up">
         <div class="cards" id="upcoming"></div>
-        <p class="empty" id="emptyUp" hidden>Nothing matches. Try clearing a filter.</p>
+        <p class="empty" id="emptyUp" hidden>Nothing upcoming matches. Try clearing a filter.</p>
       </div>
-    </section>
-
-    <section aria-label="In review">
-      <button type="button" class="section-head fold-toggle" data-fold="review" aria-expanded="false">
-        <h2>In review <span class="count" id="countReview"></span></h2>
-        <span class="chev" aria-hidden="true">↓</span>
-      </button>
-      <div class="fold-body" id="fold-review" hidden>
+      <div class="tab-panel" role="tabpanel" id="panel-review" hidden>
         <div class="cards" id="review"></div>
         <p class="empty" id="emptyReview" hidden>Nothing in review matches your filters.</p>
       </div>
-    </section>
-
-    <section aria-label="Decided" class="passed-sec">
-      <button type="button" class="section-head fold-toggle" data-fold="passed" aria-expanded="false">
-        <h2>Decided <span class="count" id="countPast"></span></h2>
-        <span class="chev" aria-hidden="true">↓</span>
-      </button>
-      <div class="fold-body" id="fold-passed" hidden>
+      <div class="tab-panel" role="tabpanel" id="panel-done" hidden>
         <div class="cards cards-past" id="passed"></div>
+        <p class="empty" id="emptyPast" hidden>Nothing decided matches your filters.</p>
+      </div>
+      <div class="mine-empty" id="mineEmpty" hidden>
+        <p><b>You aren't following any conference yet.</b> Star one to follow every year of it: it gets the big countdown, the sidebar and your calendar.</p>
+        <div class="quick-stars" data-quick></div>
       </div>
     </section>
   </main>
