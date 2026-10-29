@@ -1226,3 +1226,7 @@ html.planner-open { overflow: hidden; }
   .c-actions .act { flex: 1 1 auto; justify-content: center; }
 }
 @media (max-width: 379px) { .scope-word { display: none; } }
+@media (max-width: 640px) {
+  .toggles { width: 100%; margin: 0 -16px; padding: 2px 16px; mask-image: linear-gradient(90deg, transparent, #000 16px, #000 calc(100% - 24px), transparent); }
+  .toggles::-webkit-scrollbar { display: none; }
+}

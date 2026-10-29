@@ -26,12 +26,13 @@
     set(k, v) { try { localStorage.setItem("confddl:" + k, JSON.stringify(v)); } catch { /* storage unavailable */ } },
   };
 
+  const RANKS = ["gradeA", "gradeB", "ccfA", "ccfB"];
   const state = {
     q: "",
     areas: new Set(store.get("areas", [])),
     onlyConfirmed: store.get("onlyConfirmed", false),
-    ccfA: store.get("ccfA", false),
-    gradeA: store.get("gradeA", false),
+    // rank filters (gradeA, gradeB, ccfA, ccfB): a conference shows if it matches any one that is on
+    ranks: new Set(RANKS.filter(k => store.get(k, false))),
     onlyStarred: store.get("onlyStarred", false), // the "★ Mine" scope above the list
     tab: store.get("listTab", "up"), // Upcoming / In review / Decided: one tab on show at a time
     heroMode: store.get("heroMode", "deadline"),
@@ -116,8 +117,7 @@
 
   function matches(c) {
     if (state.onlyConfirmed && c.status !== "confirmed") return false;
-    if (state.ccfA && c.ccf !== "A") return false;
-    if (state.gradeA && gradeOf(c) !== "A") return false;
+    if (state.ranks.size && ![...state.ranks].some(k => (k.startsWith("ccf") ? c.ccf : gradeOf(c)) === k.slice(-1))) return false;
     if (state.onlyStarred && !isStarred(c)) return false;
     if (state.areas.size && !c.area.some(a => state.areas.has(a))) return false;
     if (state.q) {
@@ -326,7 +326,7 @@
   }
 
   function pickFor(mode, now) {
-    const filtered = state.areas.size || state.onlyConfirmed || state.ccfA || state.gradeA || state.q || state.onlyStarred;
+    const filtered = state.areas.size || state.onlyConfirmed || state.ranks.size || state.q || state.onlyStarred;
     const pools = [
       [confs.filter(isStarred), "My conferences"],
       [confs.filter(c => c.el.style.display !== "none"), filtered ? "your filters" : ""],
@@ -1015,7 +1015,7 @@
 
   function apply({ animate = true } = {}) {
     const now = Date.now();
-    $("#clearFilters").hidden = !(state.areas.size || state.onlyConfirmed || state.ccfA || state.gradeA);
+    $("#clearFilters").hidden = !(state.areas.size || state.onlyConfirmed || state.ranks.size);
     const cards = confs.map(c => c.el);
     const useFlip = animate && hasGsap && window.Flip && !reduced;
 
@@ -1071,8 +1071,7 @@
   function persist() {
     store.set("areas", [...state.areas]);
     store.set("onlyConfirmed", state.onlyConfirmed);
-    store.set("ccfA", state.ccfA);
-    store.set("gradeA", state.gradeA);
+    RANKS.forEach(k => store.set(k, state.ranks.has(k)));
     store.set("onlyStarred", state.onlyStarred);
     store.set("starred", [...state.starred]);
     syncStars();
@@ -1180,8 +1179,8 @@
       if (e.key === "Escape" && document.activeElement === $("#q")) { $("#q").value = ""; state.q = ""; apply(); $("#q").blur(); }
     });
 
-    const oc = $("#onlyConfirmed"), ca = $("#ccfA");
-    oc.checked = state.onlyConfirmed; ca.checked = state.ccfA;
+    const oc = $("#onlyConfirmed");
+    oc.checked = state.onlyConfirmed;
     showScope(state.onlyStarred);
     const narrowScope = matchMedia("(max-width: 640px)");
     $("#scope").addEventListener("click", e => {
@@ -1222,16 +1221,17 @@
       if (q) setSeriesStar(q.dataset.series, !state.starred.has(q.dataset.series));
     });
     oc.addEventListener("change", () => { state.onlyConfirmed = oc.checked; persist(); apply(); });
-    ca.addEventListener("change", () => { state.ccfA = ca.checked; persist(); apply(); });
+    for (const k of RANKS) {
+      const box = $("#" + k);
+      box.checked = state.ranks.has(k);
+      box.addEventListener("change", () => { box.checked ? state.ranks.add(k) : state.ranks.delete(k); persist(); apply(); });
+    }
     $("#clearFilters").addEventListener("click", () => {
-      state.areas.clear(); state.onlyConfirmed = state.ccfA = state.gradeA = false;
-      oc.checked = ca.checked = $("#gradeA").checked = false;
+      state.areas.clear(); state.ranks.clear(); state.onlyConfirmed = oc.checked = false;
+      RANKS.forEach(k => { $("#" + k).checked = false; });
       $$(".chip").forEach(el => el.classList.toggle("is-on", !el.dataset.area));
       persist(); apply();
     });
-    const ga = $("#gradeA");
-    ga.checked = state.gradeA;
-    ga.addEventListener("change", () => { state.gradeA = ga.checked; persist(); apply(); });
 
     $$(".seg button").forEach(b => {
       b.classList.toggle("is-on", b.dataset.tz === state.tz);
