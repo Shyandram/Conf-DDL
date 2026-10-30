@@ -7,7 +7,7 @@
    blended by the reader's clock: night → dawn → day → dusk → night, with no hard switch. */
 (() => {
   "use strict";
-  const PAN_MS = 140000, FPS = 30, K = 0.014; // K: how far the nearest pixels travel, as a share of the screen
+  const PAN_MS = 140000, FPS = 30, K = 0.024; // K: how far the nearest pixels travel, as a share of the screen
 
   // the clock's keyframes (local hours) and the mood each holds; between two, the pictures blend
   const KEYS = [[4.5, "night"], [5.5, "dawn"], [6.4, "dawn"], [7.6, "day"], [16.4, "day"], [17.4, "dusk"], [18.4, "dusk"], [19.6, "night"]];
