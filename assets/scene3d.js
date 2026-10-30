@@ -1,13 +1,13 @@
 /* Conf DDL · the city scene in 2.5D, drifting through the day.
    Loaded only when a generated panorama with a depth map is on screen (and motion and WebGL are allowed).
    One WebGL canvas sits inside the backdrop picture it upgrades, framed exactly as that picture's CSS
-   (cover, panning across over 140 s), so it can fade in over it. Each pixel is displaced by its depth as a
+   (cover, centred), so it can fade in over it. Each pixel is displaced by its depth as a
    slow camera drifts (and follows the mouse or the tilt of a phone): near roofs move, the far hills and sky
    stay. The four moods are edits of one picture with the same layout, so they share the depth map and are
    blended by the reader's clock: night → dawn → day → dusk → night, with no hard switch. */
 (() => {
   "use strict";
-  const PAN_MS = 140000, FPS = 30, K = 0.024; // K: how far the nearest pixels travel, as a share of the screen
+  const FPS = 30, K = 0.024; // K: how far the nearest pixels travel, as a share of the screen
 
   // the clock's keyframes (local hours) and the mood each holds; between two, the pictures blend
   const KEYS = [[4.5, "night"], [5.5, "dawn"], [6.4, "dawn"], [7.6, "day"], [16.4, "day"], [17.4, "dusk"], [18.4, "dusk"], [19.6, "night"]];
@@ -26,19 +26,6 @@
     const d = new Date();
     return d.getHours() + d.getMinutes() / 60 + d.getSeconds() / 3600;
   };
-
-  // the CSS pan is `ease-in-out` (cubic-bezier(.42, 0, .58, 1)), alternating, phased to the document timeline
-  function bezier(x) {
-    let t = x;
-    for (let i = 0; i < 6; i++) {
-      const bx = 3 * (1 - t) * (1 - t) * t * .42 + 3 * (1 - t) * t * t * .58 + t * t * t - x;
-      const dx = 3 * (1 - t) * (1 - t) * .42 + 6 * (1 - t) * t * (.58 - .42) + 3 * t * t * (1 - .58);
-      if (Math.abs(bx) < 1e-5 || !dx) break;
-      t -= bx / dx;
-    }
-    return 3 * (1 - t) * t * t + t * t * t;
-  }
-  const panAt = ms => { const t = ms / PAN_MS, k = Math.floor(t); const p = t - k; return bezier(k % 2 ? 1 - p : p); };
 
   const VS = "attribute vec2 p;varying vec2 v;void main(){v=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}";
   const FS = `precision mediump float;varying vec2 v;
@@ -148,11 +135,10 @@ void main(){
       const W = Math.round(el.clientWidth * dpr), H = Math.round(el.clientHeight * dpr);
       if (!W || !H) return;
       if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; gl.viewport(0, 0, W, H); }
-      // background-size: cover; background-position: <pan>% 45%
+      // background-size: cover; background-position: center 45%
       const ia = ar.w / ar.h, ca = W / H;
       let fx = 1, ox = 0, fy = 1, oy = 0;
-      // (reduced motion: the CSS picture doesn't pan, it sits centred)
-      if (ia > ca) { fx = ca / ia; ox = (opt.still ? .5 : panAt(document.timeline.currentTime)) * (1 - fx); }
+      if (ia > ca) { fx = ca / ia; ox = .5 * (1 - fx); }
       else { fy = ia / ca; oy = .45 * (1 - fy); }
       gl.uniform4f(g.uMap, fx, ox, fy, oy);
       const t = now / 1000;
