@@ -2033,7 +2033,7 @@
       const panX = gsap.quickTo("#bgPan", "xPercent", { duration: 1.4, ease: "power3.out" });
       const panY = gsap.quickTo("#bgPan", "yPercent", { duration: 1.4, ease: "power3.out" });
       window.addEventListener("pointermove", e => {
-        if (!$("#planner").hidden) return; // the planner covers the page; don't animate what's behind it
+        if (!$("#planner").hidden || document.body.dataset.page === "list") return; // covered (planner, or the list's ground): don't animate what's behind it
         panX((e.clientX / innerWidth - 0.5) * -4.5);
         panY((e.clientY / innerHeight - 0.5) * -1.5);
       }, { passive: true });
@@ -2041,7 +2041,7 @@
 
     // back-to-top button, only once the hero is out of view
     const toTop = $("#toTop");
-    const syncTop = () => { toTop.hidden = window.scrollY < 600; };
+    const syncTop = () => { const h = window.scrollY < 600; if (toTop.hidden !== h) toTop.hidden = h; };
     window.addEventListener("scroll", syncTop, { passive: true });
     syncTop();
     toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" }));
@@ -2236,9 +2236,12 @@
     const cut = () => {
       cutQueued = false;
       if (document.body.dataset.page !== "list") return;
+      // all reads, then all writes; and clip-path itself rather than a custom property, which every card under it
+      // would inherit and so restyle on each scrolled frame
       const y = $(".list-bar").getBoundingClientRect().bottom;
-      for (const el of [...$$("#pgList .list > :not(.list-bar)"), $(".foot")])
-        if (el.offsetParent) el.style.setProperty("--cut", `${Math.max(0, Math.round(y - el.getBoundingClientRect().top))}px`);
+      const els = [...$$("#pgList .list > :not(.list-bar)"), $(".foot")].filter(el => el.offsetParent);
+      const tops = els.map(el => el.getBoundingClientRect().top);
+      els.forEach((el, i) => { el.style.clipPath = `inset(${Math.max(0, Math.round(y - tops[i]))}px -100vmax -100vmax)`; });
     };
     const queueCut = () => { if (!cutQueued) { cutQueued = true; requestAnimationFrame(cut); } };
     addEventListener("scroll", queueCut, { passive: true });

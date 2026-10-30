@@ -1640,7 +1640,7 @@ body[data-page="list"] .list-bg::before, body[data-page="list"] .list-bg::after 
 :root[data-theme="light"] .list-bg-img { opacity: .3; }
 :root[data-theme="light"] .list-bg::before { opacity: .22; }
 @media (prefers-reduced-motion: reduce) { .list-bg::before, .list-bg::after { animation: none; } }
-/* the filters and the tabs always sit straight on that ground: the rows are cut off at the tabs' lower edge (--cut) */
+/* the filters and the tabs always sit straight on that ground: the rows are cut off at the tabs' lower edge (clip-path set in app.js) */
 .controls, .list-bar { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; transition: background-color .25s, border-color .3s; }
 /* nearly opaque there, so its blur would buy nothing while the list scrolls under it */
 
@@ -1792,4 +1792,3 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl {
 .controls { margin-top: -8px; padding-top: clamp(20px, 3vw, 32px); } /* the top bar is 71px tall but things stick at 63px under its soft lower edge */
 .list { margin-top: 0; }
 .list-bar { padding-top: clamp(12px, 2vw, 20px); }
-#pgList .list > :not(.list-bar), body[data-page="list"] .foot { clip-path: inset(var(--cut, 0px) -100vmax -100vmax); }
