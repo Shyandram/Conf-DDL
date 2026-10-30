@@ -85,6 +85,21 @@
   };
 
   const fmtTime = ms => (state.tz === "aoe" ? fmtAoE.format(ms) + " AoE" : fmtLocal.format(ms));
+  // a rebuttal's closing moment, short enough for a row: "10/31 23:59" in the reader's zone (or AoE)
+  const fmtCloseLocal = new Intl.DateTimeFormat(undefined, { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+  const fmtCloseAoE = new Intl.DateTimeFormat(undefined, { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: "Etc/GMT+12" });
+  const fmtClose = ms => (state.tz === "aoe" ? fmtCloseAoE.format(ms) + " AoE" : fmtCloseLocal.format(ms));
+  // when a rebuttal closes: the announced moment in the reader's zone, or the last day with its time still unannounced
+  const rebClose = c => c.rebExact ? fmtTime(c.reb[1]) : `${fmtDay(c.rebuttal[1], true)} (time not announced)`;
+  // under the rebuttal's days in a row: the exact closing moment, when the venue gave one
+  const paintRebAt = c => {
+    const li = $$(".c-steps li", c.el)[1];
+    let at = $(".reb-at", li);
+    if (!c.rebExact) { at?.remove(); return; }
+    if (!at) { at = document.createElement("small"); at.className = "reb-at"; li.append(at); }
+    at.textContent = `→ ${fmtClose(c.reb[1])}`;
+    li.title = `${fmtRange(c.rebuttal, true)} · closes ${rebClose(c)}`;
+  };
 
   function split(ms) {
     const t = Math.max(0, Math.floor(ms / 1000));
@@ -182,10 +197,11 @@
     };
     setStep(steps[0], fmtDay(c.deadline), fmtDay(c.deadline, true));
     // "rebuttal": false means the venue has none; a missing field means not announced yet.
-    setStep(steps[1], c.rebuttal ? fmtRange(c.rebuttal) : (c.rebuttal === false ? "none" : "TBA"), c.rebuttal ? fmtRange(c.rebuttal, true) : "");
+    setStep(steps[1], c.rebuttal ? fmtRange(c.rebuttal) : (c.rebuttal === false ? "none" : "TBA"), c.rebuttal ? `${fmtRange(c.rebuttal, true)} · closes ${rebClose(c)}` : "");
     setStep(steps[2], c.decision ? fmtDay(c.decision) : "TBA", c.decision ? fmtDay(c.decision, true) : "");
     c.el = el;
     el.conf = c;
+    if (c.rebExact) paintRebAt(c);
     cardIO.observe(el);
     c.refs = {
       days: $(".c-days", el), unit: $(".c-unit", el), hms: $(".c-hms", el), bar: $(".bar i", el),
@@ -214,6 +230,7 @@
     for (const c of confs) {
       c.refs.ddl.textContent = fmtTime(c.ddl);
       if (c.refs.abs) c.refs.abs.textContent = fmtTime(c.abs);
+      if (c.rebExact && c.el) paintRebAt(c);
     }
     if (heroPick) { heroPick.when = eventOf(heroPick.c, heroPick.mode, Date.now())?.when || heroPick.when; $("#heroWhen").textContent = heroPick.when; }
   }
@@ -323,7 +340,7 @@
       if (!c.reb || now >= c.reb[1]) return null;
       const opens = now < c.reb[0];
       return { at: opens ? c.reb[0] : c.reb[1], kind: opens ? "Rebuttal opens" : "Rebuttal closes",
-        when: "Rebuttal " + fmtRange(c.rebuttal, true) };
+        when: opens ? `Rebuttal ${fmtRange(c.rebuttal, true)} · closes ${rebClose(c)}` : `Rebuttal closes ${rebClose(c)}` };
     }
     return c.dec && c.dec > now ? { at: c.dec, kind: "Next decision", when: "Decision " + fmtDay(c.decision, true) } : null;
   }
@@ -2259,7 +2276,10 @@
         ddl: parseDeadline(c.deadline, c.timezone),
         abs: parseDeadline(c.abstract_deadline, c.timezone),
         // rebuttal opens at the start of its first day and closes at the end of its last
-        reb: Array.isArray(c.rebuttal) ? [parseDeadline(c.rebuttal[0].slice(0, 10) + " 00:00", c.timezone), parseDeadline(c.rebuttal[1], c.timezone)] : null,
+        // a bare start day opens at its midnight; a bare end day closes at 23:59; either may carry its official time
+        reb: Array.isArray(c.rebuttal) ? [parseDeadline(c.rebuttal[0].length > 10 ? c.rebuttal[0] : c.rebuttal[0] + " 00:00", c.rebuttal_timezone || c.timezone),
+          parseDeadline(c.rebuttal[1], c.rebuttal_timezone || c.timezone)] : null,
+        rebExact: Array.isArray(c.rebuttal) && c.rebuttal[1].length > 10,
         dec: c.decision ? parseDeadline(c.decision.slice(0, 10) + " 00:00", c.timezone) : null,
       }))
       .filter(c => c.ddl != null);

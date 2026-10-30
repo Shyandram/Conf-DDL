@@ -69,11 +69,11 @@ def utc_stamp(dt):
 
 
 def day(s):
-    return date.fromisoformat(s).strftime("%Y%m%d")
+    return date.fromisoformat(s[:10]).strftime("%Y%m%d")
 
 
 def next_day(s):
-    return (date.fromisoformat(s) + timedelta(days=1)).strftime("%Y%m%d")
+    return (date.fromisoformat(s[:10]) + timedelta(days=1)).strftime("%Y%m%d")
 
 
 def events_of(c, site, stamp):
@@ -99,8 +99,8 @@ def events_of(c, site, stamp):
     if est:
         common.append("STATUS:TENTATIVE")
 
-    def timed(what, s, alarms):
-        at = utc_stamp(to_utc(s, c.get("timezone")))
+    def timed(what, s, alarms, tz=None):
+        at = utc_stamp(to_utc(s, tz or c.get("timezone")))
         ev = ["BEGIN:VEVENT", f"UID:{c['id']}-{slug(what)}@confddl", f"SUMMARY:{esc(f'{name} {what}{tag}')}",
               f"DTSTART:{at}", f"DTEND:{at}", *common]
         for trig, text in alarms:
@@ -118,6 +118,9 @@ def events_of(c, site, stamp):
     out += timed(ddl_word, c["deadline"], [("-P7D", f"{name} deadline in 7 days"), ("-P1D", f"{name} deadline tomorrow")])
     if isinstance(c.get("rebuttal"), list) and len(c["rebuttal"]) == 2:
         out += allday("rebuttal", c["rebuttal"][0], c["rebuttal"][1])
+        if len(c["rebuttal"][1]) > 10:  # an announced closing time also gets its own timed reminder
+            out += timed("rebuttal closes", c["rebuttal"][1][:16], [("-P1D", f"{name} rebuttal closes tomorrow")],
+                         c.get("rebuttal_timezone"))
     if c.get("decision"):
         out += allday(dec_word, c["decision"], c["decision"])
     return out

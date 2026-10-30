@@ -10,7 +10,7 @@ Static GitHub Pages site of conference deadline countdowns. All data lives in `d
    - `status: "confirmed"` only when the date comes from the official site. If it is projected from last year's cycle, use `"estimated"` and say so in `note`.
    - `place` as `"City, Country"`; if only the country is known, `"Country (TBA)"` (e.g. `"Japan (TBA)"`) so it gets a country photo; `"TBA"` if unknown; `"Virtual"` for online-only editions.
    - `id` = lowercase short name + 2-digit year (`iccv27`); use a suffix for rounds (`wacv28r1`).
-   - Also record the review timeline: `rebuttal` as `["YYYY-MM-DD", "YYYY-MM-DD"]` (or `false` if the venue has no rebuttal; omit if unannounced) and `decision` as `YYYY-MM-DD`.
+   - Also record the review timeline: `rebuttal` as `["YYYY-MM-DD", "YYYY-MM-DD"]` (or `false` if the venue has no rebuttal; omit if unannounced) and `decision` as `YYYY-MM-DD`. When the venue states the rebuttal's closing (or opening) time, write it as `YYYY-MM-DD HH:MM` in the `timezone` (or set `rebuttal_timezone` if it differs); the page then shows that exact moment.
    - When an estimated entry becomes official, update it in place and flip `status`.
    - Keep entries for passed deadlines: they appear in the "Passed" list.
    - Venue grades live in the top-level `tiers` (NYCU CS top-conference list, A / B by series title). Add a new series there only if the list includes it.

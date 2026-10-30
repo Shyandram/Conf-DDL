@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29",
+  "updated": "2026-10-30",
   "areas": {
     "CV": "Computer Vision",
     "ML": "Machine Learning",
@@ -81,7 +81,7 @@
       "status": "confirmed",
       "rebuttal": [
         "2027-01-25",
-        "2027-02-01"
+        "2027-02-01 23:59"
       ],
       "decision": "2027-02-25",
       "note": "Paper enrollment Nov 10, supplementary Nov 23. No extensions."
@@ -400,7 +400,7 @@
       "status": "confirmed",
       "rebuttal": [
         "2026-11-05",
-        "2026-11-18"
+        "2026-11-18 23:59"
       ],
       "decision": "2026-12-16",
       "note": "Author–reviewer discussion Nov 5–18, then reviewer–AC discussion until Dec 16."
@@ -498,7 +498,7 @@
       "status": "confirmed",
       "rebuttal": [
         "2026-10-24",
-        "2026-10-31"
+        "2026-10-31 23:59"
       ],
       "decision": "2026-11-30",
       "note": "Author feedback Oct 24–31 (the official timetable lists this after the original Oct 19–25, which the review-process text still shows; check your OpenReview console). Phase 1 rejections Sep 24. Camera-ready Dec 14, 2026."
@@ -606,11 +606,11 @@
       "place": "Montréal, Canada",
       "status": "confirmed",
       "rebuttal": [
-        "2026-11-16",
+        "2026-11-23",
         "2026-12-03"
       ],
       "decision": "2027-01-20",
-      "note": "Reviews + AI review released Nov 16 (rebuttal opens); author–reviewer discussion Nov 23 – Dec 3; camera-ready TBA."
+      "note": "Reviews + AI review released Nov 16; author–reviewer discussion (the rebuttal) Nov 23 – Dec 3; camera-ready TBA."
     },
     {
       "id": "eacl27",
@@ -675,7 +675,7 @@
       "status": "confirmed",
       "rebuttal": [
         "2026-11-20",
-        "2026-11-24"
+        "2026-11-24 23:59"
       ],
       "decision": "2026-12-21",
       "note": "OpenReview author registration Sep 17; camera-ready Jan 25, 2027; non-selected papers go to Findings of AAMAS unless opted out."
@@ -716,7 +716,7 @@
       "status": "confirmed",
       "rebuttal": [
         "2026-11-23",
-        "2026-11-30"
+        "2026-11-30 23:59"
       ],
       "decision": "2027-02-09",
       "note": "Deadline extended to Oct 2, 00:59 AoE after SRM issues; conditional accept/reject Dec 18; revision due Jan 26; camera-ready Feb 23."
@@ -761,7 +761,7 @@
       "status": "confirmed",
       "rebuttal": [
         "2026-11-05",
-        "2026-12-03"
+        "2026-12-03 23:59"
       ],
       "decision": "2026-12-17",
       "note": "No abstract deadline; reviews Nov 5, revise-and-resubmit until Dec 3; publication-ready Feb 18, 2027."
@@ -830,7 +830,7 @@
       "status": "confirmed",
       "rebuttal": [
         "2027-01-18",
-        "2027-01-24"
+        "2027-01-24 23:59"
       ],
       "decision": "2027-02-12",
       "note": "Full papers; discussion Jan 24–31; camera-ready Mar 12, 2027; short-paper dates TBD."
@@ -1521,7 +1521,7 @@
         "2027-04-23"
       ],
       "decision": "2027-05-31",
-      "note": "First virtual ICPR (29th), run by IAPR alongside the biennial in-person editions. Official dates marked tentative; abstract_deadline is paper registration. Short (8p) / long (15p) LNCS papers, double-blind."
+      "note": "First virtual ICPR (29th), run by IAPR alongside the biennial in-person editions. Official dates marked tentative; abstract_deadline is paper registration. Reviews to authors Apr 16, author rebuttal due Apr 23 (provisional). Short (8p) / long (15p) LNCS papers, double-blind."
     },
     {
       "id": "acml26",

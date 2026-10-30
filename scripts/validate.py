@@ -56,6 +56,13 @@ def main(path=DATA) -> int:
                 errors.append(f"{where}: rebuttal must be [\"YYYY-MM-DD\", \"YYYY-MM-DD\"] in order")
             elif reb[0][:10] < c.get("deadline", "")[:10]:
                 errors.append(f"{where}: rebuttal starts before the paper deadline")
+            else:
+                rtz = c.get("rebuttal_timezone") or c.get("timezone")
+                for x in reb:
+                    if len(x) >= 16 and (fix := dst_mismatch(x, rtz)):
+                        errors.append(f"{where}: rebuttal time {x} falls in {fix}, not {rtz}")
+        if c.get("rebuttal_timezone") and not TZ.match(c["rebuttal_timezone"]):
+            errors.append(f"{where}: unknown rebuttal_timezone '{c['rebuttal_timezone']}'")
         dec = c.get("decision")
         if dec is not None:
             if not DATE.match(dec):

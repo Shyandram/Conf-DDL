@@ -72,7 +72,7 @@ Ask Claude Code, e.g. *"add the ECCV 2028 deadline"*. It follows [`CLAUDE.md`](C
 
 **Required:** `id` · `title` · `year` · `full_name` · `area` · `link` · `deadline` (`YYYY-MM-DD HH:MM`) · `timezone` (`AoE`, `UTC+8`, `PDT`, …) · `status` (`confirmed` / `estimated`)
 
-**Optional:** `abstract_deadline` · `date` · `place` (`"City, Country"`, `"Japan (TBA)"`, `"TBA"`, `"Virtual"`) · `rebuttal` (`[start, end]` or `false`) · `decision` · `ccf` · `kind` (`workshop` / `workshop-paper` / `challenge`) · `series` · `note`
+**Optional:** `abstract_deadline` · `date` · `place` (`"City, Country"`, `"Japan (TBA)"`, `"TBA"`, `"Virtual"`) · `rebuttal` (`[start, end]` or `false`; days, or `YYYY-MM-DD HH:MM` when the venue states the time; a bare end day closes at 23:59) · `rebuttal_timezone` (if the rebuttal runs on a different zone than the deadline) · `decision` · `ccf` · `kind` (`workshop` / `workshop-paper` / `challenge`) · `series` · `note`
 
 Check your changes with `python3 scripts/validate.py`.
 </details>

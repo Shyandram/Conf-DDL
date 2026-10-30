@@ -562,6 +562,8 @@ kbd { font: 12px var(--mono); padding: 2px 6px; border: 1px solid var(--line-2);
 @keyframes blink { 50% { opacity: .2; } }
 .c-steps li.now span { color: var(--u); }
 .c-steps b { font-weight: 500; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 8px; }
+.c-steps .reb-at { max-width: 100%; font: 500 12px var(--mono); color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 8px; }
+@media (max-width: 760px) { .c-steps .reb-at { white-space: normal; text-align: center; padding-right: 0; } }
 .c-steps li.na b { color: var(--ink-3); font-weight: 400; }
 
 .row-more { padding: 0 14px 18px 36px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
