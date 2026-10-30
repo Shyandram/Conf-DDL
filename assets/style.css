@@ -1794,7 +1794,11 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl {
 /* list page: the stuck controls and tab bar form one solid header strip from edge to edge, under an opaque top bar,
    so no row shows through a gap or past its sides */
 body[data-page="list"] .topbar { background: var(--bg); }
+.topbar { transition: background-color .38s ease; } /* in step with the page slide */
 .controls.is-stuck, .list-bar.is-stuck { box-shadow: 0 0 0 100vmax var(--bg); clip-path: inset(-10px -100vmax 0 -100vmax); }
 .list-bar.is-stuck { box-shadow: 0 0 0 100vmax var(--bg), 0 1px 0 100vmax var(--line); clip-path: inset(0 -100vmax -1px -100vmax); }
 .controls.is-stuck { border-bottom-color: transparent; }
-.pager { overflow: clip; overflow-clip-margin: 48px; } /* room for that strip to reach the screen edges (Chrome honours the margin only when both axes clip) */
+/* the pager clips sideways, so a fixed floor behind the page carries that strip out to the screen edges */
+.stick-floor { position: fixed; top: 0; left: 0; right: 0; height: var(--floor-h, 0px); z-index: -1; pointer-events: none;
+  background: var(--bg); border-bottom: 1px solid var(--line); opacity: 0; transition: opacity .38s ease; }
+body[data-page="list"] .stick-floor.on { opacity: 1; }

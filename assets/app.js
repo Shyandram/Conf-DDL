@@ -1700,11 +1700,23 @@
       setGlide(i);
     };
     // show both pages, the incoming one shifted so it appears where it will sit after the switch
+    // the search and filters stay where they are while the pages slide under them; they only fade with the list.
+    // They run the opposite transition to the track's, so the two cancel out on the compositor
+    const ctl = $(".controls");
+    const slideCtl = (x, how) => {
+      const w = track.offsetWidth;
+      ctl.style.transition = how ? `transform ${how}, opacity ${how}` : "none";
+      ctl.style.transform = `translateX(${-(x + w)}px)`;
+      ctl.style.opacity = Math.min(1, Math.max(0, -x / w));
+    };
     const beginMove = to => {
+      track.style.transform = `translateX(${-page * 100}%)`; // hold the resting place the stylesheet gives it, or the slide back has nowhere to start from
+      slideCtl(-page * track.offsetWidth);
       pager.classList.add("is-moving");
       pgs[to].style.transform = `translateY(${window.scrollY - pagePos[to]}px)`;
     };
     const endMove = () => {
+      ctl.style.transition = ctl.style.transform = ctl.style.opacity = "";
       pager.classList.remove("is-moving");
       pgs.forEach(el => { el.style.transform = ""; });
       track.style.transition = track.style.transform = "";
@@ -1729,9 +1741,10 @@
       document.body.dataset.page = to ? "list" : "now"; // the backdrops cross-fade during the slide, not after it
       track.style.transition = "transform .38s cubic-bezier(.2, .8, .2, 1)";
       track.style.transform = `translateX(${-to * 100}%)`;
+      slideCtl(-to * track.offsetWidth, ".38s cubic-bezier(.2, .8, .2, 1)");
       nav.style.setProperty("--p", to);
       clearTimeout(done);
-      const end = () => { clearTimeout(done); track.removeEventListener("transitionend", end); finish(to, after); };
+      const end = e => { if (e && e.target !== track) return; clearTimeout(done); track.removeEventListener("transitionend", end); finish(to, after); };
       track.addEventListener("transitionend", end);
       done = setTimeout(end, 500); // in case transitionend never comes
     };
@@ -1801,6 +1814,7 @@
       const toward = (dx < 0 && page === 0) || (dx > 0 && page === 1);
       g.dx = toward ? dx : dx * 0.25;
       track.style.transform = `translateX(calc(${-page * 100}% + ${g.dx}px))`;
+      slideCtl(-page * track.offsetWidth + g.dx);
       setGlide(Math.min(1, Math.max(0, page - g.dx / W())));
     }, { passive: false });
     const release = () => {
@@ -1813,15 +1827,17 @@
         const to = 1 - page;
         track.style.transition = "transform .3s cubic-bezier(.2, .8, .2, 1)";
         track.style.transform = `translateX(${-to * 100}%)`;
+        slideCtl(-to * track.offsetWidth, ".3s cubic-bezier(.2, .8, .2, 1)");
         setGlide(to);
-        const end = () => { clearTimeout(done); track.removeEventListener("transitionend", end); finish(to); };
+        const end = e => { if (e && e.target !== track) return; clearTimeout(done); track.removeEventListener("transitionend", end); finish(to); };
         track.addEventListener("transitionend", end);
         done = setTimeout(end, 450);
       } else {
         track.style.transition = "transform .25s ease";
         track.style.transform = `translateX(${-page * 100}%)`;
+        slideCtl(-page * track.offsetWidth, ".25s ease");
         setGlide(page);
-        const end = () => { clearTimeout(done); track.removeEventListener("transitionend", end); endMove(); };
+        const end = e => { if (e && e.target !== track) return; clearTimeout(done); track.removeEventListener("transitionend", end); endMove(); };
         track.addEventListener("transitionend", end);
         done = setTimeout(end, 350);
       }
@@ -2219,10 +2235,17 @@
     const mark = document.createElement("i");
     mark.className = "stick-mark";
     $(".controls").before(mark);
+    const floor = document.createElement("div");
+    floor.className = "stick-floor";
+    $(".layout").before(floor);
+    const sizeFloor = () => floor.style.setProperty("--floor-h", `${Math.round($(".list-bar").getBoundingClientRect().bottom)}px`);
     new IntersectionObserver(([en]) => {
       const stuck = !en.isIntersecting && en.boundingClientRect.top < 64;
       $$(".controls, .list-bar").forEach(el => el.classList.toggle("is-stuck", stuck));
+      floor.classList.toggle("on", stuck);
+      if (stuck) sizeFloor();
     }, { rootMargin: "-64px 0px 0px 0px" }).observe(mark);
+    addEventListener("resize", () => { if (floor.classList.contains("on")) sizeFloor(); }, { passive: true });
   }
 
   /* ---------- lifecycle ---------- */
