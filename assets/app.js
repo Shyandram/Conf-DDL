@@ -2092,7 +2092,6 @@
       const panY = gsap.quickTo("#bgPan", "yPercent", { duration: 1.4, ease: "power3.out" });
       window.addEventListener("pointermove", e => {
         if (!$("#planner").hidden || document.body.dataset.page === "list") return; // covered (planner, or the list's ground): don't animate what's behind it
-        if ($("#bgPan .page-bg-img:last-child")?.dataset.live) { panX(0); panY(0); return; } // a 2.5D scene moves by depth itself
         panX((e.clientX / innerWidth - 0.5) * -4.5);
         panY((e.clientY / innerHeight - 0.5) * -1.5);
       }, { passive: true });
