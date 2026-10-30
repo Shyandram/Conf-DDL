@@ -732,7 +732,6 @@
       $("#heroFull").textContent = "No upcoming deadlines match your filters.";
       $("#heroWhen").textContent = "";
       $("#heroKind").textContent = "Next deadline";
-      $("#heroPlace").textContent = "";
       hero.classList.add("is-empty");
       return;
     }
@@ -740,7 +739,6 @@
     const chars = splitChars($("#heroName"), c.title);
     $("#heroYear").textContent = c.year;
     $("#heroFull").textContent = c.full_name + (c.status !== "confirmed" ? " · estimated date" : "");
-    $("#heroPlace").textContent = [c.place, c.date].filter(Boolean).join(" · ");
     $("#heroLink").href = c.link;
     if (hasGsap && fx) {
       gsap.fromTo(chars, { yPercent: 110 }, { yPercent: 0, duration: first ? 1.1 : 0.7, ease: "expo.out", stagger: 0.04, delay: first ? 0.15 : 0 });

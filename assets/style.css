@@ -979,7 +979,6 @@ html.planner-open { overflow: hidden; }
   .hero-picks { min-height: 76px; }
   .venue { min-height: 180px; }
   .hero-foot { min-height: 118px; }
-  .hero-foot .dot-sep { display: none; } /* date and place sit on separate lines here */
 }
 @media (max-width: 760px), (pointer: coarse) { .grain { display: none; } }
 /* line-height 1 + flex children: the title is 1.1em tall whatever the font or text, so it never shifts on load */
@@ -1291,7 +1290,6 @@ html.on-now .to-top { display: none !important; }
 
 /* shed detail when the screen is short (app.js adds these one at a time until it fits) */
 #pgNow.f1 .hero-full { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 0; margin-bottom: 10px; }
-#pgNow.f1 #heroPlace, #pgNow.f1 .hero-foot .dot-sep { display: none; }
 #pgNow.f1 .hero-foot { padding-top: 10px; margin-top: 0; }
 #pgNow.f2 .venue { min-height: 0; padding-top: 10px; padding-bottom: 10px; }
 #pgNow.f2 .venue-kicker, #pgNow.f2 .venue-credit { display: none; }
