@@ -448,6 +448,8 @@
     const { alt, rising } = sunAt(entry.lat, entry.lon, t);
     return alt < -8 ? "night" : alt < 10 ? (rising ? "dawn" : "dusk") : "day";
   };
+  // the backdrop follows the reader's own clock, in step with the light / dark theme (light 6–18)
+  const localPhase = () => { const h = new Date().getHours(); return h >= 5 && h < 7 ? "dawn" : h >= 7 && h < 17 ? "day" : h >= 17 && h < 19 ? "dusk" : "night"; };
   // the closest mood when a city lacks the one asked for
   const NEAR = { dawn: ["dawn", "dusk", "day", "night"], day: ["day", "dawn", "dusk", "night"],
     dusk: ["dusk", "dawn", "night", "day"], night: ["night", "dusk", "dawn", "day"] };
@@ -512,7 +514,7 @@
     const scenes = entry && entry.scenes && PHASES.filter(p => entry.scenes[p]);
     let shown;
     if (scenes && scenes.length) {
-      const now = entry.lat != null ? phaseAt(entry, Date.now()) : "day";
+      const now = localPhase();
       let pick = advance ? PHASES[(PHASES.indexOf(fig.dataset.scene || now) + 1) % 4] : fig.dataset.scene || now;
       if (advance) while (!entry.scenes[pick]) pick = PHASES[(PHASES.indexOf(pick) + 1) % 4];
       pick = NEAR[pick].find(p => entry.scenes[p]);
@@ -717,7 +719,7 @@
     if (!entry || entry.lat == null) return;
     venueSky(entry);
     updateWeather(entry); // cached for 15 minutes, so this asks the network only now and then
-    const phase = phaseAt(entry, Date.now());
+    const phase = localPhase();
     if (fig.dataset.shown && !fig.dataset.scene && NEAR[phase].find(p => entry.scenes[p]) !== fig.dataset.shown) setVenue(heroConf);
   }, 30000);
 
