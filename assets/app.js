@@ -532,6 +532,7 @@
     pre.onload = () => {
       if (fig.dataset.token !== token) return;
       showBackdrop(shown.src, shown.cls);
+      $(".page-bg").dataset.mood = fig.dataset.shown || "photo"; // the light theme's veil thins over daylight only
       credit.innerHTML = shown.credit;
       credit.hidden = false;
     };

@@ -1770,3 +1770,13 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl {
   .venue-links .vl-k { display: none; }
   .venue-links .vl-visit { flex-basis: auto; margin: 0 0 0 4px; font-size: 12px; }
 }
+
+/* light theme over a daylight picture: a thinner veil, so it keeps its colour; it stays thickest behind the text
+   on the left and still fades into the page at the bottom (dusk and night keep the full veil, or dark text gets lost) */
+:root[data-theme="light"] .page-bg:is([data-mood="day"], [data-mood="dawn"], [data-mood="photo"])::after {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 22%, transparent) 0%, transparent 35%,
+      color-mix(in srgb, var(--bg) 30%, transparent) calc(100% - 220px), var(--bg) calc(100% - 40px)),
+    linear-gradient(90deg, color-mix(in srgb, var(--bg) 50%, transparent) 0%, color-mix(in srgb, var(--bg) 22%, transparent) 45%,
+      transparent 100%);
+}
