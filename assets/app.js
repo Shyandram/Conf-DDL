@@ -1648,7 +1648,8 @@
         if (W / Math.max(room, 1) >= 1.15) tryMode("m-cols", 4, 0.3, () => 0);
         // folded: the timeline waits behind its icon in the bottom bar, so the countdown keeps as much as it can,
         // a little smaller rather than without its venue
-        else if (pg.classList.contains("tl-folded")) [0, 1, 2, 3].some(l => tryMode("m-v", l, 0.84, () => 0)) || tryMode("m-v", 4, 0.3, () => 0);
+        // small screens shed the full name and tighten the chips before the clock shrinks at all
+        else if (pg.classList.contains("tl-folded")) [0.95, 0.84].some(z => [0, 1, 2, 3].some(l => tryMode("m-v", l, z, () => 0))) || tryMode("m-v", 4, 0.3, () => 0);
         // phones: the month list scrolls inside whatever room it gets, so the countdown keeps its size and the list gives
         else if (W < 560 && state.tlView === "list" && tryMode("m-v", 4, 0.88, () => head() + Math.max(120, room * 0.24)));
         else tryMode("m-v", 4, 0.3, list);

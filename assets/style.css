@@ -1752,12 +1752,13 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl {
 
 /* phones: the clock fills the width (four boxes 8px apart), the venue card is a compact three lines */
 @media (max-width: 560px) {
-  .clock { gap: 0 8px; grid-template-columns: repeat(4, 1fr); --dw: clamp(26px, calc((100cqi - 26px) / 5.8), 72px); }
-  .clock:has([data-unit="d"] .digit:nth-child(3)) { grid-template-columns: 1.4fr repeat(3, 1fr); --dw: clamp(24px, calc((100cqi - 26px) / 6.45), 64px); }
+  /* the clock reaches 6px past the page gutter on each side; mono digits sit at their glyph width, so they fill their boxes */
+  .clock { margin-inline: -6px; gap: 0 4px; grid-template-columns: repeat(4, 1fr); --dw: clamp(26px, calc(100cqi / 5.25), 80px); }
+  .clock:has([data-unit="d"] .digit:nth-child(3)) { grid-template-columns: 1.45fr repeat(3, 1fr); --dw: clamp(24px, calc(100cqi / 5.9), 70px); }
   .unit { min-width: 0; align-items: stretch; }
   .unit > span { text-align: center; }
   .digits { justify-content: center; padding: 0; }
-  .digit { width: calc(var(--dw) * .62); font-size: calc(var(--dw) * 1.0); }
+  .digit { width: calc(var(--dw) * .54); font-size: calc(var(--dw) * .92); }
   .venue { min-height: 0; gap: 6px; padding: 12px 14px; border-radius: 14px; }
   .venue figcaption { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 0 8px; }
   .venue-kicker, .venue-foot { display: none; }
