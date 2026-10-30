@@ -28,7 +28,7 @@ jobs:
         run: python3 scripts/build_calendar.py --site "https://conf-ddl.shyandram.dev/"
       - name: Minify scripts, styles and data (the repo keeps the readable sources)
         run: |
-          npx --yes esbuild@0.24.0 assets/app.js assets/style.css sw.js --minify --target=es2020 --outdir=. --outbase=. --allow-overwrite
+          npx --yes esbuild@0.24.0 assets/app.js assets/scene3d.js assets/style.css sw.js --minify --target=es2020 --outdir=. --outbase=. --allow-overwrite
           python3 - <<'PY'
           import json
           for f in ("data/conferences.json", "data/cities.json"):

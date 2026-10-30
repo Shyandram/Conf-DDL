@@ -1794,3 +1794,6 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl {
 .controls { margin-top: -8px; padding-top: clamp(20px, 3vw, 32px); } /* the top bar is 71px tall but things stick at 63px under its soft lower edge */
 .list { margin-top: 0; }
 .list-bar { padding-top: clamp(12px, 2vw, 20px); }
+/* the live 2.5D scene (assets/scene3d.js) fades in over the picture it was framed from */
+.page-bg-3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity .9s ease; }
+.page-bg-3d.is-on { opacity: 1; }

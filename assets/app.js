@@ -12,6 +12,7 @@
   const fx = !reduced && !lite;     // decorative motion
   const dur = s => (lite ? Math.min(s, 0.25) : s);
   const hasGsap = typeof window.gsap !== "undefined";
+  const VER = (document.currentScript && document.currentScript.src.match(/[?&]v=([^&]+)/) || [])[1] || "dev";
   if (hasGsap && window.Flip) gsap.registerPlugin(Flip);
 
   // Build id from our own script URL (?v=<commit> on the live site, "dev" locally). Data URLs carry it too, so they
@@ -493,15 +494,38 @@
     img.src = src;
   }
 
+  // The generated scenes come alive in 2.5D (assets/scene3d.js, fetched only when one is shown): a WebGL canvas
+  // fades in over the picture, moves its pixels by their depth and blends the moods by the clock.
+  let scene3d = null;
+  const load3d = () => scene3d || (scene3d = new Promise(res => {
+    const s = document.createElement("script");
+    s.src = `assets/scene3d.js?v=${VER}`;
+    s.onload = () => res(window.Scene3D || null);
+    s.onerror = () => res(null);
+    document.head.append(s);
+  }));
+
   // the backdrop cross-fades: the new picture fades in over the old, which leaves once it is covered
-  function showBackdrop(src, cls = "") {
+  function showBackdrop(src, cls = "", live) {
     const pan = $("#bgPan"), old = $$(".page-bg-img", pan);
     listGround(src);
     if (!src) { old.forEach(o => o.classList.remove("is-loaded")); return; }
     const el = document.createElement("div");
     el.className = `page-bg-img ${cls}`;
     el.style.backgroundImage = `url("${src}")`;
+    // the pan is phased to the document's clock, so a canvas taking over can frame it the same way
+    if (cls.includes("is-pano")) el.style.animationDelay = `${-(document.timeline.currentTime || 0) / 1000}s`;
     pan.append(el);
+    if (live && !reduced) load3d().then(S => S && S.attach(el, {
+      ...live,
+      paused: () => document.body.dataset.page === "list" || !$("#planner").hidden,
+      onMood: mood => {
+        $(".page-bg").dataset.mood = mood;
+        $("#venue").dataset.shown = mood;
+        const cr = $("#venueCredit");
+        cr.innerHTML = cr.innerHTML.replace(/^(Dawn|Day|Dusk|Night)\b/, mood[0].toUpperCase() + mood.slice(1));
+      },
+    }));
     requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("is-loaded")));
     setTimeout(() => old.forEach(o => o.remove()), 1300);
   }
@@ -536,7 +560,8 @@
       pick = NEAR[pick].find(p => entry.scenes[p]);
       if (advance) fig.dataset.scene = pick;
       fig.dataset.shown = pick;
-      shown = { src: entry.scenes[pick], cls: "is-pano", credit: `${pick[0].toUpperCase() + pick.slice(1)} in ${esc(city || COUNTRY_NAMES[country] || country)} · AI-generated scene` };
+      shown = { src: entry.scenes[pick], cls: "is-pano",
+        live: entry.depth && { scenes: entry.scenes, depth: entry.depth, fixed: fig.dataset.scene || null }, credit: `${pick[0].toUpperCase() + pick.slice(1)} in ${esc(city || COUNTRY_NAMES[country] || country)} · AI-generated scene` };
     } else {
       delete fig.dataset.shown;
       const pool = place && photosOf(key).length ? key : "*";
@@ -549,7 +574,7 @@
     pre.crossOrigin = "anonymous"; // matches how the service worker fetches, so both share one cached copy
     pre.onload = () => {
       if (fig.dataset.token !== token) return;
-      showBackdrop(shown.src, shown.cls);
+      showBackdrop(shown.src, shown.cls, shown.live);
       $(".page-bg").dataset.mood = fig.dataset.shown || "photo"; // the light theme's veil thins over daylight only
       credit.innerHTML = shown.credit;
       credit.hidden = false;
@@ -736,7 +761,8 @@
     venueSky(entry);
     updateWeather(entry); // cached for 15 minutes, so this asks the network only now and then
     const phase = localPhase();
-    if (fig.dataset.shown && !fig.dataset.scene && NEAR[phase].find(p => entry.scenes[p]) !== fig.dataset.shown) setVenue(heroConf);
+    const live = $("#bgPan .page-bg-img:last-child")?.dataset.live; // a live scene blends the moods by itself
+    if (!live && fig.dataset.shown && !fig.dataset.scene && NEAR[phase].find(p => entry.scenes[p]) !== fig.dataset.shown) setVenue(heroConf);
   }, 30000);
 
   function setHero(c) {

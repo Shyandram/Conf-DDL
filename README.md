@@ -35,7 +35,7 @@
 
 | | |
 |---|---|
-| **⏱ Countdown** | The next deadline, over a panorama of the host city at its current hour there (dawn, day, dusk or night) with its live rain, snow or fog, with the local time and links to the city's sights and official visitor site. After submission closes, it counts down to the rebuttal and then the decision. |
+| **⏱ Countdown** | The next deadline, over a 2.5D panorama of the host city that moves with depth and turns from dawn to day, dusk and night with your clock, with its live rain, snow or fog, with the local time and links to the city's sights and official visitor site. After submission closes, it counts down to the rebuttal and then the decision. |
 | **⌕ Search and filters** | Filter by field, NYCU A/B, CCF-A/B or confirmed dates, and see everything on a timeline (3 months to a year, as an axis or month by month). |
 | **↻ Planner** | Find where a paper can go next, during the rebuttal or after the decision. |
 | **★ Star** | Follow a series every year. Stars sync between your phone and computer. |

@@ -53,7 +53,8 @@
       "night": "assets/scenes/anaheim/night.webp?v=a615cf72"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Anaheim, California, seen from a low hill: wide suburban streets lined with palm trees, Angel Stadium's big red A in the middle distance, freeway ribbons, and the Santa Ana Mountains rising behind"
+    "scene_prompt_used": "Anaheim, California, seen from a low hill: wide suburban streets lined with palm trees, Angel Stadium's big red A in the middle distance, freeway ribbons, and the Santa Ana Mountains rising behind",
+    "depth": "assets/scenes/anaheim/depth.webp?v=25a89393"
   },
   "Athens": {
     "query": "Athens Acropolis cityscape",
@@ -116,7 +117,8 @@
       "night": "assets/scenes/athens/night.webp?v=6a703bb5"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Athens from Filopappou Hill: the Acropolis with the Parthenon on its rock in the foreground right, the white city spreading across the basin to Mount Lycabettus and the mountains beyond"
+    "scene_prompt_used": "Athens from Filopappou Hill: the Acropolis with the Parthenon on its rock in the foreground right, the white city spreading across the basin to Mount Lycabettus and the mountains beyond",
+    "depth": "assets/scenes/athens/depth.webp?v=85b6468b"
   },
   "Auckland": {
     "photos": [
@@ -178,7 +180,8 @@
       "night": "assets/scenes/auckland/night.webp?v=da1c4820"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Auckland's waterfront from across the Waitematā Harbour at Devonport: the Sky Tower rising above the city skyline, sailing boats on the water, the Harbour Bridge on the left"
+    "scene_prompt_used": "Auckland's waterfront from across the Waitematā Harbour at Devonport: the Sky Tower rising above the city skyline, sailing boats on the water, the Harbour Bridge on the left",
+    "depth": "assets/scenes/auckland/depth.webp?v=98c1f147"
   },
   "Austin": {
     "photos": [
@@ -239,7 +242,8 @@
       "night": "assets/scenes/austin/night.webp?v=cea77c18"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "downtown Austin, Texas across Lady Bird Lake: the modern skyline reflected in the calm water, kayakers and the low Congress Avenue Bridge, the Texas State Capitol dome visible between towers"
+    "scene_prompt_used": "downtown Austin, Texas across Lady Bird Lake: the modern skyline reflected in the calm water, kayakers and the low Congress Avenue Bridge, the Texas State Capitol dome visible between towers",
+    "depth": "assets/scenes/austin/depth.webp?v=0b157bf0"
   },
   "Bremen": {
     "photos": [
@@ -300,7 +304,8 @@
       "night": "assets/scenes/bremen/night.webp?v=b5a2e869"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Bremen's Market Square at street level: the ornate Renaissance town hall facade, the twin spires of St. Peter's Cathedral, the Roland statue, gabled guild houses, cobblestones"
+    "scene_prompt_used": "Bremen's Market Square at street level: the ornate Renaissance town hall facade, the twin spires of St. Peter's Cathedral, the Roland statue, gabled guild houses, cobblestones",
+    "depth": "assets/scenes/bremen/depth.webp?v=3ea3d551"
   },
   "Brisbane": {
     "photos": [
@@ -362,7 +367,8 @@
       "night": "assets/scenes/brisbane/night.webp?v=f6fdc41b"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Brisbane from Kangaroo Point Cliffs: the Brisbane River curving past the city towers, the steel Story Bridge on the right, jacaranda trees in bloom on the bank below"
+    "scene_prompt_used": "Brisbane from Kangaroo Point Cliffs: the Brisbane River curving past the city towers, the steel Story Bridge on the right, jacaranda trees in bloom on the bank below",
+    "depth": "assets/scenes/brisbane/depth.webp?v=d99d9cf2"
   },
   "Budapest": {
     "photos": [
@@ -424,7 +430,8 @@
       "night": "assets/scenes/budapest/night.webp?v=6137bc1e"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Budapest from the Fisherman's Bastion on Buda Hill: the Danube with the Chain Bridge, the Hungarian Parliament Building's neo-Gothic dome on the far bank, Pest stretching flat to the horizon"
+    "scene_prompt_used": "Budapest from the Fisherman's Bastion on Buda Hill: the Danube with the Chain Bridge, the Hungarian Parliament Building's neo-Gothic dome on the far bank, Pest stretching flat to the horizon",
+    "depth": "assets/scenes/budapest/depth.webp?v=aab2c8d9"
   },
   "California": {
     "photos": [
@@ -486,7 +493,8 @@
       "night": "assets/scenes/california/night.webp?v=76b748e5"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "the Golden Gate Bridge seen from the Marin Headlands at Battery Spencer: the red bridge crossing the strait, San Francisco's skyline behind it, the Pacific on the left, rolling golden hills in the foreground"
+    "scene_prompt_used": "the Golden Gate Bridge seen from the Marin Headlands at Battery Spencer: the red bridge crossing the strait, San Francisco's skyline behind it, the Pacific on the left, rolling golden hills in the foreground",
+    "depth": "assets/scenes/california/depth.webp?v=6c5b6624"
   },
   "Cape Town": {
     "photos": [
@@ -549,7 +557,8 @@
       "night": "assets/scenes/cape-town/night.webp?v=6db8adc0"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Cape Town from Bloubergstrand beach across Table Bay: the flat-topped Table Mountain with Lion's Head and Devil's Peak, the city at its feet, gentle surf in the foreground"
+    "scene_prompt_used": "Cape Town from Bloubergstrand beach across Table Bay: the flat-topped Table Mountain with Lion's Head and Devil's Peak, the city at its feet, gentle surf in the foreground",
+    "depth": "assets/scenes/cape-town/depth.webp?v=fe8f57f3"
   },
   "Chicago": {
     "photos": [
@@ -611,7 +620,8 @@
       "night": "assets/scenes/chicago/night.webp?v=aa813569"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Chicago's skyline from the lakefront at the Adler Planetarium: Lake Michigan in front, the towers of the Loop including Willis Tower, a calm harbor with moored boats"
+    "scene_prompt_used": "Chicago's skyline from the lakefront at the Adler Planetarium: Lake Michigan in front, the towers of the Loop including Willis Tower, a calm harbor with moored boats",
+    "depth": "assets/scenes/chicago/depth.webp?v=a909dc29"
   },
   "Denver": {
     "query": "Denver skyline",
@@ -675,7 +685,8 @@
       "night": "assets/scenes/denver/night.webp?v=2d1ac9ea"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Denver's skyline from City Park: the downtown towers above the trees and the Ferril Lake, with the snow-capped Rocky Mountains stretching along the horizon behind"
+    "scene_prompt_used": "Denver's skyline from City Park: the downtown towers above the trees and the Ferril Lake, with the snow-capped Rocky Mountains stretching along the horizon behind",
+    "depth": "assets/scenes/denver/depth.webp?v=29e44dec"
   },
   "Dublin": {
     "photos": [
@@ -737,7 +748,8 @@
       "night": "assets/scenes/dublin/night.webp?v=b7bbc076"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Dublin along the River Liffey: the white Ha'penny Bridge arching over the river, colourful Georgian buildings and pubs along the quays, a low skyline of spires"
+    "scene_prompt_used": "Dublin along the River Liffey: the white Ha'penny Bridge arching over the river, colourful Georgian buildings and pubs along the quays, a low skyline of spires",
+    "depth": "assets/scenes/dublin/depth.webp?v=b5b4b7b6"
   },
   "Eindhoven": {
     "photos": [
@@ -800,7 +812,8 @@
       "night": "assets/scenes/eindhoven/night.webp?v=ad4ee246"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Eindhoven's centre from a rooftop: the Witte Dame and the Light Tower, the futuristic glass Blob building of 18 Septemberplein, brick streets and the Catharinakerk spires"
+    "scene_prompt_used": "Eindhoven's centre from a rooftop: the Witte Dame and the Light Tower, the futuristic glass Blob building of 18 Septemberplein, brick streets and the Catharinakerk spires",
+    "depth": "assets/scenes/eindhoven/depth.webp?v=c9fc0983"
   },
   "Europe": {
     "photos": [
@@ -863,7 +876,8 @@
       "night": "assets/scenes/europe/night.webp?v=1afc269e"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "a classic European old town on a river: a stone bridge, church spires and tiled roofs climbing a hill, a castle at the top, cafes along the quay"
+    "scene_prompt_used": "a classic European old town on a river: a stone bridge, church spires and tiled roofs climbing a hill, a castle at the top, cafes along the quay",
+    "depth": "assets/scenes/europe/depth.webp?v=669af4fb"
   },
   "Florence": {
     "photos": [
@@ -925,7 +939,8 @@
       "night": "assets/scenes/florence/night.webp?v=1ec10058"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Florence from Piazzale Michelangelo: the terracotta dome of the Duomo and Giotto's bell tower above red-tiled roofs, Palazzo Vecchio's tower, the Arno with the Ponte Vecchio, Tuscan hills behind"
+    "scene_prompt_used": "Florence from Piazzale Michelangelo: the terracotta dome of the Duomo and Giotto's bell tower above red-tiled roofs, Palazzo Vecchio's tower, the Arno with the Ponte Vecchio, Tuscan hills behind",
+    "depth": "assets/scenes/florence/depth.webp?v=e2d28f1f"
   },
   "Hanoi": {
     "photos": [
@@ -985,7 +1000,8 @@
       "night": "assets/scenes/hanoi/night.webp?v=bab59dd7"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Hanoi's Hoàn Kiếm Lake: the small Turtle Tower on its islet, the red Huc Bridge leading to Ngoc Son Temple, willow trees on the shore and the busy old quarter beyond"
+    "scene_prompt_used": "Hanoi's Hoàn Kiếm Lake: the small Turtle Tower on its islet, the red Huc Bridge leading to Ngoc Son Temple, willow trees on the shore and the busy old quarter beyond",
+    "depth": "assets/scenes/hanoi/depth.webp?v=5b0ad810"
   },
   "Hawaii": {
     "photos": [
@@ -1047,7 +1063,8 @@
       "night": "assets/scenes/hawaii/night.webp?v=0d5f0fc0"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Waikiki Beach in Honolulu: turquoise water and gentle surf, outrigger canoes and surfers, the hotels along the curving beach, Diamond Head crater rising at the far end"
+    "scene_prompt_used": "Waikiki Beach in Honolulu: turquoise water and gentle surf, outrigger canoes and surfers, the hotels along the curving beach, Diamond Head crater rising at the far end",
+    "depth": "assets/scenes/hawaii/depth.webp?v=bf8aa53f"
   },
   "Hong Kong": {
     "photos": [
@@ -1109,7 +1126,8 @@
       "night": "assets/scenes/hong-kong/night.webp?v=970b7d2b"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Victoria Harbour from Victoria Peak: the dense skyline of Hong Kong Island's towers far below, the harbour with ferries, Kowloon and the hills beyond"
+    "scene_prompt_used": "Victoria Harbour from Victoria Peak: the dense skyline of Hong Kong Island's towers far below, the harbour with ferries, Kowloon and the hills beyond",
+    "depth": "assets/scenes/hong-kong/depth.webp?v=a0cecbce"
   },
   "Kuala Lumpur": {
     "photos": [
@@ -1170,7 +1188,8 @@
       "night": "assets/scenes/kuala-lumpur/night.webp?v=c5931a99"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Kuala Lumpur from the KLCC Park: the twin Petronas Towers rising above the green park and fountain lake, the KL Tower and other skyscrapers around, lush tropical trees"
+    "scene_prompt_used": "Kuala Lumpur from the KLCC Park: the twin Petronas Towers rising above the green park and fountain lake, the KL Tower and other skyscrapers around, lush tropical trees",
+    "depth": "assets/scenes/kuala-lumpur/depth.webp?v=8e401009"
   },
   "Kyoto": {
     "query": "Kyoto temple cityscape",
@@ -1225,7 +1244,8 @@
       "night": "assets/scenes/kyoto/night.webp?v=97066c3e"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Kyoto from the hillside of Kiyomizu-dera: the wooden temple stage and the five-storey Yasaka pagoda among traditional tiled roofs, the city spreading to the western mountains"
+    "scene_prompt_used": "Kyoto from the hillside of Kiyomizu-dera: the wooden temple stage and the five-storey Yasaka pagoda among traditional tiled roofs, the city spreading to the western mountains",
+    "depth": "assets/scenes/kyoto/depth.webp?v=4dc36347"
   },
   "Lancaster": {
     "query": "Lancaster Lancashire England",
@@ -1264,7 +1284,8 @@
       "night": "assets/scenes/lancaster/night.webp?v=70fd6e8f"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Lancaster, England from Williamson Park: the copper dome of the Ashton Memorial in the foreground, the city with Lancaster Castle and the Priory on its hill, Morecambe Bay glinting beyond"
+    "scene_prompt_used": "Lancaster, England from Williamson Park: the copper dome of the Ashton Memorial in the foreground, the city with Lancaster Castle and the Priory on its hill, Morecambe Bay glinting beyond",
+    "depth": "assets/scenes/lancaster/depth.webp?v=d78612b1"
   },
   "Lausanne": {
     "query": "Lausanne Lake Geneva",
@@ -1327,7 +1348,8 @@
       "night": "assets/scenes/lausanne/night.webp?v=2fd98209"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Lausanne on Lake Geneva from the vineyards of Lavaux: terraced vines dropping to the blue lake, the town climbing its hill with the cathedral, the French Alps across the water"
+    "scene_prompt_used": "Lausanne on Lake Geneva from the vineyards of Lavaux: terraced vines dropping to the blue lake, the town climbing its hill with the cathedral, the French Alps across the water",
+    "depth": "assets/scenes/lausanne/depth.webp?v=dad33a31"
   },
   "Los Angeles": {
     "photos": [
@@ -1390,7 +1412,8 @@
       "night": "assets/scenes/los-angeles/night.webp?v=7d9d0f8e"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Los Angeles from the Griffith Observatory terrace: the white observatory domes in the foreground, the city grid spreading to downtown's towers, the Hollywood Sign on the hills to the right"
+    "scene_prompt_used": "Los Angeles from the Griffith Observatory terrace: the white observatory domes in the foreground, the city grid spreading to downtown's towers, the Hollywood Sign on the hills to the right",
+    "depth": "assets/scenes/los-angeles/depth.webp?v=7f33b3e5"
   },
   "Lucca": {
     "photos": [
@@ -1442,7 +1465,8 @@
       "night": "assets/scenes/lucca/night.webp?v=1ec2699e"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Lucca from the top of the Guinigi Tower: oak trees in the foreground, red-tiled roofs and the oval Piazza dell'Anfiteatro, church towers, the tree-lined Renaissance walls, Tuscan hills"
+    "scene_prompt_used": "Lucca from the top of the Guinigi Tower: oak trees in the foreground, red-tiled roofs and the oval Piazza dell'Anfiteatro, church towers, the tree-lined Renaissance walls, Tuscan hills",
+    "depth": "assets/scenes/lucca/depth.webp?v=f8d456f0"
   },
   "Macau": {
     "photos": [
@@ -1503,7 +1527,8 @@
       "night": "assets/scenes/macau/night.webp?v=4f3dc87f"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Macau's historic centre at street level: the stone facade of the Ruins of St. Paul's at the top of its wide staircase, colonial-era buildings, the Grand Lisboa tower in the distance"
+    "scene_prompt_used": "Macau's historic centre at street level: the stone facade of the Ruins of St. Paul's at the top of its wide staircase, colonial-era buildings, the Grand Lisboa tower in the distance",
+    "depth": "assets/scenes/macau/depth.webp?v=f16da040"
   },
   "Malmö": {
     "photos": [
@@ -1564,7 +1589,8 @@
       "night": "assets/scenes/malmo/night.webp?v=8f46cf87"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Malmö's western harbour: the twisting white Turning Torso tower above the modern Västra Hamnen waterfront, the Öresund strait with the Öresund Bridge stretching to Denmark on the horizon"
+    "scene_prompt_used": "Malmö's western harbour: the twisting white Turning Torso tower above the modern Västra Hamnen waterfront, the Öresund strait with the Öresund Bridge stretching to Denmark on the horizon",
+    "depth": "assets/scenes/malmo/depth.webp?v=2d12c9d1"
   },
   "Marrakesh": {
     "photos": [
@@ -1638,7 +1664,8 @@
       "dawn": "assets/scenes/marrakesh/dawn.webp?v=e9ca18fe",
       "dusk": "assets/scenes/marrakesh/dusk.webp?v=fd916aad",
       "night": "assets/scenes/marrakesh/night.webp?v=108b3dd4"
-    }
+    },
+    "depth": "assets/scenes/marrakesh/depth.webp?v=13ee719f"
   },
   "Melbourne": {
     "photos": [
@@ -1701,7 +1728,8 @@
       "night": "assets/scenes/melbourne/night.webp?v=ce843d8b"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Melbourne along the Yarra River from Southbank: the city towers and Flinders Street Station, the Princes Bridge, rowing boats on the river, the gardens on the right"
+    "scene_prompt_used": "Melbourne along the Yarra River from Southbank: the city towers and Flinders Street Station, the Princes Bridge, rowing boats on the river, the gardens on the right",
+    "depth": "assets/scenes/melbourne/depth.webp?v=1a4a4cfb"
   },
   "Mexico / Central America": {
     "query": "Mexico City skyline day",
@@ -1761,7 +1789,8 @@
       "night": "assets/scenes/mexico-central-america/night.webp?v=c563c1a0"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Mexico City's Zócalo from a rooftop: the vast square with a giant flag, the Metropolitan Cathedral's towers, colonial palaces, and volcanoes faint on the horizon"
+    "scene_prompt_used": "Mexico City's Zócalo from a rooftop: the vast square with a giant flag, the Metropolitan Cathedral's towers, colonial palaces, and volcanoes faint on the horizon",
+    "depth": "assets/scenes/mexico-central-america/depth.webp?v=36a42323"
   },
   "Montréal": {
     "photos": [
@@ -1824,7 +1853,8 @@
       "night": "assets/scenes/montreal/night.webp?v=3e1ebb16"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Montréal from the Kondiaronk Belvedere on Mount Royal: forest in the foreground, the downtown towers, the St. Lawrence River and its bridges stretching to the horizon"
+    "scene_prompt_used": "Montréal from the Kondiaronk Belvedere on Mount Royal: forest in the foreground, the downtown towers, the St. Lawrence River and its bridges stretching to the horizon",
+    "depth": "assets/scenes/montreal/depth.webp?v=7ee6c006"
   },
   "Orlando": {
     "photos": [
@@ -1863,7 +1893,8 @@
       "night": "assets/scenes/orlando/night.webp?v=c605e126"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Orlando's Lake Eola Park: the fountain in the lake, swan boats, live oaks with Spanish moss, and the downtown towers behind"
+    "scene_prompt_used": "Orlando's Lake Eola Park: the fountain in the lake, swan boats, live oaks with Spanish moss, and the downtown towers behind",
+    "depth": "assets/scenes/orlando/depth.webp?v=6f27bf5b"
   },
   "Osaka": {
     "photos": [
@@ -1925,7 +1956,8 @@
       "night": "assets/scenes/osaka/night.webp?v=1c3e9675"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Osaka Castle from its park: the white-and-green castle keep with gold trim atop its stone walls and moat, cherry trees, the modern Osaka Business Park towers behind"
+    "scene_prompt_used": "Osaka Castle from its park: the white-and-green castle keep with gold trim atop its stone walls and moat, cherry trees, the modern Osaka Business Park towers behind",
+    "depth": "assets/scenes/osaka/depth.webp?v=33d69ebf"
   },
   "Pittsburgh": {
     "photos": [
@@ -1988,7 +2020,8 @@
       "night": "assets/scenes/pittsburgh/night.webp?v=e3d6dd0f"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Pittsburgh from Mount Washington's Grandview Avenue: the Golden Triangle of downtown towers where the Allegheny and Monongahela rivers meet, yellow bridges crossing the water"
+    "scene_prompt_used": "Pittsburgh from Mount Washington's Grandview Avenue: the Golden Triangle of downtown towers where the Allegheny and Monongahela rivers meet, yellow bridges crossing the water",
+    "depth": "assets/scenes/pittsburgh/depth.webp?v=95db6559"
   },
   "Porto": {
     "photos": [
@@ -2050,7 +2083,8 @@
       "night": "assets/scenes/porto/night.webp?v=16415f9e"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Porto from the Gaia side of the Douro: the iron Dom Luís I Bridge, the colourful houses of the Ribeira climbing the hill, traditional rabelo boats with wine barrels on the river"
+    "scene_prompt_used": "Porto from the Gaia side of the Douro: the iron Dom Luís I Bridge, the colourful houses of the Ribeira climbing the hill, traditional rabelo boats with wine barrels on the river",
+    "depth": "assets/scenes/porto/depth.webp?v=b4a1e107"
   },
   "Rio de Janeiro": {
     "photos": [
@@ -2087,7 +2121,8 @@
       "night": "assets/scenes/rio-de-janeiro/night.webp?v=3f49b35b"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Rio de Janeiro from the Sugarloaf Mountain: Botafogo bay with sailing boats, the city wrapped around green mountains, Corcovado with the Christ the Redeemer statue on its peak"
+    "scene_prompt_used": "Rio de Janeiro from the Sugarloaf Mountain: Botafogo bay with sailing boats, the city wrapped around green mountains, Corcovado with the Christ the Redeemer statue on its peak",
+    "depth": "assets/scenes/rio-de-janeiro/depth.webp?v=708bda92"
   },
   "Rome": {
     "photos": [
@@ -2149,7 +2184,8 @@
       "night": "assets/scenes/rome/night.webp?v=5f166eb2"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Rome from the Pincian terrace: Piazza del Popolo's obelisk below, terracotta roofs and domes, St. Peter's Basilica's great dome on the horizon"
+    "scene_prompt_used": "Rome from the Pincian terrace: Piazza del Popolo's obelisk below, terracotta roofs and domes, St. Peter's Basilica's great dome on the horizon",
+    "depth": "assets/scenes/rome/depth.webp?v=c10fe220"
   },
   "San Diego": {
     "photos": [
@@ -2204,7 +2240,8 @@
       "night": "assets/scenes/san-diego/night.webp?v=2337c39a"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "San Diego Bay from Coronado Ferry Landing: the downtown skyline across the water, the USS Midway aircraft carrier on the waterfront, sailboats and palm trees"
+    "scene_prompt_used": "San Diego Bay from Coronado Ferry Landing: the downtown skyline across the water, the USS Midway aircraft carrier on the waterfront, sailboats and palm trees",
+    "depth": "assets/scenes/san-diego/depth.webp?v=49897c65"
   },
   "San Francisco": {
     "photos": [
@@ -2267,7 +2304,8 @@
       "night": "assets/scenes/san-francisco/night.webp?v=fedb82e3"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "San Francisco from Alamo Square: the row of colourful Victorian 'Painted Ladies' houses in the foreground, the downtown skyline with the Transamerica Pyramid behind"
+    "scene_prompt_used": "San Francisco from Alamo Square: the row of colourful Victorian 'Painted Ladies' houses in the foreground, the downtown skyline with the Transamerica Pyramid behind",
+    "depth": "assets/scenes/san-francisco/depth.webp?v=2710e7a2"
   },
   "San Jose": {
     "photos": [
@@ -2330,7 +2368,8 @@
       "night": "assets/scenes/san-jose/night.webp?v=8079a749"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "downtown San Jose from above Guadalupe River Park: palm-lined streets, the white domes of the Tech Interactive and the Cathedral Basilica, low towers, the Diablo Range hills behind"
+    "scene_prompt_used": "downtown San Jose from above Guadalupe River Park: palm-lined streets, the white domes of the Tech Interactive and the Cathedral Basilica, low towers, the Diablo Range hills behind",
+    "depth": "assets/scenes/san-jose/depth.webp?v=63acedcf"
   },
   "Seattle": {
     "photos": [
@@ -2393,7 +2432,8 @@
       "night": "assets/scenes/seattle/night.webp?v=ccb1074a"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Seattle from Kerry Park: the Space Needle and downtown skyline, Elliott Bay with ferries, and the snow-capped Mount Rainier towering on the horizon"
+    "scene_prompt_used": "Seattle from Kerry Park: the Space Needle and downtown skyline, Elliott Bay with ferries, and the snow-capped Mount Rainier towering on the horizon",
+    "depth": "assets/scenes/seattle/depth.webp?v=350fa58c"
   },
   "Seoul": {
     "photos": [
@@ -2454,7 +2494,8 @@
       "night": "assets/scenes/seoul/night.webp?v=fd642579"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Seoul from the Gyeongbokgung Palace courtyard: the palace's curved tiled roofs and painted eaves in the foreground, Bugaksan mountain behind, the city's towers on the side"
+    "scene_prompt_used": "Seoul from the Gyeongbokgung Palace courtyard: the palace's curved tiled roofs and painted eaves in the foreground, Bugaksan mountain behind, the city's towers on the side",
+    "depth": "assets/scenes/seoul/depth.webp?v=4bc5033d"
   },
   "Shenyang": {
     "lat": 41.7922,
@@ -2479,7 +2520,8 @@
       "night": "assets/scenes/shenyang/night.webp?v=c69282e5"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Shenyang's Mukden Palace: the golden-yellow glazed roofs and red walls of the Qing imperial palace, the octagonal Dazheng Hall, modern Shenyang towers beyond"
+    "scene_prompt_used": "Shenyang's Mukden Palace: the golden-yellow glazed roofs and red walls of the Qing imperial palace, the octagonal Dazheng Hall, modern Shenyang towers beyond",
+    "depth": "assets/scenes/shenyang/depth.webp?v=40998d8c"
   },
   "Singapore": {
     "photos": [
@@ -2542,7 +2584,8 @@
       "night": "assets/scenes/singapore/night.webp?v=019bf38f"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Singapore's Marina Bay: the three towers of Marina Bay Sands with their ship-shaped top, the lotus-shaped ArtScience Museum, the bay with the Merlion fountain, the Gardens by the Bay supertrees"
+    "scene_prompt_used": "Singapore's Marina Bay: the three towers of Marina Bay Sands with their ship-shaped top, the lotus-shaped ArtScience Museum, the bay with the Merlion fountain, the Gardens by the Bay supertrees",
+    "depth": "assets/scenes/singapore/depth.webp?v=0da86a81"
   },
   "South America": {
     "photos": [
@@ -2601,7 +2644,8 @@
       "night": "assets/scenes/south-america/night.webp?v=75194988"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "the Andes in Patagonia: the jagged granite spires of the Fitz Roy massif above a turquoise glacial lake, golden grassland and southern beech trees in the foreground"
+    "scene_prompt_used": "the Andes in Patagonia: the jagged granite spires of the Fitz Roy massif above a turquoise glacial lake, golden grassland and southern beech trees in the foreground",
+    "depth": "assets/scenes/south-america/depth.webp?v=38dd142b"
   },
   "Strasbourg": {
     "photos": [
@@ -2662,7 +2706,8 @@
       "night": "assets/scenes/strasbourg/night.webp?v=079bbe1a"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Strasbourg's Petite France: half-timbered houses with flower boxes along the River Ill canals, a lock and a covered bridge tower, the pink sandstone cathedral spire rising behind"
+    "scene_prompt_used": "Strasbourg's Petite France: half-timbered houses with flower boxes along the River Ill canals, a lock and a covered bridge tower, the pink sandstone cathedral spire rising behind",
+    "depth": "assets/scenes/strasbourg/depth.webp?v=f96657f6"
   },
   "Sydney": {
     "photos": [
@@ -2724,7 +2769,8 @@
       "night": "assets/scenes/sydney/night.webp?v=b07cd4b5"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Sydney Harbour from Mrs Macquarie's Chair: the sails of the Sydney Opera House in front, the arch of the Sydney Harbour Bridge behind, the city towers on the left, ferries on the water"
+    "scene_prompt_used": "Sydney Harbour from Mrs Macquarie's Chair: the sails of the Sydney Opera House in front, the arch of the Sydney Harbour Bridge behind, the city towers on the left, ferries on the water",
+    "depth": "assets/scenes/sydney/depth.webp?v=d2cef8e8"
   },
   "Tampere": {
     "photos": [
@@ -2786,7 +2832,8 @@
       "night": "assets/scenes/tampere/night.webp?v=725852a8"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Tampere from Pyynikki ridge: a forested esker in the foreground, the city between two lakes, red-brick factory chimneys along the Tammerkoski rapids, the Näsinneula tower"
+    "scene_prompt_used": "Tampere from Pyynikki ridge: a forested esker in the foreground, the city between two lakes, red-brick factory chimneys along the Tammerkoski rapids, the Näsinneula tower",
+    "depth": "assets/scenes/tampere/depth.webp?v=ee05b47e"
   },
   "Thessaloniki": {
     "photos": [
@@ -2822,7 +2869,8 @@
       "night": "assets/scenes/thessaloniki/night.webp?v=d9432885"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Thessaloniki's waterfront promenade: the round White Tower by the sea, the long seafront with umbrellas sculpture and palm trees, Mount Olympus faint across the Thermaic Gulf"
+    "scene_prompt_used": "Thessaloniki's waterfront promenade: the round White Tower by the sea, the long seafront with umbrellas sculpture and palm trees, Mount Olympus faint across the Thermaic Gulf",
+    "depth": "assets/scenes/thessaloniki/depth.webp?v=cb6186bd"
   },
   "Tokyo": {
     "photos": [
@@ -2884,7 +2932,8 @@
       "night": "assets/scenes/tokyo/night.webp?v=9e529958"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Tokyo from the Shibuya Sky observation deck: the dense city stretching to the horizon, the famous scramble crossing below, Mount Fuji's snowy cone in the far distance"
+    "scene_prompt_used": "Tokyo from the Shibuya Sky observation deck: the dense city stretching to the horizon, the famous scramble crossing below, Mount Fuji's snowy cone in the far distance",
+    "depth": "assets/scenes/tokyo/depth.webp?v=bfd9607c"
   },
   "Toronto": {
     "photos": [
@@ -2946,7 +2995,8 @@
       "night": "assets/scenes/toronto/night.webp?v=9366b83c"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Toronto's skyline from the Toronto Islands: Lake Ontario in front, the CN Tower rising above the downtown towers, the island ferry and sailboats"
+    "scene_prompt_used": "Toronto's skyline from the Toronto Islands: Lake Ontario in front, the CN Tower rising above the downtown towers, the island ferry and sailboats",
+    "depth": "assets/scenes/toronto/depth.webp?v=a3f4604f"
   },
   "Tucson": {
     "photos": [
@@ -2985,7 +3035,8 @@
       "night": "assets/scenes/tucson/night.webp?v=d2ff34ce"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Tucson's Sonoran Desert at Saguaro National Park: tall saguaro cacti across the rocky slopes, the Tucson basin and the Santa Catalina Mountains beyond"
+    "scene_prompt_used": "Tucson's Sonoran Desert at Saguaro National Park: tall saguaro cacti across the rocky slopes, the Tucson basin and the Santa Catalina Mountains beyond",
+    "depth": "assets/scenes/tucson/depth.webp?v=599639cf"
   },
   "UK": {
     "photos": [
@@ -3048,7 +3099,8 @@
       "night": "assets/scenes/uk/night.webp?v=5d137121"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "London along the Thames from the South Bank: the Houses of Parliament with Big Ben's Elizabeth Tower, Westminster Bridge with a red double-decker bus, the London Eye on the right"
+    "scene_prompt_used": "London along the Thames from the South Bank: the Houses of Parliament with Big Ben's Elizabeth Tower, Westminster Bridge with a red double-decker bus, the London Eye on the right",
+    "depth": "assets/scenes/uk/depth.webp?v=99eb97d0"
   },
   "Xiamen": {
     "src": "https://images.unsplash.com/photo-1709229919646-3699ead369b5?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8WGlhbWVuJTIwY2l0eXNjYXBlfGVufDF8MHx8fDE3OTMxODE3MTJ8MA&ixlib=rb-4.1.0&w=1920&q=80&fit=max&auto=format",
@@ -3080,6 +3132,7 @@
       "night": "assets/scenes/xiamen/night.webp?v=c8d2121e"
     },
     "scene_model": "gpt-image-2",
-    "scene_prompt_used": "Xiamen's Gulangyu island from the Sunlight Rock: colonial villas among banyan trees and red roofs, the strait with ferries, and Xiamen's modern skyline across the water"
+    "scene_prompt_used": "Xiamen's Gulangyu island from the Sunlight Rock: colonial villas among banyan trees and red roofs, the strait with ferries, and Xiamen's modern skyline across the water",
+    "depth": "assets/scenes/xiamen/depth.webp?v=62d2b851"
   }
 }

@@ -41,8 +41,8 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
-      - name: Install Pillow
-        run: python3 -m pip install --quiet pillow
+      - name: Install Pillow, numpy and onnxruntime
+        run: python3 -m pip install --quiet pillow numpy onnxruntime
       - name: Generate
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -59,6 +59,10 @@ jobs:
             for c in "${LIST[@]}"; do args+=("$(echo "$c" | xargs)"); done
           fi
           python3 scripts/gen_scenes.py "${args[@]}"
+      # a depth map for every new or redrawn day scene (the page's 2.5D parallax)
+      - name: Depth maps
+        if: always()
+        run: python3 scripts/gen_depth.py
       # also after a failure or a cancel: every city finished so far is kept
       - name: Commit and redeploy if anything changed
         if: always()
