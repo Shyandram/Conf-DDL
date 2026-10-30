@@ -1475,6 +1475,17 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
   display: block; writing-mode: vertical-rl; font: 600 12px var(--mono); letter-spacing: .14em; text-transform: uppercase;
 }
 
+/* stacked (phones): the timeline folds to its header row, a chevron opens it */
+#pgNow.m-v .tl-fold {
+  display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 36px; padding: 0;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink-2); cursor: pointer;
+}
+#pgNow.m-v .tl-fold i::before { content: ""; display: block; width: 9px; height: 9px; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(2px) rotate(225deg); }
+#pgNow.m-v.tl-folded .tl-fold i::before { transform: translateY(-2px) rotate(45deg); }
+#pgNow.m-v.tl-folded .timeline-wrap > :not(.section-head),
+#pgNow.m-v.tl-folded .legend, #pgNow.m-v.tl-folded .tl-seg { display: none; }
+#pgNow.m-v.tl-folded .timeline-wrap { flex: 0 0 auto; height: auto; min-height: 0; }
+
 /* ---------- the venue's local time, and what the place is known for ---------- */
 .venue-local { font: 500 12.5px var(--mono); color: var(--ink-2); margin-top: 2px; display: block; }
 .venue-local .sky { vertical-align: -1px; margin-right: 4px; }
