@@ -1734,7 +1734,8 @@ body[data-page="list"] .topbar { background: color-mix(in srgb, var(--bg) 94%, t
 }
 
 /* stacked layouts (phones): folded, the timeline leaves the page; an icon at the bottom bar's left brings it back */
-#pgNow.m-v.tl-folded .timeline-wrap { display: none; } /* (its own fold button stays a two-column thing) */
+#pgNow.m-v.tl-folded .timeline-wrap { display: none; }
+#pgNow.m-v.tl-folded .hero { margin-block: auto; } /* room to spare goes evenly above and below */ /* (its own fold button stays a two-column thing) */
 .pager-nav .pn-tl { display: none; }
 body:has(#pgNow.m-v) .pager-nav .pn-tl {
   display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 40px; padding: 0;
@@ -1749,10 +1750,22 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl {
 }
 @media (max-width: 340px) { .pn-tabs button { padding: 9px 9px; font-size: 13px; } }
 
-/* phones with the timeline folded: the clock two by two (days hours / min sec), about 1.6 times as big */
-@media (max-width: 640px) {
-  #hero.clock-xl .clock { grid-template-columns: repeat(2, 1fr); justify-items: center; gap: 14px 12px; --dw: clamp(40px, calc((100cqi - 12px) / 3.4), 80px); }
-  #hero.clock-xl .clock:has([data-unit="d"] .digit:nth-child(3)) { --dw: clamp(36px, calc((100cqi - 12px) / 4.1), 80px); }
-  #hero.clock-xl .unit { width: 100%; }
-  #hero.clock-xl .digits { width: 100%; justify-content: center; }
+/* phones: the clock fills the width (four boxes 8px apart), the venue card is a compact three lines */
+@media (max-width: 560px) {
+  .clock { gap: 0 8px; grid-template-columns: repeat(4, 1fr); --dw: clamp(26px, calc((100cqi - 26px) / 5.8), 72px); }
+  .clock:has([data-unit="d"] .digit:nth-child(3)) { grid-template-columns: 1.4fr repeat(3, 1fr); --dw: clamp(24px, calc((100cqi - 26px) / 6.45), 64px); }
+  .unit { min-width: 0; align-items: stretch; }
+  .unit > span { text-align: center; }
+  .digits { justify-content: center; padding: 0; }
+  .digit { width: calc(var(--dw) * .62); font-size: calc(var(--dw) * 1.0); }
+  .venue { min-height: 0; gap: 6px; padding: 12px 14px; border-radius: 14px; }
+  .venue figcaption { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 0 8px; }
+  .venue-kicker, .venue-foot { display: none; }
+  .venue-city, #pgNow.f2 .venue-city { font-size: 18px; }
+  .venue-country { font-size: 13px; }
+  .venue-dates { flex-basis: 100%; margin-top: 3px; font-size: 12px; }
+  .venue-local { flex-basis: 100%; font-size: 12px; margin-top: 0; }
+  .venue-links { font-size: 12px; }
+  .venue-links .vl-k { display: none; }
+  .venue-links .vl-visit { flex-basis: auto; margin: 0 0 0 4px; font-size: 12px; }
 }
