@@ -2230,22 +2230,20 @@
       } else if (!open) more.hidden = true;
     });
 
-    // the controls and list bar get their solid floor once they stick under the top bar: a marker just above them
-    // has scrolled past the 64px line
-    const mark = document.createElement("i");
-    mark.className = "stick-mark";
-    $(".controls").before(mark);
-    const floor = document.createElement("div");
-    floor.className = "stick-floor";
-    $(".layout").before(floor);
-    const sizeFloor = () => floor.style.setProperty("--floor-h", `${Math.round($(".list-bar").getBoundingClientRect().bottom)}px`);
-    new IntersectionObserver(([en]) => {
-      const stuck = !en.isIntersecting && en.boundingClientRect.top < 64;
-      $$(".controls, .list-bar").forEach(el => el.classList.toggle("is-stuck", stuck));
-      floor.classList.toggle("on", stuck);
-      if (stuck) sizeFloor();
-    }, { rootMargin: "-64px 0px 0px 0px" }).observe(mark);
-    addEventListener("resize", () => { if (floor.classList.contains("on")) sizeFloor(); }, { passive: true });
+    // the search, filters and tabs stay see-through: instead of the rows passing under them, each part of the list
+    // below the tabs is cut off at the tabs' lower edge
+    let cutQueued = false;
+    const cut = () => {
+      cutQueued = false;
+      if (document.body.dataset.page !== "list") return;
+      const y = $(".list-bar").getBoundingClientRect().bottom;
+      for (const el of [...$$("#pgList .list > :not(.list-bar)"), $(".foot")])
+        if (el.offsetParent) el.style.setProperty("--cut", `${Math.max(0, Math.round(y - el.getBoundingClientRect().top))}px`);
+    };
+    const queueCut = () => { if (!cutQueued) { cutQueued = true; requestAnimationFrame(cut); } };
+    addEventListener("scroll", queueCut, { passive: true });
+    addEventListener("resize", queueCut, { passive: true });
+    if (window.ResizeObserver) new ResizeObserver(queueCut).observe($("#pgList .list")); // a tab, filter or the page switch changes what is shown
   }
 
   /* ---------- lifecycle ---------- */

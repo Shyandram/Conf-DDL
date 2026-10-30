@@ -460,7 +460,6 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
   backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   border-bottom: 1px solid transparent; transition: border-color .3s;
 }
-.controls.is-stuck { border-color: var(--line); }
 .search {
   display: flex; align-items: center; gap: 8px; flex: 1 1 260px; min-width: 0;
   padding: 9px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--card);
@@ -1139,7 +1138,6 @@ html.planner-open { overflow: hidden; }
   .tg { flex: none; font-size: 13.5px; }
 }
 .list-bar { position: sticky; top: calc(63px + var(--ctl-h, 0px)); z-index: 9; background: var(--bg); }
-.controls.is-stuck { background: var(--bg); }
 @media (max-width: 640px) {
   .list-bar { flex-wrap: nowrap; }
   .tabs { width: auto; flex: 1; justify-content: flex-start; gap: 14px; min-width: 0; }
@@ -1642,11 +1640,9 @@ body[data-page="list"] .list-bg::before, body[data-page="list"] .list-bg::after 
 :root[data-theme="light"] .list-bg-img { opacity: .3; }
 :root[data-theme="light"] .list-bg::before { opacity: .22; }
 @media (prefers-reduced-motion: reduce) { .list-bg::before, .list-bg::after { animation: none; } }
-/* the filters and the tabs sit straight on that ground; only once they stick over the scrolling rows do they get a floor */
+/* the filters and the tabs always sit straight on that ground: the rows are cut off at the tabs' lower edge (--cut) */
 .controls, .list-bar { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; transition: background-color .25s, border-color .3s; }
-.controls.is-stuck, .list-bar.is-stuck { background: var(--bg); }
 /* nearly opaque there, so its blur would buy nothing while the list scrolls under it */
-body[data-page="list"] .topbar { background: color-mix(in srgb, var(--bg) 94%, transparent); -webkit-backdrop-filter: none; backdrop-filter: none; }
 
 /* ---------- conference rows as cards: rounded glass on the list's ground, the urgency as a glow from the left ---------- */
 .cards, .list .cards { gap: 8px; border-top: 0; padding-top: 10px; }
@@ -1779,7 +1775,6 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl {
       transparent 100%);
 }
 
-.stick-mark { display: block; height: 0; }
 /* the sights and visitor-site links are full 24px tap targets without changing the line's height */
 .venue-links a { display: inline-block; padding-block: 5px; margin-block: -5px; }
 #heroWhen { min-height: 1.4em; } /* the deadline line holds its height before the data arrives */
@@ -1791,18 +1786,10 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl {
 @keyframes pre-show { to { visibility: visible; } }
 /* list page: the stuck controls and tab bar form one solid header strip from edge to edge, under an opaque top bar,
    so no row shows through a gap or past its sides */
-body[data-page="list"] .topbar { background: var(--bg); }
-.topbar { transition: background-color .38s ease; } /* in step with the page slide */
-.controls.is-stuck, .list-bar.is-stuck { box-shadow: 0 0 0 100vmax var(--bg); clip-path: inset(-10px -100vmax 0 -100vmax); }
-.list-bar.is-stuck { box-shadow: 0 0 0 100vmax var(--bg), 0 1px 0 100vmax var(--line); clip-path: inset(0 -100vmax -1px -100vmax); }
-.controls.is-stuck { border-bottom-color: transparent; }
-/* the pager clips sideways, so a fixed floor behind the page carries that strip out to the screen edges */
-.stick-floor { position: fixed; top: 0; left: 0; right: 0; height: var(--floor-h, 0px); z-index: -1; pointer-events: none;
-  background: var(--bg); border-bottom: 1px solid var(--line); opacity: 0; transition: opacity .38s ease; }
-body[data-page="list"] .stick-floor.on { opacity: 1; }
 /* between phone and laptop widths the top bar has room for the buttons' icons only */
 @media (max-width: 960px) { .planner-btn span { display: none; } .planner-btn { padding: 0 10px; } }
 /* the search, filters and tabs never move: they start where they would stick, so scrolling only moves the rows */
 .controls { margin-top: -8px; padding-top: clamp(20px, 3vw, 32px); } /* the top bar is 71px tall but things stick at 63px under its soft lower edge */
 .list { margin-top: 0; }
 .list-bar { padding-top: clamp(12px, 2vw, 20px); }
+#pgList .list > :not(.list-bar), body[data-page="list"] .foot { clip-path: inset(var(--cut, 0px) -100vmax -100vmax); }
