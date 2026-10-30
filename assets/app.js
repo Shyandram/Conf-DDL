@@ -31,7 +31,8 @@
     q: "",
     areas: new Set(store.get("areas", [])),
     onlyConfirmed: store.get("onlyConfirmed", false),
-    tlView: store.get("tlView", "axis") === "list" ? "list" : "axis", // the timeline as an axis or a list of months
+    // the timeline as an axis or a list of months (phones start with the list, which reads better that narrow)
+    tlView: store.get("tlView", matchMedia("(max-width: 560px)").matches ? "list" : "axis") === "list" ? "list" : "axis",
     // rank filters (gradeA, gradeB, ccfA, ccfB): a conference shows if it matches any one that is on
     ranks: new Set(RANKS.filter(k => store.get(k, false))),
     onlyStarred: store.get("onlyStarred", false), // the "★ Mine" scope above the list
@@ -1543,10 +1544,10 @@
       catch (e) { if (e.name === "AbortError") return; }
     }
     if (!(await copyText(url))) { window.prompt("Copy this link", url); return; }
-    btn.dataset.label ??= btn.textContent;
+    btn.dataset.label ??= btn.innerHTML;
     btn.textContent = "Link copied ✓";
     clearTimeout(btn.copiedTimer);
-    btn.copiedTimer = setTimeout(() => { btn.textContent = btn.dataset.label; }, 1800);
+    btn.copiedTimer = setTimeout(() => { btn.innerHTML = btn.dataset.label; }, 1800);
   }
   async function copyText(text) {
     try { await navigator.clipboard.writeText(text); return true; } catch {}
@@ -1644,6 +1645,8 @@
       const list = () => head() + Math.min(320, Math.max(190, room * 0.36)); // room for the standing axis
       if (!(W >= 700 && tryMode("m-h", 2, 0.9, state.tlView === "list" ? list : strip))) {
         if (W / Math.max(room, 1) >= 1.15) tryMode("m-cols", 4, 0.3, () => 0);
+        // phones: the month list scrolls inside whatever room it gets, so the countdown keeps its size and the list gives
+        else if (W < 560 && state.tlView === "list" && tryMode("m-v", 4, 0.88, () => head() + Math.max(120, room * 0.24)));
         else tryMode("m-v", 4, 0.3, list);
       }
       // the standing axis is laid out in pixels for its box; draw it again now that the hero has settled

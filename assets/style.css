@@ -1697,3 +1697,32 @@ body[data-page="list"] .topbar { background: color-mix(in srgb, var(--bg) 94%, t
   .c-count { align-self: start; padding-top: 2px; }
   .row-ddl, .c-steps { padding-left: 0; }
 }
+
+/* ---------- phones: fewer things, each with room ---------- */
+#heroShare svg { display: none; }
+@media (max-width: 560px) {
+  .topbar #plannerBtn, .topbar #calBtn { display: none; } /* the planner opens from any row, the calendar from ★ */
+  .hero-picks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .pick { grid-template-columns: minmax(0, 1fr); padding: 8px 10px; border-radius: 12px; }
+  .pick .p-left { display: none; } /* the big clock already counts the one that is picked */
+  .p-name { font-size: 14px; overflow: hidden; text-overflow: ellipsis; }
+  .hero-actions { display: flex !important; gap: 10px; width: 100%; }
+  .hero-actions #heroLink { flex: 1; justify-content: center; }
+  #heroShare { width: 46px; padding: 0; display: grid; place-items: center; flex: none; }
+  #heroShare svg { display: block; }
+  #heroShare span { display: none; }
+  #pgNow .timeline-wrap .legend { display: none; }
+  #pgNow .timeline-wrap .section-head h2 { font-size: 20px; }
+  .tl-mrow { grid-template-columns: 48px 1fr; padding: 10px 0; }
+  .tl-chip { font-size: 13px; padding: 5px 10px; }
+}
+@media (max-width: 560px) and (max-height: 720px) {
+  #pgNow .hero-meta { display: none; } /* "Next deadline" — the chips below say which one it is */
+  #pgNow .hero-picks { margin-top: 12px; }
+  #pgNow .pick { padding: 6px 9px; }
+  #pgNow .hero-foot { padding-top: 10px; }
+}
+@media (max-width: 560px) {
+  #pgNow .timeline-wrap .section-head { row-gap: 0; margin-bottom: 0; }
+  #pgNow .timeline { margin-top: 0; }
+}
