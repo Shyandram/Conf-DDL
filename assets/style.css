@@ -272,7 +272,7 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 /* the host city's photo fills the whole window behind the page and fades out below the first screen;
    it is a little wider than the window so it can pan with the mouse */
 /* height is set from app.js so the photo ends just inside the timeline section, which then sits on solid ground */
-.page-bg { position: absolute; top: 0; left: 0; right: 0; height: calc(100vh + 160px); z-index: -3; overflow: hidden; pointer-events: none; }
+.page-bg { position: fixed; top: 0; left: 0; right: 0; height: calc(100vh + 160px); z-index: -3; overflow: hidden; pointer-events: none; }
 .page-bg-pan { position: absolute; inset: 0 -6%; will-change: transform; }
 .page-bg-img {
   position: absolute; inset: 0; background-size: cover; background-position: center 40%;
@@ -1264,9 +1264,9 @@ html { overscroll-behavior-x: none; }
     border-radius: 0 999px 999px 0; background: none; cursor: pointer; color: var(--warn); font-size: 18px;
   }
 }
-/* the city photo belongs to the countdown; the list sits on plain ground */
-.page-bg { transition: opacity .4s ease; will-change: opacity; }
-body[data-page="list"] .page-bg { opacity: 0; }
+/* one ground for both pages: the city photo stays put, and the list's blurred wash of it fades in over it
+   (fading the photo out at the same time dipped to bare background mid-switch); once covered it stops painting */
+body[data-page="list"] .page-bg { visibility: hidden; transition: visibility 0s linear .4s; }
 
 /* ---------- the countdown page: exactly one screen, never scrolls ---------- */
 html.on-now, html.on-now body { overflow: hidden; overscroll-behavior: none; }
@@ -1618,7 +1618,7 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 .pager-nav .pn-mine[aria-expanded="true"] { background: color-mix(in srgb, var(--warn) 16%, transparent); }
 
 /* ---------- the conference list's ground: the venue's picture, blurred into colour, and two slow glows ---------- */
-.list-bg { position: fixed; inset: 0; z-index: -3; pointer-events: none; overflow: hidden; opacity: 0; visibility: hidden; will-change: opacity;
+.list-bg { position: fixed; inset: 0; z-index: -3; pointer-events: none; overflow: hidden; background: var(--bg); opacity: 0; visibility: hidden; will-change: opacity;
   transition: opacity .4s ease, visibility 0s linear .4s; }
 body[data-page="list"] .list-bg { opacity: 1; visibility: visible; transition: opacity .4s ease; }
 .list-bg-img {
