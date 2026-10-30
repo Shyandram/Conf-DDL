@@ -497,12 +497,17 @@
   // The generated scenes come alive in 2.5D (assets/scene3d.js, fetched only when one is shown): a WebGL canvas
   // fades in over the picture, moves its pixels by their depth and blends the moods by the clock.
   let scene3d = null;
+  // fetched once the page has loaded and gone quiet: the still picture is already up, depth only adds to it
   const load3d = () => scene3d || (scene3d = new Promise(res => {
-    const s = document.createElement("script");
-    s.src = `assets/scene3d.js?v=${VER}`;
-    s.onload = () => res(window.Scene3D || null);
-    s.onerror = () => res(null);
-    document.head.append(s);
+    const go = () => {
+      const s = document.createElement("script");
+      s.src = `assets/scene3d.js?v=${VER}`;
+      s.onload = () => res(window.Scene3D || null);
+      s.onerror = () => res(null);
+      document.head.append(s);
+    };
+    const idle = () => (window.requestIdleCallback ? requestIdleCallback(go, { timeout: 4000 }) : setTimeout(go, 1500));
+    document.readyState === "complete" ? idle() : addEventListener("load", idle, { once: true });
   }));
 
   // the backdrop cross-fades: the new picture fades in over the old, which leaves once it is covered

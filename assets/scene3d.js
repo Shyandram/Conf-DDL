@@ -50,9 +50,18 @@ void main(){
   gl_FragColor=mix(texture2D(uA,p),texture2D(uB,p),uMix);
 }`;
 
+  // no GPU (software rendering draws on the main thread, hundreds of ms a frame): keep the still picture
+  // (?gl=force draws anyway, for testing on a machine without one)
+  const FORCE = new URLSearchParams(location.search).get("gl") === "force";
+  const GL_OPTS = { alpha: false, antialias: false, depth: false, powerPreference: "low-power", preserveDrawingBuffer: false, failIfMajorPerformanceCaveat: !FORCE };
+  const software = gl => {
+    if (FORCE) return false;
+    const ext = gl.getExtension("WEBGL_debug_renderer_info");
+    return !!ext && /swiftshader|llvmpipe|softpipe|software|basic render/i.test(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) || "");
+  };
   function glOf(cv) {
-    const gl = cv.getContext("webgl", { alpha: false, antialias: false, depth: false, powerPreference: "low-power", preserveDrawingBuffer: false });
-    if (!gl) return null;
+    const gl = cv.getContext("webgl", GL_OPTS);
+    if (!gl || software(gl)) return null;
     const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
     const pr = gl.createProgram();
     gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS));
@@ -116,11 +125,16 @@ void main(){
     setTimeout(() => ["day", "dawn", "dusk", "night"].forEach(load), 1500);
 
     const near = m => tex[m] && tex[m] !== "loading" ? m : ["day", "dawn", "dusk", "night"].find(k => tex[k] && tex[k] !== "loading");
-    let last = 0, shown = false, t0 = performance.now();
+    let last = 0, shown = false, t0 = performance.now(), prev = 0, slow = 0, drawn = 0;
+    const stop = () => { gl.getExtension("WEBGL_lose_context")?.loseContext(); cv.remove(); delete el.dataset.live; };
     const frame = now => {
       if (!el.isConnected) { gl.getExtension("WEBGL_lose_context")?.loseContext(); return; }
+      // a device that can't keep up (frames 80 ms apart, again and again while drawing) goes back to the still picture
+      if (!FORCE && prev && drawn && !document.hidden && !opt.paused() && now - prev > 80) { if (++slow > 12) return stop(); }
+      else if (slow) slow -= .25;
+      prev = now;
       requestAnimationFrame(frame);
-      if (now - last < 1000 / FPS - 2 || document.hidden || opt.paused()) return;
+      if (now - last < 1000 / FPS - 2 || document.hidden || opt.paused()) { if (document.hidden || opt.paused()) prev = 0; return; }
       last = now;
       const dpr = Math.min(devicePixelRatio || 1, 1.5);
       const W = Math.round(el.clientWidth * dpr), H = Math.round(el.clientHeight * dpr);
@@ -147,6 +161,7 @@ void main(){
       gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, tex[b]);
       gl.uniform1f(g.uMix, a === b ? 0 : mix);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      drawn++;
       const mood = mix < .5 ? a : b;
       if (mood !== lastMood) { lastMood = mood; opt.onMood && opt.onMood(mood); }
       if (!shown) { shown = true; requestAnimationFrame(() => cv.classList.add("is-on")); }
@@ -155,6 +170,6 @@ void main(){
     return { setFixed: m => { fixed = m || null; } };
   }
 
-  const ok = (() => { try { return !!document.createElement("canvas").getContext("webgl"); } catch { return false; } })();
+  const ok = (() => { try { const gl = document.createElement("canvas").getContext("webgl", GL_OPTS); return !!gl && !software(gl); } catch { return false; } })();
   window.Scene3D = { attach: ok ? attach : async () => null, moodsAt };
 })();
