@@ -98,8 +98,9 @@ void main(){
     cam.tx = Math.max(-1, Math.min(1, e.gamma / 25)); cam.ty = Math.max(-1, Math.min(1, (e.beta - 45) / 25));
   }, { passive: true });
 
-  /* attach(el, { scenes, depth, fixed, paused, onMood }) — el is the backdrop <div> (cover, panned by CSS).
-     scenes: { day, dawn, dusk, night } urls; fixed: a mood picked by hand (no clock); paused(): skip drawing;
+  /* attach(el, { scenes, depth, fixed, still, paused, onMood }) — el is the backdrop <div> (cover, panned by CSS).
+     scenes: { day, dawn, dusk, night } urls; fixed: a mood picked by hand (no clock); still: no parallax (reduced
+     motion), only the clock's blend; paused(): skip drawing;
      onMood(mood): the mood that now dominates. */
   async function attach(el, opt) {
     const cv = document.createElement("canvas");
@@ -122,7 +123,7 @@ void main(){
       gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, tex.depth);
     } catch { why("off: pictures failed to load"); return null; }
     if (!el.isConnected) return null;
-    why("on");
+    why(opt.still ? "on, still (reduced motion: the moods blend, nothing moves)" : "on");
     el.append(cv);
     el.dataset.live = "1";
     // the other moods come in once the first frame is up
@@ -140,7 +141,8 @@ void main(){
       else if (slow) slow -= .25;
       prev = now;
       requestAnimationFrame(frame);
-      if (now - last < 1000 / FPS - 2 || document.hidden || opt.paused()) { if (document.hidden || opt.paused()) prev = 0; return; }
+      // still (reduced motion): no camera, so a frame a second is enough for the clock's blend
+      if (now - last < (opt.still ? 1000 : 1000 / FPS - 2) || document.hidden || opt.paused()) { if (document.hidden || opt.paused()) prev = 0; return; }
       last = now;
       const dpr = Math.min(devicePixelRatio || 1, 1.5);
       const W = Math.round(el.clientWidth * dpr), H = Math.round(el.clientHeight * dpr);
@@ -149,14 +151,15 @@ void main(){
       // background-size: cover; background-position: <pan>% 45%
       const ia = ar.w / ar.h, ca = W / H;
       let fx = 1, ox = 0, fy = 1, oy = 0;
-      if (ia > ca) { fx = ca / ia; ox = panAt(document.timeline.currentTime) * (1 - fx); }
+      // (reduced motion: the CSS picture doesn't pan, it sits centred)
+      if (ia > ca) { fx = ca / ia; ox = (opt.still ? .5 : panAt(document.timeline.currentTime)) * (1 - fx); }
       else { fy = ia / ca; oy = .45 * (1 - fy); }
       gl.uniform4f(g.uMap, fx, ox, fy, oy);
       const t = now / 1000;
       cam.x += (cam.tx - cam.x) * .04; cam.y += (cam.ty - cam.y) * .04;
       const cx = .55 * Math.sin(t * 2 * Math.PI / 26) + .8 * cam.x, cy = .3 * Math.sin(t * 2 * Math.PI / 37) + .5 * cam.y;
       // the depth grows in over a few seconds, so the canvas starts as the flat picture it fades in over
-      const amp = Math.min(1, (now - t0) / 4000);
+      const amp = opt.still ? 0 : Math.min(1, (now - t0) / 4000);
       gl.uniform2f(g.uShift, -cx * K * fx * amp, -cy * K * fy * amp);
       // the clock picks two moods and how far between them
       let [a, b, mix] = fixed ? [fixed, fixed, 0] : moodsAt(hourNow());

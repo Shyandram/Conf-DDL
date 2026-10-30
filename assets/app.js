@@ -531,9 +531,10 @@
     // the pan is phased to the document's clock, so a canvas taking over can frame it the same way
     if (cls.includes("is-pano")) el.style.animationDelay = `${-(document.timeline.currentTime || 0) / 1000}s`;
     pan.append(el);
-    if (live && reduced) window.__s3d = "off: the device asks for reduced motion";
-    if (live && !reduced) load3d().then(S => S ? S.attach(el, {
+    // reduced motion keeps the clock's blend but not the parallax (?motion=on previews it anyway)
+    if (live) load3d().then(S => S ? S.attach(el, {
       ...live,
+      still: reduced && new URLSearchParams(location.search).get("motion") !== "on",
       paused: () => document.body.dataset.page === "list" || !$("#planner").hidden,
       onMood: mood => {
         $(".page-bg").dataset.mood = mood;
