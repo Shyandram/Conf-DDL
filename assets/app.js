@@ -2177,7 +2177,7 @@
       $$("#tlView button").forEach(b => b.classList.toggle("is-on", b.dataset.view === state.tlView));
     };
     tlCtl();
-    // in two columns the timeline can fold into a thin strip, leaving the screen to the countdown
+    // the timeline can fold away (two columns and phones), leaving the screen to the countdown
     const fold = on => {
       $("#pgNow").classList.toggle("tl-folded", on);
       $("#tlFold").setAttribute("aria-expanded", String(!on));
@@ -2191,7 +2191,7 @@
       fold(on);
       fitNow();
     });
-    // stacked layouts (phones): the bottom bar's timeline icon opens and folds it, from either page
+    // two columns and phones: the bottom bar's timeline icon opens and folds it, from either page
     $("#pnTl").addEventListener("click", () => {
       if (document.body.dataset.page === "list") { $('#pagerNav [data-go="0"]').click(); if ($("#pgNow").classList.contains("tl-folded")) $("#tlFold").click(); }
       else $("#tlFold").click();

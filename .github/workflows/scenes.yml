@@ -41,8 +41,8 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
-      - name: Install Pillow, numpy and onnxruntime
-        run: python3 -m pip install --quiet pillow numpy onnxruntime
+      - name: Install Pillow, numpy, onnxruntime and OpenCV
+        run: python3 -m pip install --quiet pillow numpy onnxruntime opencv-python-headless
       - name: Generate
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -63,6 +63,10 @@ jobs:
       - name: Depth maps
         if: always()
         run: python3 scripts/gen_depth.py
+      # line dawn, dusk and night up with the day picture (the edits drift), so the clock's blend doesn't ghost
+      - name: Align moods
+        if: always()
+        run: python3 scripts/align_scenes.py
       # also after a failure or a cancel: every city finished so far is kept
       - name: Commit and redeploy if anything changed
         if: always()

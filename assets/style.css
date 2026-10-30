@@ -1429,14 +1429,15 @@ html.on-now .to-top { display: none !important; }
 .tl-back:hover { background: var(--accent); }
 
 /* ---------- two columns: the timeline is a right sidebar, a mirror of the left one ----------
-   It runs from the top bar to the bottom of the screen at the right edge, and folds to a 52px strip. */
+   It runs from the top bar to the bottom of the screen at the right edge. Folded, it leaves the page, and the bottom
+   bar's timeline icon (across from the ★) brings it back, as on phones. */
 #pgNow.m-cols {
   --side-out: var(--edge, clamp(16px, 4vw, 48px)); --side-w: clamp(260px, 26vw, 380px);
   /* the sidebar's own column is what it takes from the page; on wide screens it may sit wholly in the margin */
   grid-template-columns: minmax(0, 1fr) max(0px, calc(var(--side-w) - var(--side-out)));
   overflow-x: visible; overflow-y: clip;
 }
-#pgNow.m-cols.tl-folded { --side-w: 52px; }
+#pgNow.m-cols.tl-folded { --side-w: 0px; }
 /* at rest the page out of view is hidden anyway, so the sidebar may reach past the centred column to the screen edge */
 html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 #pgNow.m-cols .timeline-wrap {
@@ -1454,7 +1455,7 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 #pgNow.m-cols .tl-mrow { grid-template-columns: 40px 1fr; gap: 8px; }
 #pgNow.m-cols .tl-mname { font-size: 12px; }
 #pgNow.m-cols .tl-chip { padding: 3px 7px; font-size: 12px; }
-/* the fold button looks like the left sidebar's: » folds it to the right edge, « brings it back */
+/* the fold button looks like the left sidebar's: » folds it away */
 .tl-fold { display: none; }
 #pgNow.m-cols .tl-fold {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 28px; padding: 0 9px;
@@ -1464,14 +1465,7 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 #pgNow.m-cols .tl-fold:hover { color: var(--ink); border-color: var(--line-2); }
 .tl-fold i::before { content: "»"; font-style: normal; }
 .tl-fold span { display: none; }
-#pgNow.m-cols.tl-folded .timeline-wrap { padding: 16px 10px; }
-#pgNow.m-cols.tl-folded .timeline-wrap > :not(.section-head),
-#pgNow.m-cols.tl-folded .section-head > :not(.tl-ctl), #pgNow.m-cols.tl-folded .tl-seg { display: none; }
-#pgNow.m-cols.tl-folded .tl-fold { flex-direction: column; width: 32px; height: auto; padding: 10px 0; }
-#pgNow.m-cols.tl-folded .tl-fold i::before { content: "«"; }
-#pgNow.m-cols.tl-folded .tl-fold span {
-  display: block; writing-mode: vertical-rl; font: 600 12px var(--mono); letter-spacing: .14em; text-transform: uppercase;
-}
+#pgNow.m-cols.tl-folded .timeline-wrap { display: none; }
 
 /* ---------- the venue's local time, and what the place is known for ---------- */
 .venue-local { font: 500 12.5px var(--mono); color: var(--ink-2); margin-top: 2px; display: block; }
@@ -1729,10 +1723,11 @@ body[data-page="list"] .list-bg::before, body[data-page="list"] .list-bg::after 
   .tl-mrow.is-now .tl-mname { position: sticky; top: 0; }
 }
 
-/* stacked layouts (phones): folded, the timeline leaves the page; an icon at the bottom bar's left brings it back */
+/* stacked layouts (phones) and two columns: folded, the timeline leaves the page; an icon at the bottom bar's left,
+   across from the ★, brings it back */
 #pgNow.m-v.tl-folded .timeline-wrap { display: none; }
 .pager-nav .pn-tl { display: none; }
-body:has(#pgNow.m-v) .pager-nav .pn-tl {
+body:has(#pgNow.m-v) .pager-nav .pn-tl, body:has(#pgNow.m-cols) .pager-nav .pn-tl {
   display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 40px; padding: 0;
   border-right: 1px solid var(--line); border-radius: 999px 0 0 999px; color: var(--ink-2);
 }
@@ -1741,7 +1736,7 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl {
 @media (max-width: 420px) {
   .pn-tabs svg, .pager-nav .pn-n { display: none; }
   .pn-tabs button { padding: 9px 12px; }
-  body:has(#pgNow.m-v) .pager-nav .pn-tl, .pager-nav .pn-mine { width: auto; min-width: 42px; padding: 0 10px; }
+  body:has(#pgNow.m-v) .pager-nav .pn-tl, body:has(#pgNow.m-cols) .pager-nav .pn-tl, .pager-nav .pn-mine { width: auto; min-width: 42px; padding: 0 10px; }
 }
 @media (max-width: 340px) { .pn-tabs button { padding: 9px 9px; font-size: 13px; } }
 
