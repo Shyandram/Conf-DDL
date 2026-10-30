@@ -1657,10 +1657,10 @@
       }
       // the standing axis is laid out in pixels for its box; draw it again now that the hero has settled
       if ((tlVertical || state.tlView === "list") && timelineList.length) renderTimeline(timelineList, Date.now(), { quiet: true });
-      // the city photo: behind the whole screen when the timeline sits beside the hero;
+      // the city photo: behind the whole screen when the timeline sits beside the hero or is folded away;
       // otherwise it ends just inside the timeline, which then sits on solid ground
       const bg = $(".page-bg");
-      if (pg.classList.contains("m-cols")) bg.style.height = Math.ceil(window.innerHeight) + "px";
+      if (pg.classList.contains("m-cols") || !wrap.offsetHeight) bg.style.height = Math.ceil(window.innerHeight) + "px";
       else bg.style.height = Math.round(wrap.getBoundingClientRect().top - pg.getBoundingClientRect().top + top + 70) + "px";
     } finally { fitting = false; }
   }
