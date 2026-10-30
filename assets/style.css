@@ -8,8 +8,8 @@
 }
 
 :root {
-  --bg: #0a0c10;
-  --bg-2: #10131a;
+  --bg: #12151c;
+  --bg-2: #191d26;
   --card: rgba(255, 255, 255, 0.025);
   --card-hover: rgba(255, 255, 255, 0.05);
   --line: rgba(255, 255, 255, 0.08);
@@ -282,10 +282,10 @@ main { min-width: 0; width: 100%; max-width: 1320px; margin: 0 auto; padding: 0 
 .page-bg::after {
   content: ""; position: absolute; inset: 0;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--bg) 45%, transparent) 0%, color-mix(in srgb, var(--bg) 22%, transparent) 35%,
-      color-mix(in srgb, var(--bg) 55%, transparent) calc(100% - 220px), var(--bg) calc(100% - 40px)),
-    linear-gradient(90deg, color-mix(in srgb, var(--bg) 80%, transparent) 0%, color-mix(in srgb, var(--bg) 55%, transparent) 40%,
-      color-mix(in srgb, var(--bg) 8%, transparent) 100%);
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 30%, transparent) 0%, color-mix(in srgb, var(--bg) 8%, transparent) 35%,
+      color-mix(in srgb, var(--bg) 40%, transparent) calc(100% - 220px), var(--bg) calc(100% - 40px)),
+    linear-gradient(90deg, color-mix(in srgb, var(--bg) 62%, transparent) 0%, color-mix(in srgb, var(--bg) 32%, transparent) 40%,
+      transparent 100%);
 }
 .hero { position: relative; }
 .timeline-wrap { position: relative; z-index: 1; }
@@ -1593,8 +1593,6 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 .tlv-pin.next .lbl { color: var(--accent); }
 .tlv-pin.est .dot, .tlv-bare.est { background: var(--bg); border: 1.5px dashed var(--ink-3); }
 .tlv-pin:hover .lbl, .tlv-pin:focus-visible .lbl { background: color-mix(in srgb, var(--ink) 8%, transparent); border-color: transparent; }
-.foot-light { padding: 0; border: 0; background: none; font: inherit; color: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-.foot-light[aria-pressed="true"] { color: var(--warn); }
 /* bigger targets in the top bar and the rail */
 .topbar .planner-btn, .topbar .icon-btn { min-height: 38px; min-width: 38px; }
 .topbar .seg button { min-height: 34px; padding-inline: 13px; }
@@ -1626,7 +1624,7 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
   transition: opacity .4s ease, visibility 0s linear .4s; }
 body[data-page="list"] .list-bg { opacity: 1; visibility: visible; transition: opacity .4s ease; }
 .list-bg-img {
-  position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: .42;
+  position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: .56;
 }
 .list-bg::before, .list-bg::after { content: ""; position: absolute; border-radius: 50%; animation-play-state: paused !important; }
 body[data-page="list"] .list-bg::before, body[data-page="list"] .list-bg::after { animation-play-state: running !important; }
@@ -1802,3 +1800,9 @@ body[data-page="list"] .topbar { background: var(--bg); }
 .stick-floor { position: fixed; top: 0; left: 0; right: 0; height: var(--floor-h, 0px); z-index: -1; pointer-events: none;
   background: var(--bg); border-bottom: 1px solid var(--line); opacity: 0; transition: opacity .38s ease; }
 body[data-page="list"] .stick-floor.on { opacity: 1; }
+/* between phone and laptop widths the top bar has room for the buttons' icons only */
+@media (max-width: 960px) { .planner-btn span { display: none; } .planner-btn { padding: 0 10px; } }
+/* the search, filters and tabs never move: they start where they would stick, so scrolling only moves the rows */
+.controls { margin-top: -8px; padding-top: clamp(20px, 3vw, 32px); } /* the top bar is 71px tall but things stick at 63px under its soft lower edge */
+.list { margin-top: 0; }
+.list-bar { padding-top: clamp(12px, 2vw, 20px); }

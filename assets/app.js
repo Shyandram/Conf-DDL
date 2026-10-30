@@ -1963,7 +1963,7 @@
       const h = new Date().getHours();
       const theme = themeMode === "auto" ? (h >= 6 && h < 18 ? "light" : "dark") : themeMode;
       if (root.dataset.theme !== theme) root.dataset.theme = theme;
-      themeMeta.content = theme === "light" ? "#f5f4ef" : "#0a0c10";
+      themeMeta.content = theme === "light" ? "#f5f4ef" : "#12151c";
       themeBtn.dataset.mode = themeMode;
       themeBtn.title = `Theme: ${THEME_NAMES[themeMode]} · click to switch`;
       themeBtn.setAttribute("aria-label", themeBtn.title);
