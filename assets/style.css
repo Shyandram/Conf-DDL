@@ -1737,3 +1737,11 @@ body[data-page="list"] .topbar { background: color-mix(in srgb, var(--bg) 94%, t
   #pgNow .timeline-wrap .section-head { row-gap: 0; margin-bottom: 0; }
   #pgNow .timeline { margin-top: 0; }
 }
+
+/* phones: this month's passed dates sit above a "Today" rule and the list opens at it */
+.tl-mtoday { display: none; }
+@media (max-width: 560px) {
+  .tl-mtoday { display: flex; align-items: center; gap: 8px; flex-basis: 100%; margin: 4px 0 2px; font: 600 12px var(--mono); color: var(--accent); font-style: normal; letter-spacing: .06em; text-transform: uppercase; }
+  .tl-mtoday::after { content: ""; flex: 1; height: 1px; background: color-mix(in srgb, var(--accent) 50%, transparent); }
+  .tl-mrow.is-now .tl-mname { position: sticky; top: 0; }
+}

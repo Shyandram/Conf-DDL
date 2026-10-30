@@ -768,8 +768,10 @@
   let tlAnchor = null; // {m, dy}: the month at the top of the list once the reader scrolls it themselves
   function tlToday(tl, smooth = true) {
     tlAnchor = null;
+    // phones open at today itself, past this month's passed dates; wider screens show the whole month
+    const mark = innerWidth <= 560 && $(".tl-mtoday", tl);
     const row = $(".tl-mrow.is-now", tl), box = $(".tl-months", tl);
-    if (row && box) box.scrollTo({ top: row.offsetTop - box.offsetTop - 8, behavior: smooth && !reduced ? "smooth" : "auto" });
+    if (row && box) box.scrollTo({ top: mark ? mark.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop - 4 : row.offsetTop - box.offsetTop - 8, behavior: smooth && !reduced ? "smooth" : "auto" });
   }
   function watchToday(tl) {
     const row = $(".tl-mrow.is-now", tl), box = $(".tl-months", tl), btn = $(".tl-back", tl);
@@ -986,11 +988,12 @@
       html = `<div class="tl-months">` + months.map(({ m, items }) => {
         const isNow = m.getMonth() === thisMonth && m.getFullYear() === thisYear, isPast = !isNow && +m < now;
         const name = m.toLocaleString(undefined, { month: "short" }), yr = m.getMonth() === 0 || isNow ? ` ’${String(m.getFullYear()).slice(2)}` : "";
-        const chips = items.sort((a, b) => a.at - b.at).map(e => {
+        const sorted = items.sort((a, b) => a.at - b.at), cut = isNow ? (i => i < 0 ? sorted.length : i)(sorted.findIndex(e => e.at > now)) : -1;
+        const chips = sorted.map((e, i) => {
           const cls = `tl-chip ev-${e.ev}${e.ev === "ddl" && e.c.status !== "confirmed" ? " est" : ""}${e.at <= now ? " past" : ""}${role(e.c)}`;
           const text = e.text || `${e.c.title} ${String(e.c.year).slice(2)}`;
-          return `<button type="button" class="${cls}" data-id="${esc(e.c.id)}" title="${esc(tipOf(e.c))}">${esc(text)}${e.text ? "" : `<small>${new Date(e.at).getDate()}</small>`}</button>`;
-        }).join("");
+          return (i === cut && i > 0 ? `<i class="tl-mtoday"><span>Today</span></i>` : "") + `<button type="button" class="${cls}" data-id="${esc(e.c.id)}" title="${esc(tipOf(e.c))}">${esc(text)}${e.text ? "" : `<small>${new Date(e.at).getDate()}</small>`}</button>`;
+        }).join("") + (cut > 0 && cut === sorted.length ? `<i class="tl-mtoday"><span>Today</span></i>` : "");
         return `<div class="tl-mrow${isNow ? " is-now" : ""}${isPast ? " is-past" : ""}" data-m="${m.getFullYear()}-${m.getMonth()}"><span class="tl-mname">${esc(name)}<small>${esc(yr)}</small></span><div class="tl-mchips">${chips || `<span class="tl-mempty">—</span>`}</div></div>`;
       }).join("") + `</div>`;
       tl.innerHTML = html + `<button type="button" class="tl-back" hidden><i></i>Today</button>`;
