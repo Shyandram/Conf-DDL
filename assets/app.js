@@ -1611,6 +1611,7 @@
       const main = pg.closest("main"), mainRight = main.getBoundingClientRect().right - parseFloat(getComputedStyle(main).paddingRight);
       pg.style.setProperty("--edge", Math.max(0, Math.round(document.documentElement.clientWidth - mainRight)) + "px");
       const heroH = () => hero.getBoundingClientRect().height;
+      hero.classList.remove("clock-xl");
       const useList = v => {
         if (tlVertical === v) return;
         tlVertical = v;
@@ -1648,7 +1649,14 @@
         if (W / Math.max(room, 1) >= 1.15) tryMode("m-cols", 4, 0.3, () => 0);
         // folded: the timeline waits behind its icon in the bottom bar, so the countdown keeps as much as it can,
         // a little smaller rather than without its venue
-        else if (pg.classList.contains("tl-folded")) [0, 1, 2, 3].some(l => tryMode("m-v", l, 0.84, () => 0)) || tryMode("m-v", 4, 0.3, () => 0);
+        // On a phone the clock goes two by two, about 1.6 times the size, as long as the venue card stays.
+        else if (pg.classList.contains("tl-folded")) {
+          hero.classList.toggle("clock-xl", W < 640);
+          if (!(W < 640 && [0, 1, 2, 3].some(l => tryMode("m-v", l, 0.86, () => 0)))) {
+            hero.classList.remove("clock-xl");
+            [0, 1, 2, 3].some(l => tryMode("m-v", l, 0.84, () => 0)) || tryMode("m-v", 4, 0.3, () => 0);
+          }
+        }
         // phones: the month list scrolls inside whatever room it gets, so the countdown keeps its size and the list gives
         else if (W < 560 && state.tlView === "list" && tryMode("m-v", 4, 0.88, () => head() + Math.max(120, room * 0.24)));
         else tryMode("m-v", 4, 0.3, list);
