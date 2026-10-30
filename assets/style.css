@@ -1484,7 +1484,7 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 #pgNow.m-v.tl-folded .tl-fold i::before { transform: translateY(-2px) rotate(45deg); }
 #pgNow.m-v.tl-folded .timeline-wrap > :not(.section-head),
 #pgNow.m-v.tl-folded .legend, #pgNow.m-v.tl-folded .tl-seg { display: none; }
-#pgNow.m-v.tl-folded .timeline-wrap { flex: 0 0 auto; height: auto; min-height: 0; }
+#pgNow.m-v.tl-folded .timeline-wrap { flex: 0 0 auto; height: auto; min-height: 0; margin-top: auto; } /* the folded bar sits on the bottom bar */
 
 /* ---------- the venue's local time, and what the place is known for ---------- */
 .venue-local { font: 500 12.5px var(--mono); color: var(--ink-2); margin-top: 2px; display: block; }

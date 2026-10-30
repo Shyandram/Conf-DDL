@@ -1648,7 +1648,8 @@
       const list = () => head() + Math.min(320, Math.max(190, room * 0.36)); // room for the standing axis
       if (!(W >= 700 && tryMode("m-h", 2, 0.9, state.tlView === "list" ? list : strip))) {
         if (W / Math.max(room, 1) >= 1.15) tryMode("m-cols", 4, 0.3, () => 0);
-        else if (pg.classList.contains("tl-folded")) tryMode("m-v", 4, 0.3, head); // just its header row
+        // folded: just its header row, so the countdown keeps as much as it can, a little smaller rather than without its venue
+        else if (pg.classList.contains("tl-folded")) [0, 1, 2, 3].some(l => tryMode("m-v", l, 0.84, head)) || tryMode("m-v", 4, 0.3, head);
         // phones: the month list scrolls inside whatever room it gets, so the countdown keeps its size and the list gives
         else if (W < 560 && state.tlView === "list" && tryMode("m-v", 4, 0.88, () => head() + Math.max(120, room * 0.24)));
         else tryMode("m-v", 4, 0.3, list);
