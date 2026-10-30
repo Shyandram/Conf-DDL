@@ -1475,17 +1475,6 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
   display: block; writing-mode: vertical-rl; font: 600 12px var(--mono); letter-spacing: .14em; text-transform: uppercase;
 }
 
-/* stacked (phones): the timeline folds to its header row, a chevron opens it */
-#pgNow.m-v .tl-fold {
-  display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 36px; padding: 0;
-  border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink-2); cursor: pointer;
-}
-#pgNow.m-v .tl-fold i::before { content: ""; display: block; width: 9px; height: 9px; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(2px) rotate(225deg); }
-#pgNow.m-v.tl-folded .tl-fold i::before { transform: translateY(-2px) rotate(45deg); }
-#pgNow.m-v.tl-folded .timeline-wrap > :not(.section-head),
-#pgNow.m-v.tl-folded .legend, #pgNow.m-v.tl-folded .tl-seg { display: none; }
-#pgNow.m-v.tl-folded .timeline-wrap { flex: 0 0 auto; height: auto; min-height: 0; margin-top: auto; } /* the folded bar sits on the bottom bar */
-
 /* ---------- the venue's local time, and what the place is known for ---------- */
 .venue-local { font: 500 12.5px var(--mono); color: var(--ink-2); margin-top: 2px; display: block; }
 .venue-local .sky { vertical-align: -1px; margin-right: 4px; }
@@ -1746,25 +1735,18 @@ body[data-page="list"] .topbar { background: color-mix(in srgb, var(--bg) 94%, t
   .tl-mrow.is-now .tl-mname { position: sticky; top: 0; }
 }
 
-/* the folded timeline on phones: one card that names what comes next and opens on a tap */
-.tl-peek { display: none; }
-#pgNow.m-v.tl-folded .section-head {
-  grid-template-columns: 1fr auto; grid-template-areas: "t c" "p c"; gap: 4px 12px; cursor: pointer;
-  padding: 10px 10px 10px 14px; border: 1px solid var(--line); border-radius: 14px;
-  background: color-mix(in srgb, var(--bg) 72%, transparent); box-shadow: 0 6px 22px rgba(0,0,0,.18);
+/* stacked layouts (phones): folded, the timeline leaves the page; an icon at the bottom bar's left brings it back */
+#pgNow.m-v.tl-folded .timeline-wrap { display: none; } /* (its own fold button stays a two-column thing) */
+.pager-nav .pn-tl { display: none; }
+body:has(#pgNow.m-v) .pager-nav .pn-tl {
+  display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 40px; padding: 0;
+  border-right: 1px solid var(--line); border-radius: 999px 0 0 999px; color: var(--ink-2);
 }
-#pgNow.m-v.tl-folded .section-head h2 { grid-area: t; font-size: 15px; font-family: var(--mono); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
-#pgNow.m-v.tl-folded .tl-ctl { grid-area: c; }
-#pgNow.m-v.tl-folded .tl-peek {
-  grid-area: p; display: flex; gap: 0; min-width: 0; overflow: hidden; white-space: nowrap;
-  font: 500 13px var(--mono); color: var(--ink-2);
+.pager-nav .pn-tl[aria-pressed="true"] { color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
+/* narrow phones: the bottom bar holds four buttons, so the tabs drop their icons and count */
+@media (max-width: 420px) {
+  .pn-tabs svg, .pager-nav .pn-n { display: none; }
+  .pn-tabs button { padding: 9px 12px; }
+  body:has(#pgNow.m-v) .pager-nav .pn-tl, .pager-nav .pn-mine { width: auto; min-width: 42px; padding: 0 10px; }
 }
-.tl-peek > span { flex: none; }
-.tl-peek > span + span::before { content: "·"; margin: 0 7px; color: var(--ink-3); }
-.tl-peek .pk-next { color: var(--accent); }
-.tl-peek .pk-next b { color: var(--ink); font-weight: 600; }
-.tl-peek small { color: var(--ink-3); font-size: 12px; }
-.tl-peek .pk-more { color: var(--ink-3); }
-#pgNow.m-v.tl-folded .timeline-wrap { margin-bottom: 6px; }
-.tl-peek > span:not(.pk-next):not(.pk-more) { flex-shrink: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-#pgNow.m-v.tl-folded .tl-fold { border-color: transparent; background: color-mix(in srgb, var(--ink) 8%, transparent); }
+@media (max-width: 340px) { .pn-tabs button { padding: 9px 9px; font-size: 13px; } }
