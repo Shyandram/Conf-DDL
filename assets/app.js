@@ -13,7 +13,6 @@
   const dur = s => (lite ? Math.min(s, 0.25) : s);
   const hasGsap = typeof window.gsap !== "undefined";
   if (hasGsap && window.Flip) gsap.registerPlugin(Flip);
-  if (hasGsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 
   // Build id from our own script URL (?v=<commit> on the live site, "dev" locally). Data URLs carry it too, so they
   // match the <link rel="preload"> in index.html and every deploy busts the browser cache.
@@ -762,7 +761,7 @@
 
   /* ---------- timeline ---------- */
 
-  let timelineList = [];
+  let timelineList = [], tlStale = false;
   let tlVertical = matchMedia("(max-width: 640px)").matches;
 
   // The month list scrolls; once this month is out of sight, a "Today" button takes the reader back.
@@ -800,7 +799,11 @@
   function renderTimeline(list, now, opts = {}) {
     if (!opts.el) scheduleFit(); // the strip can grow a row (a picked conference adds its dates)
     const tl = opts.el || $("#timeline");
-    if (!opts.el) timelineList = list;
+    if (!opts.el) {
+      timelineList = list;
+      tlStale = !tl.offsetParent; // folded away: drawn once it is shown (fitNow)
+      if (tlStale) return;
+    }
     // the span shown: the past three months and the next nine (the planner from the start of that first month)
     const start = new Date(now); start.setHours(0, 0, 0, 0);
     if (opts.el) start.setDate(1);
@@ -1484,7 +1487,6 @@
         onEnter: els => gsap.fromTo(els, { opacity: 0, y: 10 }, { opacity: 1, y: 0, clearProps: "transform", duration: 0.4, ease: "power2.out" }),
         onComplete: () => {
           gsap.set(cards, { clearProps: "transform,opacity" });
-          if (window.ScrollTrigger) ScrollTrigger.refresh();
         },
       });
     }
@@ -1505,7 +1507,6 @@
     if (save) store.set("listTab", tab);
     $$(".tab").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === tab));
     $$(".tab-panel").forEach(p => { p.hidden = p.id !== "panel-" + tab; });
-    if (window.ScrollTrigger) ScrollTrigger.refresh();
   }
   function showScope(mine) {
     state.onlyStarred = mine;
@@ -1645,20 +1646,35 @@
         }
       };
       const head = () => $(".section-head", wrap).offsetHeight + 12;
-      const strip = () => { const inner = $(".timeline-inner", wrap); return head() + (inner ? inner.offsetHeight + 8 : 170); };
+      const strip = () => { const inner = $(".timeline-inner", wrap); return head() + (inner ? inner.offsetHeight + 8 : 100); }; // before the data: about the quiet axis
       const list = () => head() + Math.min(320, Math.max(190, room * 0.36)); // room for the standing axis
       if (!(W >= 700 && tryMode("m-h", 2, 0.9, state.tlView === "list" ? list : strip))) {
         if (W / Math.max(room, 1) >= 1.15) tryMode("m-cols", 4, 0.3, () => 0);
         // folded: the timeline waits behind its icon in the bottom bar, so the countdown keeps as much as it can,
         // a little smaller rather than without its venue
         // small screens shed the full name and tighten the chips before the clock shrinks at all
-        else if (pg.classList.contains("tl-folded")) [0.95, 0.84].some(z => [0, 1, 2, 3].some(l => tryMode("m-v", l, z, () => 0))) || tryMode("m-v", 4, 0.3, () => 0);
+        else if (pg.classList.contains("tl-folded")) {
+          // one measuring pass: the scale each shed level would need; the least shed one that keeps the clock at 95%
+          // (else 84%) wins, and only that one is fitted
+          pg.classList.remove(...LAYOUTS, ...FIT);
+          pg.classList.add("m-v");
+          useList(true);
+          hero.style.zoom = "";
+          const need = [];
+          for (let i = 0; i < 4; i++) {
+            if (i) pg.classList.add(FIT[i - 1]);
+            need.push(room / heroH());
+            if (need[i] >= 1) break;
+          }
+          const pick = [0.95, 0.84].map(z => need.findIndex(n => n >= z)).find(i => i >= 0);
+          if (pick === undefined || !tryMode("m-v", pick, 0.84, () => 0)) tryMode("m-v", 4, 0.3, () => 0);
+        }
         // phones: the month list scrolls inside whatever room it gets, so the countdown keeps its size and the list gives
         else if (W < 560 && state.tlView === "list" && tryMode("m-v", 4, 0.88, () => head() + Math.max(120, room * 0.24)));
         else tryMode("m-v", 4, 0.3, list);
       }
       // the standing axis is laid out in pixels for its box; draw it again now that the hero has settled
-      if ((tlVertical || state.tlView === "list") && timelineList.length) renderTimeline(timelineList, Date.now(), { quiet: true });
+      if ((tlVertical || state.tlView === "list" || tlStale) && timelineList.length) renderTimeline(timelineList, Date.now(), { quiet: true });
       // the city photo: behind the whole screen when the timeline sits beside the hero or is folded away;
       // otherwise it ends just inside the timeline, which then sits on solid ground
       const bg = $(".page-bg");
@@ -1702,7 +1718,6 @@
       if (to === 0) { pagePos[0] = 0; if (fitSize !== `${window.innerWidth}x${window.innerHeight}`) fitNow(); }
       store.set("page", to);
       window.scrollTo({ top: pagePos[to], behavior: "instant" });
-      if (window.ScrollTrigger) ScrollTrigger.refresh();
       if (after) requestAnimationFrame(after);
     };
     goPage = (to, after, pos) => {
@@ -2034,7 +2049,6 @@
       if (narrowRail.matches) { setDrawer(open); return; }
       setRail(open, true);
       scheduleFit();
-      if (window.ScrollTrigger) setTimeout(() => ScrollTrigger.refresh(), 400);
     };
     rt.addEventListener("click", () => toggleRail(false));
     $("#pnMine").addEventListener("click", () => toggleRail(narrowRail.matches ? !layout.classList.contains("drawer-open") : layout.classList.contains("rail-off")));
@@ -2200,12 +2214,15 @@
       } else if (!open) more.hidden = true;
     });
 
-    if (hasGsap && window.ScrollTrigger) {
-      ScrollTrigger.create({
-        trigger: ".controls", start: "top 64px", end: "max",
-        onToggle: self => { $(".controls").classList.toggle("is-stuck", self.isActive); $(".list-bar").classList.toggle("is-stuck", self.isActive); },
-      });
-    } else $$(".controls, .list-bar").forEach(el => el.classList.add("is-stuck")); // no way to tell: keep their floor
+    // the controls and list bar get their solid floor once they stick under the top bar: a marker just above them
+    // has scrolled past the 64px line
+    const mark = document.createElement("i");
+    mark.className = "stick-mark";
+    $(".controls").before(mark);
+    new IntersectionObserver(([en]) => {
+      const stuck = !en.isIntersecting && en.boundingClientRect.top < 64;
+      $$(".controls, .list-bar").forEach(el => el.classList.toggle("is-stuck", stuck));
+    }, { rootMargin: "-64px 0px 0px 0px" }).observe(mark);
   }
 
   /* ---------- lifecycle ---------- */
@@ -2261,18 +2278,17 @@
       if (hasGsap && fx) gsap.fromTo(c.refs.bar, { width: "0%" }, { width: w, duration: 1.4, ease: "expo.out" });
       else c.refs.bar.style.width = w;
     };
-    if (!hasGsap || !fx || !window.ScrollTrigger) { list.forEach(c => { c.revealed = true; growBar(c); }); return; }
+    if (!hasGsap || !fx || !("IntersectionObserver" in window)) { list.forEach(c => { c.revealed = true; growBar(c); }); return; }
     gsap.set(list.map(c => c.el), { opacity: 0, y: 14 });
-    ScrollTrigger.batch(list.map(c => c.el), {
-      start: "top 92%", once: true,
-      onEnter: els => {
-        // skip rows a filter change already revealed, so this never fights a running Flip
-        const fresh = els.map(el => list.find(x => x.el === el)).filter(c => c && !c.revealed);
-        if (!fresh.length) return;
-        fresh.forEach(c => { c.revealed = true; growBar(c); });
-        gsap.to(fresh.map(c => c.el), { opacity: 1, y: 0, clearProps: "transform", duration: 0.6, ease: "expo.out", stagger: 0.035 });
-      },
-    });
+    // rows rise in as they come within 8% of the bottom edge, each once
+    const io = new IntersectionObserver(entries => {
+      // skip rows a filter change already revealed, so this never fights a running Flip
+      const fresh = entries.filter(en => en.isIntersecting).map(en => (io.unobserve(en.target), en.target.conf)).filter(c => c && !c.revealed);
+      if (!fresh.length) return;
+      fresh.forEach(c => { c.revealed = true; growBar(c); });
+      gsap.to(fresh.map(c => c.el), { opacity: 1, y: 0, clearProps: "transform", duration: 0.6, ease: "expo.out", stagger: 0.035 });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    list.forEach(c => io.observe(c.el));
   }
 
   const fmtNowLocal = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", timeZoneName: "short" });
@@ -2319,6 +2335,7 @@
     } catch (err) {
       $("#heroFull").textContent = "Couldn't load data/conferences.json. Serve this folder over HTTP (e.g. python3 -m http.server).";
       console.error(err);
+      document.documentElement.classList.remove("pre-fit");
       return;
     }
     if (data.updated) $("#updated").textContent = "updated " + data.updated;
@@ -2329,6 +2346,8 @@
     joinSync();
     pullStars();
     tick();
+    // the countdown shows once it has its data and has been fitted, so nothing on it jumps (style.css: .pre-fit)
+    requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.remove("pre-fit")));
     // align ticks to the wall-clock second
     // (skipped while the tab is hidden; it catches up as soon as it is shown again)
     setTimeout(() => { tick(); setInterval(() => { if (!document.hidden) tick(); }, 1000); }, 1000 - (Date.now() % 1000));

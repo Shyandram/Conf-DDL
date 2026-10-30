@@ -1,10 +1,10 @@
 @font-face {
   font-family: "Geist"; font-style: normal; font-weight: 100 900; font-display: optional;
-  src: url("https://cdn.jsdelivr.net/npm/@fontsource-variable/geist@5.3.0/files/geist-latin-wght-normal.woff2") format("woff2-variations");
+  src: url("vendor/geist-5.3.0/geist-latin-wght-normal.woff2") format("woff2-variations");
 }
 @font-face {
   font-family: "Geist Mono"; font-style: normal; font-weight: 100 900; font-display: optional;
-  src: url("https://cdn.jsdelivr.net/npm/@fontsource-variable/geist-mono@5.3.0/files/geist-mono-latin-wght-normal.woff2") format("woff2-variations");
+  src: url("vendor/geist-5.3.0/geist-mono-latin-wght-normal.woff2") format("woff2-variations");
 }
 
 :root {
@@ -1289,7 +1289,7 @@ html.on-now .to-top { display: none !important; }
 #pgNow .timeline-inner { flex: none; }
 
 /* shed detail when the screen is short (app.js adds these one at a time until it fits) */
-#pgNow.f1 .hero-full { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 0; margin-bottom: 10px; }
+#pgNow.f1 .hero-full { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 10px; }
 #pgNow.f1 .hero-foot { padding-top: 10px; margin-top: 0; }
 #pgNow.f2 .venue { min-height: 0; padding-top: 10px; padding-bottom: 10px; }
 #pgNow.f2 .venue-kicker, #pgNow.f2 .venue-credit { display: none; }
@@ -1735,7 +1735,6 @@ body[data-page="list"] .topbar { background: color-mix(in srgb, var(--bg) 94%, t
 
 /* stacked layouts (phones): folded, the timeline leaves the page; an icon at the bottom bar's left brings it back */
 #pgNow.m-v.tl-folded .timeline-wrap { display: none; }
-#pgNow.m-v.tl-folded .hero { margin-block: auto; } /* room to spare goes evenly above and below */ /* (its own fold button stays a two-column thing) */
 .pager-nav .pn-tl { display: none; }
 body:has(#pgNow.m-v) .pager-nav .pn-tl {
   display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 40px; padding: 0;
@@ -1759,7 +1758,8 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl {
   .unit > span { text-align: center; }
   .digits { justify-content: center; padding: 0; }
   .digit { width: calc(var(--dw) * .54); font-size: calc(var(--dw) * .92); }
-  .venue { min-height: 0; gap: 6px; padding: 12px 14px; border-radius: 14px; }
+  .venue { min-height: 124px; gap: 6px; padding: 12px 14px; border-radius: 14px; } /* its usual height, held before the data arrives */
+  #pgNow.f2 .venue { min-height: 0; }
   .venue figcaption { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 0 8px; }
   .venue-kicker, .venue-foot { display: none; }
   .venue-city, #pgNow.f2 .venue-city { font-size: 18px; }
@@ -1780,3 +1780,21 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl {
     linear-gradient(90deg, color-mix(in srgb, var(--bg) 50%, transparent) 0%, color-mix(in srgb, var(--bg) 22%, transparent) 45%,
       transparent 100%);
 }
+
+.stick-mark { display: block; height: 0; }
+/* the sights and visitor-site links are full 24px tap targets without changing the line's height */
+.venue-links a { display: inline-block; padding-block: 5px; margin-block: -5px; }
+#heroWhen { min-height: 1.4em; } /* the deadline line holds its height before the data arrives */
+/* wide screens: the quiet axis's usual height, held before the data arrives */
+@media (min-width: 761px) { .timeline:not(.planner-tl) { min-height: 92px; } }
+/* until its data is in and it has been fitted (app.js drops .pre-fit), the countdown page stays invisible, so its
+   pieces don't jump around while they fill in; it shows anyway after 4 s should the script never run */
+.pre-fit #pgNow { visibility: hidden; animation: pre-show 0s 4s forwards; }
+@keyframes pre-show { to { visibility: visible; } }
+/* list page: the stuck controls and tab bar form one solid header strip from edge to edge, under an opaque top bar,
+   so no row shows through a gap or past its sides */
+body[data-page="list"] .topbar { background: var(--bg); }
+.controls.is-stuck, .list-bar.is-stuck { box-shadow: 0 0 0 100vmax var(--bg); clip-path: inset(-10px -100vmax 0 -100vmax); }
+.list-bar.is-stuck { box-shadow: 0 0 0 100vmax var(--bg), 0 1px 0 100vmax var(--line); clip-path: inset(0 -100vmax -1px -100vmax); }
+.controls.is-stuck { border-bottom-color: transparent; }
+.pager { overflow: clip; overflow-clip-margin: 48px; } /* room for that strip to reach the screen edges (Chrome honours the margin only when both axes clip) */
