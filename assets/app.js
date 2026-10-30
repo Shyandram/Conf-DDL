@@ -795,6 +795,17 @@
     requestAnimationFrame(check);
   }
 
+  // the folded bar on phones names what comes next: the soonest deadline with the time left, the one after it, and how many more this month
+  function renderPeek(now) {
+    const ahead = timelineList.filter(c => c.ddl > now).sort((a, b) => a.ddl - b.ddl), upcoming = ahead[0];
+    const days = c => { const h = Math.floor((c.ddl - now) / 36e5); return h < 24 ? `in ${h}h` : `in ${Math.floor(h / 24)}d ${h % 24}h`; };
+    const later = ahead.filter(c => c.ddl - now < 30 * 864e5).length;
+    $("#tlPeek").innerHTML = !upcoming ? `<span>No deadlines ahead</span>` :
+      `<span class="pk-next"><b>${esc(upcoming.title)} ${String(upcoming.year).slice(2)}</b> ${days(upcoming)}</span>` +
+      ahead.slice(1, 2).map(c => `<span>${esc(c.title)} ${String(c.year).slice(2)} <small>${esc(fmtShort.format(c.ddl))}</small></span>`).join("") +
+      (later > 2 ? `<span class="pk-more">+${later - 2}</span>` : "");
+  }
+
   // Home timeline by default; the planner passes its own element and asks for the resubmission path.
   function renderTimeline(list, now, opts = {}) {
     if (!opts.el) scheduleFit(); // the strip can grow a row (a picked conference adds its dates)
@@ -915,6 +926,7 @@
     // bead with a count, and only the best-placed names get a label (two rows at most). The one colour is the
     // accent, for today and the next deadline; a tapped conference adds its reviews and lights its next venues.
     const upcoming = list.filter(c => c.ddl > now).sort((a, b) => a.ddl - b.ddl)[0]; // the one accent
+    if (!opts.el) renderPeek(now);
     function quietAxis() {
       const W = Math.max(tl.clientWidth, 560), GAP = 30, ROW = 21, ROWS = 2;
       // merge the closest pair of neighbours until every bead has room of its own
@@ -2114,6 +2126,11 @@
       fold(on);
       fitNow();
     });
+    // folded on a phone, the whole bar opens it
+    $("#timeline").closest(".timeline-wrap").querySelector(".section-head").addEventListener("click", e => {
+      const pg = $("#pgNow");
+      if (pg.classList.contains("m-v") && pg.classList.contains("tl-folded") && !e.target.closest("button")) $("#tlFold").click();
+    });
     $(".tl-ctl").addEventListener("click", e => {
       const b = e.target.closest("button[data-view]");
       if (!b) return;
@@ -2322,7 +2339,7 @@
     tick();
     // align ticks to the wall-clock second
     // (skipped while the tab is hidden; it catches up as soon as it is shown again)
-    setTimeout(() => { tick(); setInterval(() => { if (!document.hidden) tick(); }, 1000); }, 1000 - (Date.now() % 1000));
+    setTimeout(() => { tick(); setInterval(() => { if (!document.hidden) tick(); }, 1000); setInterval(() => renderPeek(Date.now()), 60000); }, 1000 - (Date.now() % 1000));
     document.addEventListener("visibilitychange", () => { if (!document.hidden) { tick(); pullStars(); } });
   }
 

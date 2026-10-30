@@ -1745,3 +1745,26 @@ body[data-page="list"] .topbar { background: color-mix(in srgb, var(--bg) 94%, t
   .tl-mtoday::after { content: ""; flex: 1; height: 1px; background: color-mix(in srgb, var(--accent) 50%, transparent); }
   .tl-mrow.is-now .tl-mname { position: sticky; top: 0; }
 }
+
+/* the folded timeline on phones: one card that names what comes next and opens on a tap */
+.tl-peek { display: none; }
+#pgNow.m-v.tl-folded .section-head {
+  grid-template-columns: 1fr auto; grid-template-areas: "t c" "p c"; gap: 4px 12px; cursor: pointer;
+  padding: 10px 10px 10px 14px; border: 1px solid var(--line); border-radius: 14px;
+  background: color-mix(in srgb, var(--bg) 72%, transparent); box-shadow: 0 6px 22px rgba(0,0,0,.18);
+}
+#pgNow.m-v.tl-folded .section-head h2 { grid-area: t; font-size: 15px; font-family: var(--mono); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+#pgNow.m-v.tl-folded .tl-ctl { grid-area: c; }
+#pgNow.m-v.tl-folded .tl-peek {
+  grid-area: p; display: flex; gap: 0; min-width: 0; overflow: hidden; white-space: nowrap;
+  font: 500 13px var(--mono); color: var(--ink-2);
+}
+.tl-peek > span { flex: none; }
+.tl-peek > span + span::before { content: "·"; margin: 0 7px; color: var(--ink-3); }
+.tl-peek .pk-next { color: var(--accent); }
+.tl-peek .pk-next b { color: var(--ink); font-weight: 600; }
+.tl-peek small { color: var(--ink-3); font-size: 12px; }
+.tl-peek .pk-more { color: var(--ink-3); }
+#pgNow.m-v.tl-folded .timeline-wrap { margin-bottom: 6px; }
+.tl-peek > span:not(.pk-next):not(.pk-more) { flex-shrink: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+#pgNow.m-v.tl-folded .tl-fold { border-color: transparent; background: color-mix(in srgb, var(--ink) 8%, transparent); }
