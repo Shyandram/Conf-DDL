@@ -466,7 +466,9 @@
     return alt < -8 ? "night" : alt < 10 ? (rising ? "dawn" : "dusk") : "day";
   };
   // the backdrop follows the reader's own clock, in step with the light / dark theme (light 6–18)
-  const localPhase = () => { const h = new Date().getHours(); return h >= 5 && h < 7 ? "dawn" : h >= 7 && h < 17 ? "day" : h >= 17 && h < 19 ? "dusk" : "night"; };
+  // ?hour=18.5 previews another time of day (the 2.5D scene reads it too)
+  const HOUR = (() => { const q = new URLSearchParams(location.search), h = Number(q.get("hour")); return q.has("hour") && h >= 0 && h < 24 ? h : null; })();
+  const localPhase = () => { const h = HOUR ?? new Date().getHours(); return h >= 5 && h < 7 ? "dawn" : h >= 7 && h < 17 ? "day" : h >= 17 && h < 19 ? "dusk" : "night"; };
   // the closest mood when a city lacks the one asked for
   const NEAR = { dawn: ["dawn", "dusk", "day", "night"], day: ["day", "dawn", "dusk", "night"],
     dusk: ["dusk", "dawn", "night", "day"], night: ["night", "dusk", "dawn", "day"] };
@@ -510,6 +512,14 @@
     document.readyState === "complete" ? idle() : addEventListener("load", idle, { once: true });
   }));
 
+  // ?gl=debug: a corner badge saying whether the 2.5D scene runs, and if not, why
+  if (new URLSearchParams(location.search).get("gl") === "debug") {
+    const b = document.createElement("div");
+    b.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:99;padding:6px 9px;border-radius:8px;background:#000c;color:#fff;font:500 12px var(--mono);pointer-events:none;max-width:calc(100vw - 16px)";
+    document.body.append(b);
+    setInterval(() => { b.textContent = `2.5D ${window.__s3d || (window.Scene3D ? "waiting" : "not loaded yet")}`; }, 500);
+  }
+
   // the backdrop cross-fades: the new picture fades in over the old, which leaves once it is covered
   function showBackdrop(src, cls = "", live) {
     const pan = $("#bgPan"), old = $$(".page-bg-img", pan);
@@ -521,7 +531,8 @@
     // the pan is phased to the document's clock, so a canvas taking over can frame it the same way
     if (cls.includes("is-pano")) el.style.animationDelay = `${-(document.timeline.currentTime || 0) / 1000}s`;
     pan.append(el);
-    if (live && !reduced) load3d().then(S => S && S.attach(el, {
+    if (live && reduced) window.__s3d = "off: the device asks for reduced motion";
+    if (live && !reduced) load3d().then(S => S ? S.attach(el, {
       ...live,
       paused: () => document.body.dataset.page === "list" || !$("#planner").hidden,
       onMood: mood => {
@@ -530,7 +541,7 @@
         const cr = $("#venueCredit");
         cr.innerHTML = cr.innerHTML.replace(/^(Dawn|Day|Dusk|Night)\b/, mood[0].toUpperCase() + mood.slice(1));
       },
-    }));
+    }) : (window.__s3d = "off: scene3d.js failed to load"));
     requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("is-loaded")));
     setTimeout(() => old.forEach(o => o.remove()), 1300);
   }

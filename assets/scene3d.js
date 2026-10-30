@@ -59,9 +59,12 @@ void main(){
     const ext = gl.getExtension("WEBGL_debug_renderer_info");
     return !!ext && /swiftshader|llvmpipe|softpipe|software|basic render/i.test(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) || "");
   };
+  // why the scene is (not) moving, for ?gl=debug
+  const why = s => { window.__s3d = s; };
   function glOf(cv) {
     const gl = cv.getContext("webgl", GL_OPTS);
-    if (!gl || software(gl)) return null;
+    if (!gl) { why(document.createElement("canvas").getContext("webgl") ? "off: the browser rates this GPU too slow" : "off: no WebGL"); return null; }
+    if (software(gl)) { why("off: software WebGL"); return null; }
     const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
     const pr = gl.createProgram();
     gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS));
@@ -117,20 +120,23 @@ void main(){
       const [d] = await Promise.all([loadImg(opt.depth), ...want().map(load)]);
       tex.depth = texture(gl, d);
       gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, tex.depth);
-    } catch { return null; }
+    } catch { why("off: pictures failed to load"); return null; }
     if (!el.isConnected) return null;
+    why("on");
     el.append(cv);
     el.dataset.live = "1";
     // the other moods come in once the first frame is up
     setTimeout(() => ["day", "dawn", "dusk", "night"].forEach(load), 1500);
 
     const near = m => tex[m] && tex[m] !== "loading" ? m : ["day", "dawn", "dusk", "night"].find(k => tex[k] && tex[k] !== "loading");
-    let last = 0, shown = false, t0 = performance.now(), prev = 0, slow = 0, drawn = 0;
-    const stop = () => { gl.getExtension("WEBGL_lose_context")?.loseContext(); cv.remove(); delete el.dataset.live; };
+    let last = 0, shown = false, t0 = performance.now(), prev = 0, slow = 0, drawn = 0, settled = 0;
+    const stop = () => { gl.getExtension("WEBGL_lose_context")?.loseContext(); cv.remove(); delete el.dataset.live; why("off: frames kept stalling"); };
     const frame = now => {
       if (!el.isConnected) { gl.getExtension("WEBGL_lose_context")?.loseContext(); return; }
-      // a device that can't keep up (frames 80 ms apart, again and again while drawing) goes back to the still picture
-      if (!FORCE && prev && drawn && !document.hidden && !opt.paused() && now - prev > 80) { if (++slow > 12) return stop(); }
+      // a device that can't keep up (frames 80 ms apart, again and again while drawing) goes back to the still picture;
+      // counted only once every mood is uploaded and things have settled (uploading big pictures stalls any phone)
+      if (!settled && drawn && !Object.values(tex).includes("loading") && Object.keys(tex).length > 4) settled = now + 2000;
+      if (!FORCE && settled && now > settled && prev && !document.hidden && !opt.paused() && now - prev > 80) { if (++slow > 20) return stop(); }
       else if (slow) slow -= .25;
       prev = now;
       requestAnimationFrame(frame);
@@ -170,6 +176,5 @@ void main(){
     return { setFixed: m => { fixed = m || null; } };
   }
 
-  const ok = (() => { try { const gl = document.createElement("canvas").getContext("webgl", GL_OPTS); return !!gl && !software(gl); } catch { return false; } })();
-  window.Scene3D = { attach: ok ? attach : async () => null, moodsAt };
+  window.Scene3D = { attach, moodsAt };
 })();
