@@ -1401,7 +1401,7 @@ html.on-now .to-top { display: none !important; }
 .timeline-wrap .section-head { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px 12px; }
 .timeline-wrap .section-head .legend { grid-column: 1 / -1; }
 .tl-ctl { display: flex; align-items: center; gap: 6px; }
-.tl-seg button { padding: 6px 12px; font: 600 13px var(--mono); display: inline-grid; place-items: center; min-height: 34px; min-width: 40px; }
+.tl-seg button { padding: 6px 12px; font: 600 13px var(--mono); display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; min-width: 40px; }
 #pgNow.m-cols .section-head { display: grid; flex-direction: initial; align-items: center; }
 .tlv-wk { position: absolute; width: 6px; height: 1px; background: var(--line); }
 .tlv-month.tlv-mid { font-size: 12px; opacity: .65; }
@@ -1448,18 +1448,18 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 #pgNow.m-cols .section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 8px; }
 #pgNow.m-cols .section-head .legend { flex-basis: 100%; }
 #pgNow.m-cols .section-head h2 { font-size: 16px; }
-#pgNow.m-cols .tl-seg button { padding: 3px 7px; min-height: 24px; }
+#pgNow.m-cols .tl-seg button { padding: 4px 9px; min-height: 32px; font-size: 12px; gap: 5px; }
 #pgNow.m-cols .tl-mrow { grid-template-columns: 40px 1fr; gap: 8px; }
 #pgNow.m-cols .tl-mname { font-size: 12px; }
 #pgNow.m-cols .tl-chip { padding: 3px 7px; font-size: 12px; }
 /* the fold button looks like the left sidebar's: » folds it away */
 .tl-fold { display: none; }
 #pgNow.m-cols .tl-fold {
-  display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 28px; padding: 0 9px;
-  border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink-2); cursor: pointer;
-  font: 500 13px var(--mono); transition: color .2s, border-color .2s;
+  display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0;
+  border: 1px solid var(--line-2); border-radius: 10px; background: var(--card); color: var(--ink); cursor: pointer;
+  font: 600 20px/1 var(--mono); transition: color .2s, border-color .2s, background .2s;
 }
-#pgNow.m-cols .tl-fold:hover { color: var(--ink); border-color: var(--line-2); }
+#pgNow.m-cols .tl-fold:hover { border-color: var(--ink-2); background: var(--card-hover); }
 .tl-fold i::before { content: "»"; font-style: normal; }
 .tl-fold span { display: none; }
 #pgNow.m-cols.tl-folded .timeline-wrap { display: none; }
