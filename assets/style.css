@@ -1463,7 +1463,18 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 .tl-fold i::before { content: "»"; font-style: normal; }
 .tl-fold span { display: none; }
 #pgNow.m-cols.tl-folded .timeline-wrap, #pgNow.m-h.tl-folded .timeline-wrap { display: none; }
-#pgNow.tl-folded:is(.m-h, .m-cols) { justify-content: center; } /* folded: the countdown sits in the middle of the screen */
+/* folded: the countdown fills the screen the timeline left, the links at the bottom. Where it fits (app.js tries),
+   the clock takes the whole width and its digits grow, with the chips and the venue side by side below it. */
+#pgNow.tl-folded:is(.m-h, .m-cols):not(.measuring) .hero { flex: 1 1 auto; display: flex; flex-direction: column; }
+#pgNow.tl-folded:is(.m-h, .m-cols) .hero-body { flex: 1 1 auto; align-content: center; }
+#pgNow.wide-clock .hero-body {
+  container-type: inline-size; column-gap: 28px;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px); grid-template-areas: "clock clock" "picks venue";
+}
+#pgNow.wide-clock .hero-left { display: contents; }
+#pgNow.wide-clock .clock { grid-area: clock; } /* its digits grow from app.js (fitNow) */
+#pgNow.wide-clock .hero-picks { grid-area: picks; align-self: start; }
+#pgNow.wide-clock .venue { grid-area: venue; }
 #pgNow.m-h .tl-fold i::before { content: "▾"; font-size: 16px; } /* the axis folds down out of the page */
 
 /* ---------- the venue's local time, and what the place is known for ---------- */

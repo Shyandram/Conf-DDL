@@ -1669,6 +1669,9 @@
     if (!pg || !nav || fitting) return;
     fitting = true;
     fitSize = `${window.innerWidth}x${window.innerHeight}`;
+    pg.classList.add("measuring"); // the hero at its own height, not stretched over the screen a folded timeline leaves
+    const clock = $(".clock", hero);
+    clock.style.removeProperty("--dw");
     try {
       const top = $("#pagerTrack").getBoundingClientRect().top + window.scrollY;
       const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
@@ -1714,41 +1717,54 @@
       const strip = () => { const inner = $(".timeline-inner", wrap); return head() + (inner ? inner.offsetHeight + 8 : 100); }; // before the data: about the quiet axis
       const list = () => head() + Math.min(320, Math.max(190, room * 0.36)); // room for the standing axis
       const folded = pg.classList.contains("tl-folded");
-      if (!(W >= 700 && tryMode("m-h", 2, 0.9, folded ? () => 0 : state.tlView === "list" ? list : strip))) {
-        if (W / Math.max(room, 1) >= 1.15) tryMode("m-cols", 4, 0.3, () => 0);
-        // folded: the timeline waits behind its icon in the bottom bar, so the countdown keeps as much as it can,
-        // a little smaller rather than without its venue
-        // small screens shed the full name and tighten the chips before the clock shrinks at all
-        else if (folded) {
-          // one measuring pass: the scale each shed level would need; the least shed one that keeps the clock at 95%
-          // (else 84%) wins, and only that one is fitted
-          pg.classList.remove(...LAYOUTS, ...FIT);
-          pg.classList.add("m-v");
-          useList(true);
-          hero.style.zoom = "";
-          const need = [];
-          for (let i = 0; i < 4; i++) {
-            if (i) pg.classList.add(FIT[i - 1]);
-            need.push(room / heroH());
-            if (need[i] >= 1) break;
+      const choose = () => {
+        if (!(W >= 700 && tryMode("m-h", 2, 0.9, folded ? () => 0 : state.tlView === "list" ? list : strip))) {
+          if (W / Math.max(room, 1) >= 1.15) tryMode("m-cols", 4, 0.3, () => 0);
+          // folded: the timeline waits behind its icon in the bottom bar, so the countdown keeps as much as it can,
+          // a little smaller rather than without its venue
+          // small screens shed the full name and tighten the chips before the clock shrinks at all
+          else if (folded) {
+            // one measuring pass: the scale each shed level would need; the least shed one that keeps the clock at 95%
+            // (else 84%) wins, and only that one is fitted
+            pg.classList.remove(...LAYOUTS, ...FIT);
+            pg.classList.add("m-v");
+            useList(true);
+            hero.style.zoom = "";
+            const need = [];
+            for (let i = 0; i < 4; i++) {
+              if (i) pg.classList.add(FIT[i - 1]);
+              need.push(room / heroH());
+              if (need[i] >= 1) break;
+            }
+            const pick = [0.95, 0.84].map(z => need.findIndex(n => n >= z)).find(i => i >= 0);
+            if (pick === undefined || !tryMode("m-v", pick, 0.84, () => 0)) tryMode("m-v", 4, 0.3, () => 0);
           }
-          const pick = [0.95, 0.84].map(z => need.findIndex(n => n >= z)).find(i => i >= 0);
-          if (pick === undefined || !tryMode("m-v", pick, 0.84, () => 0)) tryMode("m-v", 4, 0.3, () => 0);
+          // phones: the month list scrolls inside whatever room it gets, so the countdown keeps its size and the list gives
+          else if (W < 560 && state.tlView === "list" && tryMode("m-v", 4, 0.88, () => head() + Math.max(120, room * 0.24)));
+          else tryMode("m-v", 4, 0.3, list);
         }
-        // phones: the month list scrolls inside whatever room it gets, so the countdown keeps its size and the list gives
-        else if (W < 560 && state.tlView === "list" && tryMode("m-v", 4, 0.88, () => head() + Math.max(120, room * 0.24)));
-        else tryMode("m-v", 4, 0.3, list);
+      };
+      // folded on a wide screen: first try the clock across the whole width (.wide-clock); if that would shed detail
+      // or scale the hero down, the usual arrangement instead
+      pg.classList.toggle("wide-clock", folded && innerWidth >= 900);
+      choose();
+      if (pg.classList.contains("wide-clock") && (hero.style.zoom || FIT.some(f => pg.classList.contains(f)) || pg.classList.contains("m-v"))) {
+        pg.classList.remove("wide-clock");
+        choose();
       }
-      // folded with room to spare: the countdown grows into the screen (up to 1.3x) and sits in its middle
-      if (folded && !hero.style.zoom && !pg.classList.contains("m-v")) {
-        let z = Math.min(1.3, (room - 8) / heroH());
-        for (let k = 0; k < 4 && z > 1.02; k++) {
-          hero.style.zoom = z.toFixed(3);
-          const h = heroH();
-          if (h <= room - 8 && h > room - 40) break;
-          z = Math.min(1.3, z * (room - 8) / h);
+      // the clock across the whole width: its digits grow into the height the timeline left,
+      // as far as the width allows, without shedding anything more
+      const d = $(".digit", hero), body = $(".hero-body", hero);
+      if (pg.classList.contains("wide-clock") && d) {
+        let lo = d.offsetWidth, hi = Math.min(132, (body.clientWidth - 24) / 12.4);
+        if (hi > lo + 2) {
+          for (let k = 0; k < 7; k++) {
+            const mid = (lo + hi) / 2;
+            clock.style.setProperty("--dw", mid.toFixed(1) + "px");
+            if (heroH() <= room - 6) lo = mid; else hi = mid;
+          }
+          clock.style.setProperty("--dw", Math.floor(lo) + "px");
         }
-        if (heroH() > room - 8) hero.style.zoom = "";
       }
       // the standing axis is laid out in pixels for its box; draw it again now that the hero has settled
       if ((tlVertical || state.tlView === "list" || tlStale) && timelineList.length) renderTimeline(timelineList, Date.now(), { quiet: true });
@@ -1757,7 +1773,7 @@
       const bg = $(".page-bg");
       if (pg.classList.contains("m-cols") || !wrap.offsetHeight) bg.style.height = Math.ceil(window.innerHeight) + "px";
       else bg.style.height = Math.round(wrap.getBoundingClientRect().top - pg.getBoundingClientRect().top + top + 70) + "px";
-    } finally { fitting = false; }
+    } finally { fitting = false; pg.classList.remove("measuring"); }
   }
   const scheduleFit = () => {
     if (fitQueued || fitting) return; // fitNow re-renders the timeline itself; don't loop
