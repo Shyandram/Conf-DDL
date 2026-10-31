@@ -1454,15 +1454,16 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 #pgNow.m-cols .tl-chip { padding: 3px 7px; font-size: 12px; }
 /* the fold button looks like the left sidebar's: » folds it away */
 .tl-fold { display: none; }
-#pgNow.m-cols .tl-fold {
+#pgNow:is(.m-cols, .m-h) .tl-fold {
   display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 0;
   border: 1px solid var(--line-2); border-radius: 10px; background: var(--card); color: var(--ink); cursor: pointer;
   font: 600 20px/1 var(--mono); transition: color .2s, border-color .2s, background .2s;
 }
-#pgNow.m-cols .tl-fold:hover { border-color: var(--ink-2); background: var(--card-hover); }
+#pgNow:is(.m-cols, .m-h) .tl-fold:hover { border-color: var(--ink-2); background: var(--card-hover); }
 .tl-fold i::before { content: "»"; font-style: normal; }
 .tl-fold span { display: none; }
-#pgNow.m-cols.tl-folded .timeline-wrap { display: none; }
+#pgNow.m-cols.tl-folded .timeline-wrap, #pgNow.m-h.tl-folded .timeline-wrap { display: none; }
+#pgNow.m-h .tl-fold i::before { content: "▾"; font-size: 16px; } /* the axis folds down out of the page */
 
 /* ---------- the venue's local time, and what the place is known for ---------- */
 .venue-local { font: 500 12.5px var(--mono); color: var(--ink-2); margin-top: 2px; display: block; }
@@ -1722,7 +1723,7 @@ body[data-page="list"] .list-bg::before, body[data-page="list"] .list-bg::after 
    across from the ★, brings it back */
 #pgNow.m-v.tl-folded .timeline-wrap { display: none; }
 .pager-nav .pn-tl { display: none; }
-body:has(#pgNow.m-v) .pager-nav .pn-tl, body:has(#pgNow.m-cols) .pager-nav .pn-tl {
+body:has(#pgNow.m-v) .pager-nav .pn-tl, body:has(#pgNow.m-cols) .pager-nav .pn-tl, body:has(#pgNow.m-h) .pager-nav .pn-tl {
   display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 40px; padding: 0;
   border-right: 1px solid var(--line); border-radius: 999px 0 0 999px; color: var(--ink-2);
 }
@@ -1731,7 +1732,7 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl, body:has(#pgNow.m-cols) .pager-nav .pn-t
 @media (max-width: 420px) {
   .pn-tabs svg, .pager-nav .pn-n { display: none; }
   .pn-tabs button { padding: 9px 12px; }
-  body:has(#pgNow.m-v) .pager-nav .pn-tl, body:has(#pgNow.m-cols) .pager-nav .pn-tl, .pager-nav .pn-mine { width: auto; min-width: 42px; padding: 0 10px; }
+  body:has(#pgNow.m-v) .pager-nav .pn-tl, body:has(#pgNow.m-cols) .pager-nav .pn-tl, body:has(#pgNow.m-h) .pager-nav .pn-tl, .pager-nav .pn-mine { width: auto; min-width: 42px; padding: 0 10px; }
 }
 @media (max-width: 340px) { .pn-tabs button { padding: 9px 9px; font-size: 13px; } }
 

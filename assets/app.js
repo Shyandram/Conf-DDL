@@ -1713,12 +1713,13 @@
       const head = () => $(".section-head", wrap).offsetHeight + 12;
       const strip = () => { const inner = $(".timeline-inner", wrap); return head() + (inner ? inner.offsetHeight + 8 : 100); }; // before the data: about the quiet axis
       const list = () => head() + Math.min(320, Math.max(190, room * 0.36)); // room for the standing axis
-      if (!(W >= 700 && tryMode("m-h", 2, 0.9, state.tlView === "list" ? list : strip))) {
+      const folded = pg.classList.contains("tl-folded");
+      if (!(W >= 700 && tryMode("m-h", 2, 0.9, folded ? () => 0 : state.tlView === "list" ? list : strip))) {
         if (W / Math.max(room, 1) >= 1.15) tryMode("m-cols", 4, 0.3, () => 0);
         // folded: the timeline waits behind its icon in the bottom bar, so the countdown keeps as much as it can,
         // a little smaller rather than without its venue
         // small screens shed the full name and tighten the chips before the clock shrinks at all
-        else if (pg.classList.contains("tl-folded")) {
+        else if (folded) {
           // one measuring pass: the scale each shed level would need; the least shed one that keeps the clock at 95%
           // (else 84%) wins, and only that one is fitted
           pg.classList.remove(...LAYOUTS, ...FIT);
@@ -2199,21 +2200,21 @@
       $$("#tlView button").forEach(b => b.classList.toggle("is-on", b.dataset.view === state.tlView));
     };
     tlCtl();
-    // the timeline can fold away (two columns and phones), leaving the screen to the countdown
+    // the timeline can fold away, leaving the screen to the countdown
     const fold = on => {
       $("#pgNow").classList.toggle("tl-folded", on);
       $("#tlFold").setAttribute("aria-expanded", String(!on));
       $("#tlFold").title = on ? "Show the timeline" : "Fold the timeline away";
       $("#pnTl").setAttribute("aria-pressed", String(!on));
     };
-    fold(store.get("tlFold", true)); // folded until the reader opens it (two columns and phones; wide screens always show it)
+    fold(store.get("tlFold", !matchMedia("(min-width: 1101px)").matches)); // until the reader chooses: shown on wide screens, folded on smaller ones
     $("#tlFold").addEventListener("click", () => {
       const on = !$("#pgNow").classList.contains("tl-folded");
       store.set("tlFold", on);
       fold(on);
       fitNow();
     });
-    // two columns and phones: the bottom bar's timeline icon opens and folds it, from either page
+    // the bottom bar's timeline icon opens and folds it, from either page
     $("#pnTl").addEventListener("click", () => {
       if (document.body.dataset.page === "list") { $('#pagerNav [data-go="0"]').click(); if ($("#pgNow").classList.contains("tl-folded")) $("#tlFold").click(); }
       else $("#tlFold").click();
