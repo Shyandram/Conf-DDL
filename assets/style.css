@@ -1787,3 +1787,11 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl, body:has(#pgNow.m-cols) .pager-nav .pn-t
 /* the live 2.5D scene (assets/scene3d.js) fades in over the picture it was framed from */
 .page-bg-3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity .9s ease; }
 .page-bg-3d.is-on { opacity: 1; }
+
+/* the call-for-papers button: accent-tinted glass with an accent rim, not a solid fill */
+.btn-primary {
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 22%, var(--tint-a)), color-mix(in srgb, var(--accent) 8%, var(--tint-b)));
+  color: var(--ink); border-color: color-mix(in srgb, var(--accent) 70%, transparent);
+  box-shadow: inset 0 1px 0 var(--glass-hl), 0 8px 24px -14px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+.btn-primary:hover { filter: none; border-color: var(--accent); background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 32%, var(--tint-a)), color-mix(in srgb, var(--accent) 14%, var(--tint-b))); }
