@@ -1739,6 +1739,17 @@
         else if (W < 560 && state.tlView === "list" && tryMode("m-v", 4, 0.88, () => head() + Math.max(120, room * 0.24)));
         else tryMode("m-v", 4, 0.3, list);
       }
+      // folded with room to spare: the countdown grows into the screen (up to 1.3x) and sits in its middle
+      if (folded && !hero.style.zoom && !pg.classList.contains("m-v")) {
+        let z = Math.min(1.3, (room - 8) / heroH());
+        for (let k = 0; k < 4 && z > 1.02; k++) {
+          hero.style.zoom = z.toFixed(3);
+          const h = heroH();
+          if (h <= room - 8 && h > room - 40) break;
+          z = Math.min(1.3, z * (room - 8) / h);
+        }
+        if (heroH() > room - 8) hero.style.zoom = "";
+      }
       // the standing axis is laid out in pixels for its box; draw it again now that the hero has settled
       if ((tlVertical || state.tlView === "list" || tlStale) && timelineList.length) renderTimeline(timelineList, Date.now(), { quiet: true });
       // the city photo: behind the whole screen when the timeline sits beside the hero or is folded away;

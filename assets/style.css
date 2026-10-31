@@ -1463,6 +1463,7 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 .tl-fold i::before { content: "»"; font-style: normal; }
 .tl-fold span { display: none; }
 #pgNow.m-cols.tl-folded .timeline-wrap, #pgNow.m-h.tl-folded .timeline-wrap { display: none; }
+#pgNow.tl-folded:is(.m-h, .m-cols) { justify-content: center; } /* folded: the countdown sits in the middle of the screen */
 #pgNow.m-h .tl-fold i::before { content: "▾"; font-size: 16px; } /* the axis folds down out of the page */
 
 /* ---------- the venue's local time, and what the place is known for ---------- */
