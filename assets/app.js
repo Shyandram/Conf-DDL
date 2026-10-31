@@ -1598,12 +1598,19 @@
   /* ---------- share: a #c=<id> link opens the page with that conference in the big countdown ---------- */
 
   const shareUrl = c => `${location.origin}${location.pathname}#c=${encodeURIComponent(c.id)}`;
+  // what the link counts down to now, as the big clock will show it: the deadline, else the rebuttal, else the decision
+  const shareText = c => {
+    const now = Date.now(), name = `${c.title} ${c.year}`;
+    if (c.ddl > now) return `${name} deadline: ${fmtTime(c.ddl)}`;
+    const ev = eventOf(c, "rebuttal", now) || eventOf(c, "decision", now);
+    return ev ? `${name}: ${ev.when}` : `${name}${c.full_name ? " · " + c.full_name : ""}`;
+  };
   async function shareConf(c, btn) {
     if (!c) return;
     const url = shareUrl(c);
     // phones get the system share sheet; elsewhere the link is copied
     if (navigator.share && matchMedia("(pointer: coarse)").matches) {
-      try { await navigator.share({ title: `${c.title} ${c.year} countdown`, text: `${c.title} ${c.year} deadline: ${fmtTime(c.ddl)}`, url }); return; }
+      try { await navigator.share({ title: `${c.title} ${c.year} countdown`, text: shareText(c), url }); return; }
       catch (e) { if (e.name === "AbortError") return; }
     }
     if (!(await copyText(url))) { window.prompt("Copy this link", url); return; }
