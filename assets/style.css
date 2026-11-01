@@ -1259,8 +1259,8 @@ html { overscroll-behavior-x: none; }
 .pn-mine { display: none; }
 @media (max-width: 1100px) {
   .pager-nav .pn-mine {
-    display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; border-left: 1px solid var(--line);
-    border-radius: 0 999px 999px 0; background: none; cursor: pointer; color: var(--warn); font-size: 18px;
+    display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; border-right: 1px solid var(--line);
+    border-radius: 999px 0 0 999px; background: none; cursor: pointer; color: var(--warn); font-size: 18px;
   }
 }
 /* one ground for both pages: the city photo stays put, and the list's blurred wash of it fades in over it
@@ -1614,7 +1614,7 @@ html.on-now .pager:not(.is-moving) { overflow-x: visible; }
 }
 .pager-nav .pn-mine {
   display: inline-flex; align-items: center; justify-content: center; gap: 3px; min-width: 46px; height: 40px; padding: 0 12px;
-  border: 0; border-left: 1px solid var(--line); border-radius: 0 999px 999px 0; background: none; cursor: pointer;
+  border: 0; border-right: 1px solid var(--line); border-radius: 999px 0 0 999px; background: none; cursor: pointer;
   color: var(--warn); font-size: 18px;
 }
 .pn-mine span { font: 600 13px var(--mono); }
@@ -1731,13 +1731,13 @@ body[data-page="list"] .list-bg::before, body[data-page="list"] .list-bg::after 
   .tl-mrow.is-now .tl-mname { position: sticky; top: 0; }
 }
 
-/* stacked layouts (phones) and two columns: folded, the timeline leaves the page; an icon at the bottom bar's left,
+/* stacked layouts (phones) and two columns: folded, the timeline leaves the page; an icon at the bottom bar's right,
    across from the ★, brings it back */
 #pgNow.m-v.tl-folded .timeline-wrap { display: none; }
 .pager-nav .pn-tl { display: none; }
 body:has(#pgNow.m-v) .pager-nav .pn-tl, body:has(#pgNow.m-cols) .pager-nav .pn-tl, body:has(#pgNow.m-h) .pager-nav .pn-tl {
   display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 40px; padding: 0;
-  border-right: 1px solid var(--line); border-radius: 999px 0 0 999px; color: var(--ink-2);
+  border-left: 1px solid var(--line); border-radius: 0 999px 999px 0; color: var(--ink-2);
 }
 .pager-nav .pn-tl[aria-pressed="true"] { color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
 /* narrow phones: the bottom bar holds four buttons, so the tabs drop their icons and count */
