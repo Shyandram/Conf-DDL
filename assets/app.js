@@ -2047,6 +2047,38 @@
       });
     });
 
+    // full screen: the whole page (the backdrop, the countdown and the bottom bar); F toggles it, Esc leaves it.
+    // Hidden where the browser can't (iPhone Safari has no element full screen).
+    {
+      const d = document, el = d.documentElement, fsBtn = $("#fsBtn");
+      const req = el.requestFullscreen || el.webkitRequestFullscreen;
+      const exit = d.exitFullscreen || d.webkitExitFullscreen;
+      const cur = () => d.fullscreenElement || d.webkitFullscreenElement;
+      if (req && exit && (d.fullscreenEnabled ?? d.webkitFullscreenEnabled ?? true)) {
+        fsBtn.hidden = false;
+        const toggle = () => {
+          const p = cur() ? exit.call(d) : req.call(el, { navigationUI: "hide" });
+          if (p && p.catch) p.catch(() => {});
+        };
+        const show = () => {
+          const on = !!cur();
+          fsBtn.setAttribute("aria-pressed", on);
+          fsBtn.title = on ? "Exit full screen (F or Esc)" : "Full screen (F)";
+          fsBtn.setAttribute("aria-label", on ? "Exit full screen" : "Full screen");
+          el.classList.toggle("is-fs", on);
+        };
+        fsBtn.addEventListener("click", toggle);
+        d.addEventListener("fullscreenchange", show);
+        d.addEventListener("webkitfullscreenchange", show);
+        d.addEventListener("keydown", e => {
+          if (e.key !== "f" && e.key !== "F") return;
+          if (e.altKey || e.ctrlKey || e.metaKey || e.repeat || e.target.closest("input, textarea, select, [contenteditable]")) return;
+          if ($(".planner:not([hidden])")) return;
+          e.preventDefault(); toggle();
+        });
+      }
+    }
+
     // Theme: auto (the default) follows the local clock, light from 6:00 to 18:00; the button cycles auto → light → dark.
     // index.html sets the first one before paint with the same rule.
     const root = document.documentElement, themeBtn = $("#themeBtn"), themeMeta = $('meta[name="theme-color"]');
