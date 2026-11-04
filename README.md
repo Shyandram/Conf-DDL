@@ -44,7 +44,7 @@
 | **🔔 Changes** | After a starred or tracked conference's dates move, get confirmed or are announced, the next visit lists what changed. |
 | **↗ Share** | `…/#c=cvpr27` opens the page with that countdown. |
 
-The page shows both local time and AoE, has light and dark themes, works on phones, installs to the home screen and opens offline, and speaks English or Traditional Chinese (press `?` for shortcuts and settings).
+The page shows both local time and AoE, has light and dark themes, works on phones, installs to the home screen and opens offline (press `?` for shortcuts and settings).
 
 ## Run locally
 

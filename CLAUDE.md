@@ -37,9 +37,9 @@ Static GitHub Pages site of conference deadline countdowns. All data lives in `d
 - The home screen app runs from `manifest.webmanifest` and the `apple-*` meta tags. Its icons in `assets/icons/` come from `scripts/gen_icons.py`.
 - The page uses `viewport-fit=cover`, so it draws under the notch and status bar. Sticky offsets use `--bar` (63px + `--sat`, the top safe area), never a bare 63px.
 
-## Language, papers and offline
+## Papers, offline and language
 
-- **Language:** English or Traditional Chinese (`zh`), picked from the browser or in Shortcuts and settings (`?`). Text in `index.html` is translated at start by `translateDom` from the `ZH` table in `assets/app.js`, keyed by the English text. Strings built in app.js go through `tr("…", {vars})`. Add a `ZH` entry for every new UI string.
+- **Language:** the interface is English only (the owner's choice); `tr("…", {vars})` in app.js just fills `{name}` slots.
 - **Submission facts:** `paper` in each entry (`system`, `submit`, `pages`, `review`, `rate`, `rate_url`, `edition`, `source`), from official pages only. `validate.py` checks the keys.
 - **My papers:** status and note per conference, kept in `localStorage` (`papers`) and synced through the worker next to the stars (`PUT /u/<id>` with `papers`).
 - **Offline:** `sw.js` serves the page, scripts and data network first, falling back to the saved copy.

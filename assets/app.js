@@ -26,311 +26,8 @@
     set(k, v) { try { localStorage.setItem("confddl:" + k, JSON.stringify(v)); } catch { /* storage unavailable */ } },
   };
 
-  // Language: English or Traditional Chinese (zh), from the reader's choice or the browser. Static text in index.html is
-  // translated once at start (translateDom); strings made here go through tr(). Dates follow the browser's locale.
-  const LANG = (() => {
-    const l = store.get("lang", "");
-    return l === "en" || l === "zh" ? l : /^zh/i.test(navigator.language || "") ? "zh" : "en";
-  })();
-  // Traditional Chinese, keyed by the English text (static page text and tr() strings)
-  const ZH = {
-    "Next for": "下一步：", "during its rebuttal": "答辯期間截止", "after its decision": "結果後截止", "✕ clear": "✕ 清除",
-    "next up": "下一個", "tap one for its reviews and where it could go next": "點一個看它的審查時程與改投去處", "Today": "今天",
-    "ConfDDL home": "ConfDDL 首頁",
-    "Current time": "目前時間",
-    "Where could a paper go next?": "論文下一步可以投哪裡？",
-    "Planner": "改投規劃",
-    "Subscribe in Google, Apple or Outlook Calendar": "訂閱到 Google、Apple 或 Outlook 行事曆",
-    "Calendar": "行事曆",
-    "Time zone": "時區",
-    "Local": "本地",
-    "Mouse light: the cursor lights up the glass": "滑鼠光源：游標照亮玻璃面板",
-    "Mouse light": "滑鼠光源",
-    "Full screen (F)": "全螢幕 (F)",
-    "Full screen": "全螢幕",
-    "Exit full screen (F or Esc)": "離開全螢幕 (F 或 Esc)",
-    "Exit full screen": "離開全螢幕",
-    "Full screen: add to the home screen": "全螢幕：加入主畫面",
-    "Theme: auto (follows local time)": "主題：自動（依本地時間）",
-    "Theme: {m} · click to switch": "主題：{m} · 點一下切換",
-    "auto (light 6:00–18:00 local time)": "自動（本地 6:00–18:00 為淺色）",
-    "light": "淺色",
-    "dark": "深色",
-    "My conferences": "我的會議",
-    "Close My conferences": "關閉我的會議",
-    "Take it with you": "隨身帶著",
-    "Subscribe in your calendar": "訂閱到行事曆",
-    "one calendar that follows your stars": "一個跟著星號更新的行事曆",
-    "Sync with another device": "與其他裝置同步",
-    "same stars on phone and computer": "手機和電腦星號一致",
-    "Countdown": "倒數",
-    "Next deadline": "下一個截止",
-    "days": "天",
-    "day": "天",
-    "hours": "時",
-    "min": "分",
-    "sec": "秒",
-    "Switch the big countdown": "切換大倒數",
-    "Deadline": "截止",
-    "Rebuttal": "答辯",
-    "Decision": "結果",
-    "Held in": "舉辦地",
-    "Call for papers ↗": "徵稿頁面 ↗",
-    "Add to calendar": "加入行事曆",
-    "Copy a link that opens this countdown": "複製可開啟這個倒數的連結",
-    "Share": "分享",
-    "Timeline": "時間軸",
-    "Show as": "顯示方式",
-    "Deadlines along a time axis": "截止日排在時間軸上",
-    "Axis": "軸線",
-    "Deadlines grouped by month": "截止日依月份分組",
-    "Months": "月份",
-    "Fold the timeline away": "收起時間軸",
-    "Show the timeline": "顯示時間軸",
-    "deadline": "截止",
-    "estimated": "預估",
-    "rebuttal": "答辯",
-    "decision": "結果",
-    "Conferences": "會議",
-    "Filters": "篩選",
-    "Search CVPR, Hong Kong, 3D…": "搜尋 CVPR、香港、3D…",
-    "Areas": "領域",
-    "Show only": "只顯示",
-    "Only": "只看",
-    "Hide estimated dates": "隱藏預估日期",
-    "Confirmed": "已確認",
-    "dates": "日期",
-    "Grade A on the NYCU CS top-conference list": "陽明交大資工頂尖會議列表 A 級",
-    "Grade B on the NYCU CS top-conference list": "陽明交大資工頂尖會議列表 B 級",
-    "CCF rank A": "CCF A 類",
-    "CCF rank B": "CCF B 類",
-    "Clear": "清除",
-    "filters": "篩選",
-    "Which conferences": "哪些會議",
-    "Upcoming": "即將截止",
-    "In review": "審查中",
-    "Decided": "已公布結果",
-    "Show": "顯示",
-    "All": "全部",
-    "Only the conferences you follow": "只看你追蹤的會議",
-    "Mine": "我的",
-    "Nothing upcoming matches. Try clearing a filter.": "沒有符合的即將截止會議，試著清除篩選。",
-    "Nothing in review matches your filters.": "沒有符合篩選的審查中會議。",
-    "Nothing decided matches your filters.": "沒有符合篩選的已公布會議。",
-    "You aren't following any conference yet.": "你還沒有追蹤任何會議。",
-    "Star one to follow every year of it: it gets the big countdown, the sidebar and your calendar.": "點星號追蹤一個會議的每一屆：它會出現在大倒數、側欄和你的行事曆。",
-    "Deadlines marked": "標示為",
-    "are projected from the previous cycle. Always check the official call for papers.": "的截止日是依上一屆推估的，請以官方徵稿頁面為準。",
-    "Maintained with Claude Code: ask the session to search for a conference and it updates": "由 Claude Code 維護：請它搜尋會議，它就會更新",
-    "Source, issues and data on GitHub": "原始碼、問題回報和資料都在 GitHub",
-    "Shortcuts and settings": "快捷鍵與設定",
-    "Code": "程式碼",
-    "· data": "· 資料",
-    "· reuse with credit to Conf DDL": "· 轉用請註明 Conf DDL",
-    "Pages": "頁面",
-    "Back to top": "回到頂端",
-    "Full screen on iPhone": "iPhone 上的全螢幕",
-    "Tap": "點",
-    "Share, then": "分享，再選",
-    "Add to Home Screen": "加入主畫面",
-    ". Opened from the home screen, Conf DDL fills the whole screen.": "。從主畫面開啟時，Conf DDL 會佔滿整個螢幕。",
-    "Dismiss": "關閉",
-    "Close": "關閉",
-    "Language": "語言",
-    "Keyboard": "鍵盤",
-    "Countdown / Conferences": "倒數 / 會議",
-    "Search conferences": "搜尋會議",
-    "Close a panel, clear the search": "關閉面板、清除搜尋",
-    "This panel": "這個面板",
-    "App icon": "App 圖示",
-    "Show the days left to the next deadline on the home screen icon.": "在主畫面圖示上顯示距離下一個截止的天數。",
-    "Turn on": "開啟",
-    "My papers": "我的論文",
-    "Open a conference in the list and set": "在會議列表中展開一個會議，設定",
-    "My paper": "我的論文",
-    "(preparing, submitted, …). Your papers then come first in the countdown and the planner, and sync with your other devices along with your stars.": "（準備中、已投稿…）。你的論文會優先出現在倒數和改投規劃，並和星號一起同步到其他裝置。",
-    "Resubmission planner": "改投規劃",
-    "Where can this paper go next?": "這篇論文下一步可以投哪裡？",
-    "Paper is at": "論文目前在",
-    "Close planner": "關閉改投規劃",
-    "Subscribe to the deadlines": "訂閱截止日",
-    "A subscribed calendar keeps itself up to date: when a date is added or corrected here, your calendar app picks it up on its next refresh (Apple and Outlook: every few hours; Google: within about a day). Deadlines come with reminders 7 days and 1 day before.": "訂閱的行事曆會自動更新：這裡新增或修正日期後，行事曆 App 下次重新整理時就會同步（Apple 和 Outlook 每幾小時，Google 約一天內）。截止日會在 7 天前和 1 天前提醒。",
-    "Sync stars with another device": "與其他裝置同步星號",
-    "QR code of the sync link": "同步連結的 QR code",
-    "Scan this with your phone, or open the link on the other device. Both then keep the same ★ conferences (and the same “My conferences” calendar and paper status): a change on one shows up on the other the next time it is opened.": "用手機掃描，或在另一台裝置打開連結。兩邊就會保持相同的 ★ 會議（以及相同的「我的會議」行事曆和論文狀態）：一邊的變更，另一邊下次開啟時就會出現。",
-    "Sync link": "同步連結",
-    "Copy link": "複製連結",
-    "Anyone with this link can change your stars, so share it only with your own devices.": "任何拿到這個連結的人都能改你的星號，只在自己的裝置之間使用。",
-    "Stop syncing this device": "停止同步這台裝置",
-    "Follow every year of this conference": "追蹤這個會議的每一屆",
-    "Follow this conference": "追蹤這個會議",
-    "Review timeline": "審查時程",
-    "Submit": "投稿",
-    "Abstract": "摘要",
-    "Conference": "會期",
-    "Where": "地點",
-    "Known for": "知名景點",
-    "Submit via": "投稿系統",
-    "Page limit": "頁數上限",
-    "Review": "審查方式",
-    "Acceptance": "錄取率",
-    "Preparing": "準備中",
-    "Submitted": "已投稿",
-    "Accepted": "已錄取",
-    "Rejected": "未錄取",
-    "Withdrawn": "已撤稿",
-    "Note on my paper": "論文備註",
-    "Note: paper ID, co-authors…": "備註：論文編號、共同作者…",
-    "Website ↗": "官網 ↗",
-    "Download an .ics file": "下載 .ics 檔",
-    "＋ Add to calendar": "＋ 加入行事曆",
-    "Show it in the big countdown": "顯示在大倒數",
-    "⏱ Countdown": "⏱ 倒數",
-    "Where this paper can go next": "這篇論文下一步可以投哪裡",
-    "↻ Plan resubmission": "↻ 規劃改投",
-    "time not announced": "時間未公布",
-    "closes": "截止",
-    "workshop proposals": "工作坊提案",
-    "workshop": "工作坊",
-    "challenge": "競賽",
-    "none": "無",
-    "Submission rules from the": "投稿規定出自",
-    "{y} call for papers": "{y} 年徵稿頁面",
-    "check the new one when it is out": "新一屆公布後請再確認",
-    "to rebuttal": "距答辯",
-    "rebuttal closes": "答辯截止",
-    "to decision": "距結果",
-    "day ago": "天前",
-    "days ago": "天前",
-    "decided": "已公布",
-    "closed": "已截止",
-    "Rebuttal opens": "答辯開始",
-    "Rebuttal closes": "答辯截止",
-    "Rebuttal {r} · closes {t}": "答辯 {r} · 截止 {t}",
-    "Rebuttal closes {t}": "答辯截止 {t}",
-    "Next decision": "下一個結果",
-    "Decision {d}": "結果 {d}",
-    "your filters": "你的篩選",
-    "from timeline": "來自時間軸",
-    "Online": "線上舉行",
-    "Venue to be announced": "地點待公布",
-    "city TBA": "城市待公布",
-    "{m} in {c} · AI-generated scene": "{c}的{m} · AI 生成場景",
-    "Dawn": "清晨",
-    "Day": "白天",
-    "Dusk": "黃昏",
-    "Night": "夜晚",
-    "local": "當地",
-    "Official visitor site ↗": "官方觀光網站 ↗",
-    "All clear": "暫無截止",
-    "No upcoming deadlines match your filters.": "沒有符合篩選的即將截止會議。",
-    "estimated date": "預估日期",
-    "This conference has no announced decision date yet, so there is no path to plan.": "這個會議還沒公布結果日期，暫時無法規劃改投路線。",
-    "in {n}d": "{n} 天後",
-    "today": "今天",
-    "{n}d ago": "{n} 天前",
-    "est.": "預估",
-    "Reviews out": "審查意見",
-    "Plan the next step from {c}": "從 {c} 規劃下一步",
-    "same field": "同領域",
-    "+{n}d after reviews": "審查意見後 +{n} 天",
-    "+{n}d after decision": "結果後 +{n} 天",
-    "During the rebuttal": "答辯期間",
-    "After the decision": "公布結果後",
-    "Deadlines {a} – {b}": "截止日 {a} – {b}",
-    "Deadlines from {d}, next ~5 months": "{d} 起約 5 個月內的截止日",
-    "No conference deadline falls in this window.": "這段期間沒有會議截止。",
-    "+{n} more": "還有 {n} 個",
-    "Ranked by {src} (A, then B, then unlisted), then same field, with CCF as a tie-break. Click a venue to plan the next step from there. Check each venue's dual-submission and withdrawal rules before moving a paper.": "依{src}排序（A 級、B 級、未列入），再看是否同領域，CCF 等級作為次要依據。點一個會議可從那裡規劃下一步。改投前請確認各會議的一稿多投與撤稿規定。",
-    "venue grade": "會議等級",
-    "QR code unavailable: copy the link instead.": "無法產生 QR code，請改用複製連結。",
-    "Sync your ★ conferences with the other device? Stars on this device are kept and merged in.": "要與另一台裝置同步 ★ 會議嗎？這台裝置上的星號會保留並合併。",
-    "Everything": "全部",
-    "All conferences": "所有會議",
-    "{n} entries · deadlines, rebuttals and decisions": "{n} 筆 · 截止、答辯和結果",
-    "All my conferences in one": "我的會議（合併成一個）",
-    "nothing starred yet": "還沒有星號",
-    "One subscription that follows your stars: star or unstar a conference here and the calendar changes with it on its next refresh, no need to subscribe again. Subscribe once in Google or iCloud and it shows on your phone and computer; to keep the same stars on the site too, use “⇄ Sync with another device” under My conferences.": "一個跟著星號變動的訂閱：在這裡加減星號，行事曆下次重新整理時就會跟著變，不用重新訂閱。在 Google 或 iCloud 訂閱一次，手機和電腦都會顯示；要讓網站上的星號也一致，請用「我的會議」下的「⇄ 與其他裝置同步」。",
-    "Download .ics": "下載 .ics",
-    "One file with every starred series. It is a snapshot: import it again after you star more, or to pick up changed dates (the events keep their IDs, so they update instead of doubling). To have changes arrive by themselves, subscribe series by series:": "一個包含所有星號會議的檔案。它是當下的快照：加了星號或日期有變時請重新匯入（事件編號不變，會更新而不會重複）。想自動收到變更，請逐一訂閱：",
-    "Subscribe series by series ({n})": "逐一訂閱（{n}）",
-    "every edition, including future years": "每一屆，包括未來幾年",
-    "Star a conference (☆ next to its name) to get a calendar for just your conferences here.": "幫會議加上星號（名稱旁的 ☆），這裡就會有只含你的會議的行事曆。",
-    "By field": "依領域",
-    "{n} entries": "{n} 筆",
-    "Preparing…": "準備中…",
-    "Downloaded ✓": "已下載 ✓",
-    "Couldn't build it, try again": "產生失敗，請再試一次",
-    "Follow a conference to see all its dates here, every year. Tap <b>☆</b> on any row, or start with one of these:": "追蹤一個會議，這裡就會列出它每一屆的日期。點任一列的 <b>☆</b>，或從這幾個開始：",
-    "Submission": "投稿",
-    "decided {d}": "{d} 已公布",
-    "{c} deadline: {t}": "{c} 截止：{t}",
-    "{c} countdown": "{c} 倒數",
-    "Copy this link": "複製這個連結",
-    "Link copied ✓": "已複製連結 ✓",
-    "Copied ✓": "已複製 ✓",
-    "Stop syncing this device? Its stars stay as they are, and its calendar link changes.": "要停止同步這台裝置嗎？星號會保留，但行事曆連結會改變。",
-    "added: deadline {d}": "新增：截止 {d}",
-    "deadline moved {a} → {b}": "截止日改為 {a} → {b}",
-    "deadline time is now {t}": "截止時間改為 {t}",
-    "deadline confirmed: {d}": "截止日已確認：{d}",
-    "rebuttal moved to {r}": "答辯改為 {r}",
-    "rebuttal announced: {r}": "答辯日期公布：{r}",
-    "decision moved to {d}": "結果日改為 {d}",
-    "decision announced: {d}": "結果日期公布：{d}",
-    "Dates changed since your last visit": "上次造訪後有日期變動",
-    "Offline": "離線中",
-    "showing the dates saved on this device": "顯示這台裝置上儲存的日期",
-    "updated": "更新於",
-    "updated {d}": "更新於 {d}",
-    "Cycle 1": "第一輪",
-    "Cycle 2": "第二輪",
-    "Round 1": "第一輪",
-    "Round 2": "第二輪",
-    "clear": "晴",
-    "mostly clear": "大致晴朗",
-    "partly cloudy": "局部多雲",
-    "overcast": "陰",
-    "fog": "霧",
-    "freezing fog": "凍霧",
-    "light drizzle": "小毛毛雨",
-    "drizzle": "毛毛雨",
-    "heavy drizzle": "大毛毛雨",
-    "freezing drizzle": "凍毛毛雨",
-    "light rain": "小雨",
-    "rain": "雨",
-    "heavy rain": "大雨",
-    "freezing rain": "凍雨",
-    "light snow": "小雪",
-    "snow": "雪",
-    "heavy snow": "大雪",
-    "snow grains": "米雪",
-    "showers": "陣雨",
-    "heavy showers": "大陣雨",
-    "snow showers": "陣雪",
-    "heavy snow showers": "大陣雪",
-    "thunderstorm": "雷雨",
-    "thunderstorm with hail": "雷雨夾冰雹",
-    "Computer Vision": "電腦視覺",
-    "Machine Learning": "機器學習",
-    "Artificial Intelligence": "人工智慧",
-    "Graphics": "電腦圖學",
-    "Multimedia": "多媒體",
-    "Signal & Image": "訊號與影像",
-    "Robotics": "機器人",
-    "Data Mining & Web": "資料探勘與網路",
-    "Human–Computer Interaction": "人機互動",
-    "Medical Imaging": "醫學影像",
-    "sky dawn": "清晨",
-    "sky day": "白天",
-    "sky dusk": "黃昏",
-    "sky night": "夜晚",
-  };
-  const tr = (str, vars) => {
-    let out = (LANG === "zh" && ZH[str]) || str;
-    if (vars) out = out.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m));
-    return out;
-  };
+  // fills {name} slots in a UI string: tr("{n} entries", { n: 3 })
+  const tr = (str, vars) => (vars ? str.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m)) : str);
 
   const RANKS = ["gradeA", "gradeB", "ccfA", "ccfB"];
   const state = {
@@ -975,7 +672,7 @@
     const wx = venueWx && WX_TEXT[venueWx.weather_code];
     const temp = venueWx && venueWx.temperature_2m != null ? (/-US$/.test(navigator.language) ?
       `${Math.round(venueWx.temperature_2m * 9 / 5 + 32)}°F` : `${Math.round(venueWx.temperature_2m)}°C`) : "";
-    el.innerHTML = `<b>${esc(localClock(entry.tz))}</b> ${esc(tr("local"))}${phase ? ` · <i class="sky sky-${phase}"></i>${esc(LANG === "zh" ? tr("sky " + phase) : phase)}` : ""}` +
+    el.innerHTML = `<b>${esc(localClock(entry.tz))}</b> ${esc(tr("local"))}${phase ? ` · <i class="sky sky-${phase}"></i>${esc(phase)}` : ""}` +
       (wx ? ` · ${esc(tr(wx))}${temp ? ` ${temp}` : ""}` : "");
     el.hidden = false;
   }
@@ -2933,7 +2630,6 @@
   /* ---------- shortcuts and settings ---------- */
   function openHelp() {
     const box = $("#help");
-    $$("#langSeg button").forEach(b => b.classList.toggle("is-on", b.dataset.lang === LANG));
     const standalone = navigator.standalone || matchMedia("(display-mode: standalone)").matches;
     $("#badgeRow").hidden = !("setAppBadge" in navigator && window.Notification && standalone && Notification.permission !== "granted");
     box.hidden = false;
@@ -2949,10 +2645,6 @@
     $("#helpBtn").addEventListener("click", openHelp);
     $("#help").addEventListener("click", e => { if (e.target.closest("[data-close]")) closeHelp(); });
     $("#toast .toast-x").addEventListener("click", () => { $("#toast").hidden = true; });
-    const setLang = l => { if (l === LANG) return; store.set("lang", l); location.reload(); };
-    $("#langSeg").addEventListener("click", e => { const b = e.target.closest("[data-lang]"); if (b) setLang(b.dataset.lang); });
-    $("#langBtn").textContent = LANG === "zh" ? "English" : "中文";
-    $("#langBtn").addEventListener("click", () => setLang(LANG === "zh" ? "en" : "zh"));
     $("#badgeBtn").addEventListener("click", async () => {
       try { await Notification.requestPermission(); } catch { /* not offered */ }
       $("#badgeRow").hidden = Notification.permission === "granted";
@@ -2968,28 +2660,6 @@
   // sw.js keeps photos, fonts and GSAP on the device after the first download
   if ("serviceWorker" in navigator && location.protocol === "https:") {
     window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
-  }
-
-  // static text in index.html (and its templates): text nodes and title / aria-label / placeholder, matched whole
-  function translateDom(root) {
-    const tw = document.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
-    for (let n = tw.currentNode; n; n = tw.nextNode()) {
-      if (n.nodeType === 3) {
-        const raw = n.textContent, key = raw.replace(/\s+/g, " ").trim();
-        if (key && ZH[key]) n.textContent = raw.replace(/\S[\s\S]*\S|\S/, ZH[key]);
-      } else if (n.nodeType === 1) {
-        for (const a of ["title", "aria-label", "placeholder"]) {
-          const v = n.getAttribute(a);
-          if (v && ZH[v.replace(/\s+/g, " ").trim()]) n.setAttribute(a, ZH[v.replace(/\s+/g, " ").trim()]);
-        }
-        if (n.tagName === "TEMPLATE") translateDom(n.content);
-      }
-    }
-  }
-  if (LANG === "zh") {
-    document.documentElement.lang = "zh-Hant";
-    try { translateDom(document.body); } catch (err) { console.error(err); } // never let a translation stop the page
-    document.title = "會議截止倒數";
   }
 
   async function init() {
