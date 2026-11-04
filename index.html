@@ -244,6 +244,7 @@
     <p>Deadlines marked <span class="tag tag-est">estimated</span> are projected from the previous cycle. Always check the official call for papers.</p>
     <p>Maintained with Claude Code: ask the session to search for a conference and it updates <code>data/conferences.json</code>.</p>
     <p><a class="foot-gh" href="https://github.com/shyandram/conf-ddl" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg> Source, issues and data on GitHub</a></p>
+    <p><button type="button" class="link" id="helpBtn">Shortcuts and settings</button> · <button type="button" class="link" id="langBtn">中文</button></p>
     <p class="foot-license">Code <a href="https://github.com/shyandram/conf-ddl/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a> · data <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> · reuse with credit to Conf DDL</p>
   </footer>
 
@@ -270,6 +271,52 @@
   <div class="a2hs" id="a2hs" role="dialog" aria-label="Full screen on iPhone" hidden>
     <b>Full screen on iPhone</b>
     <p>Tap <svg viewBox="0 0 24 24" width="16" height="16" aria-label="Share"><path d="M12 15V3M8 7l4-4 4 4M6 11H5v10h14V11h-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Share, then <em>Add to Home Screen</em>. Opened from the home screen, Conf DDL fills the whole screen.</p>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+    <div class="toast-body"></div>
+    <button type="button" class="toast-x" aria-label="Dismiss">✕</button>
+  </div>
+
+  <div class="planner feeds" id="help" hidden role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="planner-backdrop" data-close></div>
+    <div class="planner-sheet feeds-sheet help-sheet">
+      <header class="planner-head">
+        <div class="planner-title">
+          <span class="planner-kicker">Conf DDL</span>
+          <h2 id="helpTitle">Shortcuts and settings</h2>
+        </div>
+        <button type="button" class="planner-close" data-close aria-label="Close">✕</button>
+      </header>
+      <div class="help-body">
+        <section>
+          <h3>Language</h3>
+          <div class="seg" id="langSeg" role="group" aria-label="Language">
+            <button type="button" data-lang="en">English</button>
+            <button type="button" data-lang="zh">中文</button>
+          </div>
+        </section>
+        <section class="help-keys">
+          <h3>Keyboard</h3>
+          <dl class="keys">
+            <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Countdown / Conferences</dd></div>
+            <div><dt><kbd>/</kbd></dt><dd>Search conferences</dd></div>
+            <div><dt><kbd>F</kbd></dt><dd>Full screen</dd></div>
+            <div><dt><kbd>Esc</kbd></dt><dd>Close a panel, clear the search</dd></div>
+            <div><dt><kbd>?</kbd></dt><dd>This panel</dd></div>
+          </dl>
+        </section>
+        <section id="badgeRow" hidden>
+          <h3>App icon</h3>
+          <p>Show the days left to the next deadline on the home screen icon.</p>
+          <button type="button" class="act" id="badgeBtn">Turn on</button>
+        </section>
+        <section>
+          <h3>My papers</h3>
+          <p>Open a conference in the list and set <b>My paper</b> (preparing, submitted, …). Your papers then come first in the countdown and the planner, and sync with your other devices along with your stars.</p>
+        </section>
+      </div>
+    </div>
   </div>
 
   <div class="planner" id="planner" hidden role="dialog" aria-modal="true" aria-labelledby="plannerTitle">
@@ -319,7 +366,7 @@
         <div class="sync-qr" id="syncQr" aria-label="QR code of the sync link"></div>
         <div class="sync-text">
           <p>Scan this with your phone, or open the link on the other device. Both then keep the same ★ conferences
-            (and the same “My conferences” calendar): starring on one shows up on the other the next time it is opened.</p>
+            (and the same “My conferences” calendar and paper status): a change on one shows up on the other the next time it is opened.</p>
           <div class="sync-row"><input id="syncLink" readonly aria-label="Sync link"><button type="button" class="link" id="syncCopy">Copy link</button></div>
           <p class="feeds-empty">Anyone with this link can change your stars, so share it only with your own devices.
             <button type="button" class="link" id="syncStop">Stop syncing this device</button></p>
@@ -359,8 +406,26 @@
       <div><dt>Conference</dt><dd class="c-date"></dd></div>
       <div><dt>Where</dt><dd class="c-place"></dd></div>
       <div class="c-city"><dt>Known for</dt><dd class="c-known venue-links"></dd></div>
+      <div class="c-fact c-sys"><dt>Submit via</dt><dd></dd></div>
+      <div class="c-fact c-pages"><dt>Pages</dt><dd></dd></div>
+      <div class="c-fact c-review"><dt>Review</dt><dd></dd></div>
+      <div class="c-fact c-rate"><dt>Acceptance</dt><dd></dd></div>
     </dl>
+    <p class="c-src"></p>
     <p class="c-note"></p>
+    <div class="c-mine">
+      <label class="c-mine-s"><span class="lbl">My paper</span>
+        <select class="c-status">
+          <option value="">—</option>
+          <option value="prep">Preparing</option>
+          <option value="submitted">Submitted</option>
+          <option value="accepted">Accepted</option>
+          <option value="rejected">Rejected</option>
+          <option value="withdrawn">Withdrawn</option>
+        </select>
+      </label>
+      <input class="c-pnote" type="text" maxlength="120" placeholder="Note: paper ID, co-authors…" aria-label="Note on my paper">
+    </div>
     <div class="c-actions">
       <a class="act c-link" target="_blank" rel="noopener">Website ↗</a>
       <button type="button" class="act c-ics" title="Download an .ics file">＋ Add to calendar</button>

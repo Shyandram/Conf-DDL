@@ -1,17 +1,26 @@
 // Calendar feed for "My conferences": merges the site's per-series feeds into one subscribable calendar.
 //
 //   GET /u/<id>.ics          the series this browser has starred (kept in KV, so the URL never changes)
-//   PUT /u/<id>              {"series": ["cvpr", "iccv"]}: the site sends this whenever the stars change
-//   GET /u/<id>              the same list back, so devices sharing an id keep the same stars
+//   PUT /u/<id>              {"series": ["cvpr", "iccv"], "papers": {...}}: the site sends this whenever the stars or
+//                            the reader's paper status change ("papers" is optional: {"cvpr27": {"s": "submitted",
+//                            "n": "note", "t": <ms>}})
+//   GET /u/<id>              both back, so devices sharing an id keep the same stars and papers
 //   GET /my.ics?s=cvpr,iccv  a fixed list in the URL (no KV needed)
 //
 // The static site can't make a feed for every combination of starred series, so this Worker builds it on
 // request from https://<site>/calendar/series/<slug>.ics (written on every deploy by scripts/build_calendar.py).
 // Calendar apps re-fetch the same URL, so new or corrected dates, and newly starred series, reach them on their
-// next refresh. An id is a random 22-character token made by the browser; it holds nothing but the star list.
+// next refresh. An id is a random 22-character token made by the browser; it holds nothing but the star list and the
+// paper status the reader set.
 
 const SLUG = /^[a-z0-9-]{1,40}$/;
 const MAX_SERIES = 40;
+const MAX_PAPERS = 300;
+const PAPER_ID = /^[a-z0-9-]{2,32}$/;
+const PAPER_S = new Set(["", "prep", "submitted", "accepted", "rejected", "withdrawn"]);
+const validPapers = p => p && typeof p === "object" && !Array.isArray(p) && Object.keys(p).length <= MAX_PAPERS &&
+  Object.entries(p).every(([k, v]) => PAPER_ID.test(k) && v && typeof v === "object" && PAPER_S.has(v.s) &&
+    (v.n === undefined || (typeof v.n === "string" && v.n.length <= 200)) && Number.isFinite(v.t));
 const CORS = { "access-control-allow-origin": "*", "access-control-allow-methods": "GET, HEAD, PUT, OPTIONS", "access-control-allow-headers": "content-type" };
 
 export default {
@@ -23,18 +32,23 @@ export default {
     const user = url.pathname.match(/^\/u\/([A-Za-z0-9_-]{16,64})(\.ics)?$/);
     if (user && method === "PUT" && !user[2]) {
       if (!env.STARS) return text("Star sync is not set up (no STARS KV binding)", 501);
-      let slugs;
-      try { slugs = (await request.json()).series; } catch { return text("Send JSON: {\"series\": [\"cvpr\", ...]}", 400); }
+      let slugs, papers;
+      try { ({ series: slugs, papers } = await request.json()); } catch { return text("Send JSON: {\"series\": [\"cvpr\", ...]}", 400); }
       if (!Array.isArray(slugs) || slugs.length > MAX_SERIES || !slugs.every(s => typeof s === "string" && SLUG.test(s)))
         return text(`series must be up to ${MAX_SERIES} slugs like "cvpr"`, 400);
+      if (papers !== undefined && !validPapers(papers)) return text(`papers must be up to ${MAX_PAPERS} entries like {"cvpr27": {"s": "submitted", "n": "", "t": 0}}`, 400);
       await env.STARS.put(user[1], JSON.stringify([...new Set(slugs)].sort()));
+      if (papers !== undefined) {
+        const keep = Object.fromEntries(Object.entries(papers).map(([k, v]) => [k, { s: v.s, n: v.n || "", t: v.t }]));
+        await env.STARS.put(`papers:${user[1]}`, JSON.stringify(keep));
+      }
       return new Response(null, { status: 204, headers: CORS });
     }
     if (method !== "GET" && method !== "HEAD") return text("Method not allowed", 405);
     if (user && !user[2]) {
       if (!env.STARS) return text("Star sync is not set up (no STARS KV binding)", 501);
-      const saved = await env.STARS.get(user[1]);
-      return new Response(JSON.stringify({ series: saved ? JSON.parse(saved) : [], saved: saved !== null }), {
+      const [saved, papers] = await Promise.all([env.STARS.get(user[1]), env.STARS.get(`papers:${user[1]}`)]);
+      return new Response(JSON.stringify({ series: saved ? JSON.parse(saved) : [], papers: papers ? JSON.parse(papers) : {}, saved: saved !== null }), {
         headers: { ...CORS, "content-type": "application/json", "cache-control": "no-store" },
       });
     }

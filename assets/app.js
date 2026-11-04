@@ -26,6 +26,19 @@
     set(k, v) { try { localStorage.setItem("confddl:" + k, JSON.stringify(v)); } catch { /* storage unavailable */ } },
   };
 
+  // Language: English or Traditional Chinese (zh), from the reader's choice or the browser. Static text in index.html is
+  // translated once at start (translateDom); strings made here go through tr(). Dates follow the browser's locale.
+  const LANG = (() => {
+    const l = store.get("lang", "");
+    return l === "en" || l === "zh" ? l : /^zh/i.test(navigator.language || "") ? "zh" : "en";
+  })();
+  const ZH = {};
+  const tr = (str, vars) => {
+    let out = (LANG === "zh" && ZH[str]) || str;
+    if (vars) out = out.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m));
+    return out;
+  };
+
   const RANKS = ["gradeA", "gradeB", "ccfA", "ccfB"];
   const state = {
     q: "",
@@ -39,6 +52,7 @@
     tab: store.get("listTab", "up"), // Upcoming / In review / Decided: one tab on show at a time
     heroMode: store.get("heroMode", "deadline"),
     starred: new Set(store.get("starred", [])),
+    papers: store.get("papers", {}), // my papers: { cvpr27: { s: "submitted", n: "note", t: changed-at } }
     tz: store.get("tz", "local"),
   };
 
@@ -113,6 +127,9 @@
   // workshop proposals and challenges take no papers, so the planner never suggests them
   const notPaper = c => c.kind === "workshop" || c.kind === "challenge";
   const isStarred = c => state.starred.has(seriesOf(c));
+  // my paper at a conference: preparing → submitted → accepted / rejected (or withdrawn)
+  const PAPER = { prep: "Preparing", submitted: "Submitted", accepted: "Accepted", rejected: "Rejected", withdrawn: "Withdrawn" };
+  const paperOf = c => (state.papers[c.id] && state.papers[c.id].s) || "";
   // Venue grade from the ranking list in data/conferences.json ("tiers": NYCU CS top-conference list).
   const gradeOf = c => {
     const t = data.tiers || {};
@@ -190,6 +207,7 @@
       (c.status !== "confirmed" ? `<span class="tag tag-est">estimated</span>` : "") +
       (c.kind === "workshop" ? `<span class="tag tag-ws">workshop proposals</span>` : c.kind === "workshop-paper" ? `<span class="tag tag-ws">workshop</span>` :
        c.kind === "challenge" ? `<span class="tag tag-ws">challenge</span>` : "");
+    paintMine(c, el);
     const steps = $$(".c-steps li", el);
     const setStep = (li, text, title) => {
       $("b", li).textContent = text;
@@ -211,6 +229,31 @@
     return el;
   }
 
+  // my paper's status as a tag on the row (and in the open details, when another device changed it)
+  function paintMine(c, el = c.el) {
+    if (!el) return;
+    const s = paperOf(c);
+    let tag = $(".tag-mine", el);
+    if (!s) tag?.remove();
+    else {
+      if (!tag) { tag = document.createElement("span"); tag.className = "tag tag-mine"; $(".c-tags", el).prepend(tag); }
+      tag.dataset.s = s;
+      tag.textContent = tr(PAPER[s]);
+    }
+    const sel = $(".c-status", el), note = $(".c-pnote", el);
+    if (sel && sel.value !== s) sel.value = s;
+    if (note && document.activeElement !== note) note.value = (state.papers[c.id] && state.papers[c.id].n) || "";
+  }
+
+  function setPaper(c, patch) {
+    const cur = state.papers[c.id] || { s: "", n: "" };
+    state.papers[c.id] = { s: cur.s || "", n: cur.n || "", ...patch, t: Date.now() };
+    store.set("papers", state.papers);
+    paintMine(c);
+    if ("s" in patch) { const now = Date.now(); refreshPicks(now); renderRail(now); }
+    syncStars();
+  }
+
   // The fold-out details (venue, note, links) are built the first time a row is opened.
   function buildMore(c) {
     const more = $("#moreTpl").content.firstElementChild.cloneNode(true);
@@ -221,6 +264,27 @@
     if (c.note) $(".c-note", more).textContent = c.note; else $(".c-note", more).remove();
     if (c.abs) { c.refs.abs = $(".c-abs dd", more); c.refs.abs.textContent = fmtTime(c.abs); } else $(".c-abs", more).remove();
     if (!c.decision || notPaper(c)) $(".c-plan", more).remove();
+    // what authors look up when submitting (data: "paper"), from the official call for papers
+    const pf = c.paper || {};
+    const link = (url, text) => (url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)} ↗</a>` : esc(text));
+    const fact = (sel, html) => { if (html) $(`${sel} dd`, more).innerHTML = html; else $(sel, more).remove(); };
+    fact(".c-sys", pf.system && link(pf.submit, pf.system));
+    fact(".c-pages", pf.pages && esc(pf.pages));
+    fact(".c-review", pf.review && esc(pf.review));
+    fact(".c-rate", pf.rate && link(pf.rate_url, pf.rate));
+    if (pf.source && (pf.system || pf.pages || pf.review))
+      $(".c-src", more).innerHTML = `${esc(tr("Submission rules from the"))} ${link(pf.source, tr("{y} call for papers", { y: pf.edition || c.year }))}` +
+        (pf.edition && pf.edition < c.year ? ` · ${esc(tr("check the new one when it is out"))}` : "");
+    else $(".c-src", more).remove();
+    if (notPaper(c)) $(".c-mine", more).remove();
+    else {
+      const sel = $(".c-status", more), note = $(".c-pnote", more);
+      sel.value = paperOf(c);
+      note.value = (state.papers[c.id] && state.papers[c.id].n) || "";
+      sel.addEventListener("change", () => setPaper(c, { s: sel.value }));
+      let nt = 0;
+      note.addEventListener("input", () => { clearTimeout(nt); nt = setTimeout(() => setPaper(c, { n: note.value.trim() }), 400); });
+    }
     $(".c-link", more).href = c.link;
     $(".c-ics", more).addEventListener("click", () => icsFor(c));
     c.el.appendChild(more);
@@ -349,6 +413,7 @@
   function pickFor(mode, now) {
     const filtered = state.areas.size || state.onlyConfirmed || state.ranks.size || state.q || state.onlyStarred;
     const pools = [
+      [confs.filter(c => paperOf(c) === (mode === "deadline" ? "prep" : "submitted")), "My papers"],
       [confs.filter(isStarred), "My conferences"],
       [confs.filter(c => c.el.style.display !== "none"), filtered ? "your filters" : ""],
       [confs, ""],
@@ -400,6 +465,18 @@
       btn.title = `${q.kind}: ${q.c.title} ${q.c.year} · ${q.when}`;
     }
     tickHero(now);
+    paintBadge(now);
+  }
+
+  // the home screen icon shows the days left to the next deadline (where the browser can; iPhone asks for
+  // notification permission first, from the Shortcuts and settings panel)
+  let badgeDays = -1;
+  function paintBadge(now, force) {
+    if (!("setAppBadge" in navigator)) return;
+    const p = picks.deadline, d = p ? Math.ceil((p.at - now) / 864e5) : 0;
+    if (d === badgeDays && !force) return;
+    badgeDays = d;
+    (d > 0 ? navigator.setAppBadge(d) : navigator.clearAppBadge()).catch(() => {});
   }
 
   // Host city card next to the clock; the page background is a scenery photo of the place.
@@ -1229,7 +1306,8 @@
     const now = Date.now();
     const options = plannable(now);
     if (!options.length) return;
-    const src = options.find(c => c.id === id) || options.find(c => c === heroConf) || options[0];
+    const src = options.find(c => c.id === id) || options.find(c => ["submitted", "rejected"].includes(paperOf(c))) ||
+      options.find(c => c === heroConf) || options[0];
     state.pathId = src.id;
     $("#planSrc").innerHTML = options.map(c =>
       `<option value="${esc(c.id)}"${c === src ? " selected" : ""}>${esc(c.title)} ${esc(c.year)} — ${c.group === "review" ? "in review" : "due " + fmtDay(c.deadline)}</option>`).join("");
@@ -1277,12 +1355,14 @@
   }
   const mineFeed = () => (calWorker() && calId(true) ? `${calWorker()}u/${calId()}.ics` : "");
   let starSyncTimer = 0;
+  const canonPapers = o => Object.fromEntries(Object.entries(o || {}).sort(([a], [b]) => (a < b ? -1 : 1)));
+  const syncBody = () => JSON.stringify({ series: [...state.starred].map(feedSlug).sort(), papers: canonPapers(state.papers) });
   function syncStars(now = false) {
     const base = calWorker(), id = calId(false);
     if (!base || !id) return; // nothing to keep in step until this browser has a calendar link
     clearTimeout(starSyncTimer);
     starSyncTimer = setTimeout(() => {
-      const body = JSON.stringify({ series: [...state.starred].map(feedSlug).sort() });
+      const body = syncBody();
       if (body === store.get("calSynced", "")) return;
       fetch(`${base}u/${id}`, { method: "PUT", headers: { "content-type": "application/json" }, body, keepalive: true })
         .then(r => { if (r.ok) store.set("calSynced", body); }).catch(() => {});
@@ -1294,17 +1374,31 @@
   async function pullStars() {
     const base = calWorker(), id = calId(false);
     if (!base || !id) return;
-    let remote;
+    let remote, remotePapers;
     try {
       const r = await fetch(`${base}u/${id}`, { cache: "no-store" });
       if (!r.ok) return;
-      remote = ((await r.json()).series || []).slice().sort();
+      const j = await r.json();
+      remote = (j.series || []).slice().sort();
+      remotePapers = j.papers && typeof j.papers === "object" ? j.papers : {};
     } catch { return; }
+    // paper status: the newer change wins, one conference at a time
+    let papersChanged = false;
+    for (const [id, v] of Object.entries(remotePapers)) {
+      const mine = state.papers[id];
+      if (v && typeof v.t === "number" && (!mine || v.t > (mine.t || 0))) { state.papers[id] = v; papersChanged = true; }
+    }
+    if (papersChanged) {
+      store.set("papers", state.papers);
+      for (const c of confs) paintMine(c);
+      const now = Date.now(); refreshPicks(now); renderRail(now);
+    }
+    const papersSame = JSON.stringify(canonPapers(remotePapers)) === JSON.stringify(canonPapers(state.papers));
     const last = (() => { try { return JSON.parse(store.get("calSynced", "")).series; } catch { return []; } })();
     const local = [...state.starred].map(feedSlug).sort();
     const same = (a, b) => a.join() === b.join();
     if (same(remote, last) || same(remote, local)) {
-      if (same(remote, local)) store.set("calSynced", JSON.stringify({ series: remote }));
+      if (same(remote, local) && papersSame) store.set("calSynced", syncBody());
       return syncStars(true);
     }
     const next = same(local, last) ? remote : [...new Set([...local, ...remote])];
@@ -2055,12 +2149,12 @@
       persist(); apply();
     });
 
-    $$(".seg button").forEach(b => {
+    $$(".seg button[data-tz]").forEach(b => {
       b.classList.toggle("is-on", b.dataset.tz === state.tz);
       b.addEventListener("click", () => {
         state.tz = b.dataset.tz;
         store.set("tz", state.tz);
-        $$(".seg button").forEach(x => x.classList.toggle("is-on", x === b));
+        $$(".seg button[data-tz]").forEach(x => x.classList.toggle("is-on", x === b));
         paintTimes();
       });
     });
@@ -2335,7 +2429,7 @@
       if (hop) openPlanner(hop.dataset.id); // chain: plan the next hop from the chosen venue
     });
     $("#planSrc").addEventListener("change", e => openPlanner(e.target.value));
-    document.addEventListener("keydown", e => { if (e.key === "Escape") { closePlanner(); closeFeeds(); closeSync(); } });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") { closePlanner(); closeFeeds(); closeSync(); closeHelp(); } });
     $("#syncBtn").hidden = !calWorker();
     $("#syncBtn").addEventListener("click", openSync);
     $("#railCal").addEventListener("click", openFeeds);
@@ -2500,6 +2594,88 @@
     }
   }, { rootMargin: "200px" });
 
+  /* ---------- toast: a short note above the bottom bar ---------- */
+  let toastTimer = 0;
+  function toast(html, ms = 10000) {
+    const el = $("#toast");
+    $(".toast-body", el).innerHTML = html;
+    el.hidden = false;
+    clearTimeout(toastTimer);
+    if (ms) toastTimer = setTimeout(() => { el.hidden = true; }, ms);
+  }
+
+  // Dates that changed since the last visit, for my papers and starred series: moved, confirmed, newly announced,
+  // or a new edition added. The first visit only takes a snapshot.
+  function noticeChanges() {
+    const watched = confs.filter(c => isStarred(c) || paperOf(c));
+    const seen = store.get("seen", null);
+    const next = {};
+    for (const c of watched) next[c.id] = { e: seriesOf(c), d: c.deadline, z: c.timezone, s: c.status, r: c.rebuttal || null, k: c.decision || null };
+    store.set("seen", next);
+    if (!seen) return;
+    const msgs = [];
+    const seenSeries = new Set(Object.values(seen).map(x => x.e));
+    const now = Date.now();
+    for (const c of watched) {
+      const cycle = (c.full_name.match(/\((Cycle \d+|Round \d+)\)$/i) || [])[1];
+      const a = seen[c.id], b = next[c.id], name = `<b>${esc(c.title)} ${esc(c.year)}${cycle ? ` ${esc(tr(cycle))}` : ""}</b>`;
+      if (!a) { if (seenSeries.has(b.e) && c.ddl > now) msgs.push(`${name} ${esc(tr("added: deadline {d}", { d: fmtDay(b.d) }))}`); continue; }
+      if (a.d !== b.d || a.z !== b.z) {
+        msgs.push(`${name} ${esc(a.d.slice(0, 10) !== b.d.slice(0, 10)
+          ? tr("deadline moved {a} → {b}", { a: fmtDay(a.d), b: fmtDay(b.d) }) : tr("deadline time is now {t}", { t: fmtTime(c.ddl) }))}`);
+      } else if (a.s !== b.s && b.s === "confirmed") msgs.push(`${name} ${esc(tr("deadline confirmed: {d}", { d: fmtDay(b.d) }))}`);
+      if (b.r && JSON.stringify(a.r) !== JSON.stringify(b.r)) msgs.push(`${name} ${esc(tr(a.r ? "rebuttal moved to {r}" : "rebuttal announced: {r}", { r: fmtRange(b.r) }))}`);
+      if (b.k && a.k !== b.k) msgs.push(`${name} ${esc(tr(a.k ? "decision moved to {d}" : "decision announced: {d}", { d: fmtDay(b.k) }))}`);
+    }
+    if (!msgs.length) return;
+    const shown = msgs.slice(0, 5), more = msgs.length - shown.length;
+    toast(`<strong>${esc(tr("Dates changed since your last visit"))}</strong><ul>${shown.map(m => `<li>${m}</li>`).join("")}</ul>` +
+      (more ? `<small>${esc(tr("+{n} more", { n: more }))}</small>`: ""), 20000);
+  }
+
+  function noticeOffline() {
+    const show = () => toast(`<strong>${esc(tr("Offline"))}</strong> · ${esc(tr("showing the dates saved on this device"))}` +
+      (data.updated ? ` (${esc(tr("updated"))} ${esc(data.updated)})` : ""), 0);
+    if (!navigator.onLine) show();
+    addEventListener("offline", show);
+    addEventListener("online", () => { if (!$("#toast").hidden && $("#toast").textContent.includes(tr("Offline"))) $("#toast").hidden = true; });
+  }
+
+  /* ---------- shortcuts and settings ---------- */
+  function openHelp() {
+    const box = $("#help");
+    $$("#langSeg button").forEach(b => b.classList.toggle("is-on", b.dataset.lang === LANG));
+    const standalone = navigator.standalone || matchMedia("(display-mode: standalone)").matches;
+    $("#badgeRow").hidden = !("setAppBadge" in navigator && window.Notification && standalone && Notification.permission !== "granted");
+    box.hidden = false;
+    document.documentElement.classList.add("planner-open");
+    $(".planner-close", box).focus();
+  }
+  function closeHelp() {
+    if ($("#help").hidden) return;
+    $("#help").hidden = true;
+    document.documentElement.classList.remove("planner-open");
+  }
+  function bindHelp() {
+    $("#helpBtn").addEventListener("click", openHelp);
+    $("#help").addEventListener("click", e => { if (e.target.closest("[data-close]")) closeHelp(); });
+    $("#toast .toast-x").addEventListener("click", () => { $("#toast").hidden = true; });
+    const setLang = l => { if (l === LANG) return; store.set("lang", l); location.reload(); };
+    $("#langSeg").addEventListener("click", e => { const b = e.target.closest("[data-lang]"); if (b) setLang(b.dataset.lang); });
+    $("#langBtn").textContent = LANG === "zh" ? "English" : "中文";
+    $("#langBtn").addEventListener("click", () => setLang(LANG === "zh" ? "en" : "zh"));
+    $("#badgeBtn").addEventListener("click", async () => {
+      try { await Notification.requestPermission(); } catch { /* not offered */ }
+      $("#badgeRow").hidden = Notification.permission === "granted";
+      paintBadge(Date.now(), true);
+    });
+    document.addEventListener("keydown", e => {
+      if (e.key !== "?" || e.ctrlKey || e.metaKey || e.altKey || e.target.closest("input, textarea, select, [contenteditable]")) return;
+      e.preventDefault();
+      $("#help").hidden ? openHelp() : closeHelp();
+    });
+  }
+
   // sw.js keeps photos, fonts and GSAP on the device after the first download
   if ("serviceWorker" in navigator && location.protocol === "https:") {
     window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
@@ -2508,6 +2684,7 @@
   async function init() {
     initPager();
     bind();
+    bindHelp();
     tickNow(Date.now());
     try {
       const res = await fetch(`data/conferences.json?v=${BUILD}`);
@@ -2521,6 +2698,8 @@
     }
     if (data.updated) $("#updated").textContent = "updated " + data.updated;
     build();
+    noticeChanges();
+    noticeOffline();
     const planHash = location.hash.match(/^#plan=([\w-]+)/);
     if (planHash) openPlanner(planHash[1]);
     openShared();
