@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-30",
+  "updated": "2026-11-04",
   "areas": {
     "CV": "Computer Vision",
     "ML": "Machine Learning",
@@ -95,14 +95,14 @@
         "NLP"
       ],
       "ccf": "A",
-      "link": "https://2027.aclweb.org/",
+      "link": "https://2027.aclweb.org/calls/main/",
       "deadline": "2027-01-04 23:59",
       "timezone": "AoE",
       "date": "Aug 17 – 22, 2027",
       "place": "Kyoto, Japan",
-      "status": "estimated",
+      "status": "confirmed",
       "decision": "2027-04-03",
-      "note": "Reported ARR deadline; the official site still lists it as TBA. Decision projected from ACL 2026 (Apr 4)."
+      "note": "ARR submission deadline (long & short papers) Jan 4, 2027, 11:59 PM UTC-12. Notification and commitment TBD on the official site; decision still projected from ACL 2026 (Apr 4). Tutorials Aug 17, workshops Aug 18-19, main conference Aug 20-22."
     },
     {
       "id": "ijcai27",
@@ -113,18 +113,19 @@
         "AI"
       ],
       "ccf": "A",
-      "link": "https://www.ijcai.org/",
-      "deadline": "2027-01-15 23:59",
+      "link": "https://2027.ijcai.org/ijcai-2027-call-for-papers-main-track/",
+      "deadline": "2027-01-11 23:59",
       "timezone": "AoE",
-      "date": "Aug 2027",
+      "date": "Aug 7 – 13, 2027",
       "place": "Kyoto, Japan",
-      "status": "estimated",
+      "status": "confirmed",
       "rebuttal": [
-        "2027-04-06",
-        "2027-04-09"
+        "2027-03-30",
+        "2027-04-02"
       ],
-      "decision": "2027-04-28",
-      "note": "Projected from IJCAI-ECAI 2026 (response Apr 7–10, notification Apr 29). Trackers put the deadline anywhere from Jan 4 to Jan 19."
+      "decision": "2027-04-21",
+      "note": "Non-primary paper payment Jan 18; summary reject notification Feb 25; camera-ready May 7. Satellite event in Hengqin, China, Aug 15-17. Special tracks share these deadlines.",
+      "abstract_deadline": "2027-01-04 23:59"
     },
     {
       "id": "icml27",
@@ -139,15 +140,15 @@
       "abstract_deadline": "2027-01-16 23:59",
       "deadline": "2027-01-22 23:59",
       "timezone": "AoE",
-      "date": "Jul 2027",
-      "place": "South America (TBA)",
+      "date": "Jul 31 – Aug 6, 2027",
+      "place": "Rio de Janeiro, Brazil",
       "status": "estimated",
       "rebuttal": [
         "2027-03-23",
         "2027-04-06"
       ],
       "decision": "2027-04-29",
-      "note": "Projected from ICML 2026 (response Mar 24 – Apr 7, notification Apr 30). Call for papers not yet published. Venue: icml.cc lists South America; city not announced."
+      "note": "Projected from ICML 2026 (response Mar 24 – Apr 7, notification Apr 30). Call for papers not yet published. Venue official: Riocentro, Rio de Janeiro (Expo Jul 31, tutorials Aug 1, main conference Aug 2-4, workshops Aug 5-6)."
     },
     {
       "id": "siggraph27",
@@ -159,13 +160,14 @@
         "CV"
       ],
       "ccf": "A",
-      "link": "https://www.siggraph.org/",
-      "deadline": "2027-01-22 22:00",
+      "link": "https://s2027.siggraph.org/program/technical-papers/",
+      "deadline": "2027-01-28 22:00",
       "timezone": "UTC",
       "date": "Aug 8 – 12, 2027",
       "place": "Anaheim, USA",
-      "status": "estimated",
-      "note": "Historically Jan 22 – 24. The 2026 deadline was Jan 22."
+      "status": "confirmed",
+      "note": "Technical Papers: submission form & conflicts Jan 21, paper Jan 28, upload Jan 29 (22:00 UTC). Review/rebuttal and decision dates not posted yet.",
+      "abstract_deadline": "2027-01-21 22:00"
     },
     {
       "id": "icip27",
@@ -177,15 +179,15 @@
         "CV"
       ],
       "ccf": "C",
-      "link": "https://signalprocessingsociety.org/event-names/icip",
-      "deadline": "2027-02-03 23:59",
+      "link": "https://signalprocessingsociety.org/events/2027-ieee-international-conference-image-processing-icip",
+      "deadline": "2027-03-31 23:59",
       "timezone": "AoE",
       "date": "Nov 29 – Dec 3, 2027",
       "place": "Singapore",
-      "status": "estimated",
+      "status": "confirmed",
       "rebuttal": false,
-      "decision": "2027-04-21",
-      "note": "No rebuttal. Projected from ICIP 2026 (deadline Feb 4, notification Apr 22)."
+      "decision": "2027-06-16",
+      "note": "Paper deadline Mar 31, 2027 per IEEE SPS (time of day not stated; AoE assumed). No rebuttal. Decision projected (ICIP 2026: 11 weeks after deadline)."
     },
     {
       "id": "iccv27",
@@ -200,7 +202,7 @@
       "abstract_deadline": "2027-03-01 23:59",
       "deadline": "2027-03-08 23:59",
       "timezone": "AoE",
-      "date": "Oct 2 – 8, 2027",
+      "date": "Oct 3 – 7, 2027",
       "place": "Hong Kong",
       "status": "estimated",
       "rebuttal": [
@@ -742,7 +744,38 @@
         "2026-10-13"
       ],
       "decision": "2026-11-14",
-      "note": "First cycle was July (not August) 2026; same dates for Research, ADS, D&B and AI-for-Sciences tracks; cycle 2 expected ~Feb 2027."
+      "note": "First cycle was July (not August) 2026; same dates for Research, ADS, D&B and AI-for-Sciences tracks; cycle 2 expected ~Feb 2027.",
+      "paper": {
+        "system": "OpenReview",
+        "submit": "https://openreview.net/group?id=KDD.org/2027/Research_Track_Cycle_1",
+        "pages": "8 + refs, appendix unlimited",
+        "review": "double-blind",
+        "edition": 2027,
+        "source": "https://kdd2027.kdd.org/research-track-call-for-papers/"
+      }
+    },
+    {
+      "id": "kdd27r2",
+      "title": "KDD",
+      "year": 2027,
+      "full_name": "ACM SIGKDD Conference on Knowledge Discovery and Data Mining (Cycle 2)",
+      "area": [
+        "DM"
+      ],
+      "ccf": "A",
+      "link": "https://kdd2027.kdd.org/research-track-call-for-papers/",
+      "abstract_deadline": "2027-01-31 23:59",
+      "deadline": "2027-02-07 23:59",
+      "timezone": "AoE",
+      "date": "Aug 1 – 5, 2027",
+      "place": "San Jose, USA",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-04-03",
+        "2027-04-16"
+      ],
+      "decision": "2027-05-15",
+      "note": "The official CFP confirms a February 2027 second cycle but not the exact dates. Projected from KDD 2026 Cycle 2 (abstract Feb 1, paper Feb 8, rebuttal Apr 4–17, notification May 16)."
     },
     {
       "id": "chi27",
@@ -1219,11 +1252,11 @@
         "CV"
       ],
       "ccf": "B",
-      "link": "https://miccai.org/upcoming-conferences/",
+      "link": "https://conferences.miccai.org/2027/en/",
       "abstract_deadline": "2027-02-11 23:59",
       "deadline": "2027-02-25 23:59",
       "timezone": "PST",
-      "date": "Sep 26 – Oct 1, 2027",
+      "date": "Sep 27 – Oct 1, 2027",
       "place": "Auckland, New Zealand",
       "status": "estimated",
       "rebuttal": [
@@ -1231,7 +1264,7 @@
         "2027-05-13"
       ],
       "decision": "2027-06-11",
-      "note": "Venue and dates are official; paper deadline TBA. Projected from MICCAI 2026 (abstract Feb 12, paper Feb 26, rebuttal May 8–14, decisions Jun 12)."
+      "note": "Venue and dates are official (NZ International Convention Centre, Auckland); paper deadline TBA. Projected from MICCAI 2026 (abstract Feb 12, paper Feb 26, rebuttal May 8–14, decisions Jun 12)."
     },
     {
       "id": "cvpr27w",
@@ -1286,7 +1319,7 @@
       "link": "https://iccv.thecvf.com/",
       "deadline": "2027-03-12 23:59",
       "timezone": "AoE",
-      "date": "Oct 2027",
+      "date": "Oct 3 – 4, 2027",
       "place": "Hong Kong",
       "status": "estimated",
       "rebuttal": false,
@@ -1370,7 +1403,15 @@
       "status": "estimated",
       "rebuttal": false,
       "decision": "2027-06-15",
-      "note": "Projected from IROS 2026 (paper deadline Mon Mar 2, notification Jun 16, final paper Jul 16; no rebuttal). IEEE RAS calendar lists the 2027 paper deadline as Mar 1, 2027; CFP not yet on the official site. Venue: Fortezza da Basso."
+      "note": "Projected from IROS 2026 (paper deadline Mon Mar 2, notification Jun 16, final paper Jul 16; no rebuttal). IEEE RAS calendar lists the 2027 paper deadline as Mar 1, 2027; CFP not yet on the official site. Venue: Fortezza da Basso.",
+      "paper": {
+        "system": "PaperCept",
+        "submit": "https://ras.papercept.net/conferences/scripts/start.pl",
+        "pages": "8 incl. refs",
+        "review": "double-blind",
+        "edition": 2026,
+        "source": "https://2026.ieee-iros.org/call-for-papers/"
+      }
     },
     {
       "id": "siggraphasia27",
@@ -1393,7 +1434,15 @@
         "2027-07-02"
       ],
       "decision": "2027-07-18",
-      "note": "Projected from SIGGRAPH Asia 2026 (abstract May 5, paper May 12 AoE, rebuttal Jun 29 – Jul 3, notification Jul 19). Dates and venue (Tokyo International Forum) are official; deadlines not yet posted."
+      "note": "Projected from SIGGRAPH Asia 2026 (abstract May 5, paper May 12 AoE, rebuttal Jun 29 – Jul 3, notification Jul 19). Dates and venue (Tokyo International Forum) are official; deadlines not yet posted.",
+      "paper": {
+        "system": "Linklings",
+        "submit": "https://ssl.linklings.net/conferences/siggraphasia/",
+        "pages": "7 + refs (+ up to 2 figure-only pages)",
+        "review": "double-blind",
+        "edition": 2026,
+        "source": "https://asia.siggraph.org/2026/submissions/technical-papers/"
+      }
     },
     {
       "id": "ecml27",
@@ -1413,7 +1462,15 @@
       "place": "Eindhoven, Netherlands",
       "status": "estimated",
       "decision": "2027-05-26",
-      "note": "Projected from ECML-PKDD 2026 research track (abstract Mar 5, paper Mar 12 AoE, notification May 27, camera-ready Jun 20). Conference dates and city are official; CFP not yet posted."
+      "note": "Projected from ECML-PKDD 2026 research track (abstract Mar 5, paper Mar 12 AoE, notification May 27, camera-ready Jun 20). Conference dates and city are official; CFP not yet posted.",
+      "paper": {
+        "system": "CMT",
+        "submit": "https://cmt3.research.microsoft.com/ECMLPKDDRT2026/Submission/Index",
+        "pages": "16 incl. refs (LNCS), appendix as separate file",
+        "review": "double-blind",
+        "edition": 2026,
+        "source": "https://ecmlpkdd.org/2026/submissions-research-track/"
+      }
     },
     {
       "id": "uai27",
@@ -1436,7 +1493,15 @@
         "2027-05-01"
       ],
       "decision": "2027-05-31",
-      "note": "Projected from UAI 2026 (paper deadline Feb 25 AoE, reviews/discussion Apr 23 – May 2, notification Jun 1, camera-ready Jul 8). UAI 2027 dates, venue and CFP not yet announced."
+      "note": "Projected from UAI 2026 (paper deadline Feb 25 AoE, reviews/discussion Apr 23 – May 2, notification Jun 1, camera-ready Jul 8). UAI 2027 dates, venue and CFP not yet announced.",
+      "paper": {
+        "system": "OpenReview",
+        "submit": "https://openreview.net/group?id=auai.org/UAI/2026/Conference",
+        "pages": "8 + refs, appendix unlimited",
+        "review": "double-blind",
+        "edition": 2026,
+        "source": "https://www.auai.org/uai2026/call_for_papers"
+      }
     },
     {
       "id": "sigir27",
@@ -1455,7 +1520,14 @@
       "place": "San Jose, USA",
       "status": "confirmed",
       "decision": "2027-04-05",
-      "note": "Official dates labeled 'PROPOSED' (AoE). Abstract required for full paper. 50th SIGIR; main conference Jul 20-22, ICTIR Jul 24. Camera-ready Apr 30, 2027."
+      "note": "Official dates labeled 'PROPOSED' (AoE). Abstract required for full paper. 50th SIGIR; main conference Jul 20-22, ICTIR Jul 24. Camera-ready Apr 30, 2027.",
+      "paper": {
+        "system": "OpenReview",
+        "pages": "9 + refs (appendix counts)",
+        "review": "double-blind",
+        "edition": 2027,
+        "source": "https://sigir2027.org/pages/submit-full.html"
+      }
     },
     {
       "id": "colm27",
@@ -1479,7 +1551,15 @@
         "2027-06-07"
       ],
       "decision": "2027-07-07",
-      "note": "Projected from COLM 2026 (abstract Mar 26, paper Mar 31 AoE, rebuttal May 22 - Jun 8, decision Jul 8, conference Oct 6-9 in San Francisco). No 2027 CFP posted yet."
+      "note": "Projected from COLM 2026 (abstract Mar 26, paper Mar 31 AoE, rebuttal May 22 - Jun 8, decision Jul 8, conference Oct 6-9 in San Francisco). No 2027 CFP posted yet.",
+      "paper": {
+        "system": "OpenReview",
+        "submit": "https://openreview.net/group?id=colmweb.org/COLM/2026/Conference",
+        "pages": "9 + refs, appendix unlimited",
+        "review": "double-blind",
+        "edition": 2026,
+        "source": "https://colm.cc/Conferences/2026/CallForPapers"
+      }
     },
     {
       "id": "ijcnn27",
@@ -1498,7 +1578,15 @@
       "status": "confirmed",
       "rebuttal": false,
       "decision": "2027-03-15",
-      "note": "Regular papers, max 6 pages. CFP gives the date only (no time/timezone); 23:59 AoE assumed. No rebuttal listed. Submissions open Dec 1, 2026."
+      "note": "Regular papers, max 6 pages. CFP gives the date only (no time/timezone); 23:59 AoE assumed. No rebuttal listed. Submissions open Dec 1, 2026.",
+      "paper": {
+        "system": "CMT",
+        "submit": "https://cmt3.research.microsoft.com/IJCNN2027/Submission/Index",
+        "pages": "6 incl. refs (up to 4 extra pages at $100 each)",
+        "review": "double-blind",
+        "edition": 2027,
+        "source": "https://ijcnn.org/2027/authors/initial-author-instructions"
+      }
     },
     {
       "id": "icpr27",
@@ -1521,7 +1609,15 @@
         "2027-04-23"
       ],
       "decision": "2027-05-31",
-      "note": "First virtual ICPR (29th), run by IAPR alongside the biennial in-person editions. Official dates marked tentative; abstract_deadline is paper registration. Reviews to authors Apr 16, author rebuttal due Apr 23 (provisional). Short (8p) / long (15p) LNCS papers, double-blind."
+      "note": "First virtual ICPR (29th), run by IAPR alongside the biennial in-person editions. Official dates marked tentative; abstract_deadline is paper registration. Reviews to authors Apr 16, author rebuttal due Apr 23 (provisional). Short (8p) / long (15p) LNCS papers, double-blind.",
+      "paper": {
+        "system": "CMT",
+        "submit": "https://cmt3.research.microsoft.com/ICPRv2027/",
+        "pages": "15 + refs (LNCS); short 8 + refs",
+        "review": "double-blind",
+        "edition": 2027,
+        "source": "https://www.icpr2027.com/web/instructions"
+      }
     },
     {
       "id": "acml26",
@@ -1565,7 +1661,15 @@
         "2027-09-05"
       ],
       "decision": "2027-09-22",
-      "note": "Projected from ACML 2026 (conference track deadline Jul 5, rebuttal Aug 30 – Sep 5, notification Sep 22). Journal track typically ~2 weeks earlier."
+      "note": "Projected from ACML 2026 (conference track deadline Jul 5, rebuttal Aug 30 – Sep 5, notification Sep 22). Journal track typically ~2 weeks earlier.",
+      "paper": {
+        "system": "OpenReview",
+        "submit": "https://openreview.net/group?id=ACML.org/2026/Conference",
+        "pages": "16 incl. refs and appendix",
+        "review": "double-blind",
+        "edition": 2026,
+        "source": "https://www.acml-conf.org/2026/calls/papers/"
+      }
     },
     {
       "id": "fg27",
@@ -1624,7 +1728,15 @@
       "status": "estimated",
       "rebuttal": false,
       "decision": "2027-08-07",
-      "note": "Projected from CIKM 2026 (abstract May 16, paper May 23, notification Aug 7). Sydney and tentative dates announced at CIKM business meeting (third-party report)."
+      "note": "Projected from CIKM 2026 (abstract May 16, paper May 23, notification Aug 7). Sydney and tentative dates announced at CIKM business meeting (third-party report).",
+      "paper": {
+        "system": "EasyChair",
+        "submit": "https://easychair.org/my/conference?conf=cikm26",
+        "pages": "10 + 2 refs (appendix counts)",
+        "review": "double-blind",
+        "edition": 2026,
+        "source": "https://cikm2026.diag.uniroma1.it/full-research-papers/"
+      }
     },
     {
       "id": "icdm26",
@@ -1662,7 +1774,15 @@
       "status": "estimated",
       "rebuttal": false,
       "decision": "2027-08-16",
-      "note": "Projected from ICDM 2026 (paper Jun 6, notification Aug 16). Brisbane / Nov 15–18 from third-party listings; official site not yet found."
+      "note": "Projected from ICDM 2026 (paper Jun 6, notification Aug 16). Brisbane / Nov 15–18 from third-party listings; official site not yet found.",
+      "paper": {
+        "system": "CyberChair",
+        "submit": "https://wi-lab.com/cyberchair/2026/icdm26/scripts/submit.php?subarea=DM",
+        "pages": "10 incl. refs and appendix",
+        "review": "triple-blind",
+        "edition": 2026,
+        "source": "https://icdm2026.neu.edu.cn/_s271/calls/list.psp"
+      }
     },
     {
       "id": "wsdm27",
@@ -1700,7 +1820,15 @@
       "place": "TBA",
       "status": "estimated",
       "decision": "2027-11-02",
-      "note": "Projected from WSDM 2027 (abstract Aug 17, paper Aug 24, notification Nov 2). WSDM 2028 is planned for the Americas; host city not yet announced."
+      "note": "Projected from WSDM 2027 (abstract Aug 17, paper Aug 24, notification Nov 2). WSDM 2028 is planned for the Americas; host city not yet announced.",
+      "paper": {
+        "system": "CMT",
+        "submit": "https://cmt3.research.microsoft.com/WSDM2027",
+        "pages": "9 + refs (appendix counts)",
+        "review": "double-blind",
+        "edition": 2027,
+        "source": "https://wsdm-conference.org/2027/cffp.html"
+      }
     },
     {
       "id": "icmr27",
@@ -1719,7 +1847,13 @@
       "place": "Singapore, Singapore",
       "status": "confirmed",
       "decision": "2027-04-01",
-      "note": "Regular papers (long 8 pp / short 4 pp + refs). Camera-ready Apr 10, 2027. Rebuttal not announced."
+      "note": "Regular papers (long 8 pp / short 4 pp + refs). Camera-ready Apr 10, 2027. Rebuttal not announced.",
+      "paper": {
+        "pages": "8 + 2 refs (short 4 + 2), no appendix",
+        "review": "double-blind",
+        "edition": 2027,
+        "source": "https://www.icmr2027.org/cfc"
+      }
     },
     {
       "id": "uist27",
@@ -1742,7 +1876,17 @@
         "2027-06-04"
       ],
       "decision": "2027-06-26",
-      "note": "Projected from UIST 2026 (abstract Mar 24, paper Mar 31, reviews May 28, rebuttal due Jun 5, decisions Jun 27, final acceptance Aug 7)."
+      "note": "Projected from UIST 2026 (abstract Mar 24, paper Mar 31, reviews May 28, rebuttal due Jun 5, decisions Jun 27, final acceptance Aug 7).",
+      "paper": {
+        "system": "PCS",
+        "submit": "https://new.precisionconference.com/submissions",
+        "pages": "10 + refs (short 5 + refs)",
+        "review": "double-blind",
+        "rate": "22.2% (2025)",
+        "rate_url": "https://uist.acm.org/2026/announcements/",
+        "edition": 2026,
+        "source": "https://uist.acm.org/2026/cfp/"
+      }
     },
     {
       "id": "vis27",
@@ -1763,7 +1907,15 @@
       "status": "estimated",
       "rebuttal": false,
       "decision": "2027-07-15",
-      "note": "Projected from IEEE VIS 2026 (abstract Mar 21, paper Mar 31, 1st-round notification Jun 6, revision Jul 1, final notification Jul 15). No rebuttal; two-round review. Dates/venue (Chicago) from third-party listings, not yet on official site."
+      "note": "Projected from IEEE VIS 2026 (abstract Mar 21, paper Mar 31, 1st-round notification Jun 6, revision Jul 1, final notification Jul 15). No rebuttal; two-round review. Dates/venue (Chicago) from third-party listings, not yet on official site.",
+      "paper": {
+        "system": "PCS",
+        "submit": "https://new.precisionconference.com/vgtc",
+        "pages": "9 + 2 (refs, acknowledgements)",
+        "review": "single- or double-blind (author's choice)",
+        "edition": 2026,
+        "source": "https://ieeevis.org/year/2026/info/call-participation/paper-submission-guidelines"
+      }
     },
     {
       "id": "avreason26t1",
@@ -1899,7 +2051,15 @@
         "2027-08-10"
       ],
       "decision": "2027-09-03",
-      "note": "Projected from CoRL 2026 (abstract May 25, paper May 28, rebuttal Aug 4–11, notification Sep 4). The 2027 call for papers and host city are not announced yet."
+      "note": "Projected from CoRL 2026 (abstract May 25, paper May 28, rebuttal Aug 4–11, notification Sep 4). The 2027 call for papers and host city are not announced yet.",
+      "paper": {
+        "system": "OpenReview",
+        "submit": "https://openreview.net/group?id=robot-learning.org/CoRL/2026/Conference",
+        "pages": "8 + refs, appendix unlimited",
+        "review": "double-blind",
+        "edition": 2026,
+        "source": "https://www.corl.org/contributions/instruction-for-authors"
+      }
     }
   ]
 }

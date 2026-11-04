@@ -21,6 +21,9 @@ SUMMER = {"PDT", "EDT", "CEST"}
 TZ = re.compile(r"^(AoE|UTC|GMT|PST|PDT|EST|EDT|CET|CEST|JST|KST|CST|(UTC|GMT)[+-]\d{1,2}(:?\d{2})?)$", re.I)
 
 
+PAPER_KEYS = {"system", "submit", "pages", "review", "rate", "rate_url", "edition", "source"}
+
+
 def dst_mismatch(when, tz):
     """For a PST/PDT-style label, the label the date really needs, or None if it is right."""
     tz = (tz or "").upper()
@@ -73,6 +76,23 @@ def main(path=DATA) -> int:
             errors.append(f"{where}: unknown timezone '{c['timezone']}'")
         if c.get("status") not in ("confirmed", "estimated"):
             errors.append(f"{where}: status must be 'confirmed' or 'estimated'")
+        paper = c.get("paper")
+        if paper is not None:
+            if not isinstance(paper, dict):
+                errors.append(f"{where}: paper must be an object")
+            else:
+                for k, v in paper.items():
+                    if k not in PAPER_KEYS:
+                        errors.append(f"{where}: unknown paper.{k} (known: {', '.join(sorted(PAPER_KEYS))})")
+                    elif k == "edition":
+                        if not isinstance(v, int) or not 2000 < v <= c.get("year", 9999):
+                            errors.append(f"{where}: paper.edition must be a year up to {c.get('year')}")
+                    elif not isinstance(v, str) or not v.strip():
+                        errors.append(f"{where}: paper.{k} must be a non-empty string")
+                    elif k in ("submit", "source", "rate_url") and not v.startswith("https://"):
+                        errors.append(f"{where}: paper.{k} must be an https:// URL")
+                if paper.get("rate_url") and not paper.get("rate"):
+                    errors.append(f"{where}: paper.rate_url without paper.rate")
         for a in c.get("area", []):
             if a not in areas:
                 errors.append(f"{where}: area '{a}' not declared in 'areas'")
