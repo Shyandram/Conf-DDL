@@ -40,9 +40,11 @@
 | **↻ Planner** | Find where a paper can go next, during the rebuttal or after the decision. |
 | **★ Star** | Follow a series every year. Stars sync between your phone and computer. |
 | **▦ Calendar** | Subscribe to a feed that updates with the data: all deadlines, one field, one series, or just your starred ones. |
+| **✎ My papers** | Mark a conference preparing, submitted, accepted or rejected, with a note. Your papers come first in the countdown and planner, and sync with your stars. |
+| **🔔 Changes** | After a starred or tracked conference's dates move, get confirmed or are announced, the next visit lists what changed. |
 | **↗ Share** | `…/#c=cvpr27` opens the page with that countdown. |
 
-The page shows both local time and AoE, has light and dark themes, and works on phones.
+The page shows both local time and AoE, has light and dark themes, works on phones, installs to the home screen and opens offline, and speaks English or Traditional Chinese (press `?` for shortcuts and settings).
 
 ## Run locally
 
@@ -72,7 +74,7 @@ Ask Claude Code, e.g. *"add the ECCV 2028 deadline"*. It follows [`CLAUDE.md`](C
 
 **Required:** `id` · `title` · `year` · `full_name` · `area` · `link` · `deadline` (`YYYY-MM-DD HH:MM`) · `timezone` (`AoE`, `UTC+8`, `PDT`, …) · `status` (`confirmed` / `estimated`)
 
-**Optional:** `abstract_deadline` · `date` · `place` (`"City, Country"`, `"Japan (TBA)"`, `"TBA"`, `"Virtual"`) · `rebuttal` (`[start, end]` or `false`; days, or `YYYY-MM-DD HH:MM` when the venue states the time; a bare end day closes at 23:59) · `rebuttal_timezone` (if the rebuttal runs on a different zone than the deadline) · `decision` · `ccf` · `kind` (`workshop` / `workshop-paper` / `challenge`) · `series` · `note`
+**Optional:** `abstract_deadline` · `date` · `place` (`"City, Country"`, `"Japan (TBA)"`, `"TBA"`, `"Virtual"`) · `rebuttal` (`[start, end]` or `false`; days, or `YYYY-MM-DD HH:MM` when the venue states the time; a bare end day closes at 23:59) · `rebuttal_timezone` (if the rebuttal runs on a different zone than the deadline) · `decision` · `ccf` · `kind` (`workshop` / `workshop-paper` / `challenge`) · `series` · `note` · `paper` (submission facts from the official call for papers: `system`, `submit` URL, `pages`, `review`, `rate` with `rate_url`, `edition` = the CFP year they come from, `source`)
 
 Check your changes with `python3 scripts/validate.py`.
 </details>
