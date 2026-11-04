@@ -1783,6 +1783,24 @@
   function initPager() {
     const pager = $("#pager"), track = $("#pagerTrack"), pgs = [$("#pgNow"), $("#pgList")];
     const nav = $("#pagerNav"), navBtns = $$("[data-go]", nav);
+
+    // the bottom bar folds away after the mouse has rested for a while (mouse devices only; touch keeps it shown).
+    // It stays while the pointer or the keyboard focus is on it, or while the My conferences drawer is open.
+    {
+      const mouse = matchMedia("(hover: hover) and (pointer: fine)"), body = document.body, IDLE_MS = 3000;
+      let t = 0, over = false;
+      const busy = () => over || nav.contains(document.activeElement) || $("#pnMine").getAttribute("aria-expanded") === "true";
+      const wake = () => {
+        body.classList.remove("nav-idle");
+        clearTimeout(t);
+        if (mouse.matches) t = setTimeout(() => { if (!busy()) body.classList.add("nav-idle"); else wake(); }, IDLE_MS);
+      };
+      for (const ev of ["mousemove", "mousedown", "wheel", "keydown"]) addEventListener(ev, wake, { passive: true });
+      nav.addEventListener("mouseenter", () => { over = true; });
+      nav.addEventListener("mouseleave", () => { over = false; wake(); });
+      mouse.addEventListener("change", wake);
+      wake();
+    }
     const W = () => pager.clientWidth;
     const setGlide = p => nav.style.setProperty("--p", p);
     const mark = i => {
