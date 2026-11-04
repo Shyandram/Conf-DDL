@@ -30,3 +30,9 @@ Static GitHub Pages site of conference deadline countdowns. All data lives in `d
   - The page picks the mood from the reader's local clock (`localPhase` in `assets/app.js`: dawn 5–7, day 7–17, dusk 17–19, night), in step with the auto light / dark theme; the venue line still shows the venue's own sky (`sunAt` / `phaseAt`). Cities without scenes keep their Unsplash photos. Pictures are shown as they are, without colour grading.
 - **Weather:** the page asks Open-Meteo (no key) for the venue's current weather every 15 minutes and draws rain, snow, fog or a storm on the `#wx` canvas over the backdrop. It shows the conditions and temperature in the venue line. `?weather=rain|snow|fog|storm` previews one.
 - **City links:** `tourism` is the official visitor site; `famous` lists 3 sights, each with `url` = its own official site, or no `url` when none was verified. The owner wants official sites only (no Wikipedia or travel wikis); check every URL before adding it.
+
+## Full screen and home screen
+
+- The top bar's full screen button (F key) uses the Fullscreen API. On iPhone Safari, which has none, it shows how to *Add to Home Screen* instead.
+- The home screen app runs from `manifest.webmanifest` and the `apple-*` meta tags. Its icons in `assets/icons/` come from `scripts/gen_icons.py`.
+- The page uses `viewport-fit=cover`, so it draws under the notch and status bar. Sticky offsets use `--bar` (63px + `--sat`, the top safe area), never a bare 63px.

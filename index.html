@@ -2,10 +2,17 @@
 <html lang="en" class="pre-fit">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Conf Deadlines</title>
   <meta name="description" content="Countdowns to the main conference deadlines in computer vision, machine learning, AI and NLP, with rebuttal and decision dates.">
   <meta name="theme-color" content="#12151c">
+  <!-- home screen app (iPhone: Share, Add to Home Screen): opens without the browser bars, under a see-through status bar -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icons/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Conf DDL">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <!-- Cloudflare Worker that serves the merged "My conferences" calendar (worker/README.md); empty = download instead -->
   <meta name="confddl-calendar-worker" content="https://conf-ddl-calendar.shyangen104.workers.dev/">
   <script>
@@ -259,6 +266,11 @@
   <button type="button" class="to-top" id="toTop" aria-label="Back to top" title="Back to top" hidden>
     <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
+
+  <div class="a2hs" id="a2hs" role="dialog" aria-label="Full screen on iPhone" hidden>
+    <b>Full screen on iPhone</b>
+    <p>Tap <svg viewBox="0 0 24 24" width="16" height="16" aria-label="Share"><path d="M12 15V3M8 7l4-4 4 4M6 11H5v10h14V11h-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Share, then <em>Add to Home Screen</em>. Opened from the home screen, Conf DDL fills the whole screen.</p>
+  </div>
 
   <div class="planner" id="planner" hidden role="dialog" aria-modal="true" aria-labelledby="plannerTitle">
     <div class="planner-backdrop" data-close></div>

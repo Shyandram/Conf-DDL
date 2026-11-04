@@ -2066,7 +2066,8 @@
     });
 
     // full screen: the whole page (the backdrop, the countdown and the bottom bar); F toggles it, Esc leaves it.
-    // Hidden where the browser can't (iPhone Safari has no element full screen).
+    // iPhone Safari has no element full screen: there the button explains Add to Home Screen instead, and a home
+    // screen app (navigator.standalone) has no browser bars to hide, so the button stays hidden.
     {
       const d = document, el = d.documentElement, fsBtn = $("#fsBtn");
       const req = el.requestFullscreen || el.webkitRequestFullscreen;
@@ -2094,6 +2095,16 @@
           if ($(".planner:not([hidden])")) return;
           e.preventDefault(); toggle();
         });
+      } else if (/iPhone|iPod/.test(navigator.userAgent) && !navigator.standalone) {
+        // iPhone Safari: no element full screen, but a home screen app opens without the browser bars
+        const tip = $("#a2hs");
+        fsBtn.hidden = false;
+        fsBtn.title = "Full screen: add to the home screen";
+        fsBtn.setAttribute("aria-label", fsBtn.title);
+        fsBtn.setAttribute("aria-expanded", "false");
+        const show = on => { tip.hidden = !on; fsBtn.setAttribute("aria-expanded", on); };
+        fsBtn.addEventListener("click", e => { e.stopPropagation(); show(tip.hidden); });
+        d.addEventListener("click", e => { if (!tip.hidden && !tip.contains(e.target)) show(false); });
       }
     }
 
