@@ -32,7 +32,300 @@
     const l = store.get("lang", "");
     return l === "en" || l === "zh" ? l : /^zh/i.test(navigator.language || "") ? "zh" : "en";
   })();
-  const ZH = {};
+  // Traditional Chinese, keyed by the English text (static page text and tr() strings)
+  const ZH = {
+    "Next for": "下一步：", "during its rebuttal": "答辯期間截止", "after its decision": "結果後截止", "✕ clear": "✕ 清除",
+    "next up": "下一個", "tap one for its reviews and where it could go next": "點一個看它的審查時程與改投去處", "Today": "今天",
+    "ConfDDL home": "ConfDDL 首頁",
+    "Current time": "目前時間",
+    "Where could a paper go next?": "論文下一步可以投哪裡？",
+    "Planner": "改投規劃",
+    "Subscribe in Google, Apple or Outlook Calendar": "訂閱到 Google、Apple 或 Outlook 行事曆",
+    "Calendar": "行事曆",
+    "Time zone": "時區",
+    "Local": "本地",
+    "Mouse light: the cursor lights up the glass": "滑鼠光源：游標照亮玻璃面板",
+    "Mouse light": "滑鼠光源",
+    "Full screen (F)": "全螢幕 (F)",
+    "Full screen": "全螢幕",
+    "Exit full screen (F or Esc)": "離開全螢幕 (F 或 Esc)",
+    "Exit full screen": "離開全螢幕",
+    "Full screen: add to the home screen": "全螢幕：加入主畫面",
+    "Theme: auto (follows local time)": "主題：自動（依本地時間）",
+    "Theme: {m} · click to switch": "主題：{m} · 點一下切換",
+    "auto (light 6:00–18:00 local time)": "自動（本地 6:00–18:00 為淺色）",
+    "light": "淺色",
+    "dark": "深色",
+    "My conferences": "我的會議",
+    "Close My conferences": "關閉我的會議",
+    "Take it with you": "隨身帶著",
+    "Subscribe in your calendar": "訂閱到行事曆",
+    "one calendar that follows your stars": "一個跟著星號更新的行事曆",
+    "Sync with another device": "與其他裝置同步",
+    "same stars on phone and computer": "手機和電腦星號一致",
+    "Countdown": "倒數",
+    "Next deadline": "下一個截止",
+    "days": "天",
+    "day": "天",
+    "hours": "時",
+    "min": "分",
+    "sec": "秒",
+    "Switch the big countdown": "切換大倒數",
+    "Deadline": "截止",
+    "Rebuttal": "答辯",
+    "Decision": "結果",
+    "Held in": "舉辦地",
+    "Call for papers ↗": "徵稿頁面 ↗",
+    "Add to calendar": "加入行事曆",
+    "Copy a link that opens this countdown": "複製可開啟這個倒數的連結",
+    "Share": "分享",
+    "Timeline": "時間軸",
+    "Show as": "顯示方式",
+    "Deadlines along a time axis": "截止日排在時間軸上",
+    "Axis": "軸線",
+    "Deadlines grouped by month": "截止日依月份分組",
+    "Months": "月份",
+    "Fold the timeline away": "收起時間軸",
+    "Show the timeline": "顯示時間軸",
+    "deadline": "截止",
+    "estimated": "預估",
+    "rebuttal": "答辯",
+    "decision": "結果",
+    "Conferences": "會議",
+    "Filters": "篩選",
+    "Search CVPR, Hong Kong, 3D…": "搜尋 CVPR、香港、3D…",
+    "Areas": "領域",
+    "Show only": "只顯示",
+    "Only": "只看",
+    "Hide estimated dates": "隱藏預估日期",
+    "Confirmed": "已確認",
+    "dates": "日期",
+    "Grade A on the NYCU CS top-conference list": "陽明交大資工頂尖會議列表 A 級",
+    "Grade B on the NYCU CS top-conference list": "陽明交大資工頂尖會議列表 B 級",
+    "CCF rank A": "CCF A 類",
+    "CCF rank B": "CCF B 類",
+    "Clear": "清除",
+    "filters": "篩選",
+    "Which conferences": "哪些會議",
+    "Upcoming": "即將截止",
+    "In review": "審查中",
+    "Decided": "已公布結果",
+    "Show": "顯示",
+    "All": "全部",
+    "Only the conferences you follow": "只看你追蹤的會議",
+    "Mine": "我的",
+    "Nothing upcoming matches. Try clearing a filter.": "沒有符合的即將截止會議，試著清除篩選。",
+    "Nothing in review matches your filters.": "沒有符合篩選的審查中會議。",
+    "Nothing decided matches your filters.": "沒有符合篩選的已公布會議。",
+    "You aren't following any conference yet.": "你還沒有追蹤任何會議。",
+    "Star one to follow every year of it: it gets the big countdown, the sidebar and your calendar.": "點星號追蹤一個會議的每一屆：它會出現在大倒數、側欄和你的行事曆。",
+    "Deadlines marked": "標示為",
+    "are projected from the previous cycle. Always check the official call for papers.": "的截止日是依上一屆推估的，請以官方徵稿頁面為準。",
+    "Maintained with Claude Code: ask the session to search for a conference and it updates": "由 Claude Code 維護：請它搜尋會議，它就會更新",
+    "Source, issues and data on GitHub": "原始碼、問題回報和資料都在 GitHub",
+    "Shortcuts and settings": "快捷鍵與設定",
+    "Code": "程式碼",
+    "· data": "· 資料",
+    "· reuse with credit to Conf DDL": "· 轉用請註明 Conf DDL",
+    "Pages": "頁面",
+    "Back to top": "回到頂端",
+    "Full screen on iPhone": "iPhone 上的全螢幕",
+    "Tap": "點",
+    "Share, then": "分享，再選",
+    "Add to Home Screen": "加入主畫面",
+    ". Opened from the home screen, Conf DDL fills the whole screen.": "。從主畫面開啟時，Conf DDL 會佔滿整個螢幕。",
+    "Dismiss": "關閉",
+    "Close": "關閉",
+    "Language": "語言",
+    "Keyboard": "鍵盤",
+    "Countdown / Conferences": "倒數 / 會議",
+    "Search conferences": "搜尋會議",
+    "Close a panel, clear the search": "關閉面板、清除搜尋",
+    "This panel": "這個面板",
+    "App icon": "App 圖示",
+    "Show the days left to the next deadline on the home screen icon.": "在主畫面圖示上顯示距離下一個截止的天數。",
+    "Turn on": "開啟",
+    "My papers": "我的論文",
+    "Open a conference in the list and set": "在會議列表中展開一個會議，設定",
+    "My paper": "我的論文",
+    "(preparing, submitted, …). Your papers then come first in the countdown and the planner, and sync with your other devices along with your stars.": "（準備中、已投稿…）。你的論文會優先出現在倒數和改投規劃，並和星號一起同步到其他裝置。",
+    "Resubmission planner": "改投規劃",
+    "Where can this paper go next?": "這篇論文下一步可以投哪裡？",
+    "Paper is at": "論文目前在",
+    "Close planner": "關閉改投規劃",
+    "Subscribe to the deadlines": "訂閱截止日",
+    "A subscribed calendar keeps itself up to date: when a date is added or corrected here, your calendar app picks it up on its next refresh (Apple and Outlook: every few hours; Google: within about a day). Deadlines come with reminders 7 days and 1 day before.": "訂閱的行事曆會自動更新：這裡新增或修正日期後，行事曆 App 下次重新整理時就會同步（Apple 和 Outlook 每幾小時，Google 約一天內）。截止日會在 7 天前和 1 天前提醒。",
+    "Sync stars with another device": "與其他裝置同步星號",
+    "QR code of the sync link": "同步連結的 QR code",
+    "Scan this with your phone, or open the link on the other device. Both then keep the same ★ conferences (and the same “My conferences” calendar and paper status): a change on one shows up on the other the next time it is opened.": "用手機掃描，或在另一台裝置打開連結。兩邊就會保持相同的 ★ 會議（以及相同的「我的會議」行事曆和論文狀態）：一邊的變更，另一邊下次開啟時就會出現。",
+    "Sync link": "同步連結",
+    "Copy link": "複製連結",
+    "Anyone with this link can change your stars, so share it only with your own devices.": "任何拿到這個連結的人都能改你的星號，只在自己的裝置之間使用。",
+    "Stop syncing this device": "停止同步這台裝置",
+    "Follow every year of this conference": "追蹤這個會議的每一屆",
+    "Follow this conference": "追蹤這個會議",
+    "Review timeline": "審查時程",
+    "Submit": "投稿",
+    "Abstract": "摘要",
+    "Conference": "會期",
+    "Where": "地點",
+    "Known for": "知名景點",
+    "Submit via": "投稿系統",
+    "Page limit": "頁數上限",
+    "Review": "審查方式",
+    "Acceptance": "錄取率",
+    "Preparing": "準備中",
+    "Submitted": "已投稿",
+    "Accepted": "已錄取",
+    "Rejected": "未錄取",
+    "Withdrawn": "已撤稿",
+    "Note on my paper": "論文備註",
+    "Note: paper ID, co-authors…": "備註：論文編號、共同作者…",
+    "Website ↗": "官網 ↗",
+    "Download an .ics file": "下載 .ics 檔",
+    "＋ Add to calendar": "＋ 加入行事曆",
+    "Show it in the big countdown": "顯示在大倒數",
+    "⏱ Countdown": "⏱ 倒數",
+    "Where this paper can go next": "這篇論文下一步可以投哪裡",
+    "↻ Plan resubmission": "↻ 規劃改投",
+    "time not announced": "時間未公布",
+    "closes": "截止",
+    "workshop proposals": "工作坊提案",
+    "workshop": "工作坊",
+    "challenge": "競賽",
+    "none": "無",
+    "Submission rules from the": "投稿規定出自",
+    "{y} call for papers": "{y} 年徵稿頁面",
+    "check the new one when it is out": "新一屆公布後請再確認",
+    "to rebuttal": "距答辯",
+    "rebuttal closes": "答辯截止",
+    "to decision": "距結果",
+    "day ago": "天前",
+    "days ago": "天前",
+    "decided": "已公布",
+    "closed": "已截止",
+    "Rebuttal opens": "答辯開始",
+    "Rebuttal closes": "答辯截止",
+    "Rebuttal {r} · closes {t}": "答辯 {r} · 截止 {t}",
+    "Rebuttal closes {t}": "答辯截止 {t}",
+    "Next decision": "下一個結果",
+    "Decision {d}": "結果 {d}",
+    "your filters": "你的篩選",
+    "from timeline": "來自時間軸",
+    "Online": "線上舉行",
+    "Venue to be announced": "地點待公布",
+    "city TBA": "城市待公布",
+    "{m} in {c} · AI-generated scene": "{c}的{m} · AI 生成場景",
+    "Dawn": "清晨",
+    "Day": "白天",
+    "Dusk": "黃昏",
+    "Night": "夜晚",
+    "local": "當地",
+    "Official visitor site ↗": "官方觀光網站 ↗",
+    "All clear": "暫無截止",
+    "No upcoming deadlines match your filters.": "沒有符合篩選的即將截止會議。",
+    "estimated date": "預估日期",
+    "This conference has no announced decision date yet, so there is no path to plan.": "這個會議還沒公布結果日期，暫時無法規劃改投路線。",
+    "in {n}d": "{n} 天後",
+    "today": "今天",
+    "{n}d ago": "{n} 天前",
+    "est.": "預估",
+    "Reviews out": "審查意見",
+    "Plan the next step from {c}": "從 {c} 規劃下一步",
+    "same field": "同領域",
+    "+{n}d after reviews": "審查意見後 +{n} 天",
+    "+{n}d after decision": "結果後 +{n} 天",
+    "During the rebuttal": "答辯期間",
+    "After the decision": "公布結果後",
+    "Deadlines {a} – {b}": "截止日 {a} – {b}",
+    "Deadlines from {d}, next ~5 months": "{d} 起約 5 個月內的截止日",
+    "No conference deadline falls in this window.": "這段期間沒有會議截止。",
+    "+{n} more": "還有 {n} 個",
+    "Ranked by {src} (A, then B, then unlisted), then same field, with CCF as a tie-break. Click a venue to plan the next step from there. Check each venue's dual-submission and withdrawal rules before moving a paper.": "依{src}排序（A 級、B 級、未列入），再看是否同領域，CCF 等級作為次要依據。點一個會議可從那裡規劃下一步。改投前請確認各會議的一稿多投與撤稿規定。",
+    "venue grade": "會議等級",
+    "QR code unavailable: copy the link instead.": "無法產生 QR code，請改用複製連結。",
+    "Sync your ★ conferences with the other device? Stars on this device are kept and merged in.": "要與另一台裝置同步 ★ 會議嗎？這台裝置上的星號會保留並合併。",
+    "Everything": "全部",
+    "All conferences": "所有會議",
+    "{n} entries · deadlines, rebuttals and decisions": "{n} 筆 · 截止、答辯和結果",
+    "All my conferences in one": "我的會議（合併成一個）",
+    "nothing starred yet": "還沒有星號",
+    "One subscription that follows your stars: star or unstar a conference here and the calendar changes with it on its next refresh, no need to subscribe again. Subscribe once in Google or iCloud and it shows on your phone and computer; to keep the same stars on the site too, use “⇄ Sync with another device” under My conferences.": "一個跟著星號變動的訂閱：在這裡加減星號，行事曆下次重新整理時就會跟著變，不用重新訂閱。在 Google 或 iCloud 訂閱一次，手機和電腦都會顯示；要讓網站上的星號也一致，請用「我的會議」下的「⇄ 與其他裝置同步」。",
+    "Download .ics": "下載 .ics",
+    "One file with every starred series. It is a snapshot: import it again after you star more, or to pick up changed dates (the events keep their IDs, so they update instead of doubling). To have changes arrive by themselves, subscribe series by series:": "一個包含所有星號會議的檔案。它是當下的快照：加了星號或日期有變時請重新匯入（事件編號不變，會更新而不會重複）。想自動收到變更，請逐一訂閱：",
+    "Subscribe series by series ({n})": "逐一訂閱（{n}）",
+    "every edition, including future years": "每一屆，包括未來幾年",
+    "Star a conference (☆ next to its name) to get a calendar for just your conferences here.": "幫會議加上星號（名稱旁的 ☆），這裡就會有只含你的會議的行事曆。",
+    "By field": "依領域",
+    "{n} entries": "{n} 筆",
+    "Preparing…": "準備中…",
+    "Downloaded ✓": "已下載 ✓",
+    "Couldn't build it, try again": "產生失敗，請再試一次",
+    "Follow a conference to see all its dates here, every year. Tap <b>☆</b> on any row, or start with one of these:": "追蹤一個會議，這裡就會列出它每一屆的日期。點任一列的 <b>☆</b>，或從這幾個開始：",
+    "Submission": "投稿",
+    "decided {d}": "{d} 已公布",
+    "{c} deadline: {t}": "{c} 截止：{t}",
+    "{c} countdown": "{c} 倒數",
+    "Copy this link": "複製這個連結",
+    "Link copied ✓": "已複製連結 ✓",
+    "Copied ✓": "已複製 ✓",
+    "Stop syncing this device? Its stars stay as they are, and its calendar link changes.": "要停止同步這台裝置嗎？星號會保留，但行事曆連結會改變。",
+    "added: deadline {d}": "新增：截止 {d}",
+    "deadline moved {a} → {b}": "截止日改為 {a} → {b}",
+    "deadline time is now {t}": "截止時間改為 {t}",
+    "deadline confirmed: {d}": "截止日已確認：{d}",
+    "rebuttal moved to {r}": "答辯改為 {r}",
+    "rebuttal announced: {r}": "答辯日期公布：{r}",
+    "decision moved to {d}": "結果日改為 {d}",
+    "decision announced: {d}": "結果日期公布：{d}",
+    "Dates changed since your last visit": "上次造訪後有日期變動",
+    "Offline": "離線中",
+    "showing the dates saved on this device": "顯示這台裝置上儲存的日期",
+    "updated": "更新於",
+    "updated {d}": "更新於 {d}",
+    "Cycle 1": "第一輪",
+    "Cycle 2": "第二輪",
+    "Round 1": "第一輪",
+    "Round 2": "第二輪",
+    "clear": "晴",
+    "mostly clear": "大致晴朗",
+    "partly cloudy": "局部多雲",
+    "overcast": "陰",
+    "fog": "霧",
+    "freezing fog": "凍霧",
+    "light drizzle": "小毛毛雨",
+    "drizzle": "毛毛雨",
+    "heavy drizzle": "大毛毛雨",
+    "freezing drizzle": "凍毛毛雨",
+    "light rain": "小雨",
+    "rain": "雨",
+    "heavy rain": "大雨",
+    "freezing rain": "凍雨",
+    "light snow": "小雪",
+    "snow": "雪",
+    "heavy snow": "大雪",
+    "snow grains": "米雪",
+    "showers": "陣雨",
+    "heavy showers": "大陣雨",
+    "snow showers": "陣雪",
+    "heavy snow showers": "大陣雪",
+    "thunderstorm": "雷雨",
+    "thunderstorm with hail": "雷雨夾冰雹",
+    "Computer Vision": "電腦視覺",
+    "Machine Learning": "機器學習",
+    "Artificial Intelligence": "人工智慧",
+    "Graphics": "電腦圖學",
+    "Multimedia": "多媒體",
+    "Signal & Image": "訊號與影像",
+    "Robotics": "機器人",
+    "Data Mining & Web": "資料探勘與網路",
+    "Human–Computer Interaction": "人機互動",
+    "Medical Imaging": "醫學影像",
+    "sky dawn": "清晨",
+    "sky day": "白天",
+    "sky dusk": "黃昏",
+    "sky night": "夜晚",
+  };
   const tr = (str, vars) => {
     let out = (LANG === "zh" && ZH[str]) || str;
     if (vars) out = out.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m));
@@ -105,7 +398,7 @@
   const fmtCloseAoE = new Intl.DateTimeFormat(undefined, { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: "Etc/GMT+12" });
   const fmtClose = ms => (state.tz === "aoe" ? fmtCloseAoE.format(ms) + " AoE" : fmtCloseLocal.format(ms));
   // when a rebuttal closes: the announced moment in the reader's zone, or the last day with its time still unannounced
-  const rebClose = c => c.rebExact ? fmtTime(c.reb[1]) : `${fmtDay(c.rebuttal[1], true)} (time not announced)`;
+  const rebClose = c => c.rebExact ? fmtTime(c.reb[1]) : `${fmtDay(c.rebuttal[1], true)} (${tr("time not announced")})`;
   // under the rebuttal's days in a row: the exact closing moment, when the venue gave one
   const paintRebAt = c => {
     const li = $$(".c-steps li", c.el)[1];
@@ -113,7 +406,7 @@
     if (!c.rebExact) { at?.remove(); return; }
     if (!at) { at = document.createElement("small"); at.className = "reb-at"; li.append(at); }
     at.textContent = `→ ${fmtClose(c.reb[1])}`;
-    li.title = `${fmtRange(c.rebuttal, true)} · closes ${rebClose(c)}`;
+    li.title = `${fmtRange(c.rebuttal, true)} · ${tr("closes")} ${rebClose(c)}`;
   };
 
   function split(ms) {
@@ -204,19 +497,19 @@
       gradeTag(c) +
       (c.ccf ? `<span class="tag tag-ccf">CCF-${esc(c.ccf)}</span>` : "") +
       c.area.map(a => `<span class="tag">${esc(a)}</span>`).join("") +
-      (c.status !== "confirmed" ? `<span class="tag tag-est">estimated</span>` : "") +
-      (c.kind === "workshop" ? `<span class="tag tag-ws">workshop proposals</span>` : c.kind === "workshop-paper" ? `<span class="tag tag-ws">workshop</span>` :
-       c.kind === "challenge" ? `<span class="tag tag-ws">challenge</span>` : "");
+      (c.status !== "confirmed" ? `<span class="tag tag-est">${esc(tr("estimated"))}</span>` : "") +
+      (c.kind === "workshop" ? `<span class="tag tag-ws">${esc(tr("workshop proposals"))}</span>` : c.kind === "workshop-paper" ? `<span class="tag tag-ws">${esc(tr("workshop"))}</span>` :
+       c.kind === "challenge" ? `<span class="tag tag-ws">${esc(tr("challenge"))}</span>` : "");
     paintMine(c, el);
     const steps = $$(".c-steps li", el);
     const setStep = (li, text, title) => {
       $("b", li).textContent = text;
       li.title = title || "";
-      li.classList.toggle("na", text === "TBA" || text === "none");
+      li.classList.toggle("na", text === "TBA" || text === tr("none"));
     };
     setStep(steps[0], fmtDay(c.deadline), fmtDay(c.deadline, true));
     // "rebuttal": false means the venue has none; a missing field means not announced yet.
-    setStep(steps[1], c.rebuttal ? fmtRange(c.rebuttal) : (c.rebuttal === false ? "none" : "TBA"), c.rebuttal ? `${fmtRange(c.rebuttal, true)} · closes ${rebClose(c)}` : "");
+    setStep(steps[1], c.rebuttal ? fmtRange(c.rebuttal) : (c.rebuttal === false ? tr("none") : "TBA"), c.rebuttal ? `${fmtRange(c.rebuttal, true)} · ${tr("closes")} ${rebClose(c)}` : "");
     setStep(steps[2], c.decision ? fmtDay(c.decision) : "TBA", c.decision ? fmtDay(c.decision, true) : "");
     c.el = el;
     el.conf = c;
@@ -302,9 +595,9 @@
 
   // Where a submitted paper is in review: what comes next and when.
   function reviewPhase(c, now) {
-    if (c.reb && now < c.reb[0]) return { step: 1, label: "to rebuttal", at: c.reb[0] };
-    if (c.reb && now < c.reb[1]) return { step: 1, label: "rebuttal closes", at: c.reb[1], open: true };
-    if (c.dec && now < c.dec) return { step: 2, label: "to decision", at: c.dec };
+    if (c.reb && now < c.reb[0]) return { step: 1, label: tr("to rebuttal"), at: c.reb[0] };
+    if (c.reb && now < c.reb[1]) return { step: 1, label: tr("rebuttal closes"), at: c.reb[1], open: true };
+    if (c.dec && now < c.dec) return { step: 2, label: tr("to decision"), at: c.dec };
     return { step: c.dec ? 3 : 1, label: null };
   }
 
@@ -329,7 +622,7 @@
     if (left <= 0 && phase.label) {
       const t = split(phase.at - now);
       r.days.textContent = t.d;
-      r.unit.textContent = t.d === 1 ? "day" : "days";
+      r.unit.textContent = tr(t.d === 1 ? "day" : "days");
       r.hms.textContent = `${phase.label} · ${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`;
       r.bar.style.width = "100%";
       return;
@@ -337,14 +630,14 @@
     if (left <= 0) {
       const ago = Math.floor(-left / DAY);
       r.days.textContent = ago;
-      r.unit.textContent = ago === 1 ? "day ago" : "days ago";
-      r.hms.textContent = c.dec ? "decided" : "closed";
+      r.unit.textContent = tr(ago === 1 ? "day ago" : "days ago");
+      r.hms.textContent = tr(c.dec ? "decided" : "closed");
       r.bar.style.width = "100%";
       return;
     }
     const t = split(left);
     r.days.textContent = t.d;
-    r.unit.textContent = t.d === 1 ? "day" : "days";
+    r.unit.textContent = tr(t.d === 1 ? "day" : "days");
     r.hms.textContent = `${pad(t.h)}h ${pad(t.m)}m ${pad(t.s)}s`;
     const u = urgency(left);
     if (c.u !== u) {
@@ -400,22 +693,22 @@
   const MODES = ["deadline", "rebuttal", "decision"];
 
   function eventOf(c, mode, now) {
-    if (mode === "deadline") return c.ddl > now ? { at: c.ddl, kind: "Next deadline", when: fmtTime(c.ddl) } : null;
+    if (mode === "deadline") return c.ddl > now ? { at: c.ddl, kind: tr("Next deadline"), when: fmtTime(c.ddl) } : null;
     if (mode === "rebuttal") {
       if (!c.reb || now >= c.reb[1]) return null;
       const opens = now < c.reb[0];
-      return { at: opens ? c.reb[0] : c.reb[1], kind: opens ? "Rebuttal opens" : "Rebuttal closes",
-        when: opens ? `Rebuttal ${fmtRange(c.rebuttal, true)} · closes ${rebClose(c)}` : `Rebuttal closes ${rebClose(c)}` };
+      return { at: opens ? c.reb[0] : c.reb[1], kind: tr(opens ? "Rebuttal opens" : "Rebuttal closes"),
+        when: opens ? tr("Rebuttal {r} · closes {t}", { r: fmtRange(c.rebuttal, true), t: rebClose(c) }) : tr("Rebuttal closes {t}", { t: rebClose(c) }) };
     }
-    return c.dec && c.dec > now ? { at: c.dec, kind: "Next decision", when: "Decision " + fmtDay(c.decision, true) } : null;
+    return c.dec && c.dec > now ? { at: c.dec, kind: tr("Next decision"), when: tr("Decision {d}", { d: fmtDay(c.decision, true) }) } : null;
   }
 
   function pickFor(mode, now) {
     const filtered = state.areas.size || state.onlyConfirmed || state.ranks.size || state.q || state.onlyStarred;
     const pools = [
-      [confs.filter(c => paperOf(c) === (mode === "deadline" ? "prep" : "submitted")), "My papers"],
-      [confs.filter(isStarred), "My conferences"],
-      [confs.filter(c => c.el.style.display !== "none"), filtered ? "your filters" : ""],
+      [confs.filter(c => paperOf(c) === (mode === "deadline" ? "prep" : "submitted")), tr("My papers")],
+      [confs.filter(isStarred), tr("My conferences")],
+      [confs.filter(c => c.el.style.display !== "none"), filtered ? tr("your filters") : ""],
       [confs, ""],
     ];
     for (const [pool, scope] of pools) {
@@ -440,14 +733,14 @@
     if (state.manualId) {
       const c = confs.find(x => x.id === state.manualId);
       const ev = c && MODES.map(m => eventOf(c, m, now)).find(Boolean);
-      if (ev) { p = { ...ev, c, mode: "manual", scope: state.manualScope || "from timeline" }; mode = "manual"; }
+      if (ev) { p = { ...ev, c, mode: "manual", scope: state.manualScope || tr("from timeline") }; mode = "manual"; }
       else state.manualId = null;
     }
     const key = p ? `${mode}:${p.c.id}:${p.at}` : "";
     if (key !== (heroPick && heroPick.key)) {
       heroPick = p ? { ...p, key } : null;
       $("#heroScope").textContent = p ? p.scope : "";
-      $("#heroKind").textContent = p ? p.kind : "Next deadline";
+      $("#heroKind").textContent = p ? p.kind : tr("Next deadline");
       Object.values(clockUnits).forEach(u => { u.val = null; }); // new target: redraw digits instead of flipping
       setHero(p ? p.c : null);
       if (p) $("#heroWhen").textContent = p.when;
@@ -631,8 +924,8 @@
     if (!same) delete fig.dataset.scene; // a scene picked by hand belongs to its city
     fig.classList.toggle("is-tba", !place);
     // only the country known ("Japan (TBA)" or "TBA, Japan"): show the country, file the photo under it
-    $("#venueCity").textContent = !place ? (virtual ? "Online" : "Venue to be announced") : city || COUNTRY_NAMES[country] || country;
-    $("#venueCountry").textContent = city ? country : place ? "city TBA" : "";
+    $("#venueCity").textContent = !place ? (virtual ? tr("Online") : tr("Venue to be announced")) : city || COUNTRY_NAMES[country] || country;
+    $("#venueCountry").textContent = city ? country : place ? tr("city TBA") : "";
     $("#venueDates").textContent = c ? c.date || "" : "";
     const token = (fig.dataset.token = String(Math.random()));
     await loadCityPhotos;
@@ -653,7 +946,7 @@
       if (advance) fig.dataset.scene = pick;
       fig.dataset.shown = pick;
       shown = { src: entry.scenes[pick], cls: "is-pano",
-        live: entry.depth && { scenes: entry.scenes, depth: entry.depth, fixed: fig.dataset.scene || null }, credit: `${pick[0].toUpperCase() + pick.slice(1)} in ${esc(city || COUNTRY_NAMES[country] || country)} · AI-generated scene` };
+        live: entry.depth && { scenes: entry.scenes, depth: entry.depth, fixed: fig.dataset.scene || null }, credit: esc(tr("{m} in {c} · AI-generated scene", { m: tr(pick[0].toUpperCase() + pick.slice(1)), c: city || COUNTRY_NAMES[country] || country })) };
     } else {
       delete fig.dataset.shown;
       const pool = place && photosOf(key).length ? key : "*";
@@ -682,8 +975,8 @@
     const wx = venueWx && WX_TEXT[venueWx.weather_code];
     const temp = venueWx && venueWx.temperature_2m != null ? (/-US$/.test(navigator.language) ?
       `${Math.round(venueWx.temperature_2m * 9 / 5 + 32)}°F` : `${Math.round(venueWx.temperature_2m)}°C`) : "";
-    el.innerHTML = `<b>${esc(localClock(entry.tz))}</b> local${phase ? ` · <i class="sky sky-${phase}"></i>${phase}` : ""}` +
-      (wx ? ` · ${esc(wx)}${temp ? ` ${temp}` : ""}` : "");
+    el.innerHTML = `<b>${esc(localClock(entry.tz))}</b> ${esc(tr("local"))}${phase ? ` · <i class="sky sky-${phase}"></i>${esc(LANG === "zh" ? tr("sky " + phase) : phase)}` : ""}` +
+      (wx ? ` · ${esc(tr(wx))}${temp ? ` ${temp}` : ""}` : "");
     el.hidden = false;
   }
   // what the place is known for, each linked to its own official site, and the official visitor site
@@ -691,9 +984,9 @@
     const famous = (entry && entry.famous) || [], visit = entry && entry.tourism;
     if (!famous.length && !visit) return "";
     const link = (href, text, cls = "") => `<a${cls ? ` class="${cls}"` : ""} href="${esc(href)}" target="_blank" rel="noopener">${text}</a>`;
-    return (famous.length ? (label ? `<span class="vl-k">Known for</span> ` : "") +
+    return (famous.length ? (label ? `<span class="vl-k">${esc(tr("Known for"))}</span> ` : "") +
       famous.map(f => (f.url ? link(f.url, esc(f.name)) : `<span>${esc(f.name)}</span>`)).join(`<span class="vl-sep">·</span>`) : "") +
-      (visit ? link(visit, "Official visitor site ↗", "vl-visit") : "");
+      (visit ? link(visit, esc(tr("Official visitor site ↗")), "vl-visit") : "");
   }
   function venueLinks(entry) {
     const el = $("#venueLinks"), html = cityLinks(entry);
@@ -864,18 +1157,18 @@
     setVenue(c);
     const hero = $("#hero");
     if (!c) {
-      $("#heroName").textContent = "All clear";
+      $("#heroName").textContent = tr("All clear");
       $("#heroYear").textContent = "";
-      $("#heroFull").textContent = "No upcoming deadlines match your filters.";
+      $("#heroFull").textContent = tr("No upcoming deadlines match your filters.");
       $("#heroWhen").textContent = "";
-      $("#heroKind").textContent = "Next deadline";
+      $("#heroKind").textContent = tr("Next deadline");
       hero.classList.add("is-empty");
       return;
     }
     hero.classList.remove("is-empty");
     const chars = splitChars($("#heroName"), c.title);
     $("#heroYear").textContent = c.year;
-    $("#heroFull").textContent = c.full_name + (c.status !== "confirmed" ? " · estimated date" : "");
+    $("#heroFull").textContent = c.full_name + (c.status !== "confirmed" ? ` · ${tr("estimated date")}` : "");
     $("#heroLink").href = c.link;
     if (hasGsap && fx) {
       gsap.fromTo(chars, { yPercent: 110 }, { yPercent: 0, duration: first ? 1.1 : 0.7, ease: "expo.out", stagger: 0.04, delay: first ? 0.15 : 0 });
@@ -1131,11 +1424,11 @@
         const chips = sorted.map((e, i) => {
           const cls = `tl-chip ev-${e.ev}${e.ev === "ddl" && e.c.status !== "confirmed" ? " est" : ""}${e.at <= now ? " past" : ""}${role(e.c)}`;
           const text = e.text || `${e.c.title} ${String(e.c.year).slice(2)}`;
-          return (i === cut && i > 0 ? `<i class="tl-mtoday"><span>Today</span></i>` : "") + `<button type="button" class="${cls}" data-id="${esc(e.c.id)}" title="${esc(tipOf(e.c))}">${esc(text)}${e.text ? "" : `<small>${new Date(e.at).getDate()}</small>`}</button>`;
-        }).join("") + (cut > 0 && cut === sorted.length ? `<i class="tl-mtoday"><span>Today</span></i>` : "");
+          return (i === cut && i > 0 ? `<i class="tl-mtoday"><span>${esc(tr("Today"))}</span></i>` : "") + `<button type="button" class="${cls}" data-id="${esc(e.c.id)}" title="${esc(tipOf(e.c))}">${esc(text)}${e.text ? "" : `<small>${new Date(e.at).getDate()}</small>`}</button>`;
+        }).join("") + (cut > 0 && cut === sorted.length ? `<i class="tl-mtoday"><span>${esc(tr("Today"))}</span></i>` : "");
         return `<div class="tl-mrow${isNow ? " is-now" : ""}${isPast ? " is-past" : ""}" data-m="${m.getFullYear()}-${m.getMonth()}"><span class="tl-mname">${esc(name)}<small>${esc(yr)}</small></span><div class="tl-mchips">${chips || `<span class="tl-mempty">—</span>`}</div></div>`;
       }).join("") + `</div>`;
-      tl.innerHTML = html + `<button type="button" class="tl-back" hidden><i></i>Today</button>`;
+      tl.innerHTML = html + `<button type="button" class="tl-back" hidden><i></i>${esc(tr("Today"))}</button>`;
       // a re-render keeps the month the reader scrolled to; otherwise the list opens on this month
       const back = opts.quiet && tlAnchor && $(`.tl-mrow[data-m="${tlAnchor.m}"]`, tl), box = $(".tl-months", tl);
       if (back) box.scrollTop = back.offsetTop - box.offsetTop + tlAnchor.dy;
@@ -1165,7 +1458,7 @@
         const label = m.toLocaleString(undefined, { month: "short" }) + (m.getMonth() === 0 || isNow ? ` ’${String(m.getFullYear()).slice(2)}` : "");
         v += `<span class="tlv-month${isNow ? " is-now" : ""}" style="top:${(y(a) + y(b)) / 2}px;width:${AX - 10}px">${esc(label)}</span>`;
       });
-      v += `<div class="tlv-today" style="top:${y(now)}px;left:${AX}px"><span>today</span></div>`;
+      v += `<div class="tlv-today" style="top:${y(now)}px;left:${AX}px"><span>${esc(tr("today"))}</span></div>`;
       const used = Array.from({ length: lanes }, () => []);
       const placed = [...events].sort((p, q) => rank(q) - rank(p)).map(e => {
         const cy = y(e.at), lo = cy - SLOT / 2, hi = cy + SLOT / 2;
@@ -1202,9 +1495,9 @@
       const src = glow && glow.src;
       // following the big countdown by default: say so and invite a tap; after a tap, offer the way back
       $("#tlLegend").innerHTML = src
-        ? `<span class="lg-follow">Next for <b>${esc(src.title)} ${String(src.year).slice(-2)}</b></span> <span><i class="lg lg-reb"></i>during its rebuttal</span> <span><i class="lg lg-dec"></i>after its decision</span> ` +
-          `<button type="button" class="lg-clear">✕ clear</button>`
-        : `<span><i class="lg lg-dot"></i>deadline</span> <span><i class="lg lg-hollow"></i>estimated</span> <span><i class="lg lg-next"></i>next up</span> <span class="lg-hint">tap one for its reviews and where it could go next</span>`;
+        ? `<span class="lg-follow">${esc(tr("Next for"))} <b>${esc(src.title)} ${String(src.year).slice(-2)}</b></span> <span><i class="lg lg-reb"></i>${esc(tr("during its rebuttal"))}</span> <span><i class="lg lg-dec"></i>${esc(tr("after its decision"))}</span> ` +
+          `<button type="button" class="lg-clear">${esc(tr("✕ clear"))}</button>`
+        : `<span><i class="lg lg-dot"></i>${esc(tr("deadline"))}</span> <span><i class="lg lg-hollow"></i>${esc(tr("estimated"))}</span> <span><i class="lg lg-next"></i>${esc(tr("next up"))}</span> <span class="lg-hint">${esc(tr("tap one for its reviews and where it could go next"))}</span>`;
     }
     if (opts.path) renderPath(path, now);
 
@@ -1248,21 +1541,21 @@
     const card = $("#planSrcCard"), panel = $("#pathPanel");
     if (!path) {
       card.innerHTML = "";
-      panel.innerHTML = `<p class="lane-empty">This conference has no announced decision date yet, so there is no path to plan.</p>`;
+      panel.innerHTML = `<p class="lane-empty">${esc(tr("This conference has no announced decision date yet, so there is no path to plan."))}</p>`;
       return;
     }
     const s = path.src;
     const rel = ms => {
       const d = Math.round((ms - now) / DAY);
-      return d > 0 ? `in ${d}d` : d === 0 ? "today" : `${-d}d ago`;
+      return d > 0 ? tr("in {n}d", { n: d }) : d === 0 ? tr("today") : tr("{n}d ago", { n: -d });
     };
     const tags = c => [gradeTag(c), c.ccf ? `<span class="tag">CCF-${esc(c.ccf)}</span>` : "",
-      c.status !== "confirmed" ? `<span class="tag tag-est">est.</span>` : ""].join("");
+      c.status !== "confirmed" ? `<span class="tag tag-est">${esc(tr("est."))}</span>` : ""].join("");
 
     // the paper's own timeline: submit → reviews → decision
-    const steps = [["Submit", s.ddl, fmtDay(s.deadline)]];
-    if (s.reb) steps.push(["Reviews out", s.reb[0], fmtDay(s.rebuttal[0])]);
-    steps.push(["Decision", s.dec, fmtDay(s.decision)]);
+    const steps = [[tr("Submit"), s.ddl, fmtDay(s.deadline)]];
+    if (s.reb) steps.push([tr("Reviews out"), s.reb[0], fmtDay(s.rebuttal[0])]);
+    steps.push([tr("Decision"), s.dec, fmtDay(s.decision)]);
     card.innerHTML = `<div class="ps-card">
         <div class="ps-id"><b>${esc(s.title)} <span>${esc(s.year)}</span></b><span class="ps-tags">${tags(s)}</span>
           <small>${esc(s.full_name)}</small></div>
@@ -1273,10 +1566,10 @@
     const item = (c, st, i) => {
       const gap = Math.round((c.ddl - st.from) / DAY);
       const same = c.area.some(a => s.area.includes(a));
-      return `<li><button type="button" class="pp-item${i === 0 ? " is-best" : ""}" data-id="${esc(c.id)}" title="Plan the next step from ${esc(c.title)} ${esc(c.year)}">
+      return `<li><button type="button" class="pp-item${i === 0 ? " is-best" : ""}" data-id="${esc(c.id)}" title="${esc(tr("Plan the next step from {c}", { c: `${c.title} ${c.year}` }))}">
         <span class="pp-rank">${i + 1}</span>
-        <span class="pp-main"><b>${esc(c.title)} ${esc(c.year)}</b><span class="pp-tags">${tags(c)}${same ? `<span class="tag tag-same">same field</span>` : ""}</span></span>
-        <span class="pp-when"><b>${fmtShort.format(c.ddl)}</b><small>+${gap}d after ${st.key === "reb" ? "reviews" : "decision"}</small></span>
+        <span class="pp-main"><b>${esc(c.title)} ${esc(c.year)}</b><span class="pp-tags">${tags(c)}${same ? `<span class="tag tag-same">${esc(tr("same field"))}</span>` : ""}</span></span>
+        <span class="pp-when"><b>${fmtShort.format(c.ddl)}</b><small>${esc(tr(st.key === "reb" ? "+{n}d after reviews" : "+{n}d after decision", { n: gap }))}</small></span>
       </button></li>`;
     };
     const lane = st => {
@@ -1284,16 +1577,15 @@
       const list = st.list.slice(0, 6);
       return `<section class="lane lane-${st.key}">
         <header><span class="lane-dot"></span><div>
-          <h3>${reb ? "During the rebuttal" : "After the decision"}</h3>
-          <p>${reb ? `Deadlines ${fmtDay(s.rebuttal[0])} – ${fmtDay(s.decision)}` : `Deadlines from ${fmtDay(s.decision)}, next ~5 months`}</p>
+          <h3>${esc(tr(reb ? "During the rebuttal" : "After the decision"))}</h3>
+          <p>${esc(reb ? tr("Deadlines {a} – {b}", { a: fmtDay(s.rebuttal[0]), b: fmtDay(s.decision) }) : tr("Deadlines from {d}, next ~5 months", { d: fmtDay(s.decision) }))}</p>
         </div><span class="lane-count">${st.list.length}</span></header>
-        ${list.length ? `<ol>${list.map((c, i) => item(c, st, i)).join("")}</ol>` : `<p class="lane-empty">No conference deadline falls in this window.</p>`}
-        ${st.list.length > 6 ? `<p class="lane-more">+${st.list.length - 6} more</p>` : ""}
+        ${list.length ? `<ol>${list.map((c, i) => item(c, st, i)).join("")}</ol>` : `<p class="lane-empty">${esc(tr("No conference deadline falls in this window."))}</p>`}
+        ${st.list.length > 6 ? `<p class="lane-more">${esc(tr("+{n} more", { n: st.list.length - 6 }))}</p>` : ""}
       </section>`;
     };
     panel.innerHTML = `<div class="pp-lanes">${path.stages.map(lane).join("")}</div>
-      <p class="pp-note">Ranked by ${esc((data.tiers && data.tiers.source) || "venue grade")} (A, then B, then unlisted), then same field, with CCF as a tie-break.
-      Click a venue to plan the next step from there. Check each venue's dual-submission and withdrawal rules before moving a paper.</p>`;
+      <p class="pp-note">${esc(tr("Ranked by {src} (A, then B, then unlisted), then same field, with CCF as a tie-break. Click a venue to plan the next step from there. Check each venue's dual-submission and withdrawal rules before moving a paper.", { src: (data.tiers && data.tiers.source) || tr("venue grade") }))}</p>`;
   }
 
 
@@ -1440,7 +1732,7 @@
       qr.addData(link);
       qr.make();
       $("#syncQr").innerHTML = qr.createSvgTag(4, 0);
-    } catch { $("#syncQr").textContent = "QR code unavailable: copy the link instead."; }
+    } catch { $("#syncQr").textContent = tr("QR code unavailable: copy the link instead."); }
   }
   function closeSync() {
     if ($("#sync").hidden) return;
@@ -1453,7 +1745,7 @@
     if (!m) return;
     history.replaceState(null, "", location.pathname + location.search);
     if (!calWorker() || m[1] === calId(false)) return;
-    if (!window.confirm("Sync your ★ conferences with the other device? Stars on this device are kept and merged in.")) return;
+    if (!window.confirm(tr("Sync your ★ conferences with the other device? Stars on this device are kept and merged in."))) return;
     store.set("calId", m[1]);
     store.set("calSynced", "");
     pullStars();
@@ -1465,7 +1757,7 @@
       <span class="feed-acts">
         <a class="link" href="https://calendar.google.com/calendar/render?cid=${encodeURIComponent(webcal)}" target="_blank" rel="noopener">Google</a>
         <a class="link" href="${esc(webcal)}">Apple / Outlook</a>
-        <button type="button" class="link feed-copy" data-url="${esc(https)}">Copy link</button>
+        <button type="button" class="link feed-copy" data-url="${esc(https)}">${esc(tr("Copy link"))}</button>
       </span></li>`;
   }
   function openFeeds() {
@@ -1473,24 +1765,21 @@
     if (calWorker()) { calId(true); pullStars(); }
     const count = pred => confs.filter(pred).length;
     $("#feedsBody").innerHTML =
-      `<h3 class="feeds-h">Everything</h3><ul class="feeds-list">${feedRow("All conferences", "all.ics", `${confs.length} entries · deadlines, rebuttals and decisions`)}</ul>` +
-      `<h3 class="feeds-h">My conferences</h3>` +
+      `<h3 class="feeds-h">${esc(tr("Everything"))}</h3><ul class="feeds-list">${feedRow(tr("All conferences"), "all.ics", tr("{n} entries · deadlines, rebuttals and decisions", { n: confs.length }))}</ul>` +
+      `<h3 class="feeds-h">${esc(tr("My conferences"))}</h3>` +
       (calWorker()
-        ? `<ul class="feeds-list">${feedRow("All my conferences in one", "", starred.length ? starred.join(", ") : "nothing starred yet", mineFeed())}</ul>
-          <p class="feeds-empty">One subscription that follows your stars: star or unstar a conference here and the calendar changes with it
-            on its next refresh, no need to subscribe again. Subscribe once in Google or iCloud and it shows on your phone and computer;
-            to keep the same stars on the site too, use “⇄ Sync with another device” under My conferences.</p>`
+        ? `<ul class="feeds-list">${feedRow(tr("All my conferences in one"), "", starred.length ? starred.join(", ") : tr("nothing starred yet"), mineFeed())}</ul>
+          <p class="feeds-empty">${esc(tr("One subscription that follows your stars: star or unstar a conference here and the calendar changes with it on its next refresh, no need to subscribe again. Subscribe once in Google or iCloud and it shows on your phone and computer; to keep the same stars on the site too, use “⇄ Sync with another device” under My conferences."))}</p>`
         : starred.length
-        ? `<ul class="feeds-list"><li class="feed"><span class="feed-name"><b>All my conferences in one</b><small>${esc(starred.join(", "))}</small></span>
-            <span class="feed-acts"><button type="button" class="link feed-mine">Download .ics</button></span></li></ul>
-          <p class="feeds-empty">One file with every starred series. It is a snapshot: import it again after you star more, or to pick up
-            changed dates (the events keep their IDs, so they update instead of doubling). To have changes arrive by themselves, subscribe series by series:</p>
-          <details class="feeds-each"><summary>Subscribe series by series (${starred.length})</summary>
-            <ul class="feeds-list">${starred.map(s => feedRow(s, `series/${feedSlug(s)}.ics`, "every edition, including future years")).join("")}</ul></details>`
-        : `<p class="feeds-empty">Star a conference (☆ next to its name) to get a calendar for just your conferences here.</p>`) +
-      `<h3 class="feeds-h">By field</h3><ul class="feeds-list">${Object.entries(data.areas || {})
+        ? `<ul class="feeds-list"><li class="feed"><span class="feed-name"><b>${esc(tr("All my conferences in one"))}</b><small>${esc(starred.join(", "))}</small></span>
+            <span class="feed-acts"><button type="button" class="link feed-mine">${esc(tr("Download .ics"))}</button></span></li></ul>
+          <p class="feeds-empty">${esc(tr("One file with every starred series. It is a snapshot: import it again after you star more, or to pick up changed dates (the events keep their IDs, so they update instead of doubling). To have changes arrive by themselves, subscribe series by series:"))}</p>
+          <details class="feeds-each"><summary>${esc(tr("Subscribe series by series ({n})", { n: starred.length }))}</summary>
+            <ul class="feeds-list">${starred.map(s => feedRow(s, `series/${feedSlug(s)}.ics`, tr("every edition, including future years"))).join("")}</ul></details>`
+        : `<p class="feeds-empty">${esc(tr("Star a conference (☆ next to its name) to get a calendar for just your conferences here."))}</p>`) +
+      `<h3 class="feeds-h">${esc(tr("By field"))}</h3><ul class="feeds-list">${Object.entries(data.areas || {})
         .filter(([a]) => count(c => c.area.includes(a)))
-        .map(([a, label]) => feedRow(label, `area/${feedSlug(a)}.ics`, `${count(c => c.area.includes(a))} entries`)).join("")}</ul>`;
+        .map(([a, label]) => feedRow(tr(label), `area/${feedSlug(a)}.ics`, tr("{n} entries", { n: count(c => c.area.includes(a)) }))).join("")}</ul>`;
     const box = $("#feeds"), wasHidden = box.hidden;
     box.hidden = false;
     document.documentElement.classList.add("planner-open");
@@ -1500,7 +1789,7 @@
   async function downloadMine(btn) {
     const starred = [...state.starred].sort();
     const label = btn.textContent;
-    btn.textContent = "Preparing…";
+    btn.textContent = tr("Preparing…");
     try {
       const texts = await Promise.all(starred.map(s => fetch(feedUrl(`series/${feedSlug(s)}.ics`)).then(r => (r.ok ? r.text() : ""))));
       const parts = texts.filter(t => t.includes("BEGIN:VEVENT"));
@@ -1510,10 +1799,10 @@
         .replace(/X-WR-CALDESC:[^\r\n]*(\r\n [^\r\n]*)*/, `X-WR-CALDESC:${starred.join("\\, ")} from Conf DDL`);
       const events = parts.map(t => t.slice(t.indexOf("BEGIN:VEVENT"), t.lastIndexOf("END:VCALENDAR"))).join("");
       saveIcs("my-conferences.ics", head + events + "END:VCALENDAR\r\n");
-      btn.textContent = "Downloaded ✓";
+      btn.textContent = tr("Downloaded ✓");
     } catch (err) {
       console.error(err);
-      btn.textContent = "Couldn't build it, try again";
+      btn.textContent = tr("Couldn't build it, try again");
     }
     setTimeout(() => { btn.textContent = label; }, 2200);
   }
@@ -1538,18 +1827,18 @@
     $("#railSel").textContent = state.starred.size ? [...state.starred].sort().join(" · ") : "";
     $("#railCount").textContent = state.starred.size || "";
     if (!picked.length) {
-      $("#rail").innerHTML = `<p class="rail-empty">Follow a conference to see all its dates here, every year. Tap <b>☆</b> on any row, or start with one of these:</p><div class="quick-stars">${quickStars()}</div>`;
+      $("#rail").innerHTML = `<p class="rail-empty">${tr("Follow a conference to see all its dates here, every year. Tap <b>☆</b> on any row, or start with one of these:")}</p><div class="quick-stars">${quickStars()}</div>`;
       railItems = [];
       return;
     }
     // every upcoming date of the followed conferences in one list, soonest first:
     // abstract / submission deadlines, rebuttal opens / closes, decision
     const events = picked.flatMap(c => [
-      c.abs && { c, at: c.abs, kind: "ddl", what: "Abstract" },
-      { c, at: c.ddl, kind: "ddl", what: "Submission" },
-      c.reb && { c, at: c.reb[0], kind: "reb", what: "Rebuttal opens", day: fmtDay(c.rebuttal[0]) },
-      c.reb && { c, at: c.reb[1], kind: "reb", what: "Rebuttal closes", day: fmtDay(c.rebuttal[1]) },
-      c.dec && { c, at: c.dec, kind: "dec", what: "Decision", day: fmtDay(c.decision) },
+      c.abs && { c, at: c.abs, kind: "ddl", what: tr("Abstract") },
+      { c, at: c.ddl, kind: "ddl", what: tr("Submission") },
+      c.reb && { c, at: c.reb[0], kind: "reb", what: tr("Rebuttal opens"), day: fmtDay(c.rebuttal[0]) },
+      c.reb && { c, at: c.reb[1], kind: "reb", what: tr("Rebuttal closes"), day: fmtDay(c.rebuttal[1]) },
+      c.dec && { c, at: c.dec, kind: "dec", what: tr("Decision"), day: fmtDay(c.decision) },
     ]).filter(e => e && e.at > now).sort((a, b) => a.at - b.at);
     // decided editions: only the latest one per series, so the list stays short
     const done = picked.filter(c => c.group === "done" && !picked.some(o => o !== c && seriesOf(o) === seriesOf(c) && o.ddl > c.ddl));
@@ -1557,9 +1846,9 @@
         <span class="r-name">${esc(c.title)} ${esc(c.year)}</span><span class="r-left"></span>
         <span class="r-sub">${sub}</span></button></li>`;
     $("#rail").innerHTML =
-      (events.length ? `<div class="rail-group">Upcoming · ${events.length}</div><ul class="rail-list">${events.map(e =>
+      (events.length ? `<div class="rail-group">${esc(tr("Upcoming"))} · ${events.length}</div><ul class="rail-list">${events.map(e =>
         item(e.c, `<i class="r-kind">${esc(e.what)}</i> ${esc(e.day || fmtShort.format(e.at))}`, e.kind, e.at)).join("")}</ul>` : "") +
-      (done.length ? `<div class="rail-group">Decided · ${done.length}</div><ul class="rail-list">${done.map(c => item(c, esc(c.dec ? "decided " + fmtDay(c.decision) : "closed"))).join("")}</ul>` : "");
+      (done.length ? `<div class="rail-group">${esc(tr("Decided"))} · ${done.length}</div><ul class="rail-list">${done.map(c => item(c, esc(c.dec ? tr("decided {d}", { d: fmtDay(c.decision) }) : tr("closed")))).join("")}</ul>` : "");
     railItems = $$(".rail-item", $("#rail")).map(el => ({ el, c: confs.find(x => x.id === el.dataset.id), at: +el.dataset.at || 0 }));
     tickRail(now);
   }
@@ -1585,7 +1874,7 @@
     confs.forEach(c => c.area.forEach(a => { counts[a] = (counts[a] || 0) + 1; }));
     const order = Object.keys(data.areas).filter(a => counts[a]);
     $("#chips").innerHTML =
-      `<button type="button" class="chip${state.areas.size ? "" : " is-on"}" data-area="">All</button>` +
+      `<button type="button" class="chip${state.areas.size ? "" : " is-on"}" data-area="">${esc(tr("All"))}</button>` +
       order.map(a => `<button type="button" class="chip${state.areas.has(a) ? " is-on" : ""}" data-area="${esc(a)}" title="${esc(data.areas[a])}"><i class="ck" aria-hidden="true">✓</i>${esc(a)}<b>${counts[a]}</b></button>`).join("");
   }
 
@@ -1695,7 +1984,7 @@
   // what the link counts down to now, as the big clock will show it: the deadline, else the rebuttal, else the decision
   const shareText = c => {
     const now = Date.now(), name = `${c.title} ${c.year}`;
-    if (c.ddl > now) return `${name} deadline: ${fmtTime(c.ddl)}`;
+    if (c.ddl > now) return tr("{c} deadline: {t}", { c: name, t: fmtTime(c.ddl) });
     const ev = eventOf(c, "rebuttal", now) || eventOf(c, "decision", now);
     return ev ? `${name}: ${ev.when}` : `${name}${c.full_name ? " · " + c.full_name : ""}`;
   };
@@ -1704,12 +1993,12 @@
     const url = shareUrl(c);
     // phones get the system share sheet; elsewhere the link is copied
     if (navigator.share && matchMedia("(pointer: coarse)").matches) {
-      try { await navigator.share({ title: `${c.title} ${c.year} countdown`, text: shareText(c), url }); return; }
+      try { await navigator.share({ title: tr("{c} countdown", { c: `${c.title} ${c.year}` }), text: shareText(c), url }); return; }
       catch (e) { if (e.name === "AbortError") return; }
     }
-    if (!(await copyText(url))) { window.prompt("Copy this link", url); return; }
+    if (!(await copyText(url))) { window.prompt(tr("Copy this link"), url); return; }
     btn.dataset.label ??= btn.innerHTML;
-    btn.textContent = "Link copied ✓";
+    btn.textContent = tr("Link copied ✓");
     clearTimeout(btn.copiedTimer);
     btn.copiedTimer = setTimeout(() => { btn.innerHTML = btn.dataset.label; }, 1800);
   }
@@ -2176,8 +2465,8 @@
         const show = () => {
           const on = !!cur();
           fsBtn.setAttribute("aria-pressed", on);
-          fsBtn.title = on ? "Exit full screen (F or Esc)" : "Full screen (F)";
-          fsBtn.setAttribute("aria-label", on ? "Exit full screen" : "Full screen");
+          fsBtn.title = tr(on ? "Exit full screen (F or Esc)" : "Full screen (F)");
+          fsBtn.setAttribute("aria-label", tr(on ? "Exit full screen" : "Full screen"));
           el.classList.toggle("is-fs", on);
         };
         fsBtn.addEventListener("click", toggle);
@@ -2193,7 +2482,7 @@
         // iPhone Safari: no element full screen, but a home screen app opens without the browser bars
         const tip = $("#a2hs");
         fsBtn.hidden = false;
-        fsBtn.title = "Full screen: add to the home screen";
+        fsBtn.title = tr("Full screen: add to the home screen");
         fsBtn.setAttribute("aria-label", fsBtn.title);
         fsBtn.setAttribute("aria-expanded", "false");
         const show = on => { tip.hidden = !on; fsBtn.setAttribute("aria-expanded", on); };
@@ -2213,7 +2502,7 @@
       if (root.dataset.theme !== theme) root.dataset.theme = theme;
       themeMeta.content = theme === "light" ? "#f5f4ef" : "#12151c";
       themeBtn.dataset.mode = themeMode;
-      themeBtn.title = `Theme: ${THEME_NAMES[themeMode]} · click to switch`;
+      themeBtn.title = tr("Theme: {m} · click to switch", { m: tr(THEME_NAMES[themeMode]) });
       themeBtn.setAttribute("aria-label", themeBtn.title);
     };
     applyTheme();
@@ -2386,7 +2675,7 @@
     const fold = on => {
       $("#pgNow").classList.toggle("tl-folded", on);
       $("#tlFold").setAttribute("aria-expanded", String(!on));
-      $("#tlFold").title = on ? "Show the timeline" : "Fold the timeline away";
+      $("#tlFold").title = tr(on ? "Show the timeline" : "Fold the timeline away");
       $("#pnTl").setAttribute("aria-pressed", String(!on));
     };
     fold(store.get("tlFold", !matchMedia("(min-width: 1101px)").matches)); // until the reader chooses: shown on wide screens, folded on smaller ones
@@ -2438,10 +2727,10 @@
       const copy = e.target.closest("#syncCopy");
       if (copy) {
         if (!(await copyText($("#syncLink").value))) { $("#syncLink").select(); return; }
-        copy.textContent = "Copied ✓";
-        setTimeout(() => { copy.textContent = "Copy link"; }, 1800);
+        copy.textContent = tr("Copied ✓");
+        setTimeout(() => { copy.textContent = tr("Copy link"); }, 1800);
       }
-      if (e.target.closest("#syncStop") && window.confirm("Stop syncing this device? Its stars stay as they are, and its calendar link changes.")) {
+      if (e.target.closest("#syncStop") && window.confirm(tr("Stop syncing this device? Its stars stay as they are, and its calendar link changes."))) {
         store.set("calId", "");
         store.set("calSynced", "");
         closeSync();
@@ -2453,9 +2742,9 @@
       if (e.target.closest(".feed-mine")) return downloadMine(e.target.closest(".feed-mine"));
       const btn = e.target.closest(".feed-copy");
       if (!btn) return;
-      if (!(await copyText(btn.dataset.url))) { window.prompt("Copy this link", btn.dataset.url); return; }
-      btn.textContent = "Copied ✓";
-      setTimeout(() => { btn.textContent = "Copy link"; }, 1800);
+      if (!(await copyText(btn.dataset.url))) { window.prompt(tr("Copy this link"), btn.dataset.url); return; }
+      btn.textContent = tr("Copied ✓");
+      setTimeout(() => { btn.textContent = tr("Copy link"); }, 1800);
     });
 
     // rows fold open to show the details
@@ -2681,6 +2970,28 @@
     window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
   }
 
+  // static text in index.html (and its templates): text nodes and title / aria-label / placeholder, matched whole
+  function translateDom(root) {
+    const tw = document.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
+    for (let n = tw.currentNode; n; n = tw.nextNode()) {
+      if (n.nodeType === 3) {
+        const raw = n.textContent, key = raw.replace(/\s+/g, " ").trim();
+        if (key && ZH[key]) n.textContent = raw.replace(/\S[\s\S]*\S|\S/, ZH[key]);
+      } else if (n.nodeType === 1) {
+        for (const a of ["title", "aria-label", "placeholder"]) {
+          const v = n.getAttribute(a);
+          if (v && ZH[v.replace(/\s+/g, " ").trim()]) n.setAttribute(a, ZH[v.replace(/\s+/g, " ").trim()]);
+        }
+        if (n.tagName === "TEMPLATE") translateDom(n.content);
+      }
+    }
+  }
+  if (LANG === "zh") {
+    document.documentElement.lang = "zh-Hant";
+    try { translateDom(document.body); } catch (err) { console.error(err); } // never let a translation stop the page
+    document.title = "會議截止倒數";
+  }
+
   async function init() {
     initPager();
     bind();
@@ -2696,7 +3007,7 @@
       document.documentElement.classList.remove("pre-fit");
       return;
     }
-    if (data.updated) $("#updated").textContent = "updated " + data.updated;
+    if (data.updated) $("#updated").textContent = tr("updated {d}", { d: data.updated });
     build();
     noticeChanges();
     noticeOffline();

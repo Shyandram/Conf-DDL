@@ -1865,3 +1865,7 @@ body:has(#pgNow.m-v) .pager-nav .pn-tl, body:has(#pgNow.m-cols) .pager-nav .pn-t
 .keys dd { margin: 0; color: var(--ink-2); }
 kbd { display: inline-block; min-width: 26px; padding: 2px 7px; border: 1px solid var(--line-2); border-bottom-width: 2px; border-radius: 6px; font: 500 13px var(--mono); text-align: center; color: var(--ink); background: var(--card); }
 @media (hover: none) { .help-keys { display: none; } }
+
+/* Chinese: the words drawn by CSS */
+html:lang(zh-Hant) .tl-today::after, html:lang(zh-Hant) .tlx-today::after { content: "今天"; letter-spacing: 0; }
+html:lang(zh-Hant) .rail-item.is-est .r-name::after { content: " 預估"; }
