@@ -1787,7 +1787,7 @@
     // the bottom bar folds away after the mouse has rested for a while (mouse devices only; touch keeps it shown).
     // It stays while the pointer or the keyboard focus is on it, or while the My conferences drawer is open.
     {
-      const mouse = matchMedia("(hover: hover) and (pointer: fine)"), body = document.body, IDLE_MS = 3000;
+      const mouse = matchMedia("(hover: hover) and (pointer: fine)"), body = document.body, IDLE_MS = 30000;
       let t = 0, over = false;
       const busy = () => over || nav.contains(document.activeElement) || $("#pnMine").getAttribute("aria-expanded") === "true";
       const wake = () => {
