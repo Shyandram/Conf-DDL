@@ -573,6 +573,36 @@
       "note": "Projected from ICRA 2027 (deadline Sep 15, same weekday a year later). Call not yet published. Venue and dates official (IEEE RAS venue list)."
     },
     {
+      "id": "rss27",
+      "title": "RSS",
+      "year": 2027,
+      "full_name": "Robotics: Science and Systems",
+      "area": [
+        "RO"
+      ],
+      "ccf": "",
+      "link": "https://roboticsconference.org/information/cfp/",
+      "deadline": "2026-12-04 23:59",
+      "timezone": "AoE",
+      "date": "Jul 6 – 11, 2027",
+      "place": "Athens, Greece",
+      "status": "confirmed",
+      "rebuttal": [
+        "2027-02-05",
+        "2027-02-12 23:59"
+      ],
+      "decision": "2027-04-30",
+      "note": "New two-stage cycle: the Dec 4 deadline is a 6-page extended abstract. Stage 1 decision (reject or invite to rebuttal) Feb 5; rebuttal due Feb 12; Extension Charter Feb 26; final 8-page paper Apr 16, supplementary Apr 19; acceptance Apr 30; camera-ready May 14. Venue: Megaron Athens International Conference Centre.",
+      "paper": {
+        "system": "OpenReview",
+        "submit": "https://openreview.net/group?id=roboticsfoundation.org/RSS/2027/Conference",
+        "pages": "Stage 1: 5 + 1 refs; final: 8 + refs",
+        "review": "double-blind",
+        "edition": 2027,
+        "source": "https://roboticsconference.org/information/cfp/"
+      }
+    },
+    {
       "id": "wacv27r2",
       "title": "WACV",
       "year": 2027,
