@@ -754,7 +754,25 @@
   "Edmonton": {
     "lat": 53.5501,
     "lon": -113.4687,
-    "tz": "America/Edmonton"
+    "tz": "America/Edmonton",
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1774409529405-ba9917189018?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8RWRtb250b24lMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5Mzk1NjM0Mnww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#260c0c",
+        "alt": "Cityscape at night with colorful lights and buildings",
+        "photographer": "Earl McKenzie",
+        "photographer_url": "https://unsplash.com/@emack1?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/cityscape-at-night-with-colorful-lights-and-buildings-19yFRufktTQ?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1773806849657-c1230207a54e?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8RWRtb250b24lMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5Mzk1NjM0Mnww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#260c0c",
+        "alt": "A street decorated with lights at night",
+        "photographer": "Earl McKenzie",
+        "photographer_url": "https://unsplash.com/@emack1?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/a-street-decorated-with-lights-at-night-1KRCw1ilqBc?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Eindhoven": {
     "photos": [
@@ -2195,7 +2213,25 @@
   "San Antonio": {
     "lat": 29.4241,
     "lon": -98.4936,
-    "tz": "America/Chicago"
+    "tz": "America/Chicago",
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1603328238195-dfecbfe3c82c?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MXx8U2FuJTIwQW50b25pbyUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzOTU2MzQ0fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#26260c",
+        "alt": "people walking on sidewalk near river during night time",
+        "photographer": "Mick Haupt",
+        "photographer_url": "https://unsplash.com/@rocinante_11?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/people-walking-on-sidewalk-near-river-during-night-time-CcZSfCSlrXk?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1781921131521-bacae4c2e7d5?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8U2FuJTIwQW50b25pbyUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzkzOTU2MzQ0fDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#59738c",
+        "alt": "San antonio street sign, traffic lights, and city buildings",
+        "photographer": "Fujiphilm",
+        "photographer_url": "https://unsplash.com/@fujiphilm?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/san-antonio-street-sign-traffic-lights-and-city-buildings-cClcap555dg?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "San Diego": {
     "photos": [
