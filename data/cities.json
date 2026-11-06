@@ -751,6 +751,11 @@
     "scene_prompt_used": "Dublin along the River Liffey: the white Ha'penny Bridge arching over the river, colourful Georgian buildings and pubs along the quays, a low skyline of spires",
     "depth": "assets/scenes/dublin/depth.webp?v=b5b4b7b6"
   },
+  "Edmonton": {
+    "lat": 53.5501,
+    "lon": -113.4687,
+    "tz": "America/Edmonton"
+  },
   "Eindhoven": {
     "photos": [
       {
@@ -2187,6 +2192,11 @@
     "scene_prompt_used": "Rome from the Pincian terrace: Piazza del Popolo's obelisk below, terracotta roofs and domes, St. Peter's Basilica's great dome on the horizon",
     "depth": "assets/scenes/rome/depth.webp?v=c10fe220"
   },
+  "San Antonio": {
+    "lat": 29.4241,
+    "lon": -98.4936,
+    "tz": "America/Chicago"
+  },
   "San Diego": {
     "photos": [
       {
@@ -3134,5 +3144,10 @@
     "scene_model": "gpt-image-2",
     "scene_prompt_used": "Xiamen's Gulangyu island from the Sunlight Rock: colonial villas among banyan trees and red roofs, the strait with ferries, and Xiamen's modern skyline across the water",
     "depth": "assets/scenes/xiamen/depth.webp?v=62d2b851"
+  },
+  "Zaragoza": {
+    "lat": 41.6561,
+    "lon": -0.8773,
+    "tz": "Europe/Madrid"
   }
 }

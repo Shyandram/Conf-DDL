@@ -554,6 +554,25 @@
       "note": "No rebuttal. Journal transfer deadline Dec 31, 2026."
     },
     {
+      "id": "icra28",
+      "title": "ICRA",
+      "year": 2028,
+      "full_name": "IEEE International Conference on Robotics and Automation",
+      "area": [
+        "RO"
+      ],
+      "ccf": "B",
+      "link": "https://www.ieee-ras.org/conferences-workshops/fully-sponsored/icra/icra-venues-and-archive",
+      "deadline": "2027-09-14 23:59",
+      "timezone": "UTC-7",
+      "date": "May 15 – 19, 2028",
+      "place": "Rio de Janeiro, Brazil",
+      "status": "estimated",
+      "rebuttal": false,
+      "decision": "2028-01-30",
+      "note": "Projected from ICRA 2027 (deadline Sep 15, same weekday a year later). Call not yet published. Venue and dates official (IEEE RAS venue list)."
+    },
+    {
       "id": "wacv27r2",
       "title": "WACV",
       "year": 2027,
@@ -589,6 +608,24 @@
       "status": "confirmed",
       "decision": "2026-12-02",
       "note": "Supplementary was due Sep 2, 2026."
+    },
+    {
+      "id": "3dv28",
+      "title": "3DV",
+      "year": 2028,
+      "full_name": "International Conference on 3D Vision",
+      "area": [
+        "CV"
+      ],
+      "ccf": "",
+      "link": "https://3dvconf.github.io/",
+      "deadline": "2027-08-27 23:59",
+      "timezone": "AoE",
+      "date": "2028",
+      "place": "TBA",
+      "status": "estimated",
+      "decision": "2027-12-01",
+      "note": "Projected from 3DV 2027 (deadline Aug 28, same weekday a year later). Call not yet published. Venue not announced."
     },
     {
       "id": "aaai27",
@@ -723,6 +760,29 @@
       "note": "Reviews + AI review released Nov 16; author–reviewer discussion (the rebuttal) Nov 23 – Dec 3; camera-ready TBA."
     },
     {
+      "id": "aistats28",
+      "title": "AISTATS",
+      "year": 2028,
+      "full_name": "International Conference on Artificial Intelligence and Statistics",
+      "area": [
+        "ML"
+      ],
+      "ccf": "C",
+      "link": "https://aistats.org/",
+      "abstract_deadline": "2027-09-28 23:59",
+      "deadline": "2027-10-05 23:59",
+      "timezone": "AoE",
+      "date": "May 2028",
+      "place": "TBA",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-11-22",
+        "2027-12-02"
+      ],
+      "decision": "2028-01-19",
+      "note": "Projected from AISTATS 2027 (deadline Oct 6, abstract Sep 29, same weekday a year later). Call not yet published. Venue not announced."
+    },
+    {
       "id": "eacl27",
       "title": "EACL",
       "year": 2027,
@@ -768,6 +828,29 @@
       "note": "Research track via OpenReview; results released Dec 15; final version Jan 31, 2027; max 7 submissions per author."
     },
     {
+      "id": "www28",
+      "title": "WWW",
+      "year": 2028,
+      "full_name": "The ACM Web Conference",
+      "area": [
+        "DM"
+      ],
+      "ccf": "A",
+      "link": "https://www.sigweb.org/",
+      "abstract_deadline": "2027-10-17 23:59",
+      "deadline": "2027-10-24 23:59",
+      "timezone": "AoE",
+      "date": "2028",
+      "place": "Edmonton, Canada",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-12-14",
+        "2027-12-19"
+      ],
+      "decision": "2028-01-03",
+      "note": "Projected from WWW 2027 (deadline Oct 25, abstract Oct 18, same weekday a year later). Call not yet published. Host city Edmonton announced by ACM SIGWEB."
+    },
+    {
       "id": "aamas27",
       "title": "AAMAS",
       "year": 2027,
@@ -791,6 +874,29 @@
       "note": "OpenReview author registration Sep 17; camera-ready Jan 25, 2027; non-selected papers go to Findings of AAMAS unless opted out."
     },
     {
+      "id": "aamas28",
+      "title": "AAMAS",
+      "year": 2028,
+      "full_name": "International Conference on Autonomous Agents and Multiagent Systems",
+      "area": [
+        "AI"
+      ],
+      "ccf": "B",
+      "link": "https://www.ifaamas.org/",
+      "abstract_deadline": "2027-09-30 23:59",
+      "deadline": "2027-10-07 23:59",
+      "timezone": "AoE",
+      "date": "May 2028",
+      "place": "TBA",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-11-19",
+        "2027-11-23 23:59"
+      ],
+      "decision": "2027-12-20",
+      "note": "Projected from AAMAS 2027 (deadline Oct 8, abstract Oct 1, same weekday a year later). Call not yet published. Venue not announced (the bid call preferred the Americas)."
+    },
+    {
       "id": "isbi27",
       "title": "ISBI",
       "year": 2027,
@@ -807,6 +913,24 @@
       "status": "confirmed",
       "decision": "2027-01-12",
       "note": "Four-page papers; final submission Jan 26, 2027; one-page abstracts due Feb 1, 2027. Trackers still show the old Oct 26 date. Deadline is 11:59 pm US Eastern (EST)."
+    },
+    {
+      "id": "isbi28",
+      "title": "ISBI",
+      "year": 2028,
+      "full_name": "IEEE International Symposium on Biomedical Imaging",
+      "area": [
+        "MED"
+      ],
+      "ccf": "C",
+      "link": "https://signalprocessingsociety.org/tags/isbi",
+      "deadline": "2027-11-01 23:59",
+      "timezone": "UTC-5",
+      "date": "Apr 5 – 8, 2028",
+      "place": "Rome, Italy",
+      "status": "estimated",
+      "decision": "2028-01-11",
+      "note": "Projected from ISBI 2027 (deadline Nov 2, same weekday a year later). Call not yet published. Venue and dates from IEEE SPS listing; ISBI 2028 is about seven weeks earlier than 2027, so the deadline may move earlier too."
     },
     {
       "id": "eg27",
@@ -830,6 +954,29 @@
       ],
       "decision": "2027-02-09",
       "note": "Deadline extended to Oct 2, 00:59 AoE after SRM issues; conditional accept/reject Dec 18; revision due Jan 26; camera-ready Feb 23."
+    },
+    {
+      "id": "eg28",
+      "title": "Eurographics",
+      "year": 2028,
+      "full_name": "Annual Conference of the European Association for Computer Graphics",
+      "area": [
+        "CG"
+      ],
+      "ccf": "B",
+      "link": "https://www.eg.org/wp/eurographics-annual-conference/",
+      "abstract_deadline": "2027-09-24 23:59",
+      "deadline": "2027-09-30 23:59",
+      "timezone": "UTC",
+      "date": "2028",
+      "place": "Zaragoza, Spain",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-11-22",
+        "2027-11-29 23:59"
+      ],
+      "decision": "2028-02-08",
+      "note": "Projected from Eurographics 2027 (deadline Oct 1, abstract Sep 25, same weekday a year later). Call not yet published. Host city Zaragoza listed by the Eurographics Association."
     },
     {
       "id": "kdd27r1",
@@ -908,6 +1055,28 @@
       "note": "No abstract deadline; reviews Nov 5, revise-and-resubmit until Dec 3; publication-ready Feb 18, 2027."
     },
     {
+      "id": "chi28",
+      "title": "CHI",
+      "year": 2028,
+      "full_name": "ACM CHI Conference on Human Factors in Computing Systems",
+      "area": [
+        "HCI"
+      ],
+      "ccf": "A",
+      "link": "https://chi.acm.org/",
+      "deadline": "2027-09-09 23:59",
+      "timezone": "AoE",
+      "date": "2028",
+      "place": "TBA",
+      "status": "estimated",
+      "rebuttal": [
+        "2027-11-04",
+        "2027-12-02 23:59"
+      ],
+      "decision": "2027-12-16",
+      "note": "Projected from CHI 2027 (deadline Sep 10, same weekday a year later). Call not yet published. Venue not announced."
+    },
+    {
       "id": "accv26",
       "title": "ACCV",
       "year": 2026,
@@ -929,6 +1098,29 @@
       ],
       "decision": "2026-09-20",
       "note": "Registration Jul 3; supplementary Jul 8; camera-ready Oct 4. Deadlines are 23:59 GMT."
+    },
+    {
+      "id": "accv28",
+      "title": "ACCV",
+      "year": 2028,
+      "full_name": "Asian Conference on Computer Vision",
+      "area": [
+        "CV"
+      ],
+      "ccf": "C",
+      "link": "https://accv2026.org/",
+      "abstract_deadline": "2028-06-30 23:59",
+      "deadline": "2028-07-02 23:59",
+      "timezone": "UTC",
+      "date": "Dec 2028",
+      "place": "TBA",
+      "status": "estimated",
+      "rebuttal": [
+        "2028-08-23",
+        "2028-08-30"
+      ],
+      "decision": "2028-09-17",
+      "note": "Projected from ACCV 2026 (deadline Jul 5, abstract Jul 3, same weekday two years later). Call not yet published. Biennial; host for 2028 not announced."
     },
     {
       "id": "icme27",
@@ -1442,6 +1634,26 @@
       "note": "Deadline for proposing a workshop. Each workshop sets its own paper deadline; archival workshop papers need author metadata by Mar 29 and camera-ready by Apr 23, 2027 (AoE). Workshop websites due January 2027."
     },
     {
+      "id": "cvpr28w",
+      "title": "CVPR Workshops",
+      "year": 2028,
+      "kind": "workshop",
+      "full_name": "CVPR 2028 workshop proposals",
+      "area": [
+        "CV"
+      ],
+      "ccf": "",
+      "link": "https://tc.computer.org/tcpami/conferences/",
+      "deadline": "2027-11-03 23:59",
+      "timezone": "AoE",
+      "date": "Jun 2028",
+      "place": "San Antonio, USA",
+      "status": "estimated",
+      "rebuttal": false,
+      "decision": "2027-12-21",
+      "note": "Projected from CVPR Workshops 2027 (deadline Nov 4, same weekday a year later). Call not yet published. CVPR 2028 host San Antonio per IEEE TC PAMI."
+    },
+    {
       "id": "eccv26w",
       "title": "ECCV Workshops",
       "year": 2026,
@@ -1460,6 +1672,26 @@
       "rebuttal": false,
       "decision": "2026-04-12",
       "note": "Deadline for proposing a workshop or tutorial. Individual workshops set their own paper deadlines. Workshops ran Sep 8–9, before the main conference (Sep 10–13)."
+    },
+    {
+      "id": "eccv28w",
+      "title": "ECCV Workshops",
+      "year": 2028,
+      "kind": "workshop",
+      "full_name": "ECCV 2028 workshop and tutorial proposals",
+      "area": [
+        "CV"
+      ],
+      "ccf": "",
+      "link": "https://www.ecva.net/",
+      "deadline": "2028-02-13 23:59",
+      "timezone": "AoE",
+      "date": "Sep 2028",
+      "place": "Europe (TBA)",
+      "status": "estimated",
+      "rebuttal": false,
+      "decision": "2028-04-09",
+      "note": "Projected from ECCV Workshops 2026 (deadline Feb 15, same weekday two years later). Call not yet published. ECCV is biennial; city not announced."
     },
     {
       "id": "iccv27w",
@@ -1500,6 +1732,26 @@
       "rebuttal": false,
       "decision": "2026-07-11",
       "note": "Workshops in Sydney (Dec 11–12), Paris and Atlanta (Dec 12–13). Suggested workshop paper deadline Aug 29; mandatory accept/reject notification Sep 29, 2026 (AoE)."
+    },
+    {
+      "id": "neurips27w",
+      "title": "NeurIPS Workshops",
+      "year": 2027,
+      "kind": "workshop",
+      "full_name": "NeurIPS 2027 workshop proposals",
+      "area": [
+        "ML"
+      ],
+      "ccf": "",
+      "link": "https://neurips.cc/",
+      "deadline": "2027-06-05 23:59",
+      "timezone": "AoE",
+      "date": "Dec 2027",
+      "place": "Europe (TBA)",
+      "status": "estimated",
+      "rebuttal": false,
+      "decision": "2027-07-10",
+      "note": "Projected from NeurIPS Workshops 2026 (deadline Jun 6, same weekday a year later). Call not yet published. NeurIPS 2027 is in Europe; city not announced."
     },
     {
       "id": "ntire27",
@@ -1844,6 +2096,25 @@
       "status": "confirmed",
       "decision": "2026-12-20",
       "note": "Extended from abstract Oct 9 / paper Oct 16. Single review round (FG 2026 had two). Camera-ready Jan 26, 2027."
+    },
+    {
+      "id": "fg28",
+      "title": "FG",
+      "year": 2028,
+      "full_name": "IEEE International Conference on Automatic Face and Gesture Recognition",
+      "area": [
+        "CV"
+      ],
+      "ccf": "C",
+      "link": "https://ieee-biometrics.org/conferences/flagship/fg/",
+      "abstract_deadline": "2027-10-22 23:59",
+      "deadline": "2027-10-29 23:59",
+      "timezone": "AoE",
+      "date": "2028",
+      "place": "TBA",
+      "status": "estimated",
+      "decision": "2027-12-19",
+      "note": "Projected from FG 2027 (deadline Oct 30, abstract Oct 23, same weekday a year later). Call not yet published. Venue not announced (bid call preferred Europe, April–May 2028)."
     },
     {
       "id": "cikm26",
