@@ -42,5 +42,6 @@ Static GitHub Pages site of conference deadline countdowns. All data lives in `d
 - **Language:** the interface is English only (the owner's choice); `tr("…", {vars})` in app.js just fills `{name}` slots.
 - **Submission facts:** `paper` in each entry (`system`, `submit`, `pages`, `review`, `rate`, `rate_url`, `edition`, `source`), from official pages only. `validate.py` checks the keys.
 - **My papers:** status and note per conference, kept in `localStorage` (`papers`) and synced through the worker next to the stars (`PUT /u/<id>` with `papers`).
+- **RSS:** `scripts/build_feed.py` (run on deploy, needs the full git history) diffs every commit of `data/conferences.json` and writes `feed/all.xml`, `feed/area/<a>.xml` and `feed/series/<slug>.xml`; listed at the bottom of the Calendar sheet.
 - **Offline:** `sw.js` serves the page, scripts and data network first, falling back to the saved copy.
 - A weekly routine (Mondays 14:13 Taipei) refreshes estimated dates following the steps above.

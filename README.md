@@ -39,7 +39,7 @@
 | **⌕ Search and filters** | Filter by field, NYCU A/B, CCF-A/B or confirmed dates, and see everything on a timeline (3 months to a year, as an axis or month by month). |
 | **↻ Planner** | Find where a paper can go next, during the rebuttal or after the decision. |
 | **★ Star** | Follow a series every year. Stars sync between your phone and computer. |
-| **▦ Calendar** | Subscribe to a feed that updates with the data: all deadlines, one field, one series, or just your starred ones. |
+| **▦ Calendar** | Subscribe to a feed that updates with the data: all deadlines, one field, one series, or just your starred ones. RSS feeds (`feed/all.xml`, per field and per series) post an item whenever a deadline is added, confirmed or moved. |
 | **✎ My papers** | Mark a conference preparing, submitted, accepted or rejected, with a note. Your papers come first in the countdown and planner, and sync with your stars. |
 | **🔔 Changes** | After a starred or tracked conference's dates move, get confirmed or are announced, the next visit lists what changed. |
 | **↗ Share** | `…/#c=cvpr27` opens the page with that countdown. |

@@ -1457,6 +1457,14 @@
         <button type="button" class="link feed-copy" data-url="${esc(https)}">${esc(tr("Copy link"))}</button>
       </span></li>`;
   }
+  function rssRow(label, path, sub = "") {
+    const url = new URL(`feed/${path}`, location.href.split("#")[0]).href;
+    return `<li class="feed"><span class="feed-name"><b>${esc(label)}</b>${sub ? `<small>${esc(sub)}</small>` : ""}</span>
+      <span class="feed-acts">
+        <a class="link" href="${esc(url)}" target="_blank" rel="noopener">${esc(tr("Open"))}</a>
+        <button type="button" class="link feed-copy" data-url="${esc(url)}">${esc(tr("Copy link"))}</button>
+      </span></li>`;
+  }
   function openFeeds() {
     const starred = [...state.starred].sort();
     if (calWorker()) { calId(true); pullStars(); }
@@ -1476,7 +1484,13 @@
         : `<p class="feeds-empty">${esc(tr("Star a conference (☆ next to its name) to get a calendar for just your conferences here."))}</p>`) +
       `<h3 class="feeds-h">${esc(tr("By field"))}</h3><ul class="feeds-list">${Object.entries(data.areas || {})
         .filter(([a]) => count(c => c.area.includes(a)))
-        .map(([a, label]) => feedRow(tr(label), `area/${feedSlug(a)}.ics`, tr("{n} entries", { n: count(c => c.area.includes(a)) }))).join("")}</ul>`;
+        .map(([a, label]) => feedRow(tr(label), `area/${feedSlug(a)}.ics`, tr("{n} entries", { n: count(c => c.area.includes(a)) }))).join("")}</ul>` +
+      `<h3 class="feeds-h">${esc(tr("News feeds (RSS)"))}</h3>
+        <p class="feeds-empty">${esc(tr("For a feed reader: one item each time a deadline is added, confirmed or moved, or a rebuttal, decision or venue is announced."))}</p>
+        <ul class="feeds-list">${rssRow(tr("All deadline news"), "all.xml")}${starred.map(s => rssRow(s, `series/${feedSlug(s)}.xml`, tr("starred"))).join("")}</ul>
+        <details class="feeds-each"><summary>${esc(tr("By field"))}</summary><ul class="feeds-list">${Object.entries(data.areas || {})
+          .filter(([a]) => count(c => c.area.includes(a)))
+          .map(([a, label]) => rssRow(tr(label), `area/${feedSlug(a)}.xml`)).join("")}</ul></details>`;
     const box = $("#feeds"), wasHidden = box.hidden;
     box.hidden = false;
     document.documentElement.classList.add("planner-open");

@@ -22,10 +22,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # the RSS feeds are built from the data's git history
       - name: Validate conference data
         run: python3 scripts/validate.py
       - name: Build the calendar feeds (calendar/*.ics)
         run: python3 scripts/build_calendar.py --site "https://conf-ddl.shyandram.dev/"
+      - name: Build the RSS feeds (feed/*.xml)
+        run: python3 scripts/build_feed.py --site "https://conf-ddl.shyandram.dev/"
       - name: Minify scripts, styles and data (the repo keeps the readable sources)
         run: |
           npx --yes esbuild@0.24.0 assets/app.js assets/scene3d.js assets/style.css sw.js --minify --target=es2020 --outdir=. --outbase=. --allow-overwrite
