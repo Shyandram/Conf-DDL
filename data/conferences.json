@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-04",
+  "updated": "2026-11-06",
   "areas": {
     "CV": "Computer Vision",
     "ML": "Machine Learning",
@@ -510,10 +510,10 @@
       "status": "confirmed",
       "rebuttal": [
         "2026-11-05",
-        "2026-11-18 23:59"
+        "2026-11-18"
       ],
       "decision": "2026-12-16",
-      "note": "Author–reviewer discussion Nov 5–18, then reviewer–AC discussion until Dec 16."
+      "note": "Reviews released Nov 5; author–reviewer discussion Nov 5–18 (no closing time stated); reviewer–AC discussion Nov 19 – Dec 16; final decisions Dec 16. Main conference Apr 26–28, workshops Apr 29–30; city not announced yet (official: California)."
     },
     {
       "id": "icassp27",
