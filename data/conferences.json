@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-06",
+  "updated": "2026-11-16",
   "areas": {
     "CV": "Computer Vision",
     "ML": "Machine Learning",
@@ -162,27 +162,24 @@
         "ML"
       ],
       "ccf": "A",
-      "link": "https://icml.cc/",
-      "abstract_deadline": "2027-01-16 23:59",
+      "link": "https://icml.cc/Conferences/2027/CallForPapers",
+      "abstract_deadline": "2027-01-14 23:59",
       "deadline": "2027-01-22 23:59",
       "timezone": "AoE",
       "date": "Jul 31 – Aug 6, 2027",
       "place": "Rio de Janeiro, Brazil",
-      "status": "estimated",
-      "rebuttal": [
-        "2027-03-23",
-        "2027-04-06"
-      ],
-      "decision": "2027-04-29",
-      "note": "Projected from ICML 2026 (response Mar 24 – Apr 7, notification Apr 30). Call for papers not yet published. Venue official: Riocentro, Rio de Janeiro (Expo Jul 31, tutorials Aug 1, main conference Aug 2-4, workshops Aug 5-6).",
+      "status": "confirmed",
+      "decision": "2027-05-03",
+      "note": "New two-stage review: first-stage rejections by Feb 23, 2027; final decisions May 3. Author response dates not yet announced. Submission site opens Jan 8; no separate supplementary deadline; no extensions. ICML plans to announce submission-process updates by late November. Riocentro: Expo Jul 31, tutorials Aug 1, main conference Aug 2–4, workshops Aug 5–6.",
       "paper": {
         "system": "OpenReview",
-        "pages": "8 + refs, appendix unlimited",
+        "pages": "8 + refs, impact statement and appendix unlimited (+1 page camera-ready)",
         "review": "double-blind",
         "rate": "26.6% (2026)",
         "rate_url": "https://media.icml.cc/Conferences/ICML2026/ICML2026_Fact_Sheet.pdf",
-        "edition": 2026,
-        "source": "https://icml.cc/Conferences/2026/CallForPapers"
+        "edition": 2027,
+        "source": "https://icml.cc/Conferences/2027/CallForPapers",
+        "submit": "https://openreview.net/group?id=ICML.cc/2027/Conference"
       }
     },
     {
