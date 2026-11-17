@@ -1,0 +1,47 @@
+name: Merge data refresh into main
+
+# The weekly Claude routine pushes its data updates to the data-refresh branch (its session may only push
+# there). This checks them, merges them into main, and starts the Pages deploy (a push made with the
+# workflow's own token does not trigger other workflows by itself).
+
+on:
+  push:
+    branches: [data-refresh]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: data-refresh
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Merge data-refresh into main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin data-refresh
+          if git merge-base --is-ancestor origin/data-refresh HEAD; then
+            echo "main already has everything on data-refresh"; echo "MERGED=0" >> "$GITHUB_ENV"; exit 0
+          fi
+          git merge --ff-only origin/data-refresh || git merge --no-edit origin/data-refresh -m "Merge data refresh"
+          echo "MERGED=1" >> "$GITHUB_ENV"
+      - name: Validate conference data
+        if: env.MERGED == '1'
+        run: python3 scripts/validate.py
+      - name: Push main and deploy
+        if: env.MERGED == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git push origin HEAD:main
+          gh workflow run pages.yml --ref main
