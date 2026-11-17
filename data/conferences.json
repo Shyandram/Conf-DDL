@@ -85,7 +85,7 @@
         "2027-02-01 23:59"
       ],
       "decision": "2027-02-25",
-      "note": "Paper enrollment Nov 10, supplementary Nov 23. No extensions.",
+      "note": "Paper enrollment Nov 10. No extensions.",
       "paper": {
         "system": "OpenReview",
         "submit": "https://openreview.net/group?id=thecvf.com/CVPR/2027/Conference",
