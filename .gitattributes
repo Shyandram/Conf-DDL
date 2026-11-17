@@ -1,0 +1,4 @@
+# The live data is kept on the page branch. When main (the code) is merged into page, page's copy wins;
+# sync-page.yml turns on the "ours" merge driver for this.
+data/conferences.json merge=ours
+data/cities.json merge=ours

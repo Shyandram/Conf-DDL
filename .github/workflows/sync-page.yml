@@ -1,0 +1,49 @@
+name: Sync main into page
+
+# main is the open-source code; page is the live site (main's code plus the current conference data and
+# city pictures). Every push to main is merged into page, keeping page's data files (.gitattributes), and
+# the site is redeployed. A push made with the workflow's own token does not start other workflows, so the
+# deploy is started explicitly.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: sync-page
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: page
+          fetch-depth: 0
+      - name: Merge main into page
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config merge.ours.driver true
+          git fetch origin main
+          if git merge-base --is-ancestor origin/main HEAD; then
+            echo "page already has everything on main"; echo "MERGED=0" >> "$GITHUB_ENV"; exit 0
+          fi
+          git merge --no-edit origin/main -m "Merge main into page"
+          echo "MERGED=1" >> "$GITHUB_ENV"
+      - name: Validate conference data
+        if: env.MERGED == '1'
+        run: python3 scripts/validate.py
+      - name: Push page and deploy
+        if: env.MERGED == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git push origin HEAD:page
+          gh workflow run pages.yml --ref page

@@ -41,6 +41,8 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: page  # the live site's branch: its data and pictures live there
       - name: Install Pillow, numpy, onnxruntime and OpenCV
         run: python3 -m pip install --quiet pillow numpy onnxruntime opencv-python-headless
       - name: Generate
@@ -81,7 +83,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Add generated city scenes"
-          git pull --rebase origin main
+          git pull --rebase origin page
           git push
           # pushes made with GITHUB_TOKEN don't start other workflows, so start the deploy explicitly
-          gh workflow run pages.yml --ref main
+          gh workflow run pages.yml --ref page

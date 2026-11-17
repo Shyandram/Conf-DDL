@@ -2,6 +2,12 @@
 
 Static GitHub Pages site of conference deadline countdowns. All data lives in `data/conferences.json`; the page (`index.html`, `assets/app.js`, `assets/style.css`) reads it at runtime.
 
+## Branches
+
+- `main` is the open-source code. `page` is the live site: main's code plus the current data (`data/conferences.json`, `data/cities.json`) and the city pictures. `pages.yml` deploys `page`.
+- Code changes go to `main`; `.github/workflows/sync-page.yml` merges every push to main into `page` (page's data files win, see `.gitattributes`) and redeploys.
+- Data changes (conference dates, cities) go to `page` only: `git fetch origin page && git checkout -B page origin/page`, edit, validate, `git push origin HEAD:page`. The city photo and scene workflows also work on `page`.
+
 ## When asked to search for / add / refresh a conference
 
 1. Search the web for the **official** call for papers (the conference site, e.g. `cvpr.thecvf.com`, `neurips.cc`). Use third-party trackers only as a fallback.
@@ -15,7 +21,7 @@ Static GitHub Pages site of conference deadline countdowns. All data lives in `d
    - Keep entries for passed deadlines: they appear in the "Passed" list.
    - Venue grades live in the top-level `tiers` (NYCU CS top-conference list, A / B by series title). Add a new series there only if the list includes it.
 3. Bump the top-level `updated` date.
-4. Run `python3 scripts/validate.py`, then commit and push.
+4. Run `python3 scripts/validate.py`, then commit and push to the `page` branch (not main).
 5. Tell the user which dates are confirmed vs estimated, with source links.
 
 ## City scenes, local time and city links
@@ -44,4 +50,4 @@ Static GitHub Pages site of conference deadline countdowns. All data lives in `d
 - **My papers:** status and note per conference, kept in `localStorage` (`papers`) and synced through the worker next to the stars (`PUT /u/<id>` with `papers`).
 - **RSS:** `scripts/build_feed.py` (run on deploy, needs the full git history) diffs every commit of `data/conferences.json` and writes `feed/all.xml`, `feed/area/<a>.xml` and `feed/series/<slug>.xml`; listed at the bottom of the Calendar sheet.
 - **Offline:** `sw.js` serves the page, scripts and data network first, falling back to the saved copy.
-- A weekly routine (Mondays 14:13 Taipei) refreshes estimated dates following the steps above. It pushes to the `data-refresh` branch; `.github/workflows/data-refresh.yml` validates, merges it into `main` and starts the Pages deploy.
+- A weekly routine (Mondays 14:13 Taipei) refreshes estimated dates following the steps above. It pushes to the `page` branch, which deploys the site.

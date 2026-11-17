@@ -1,8 +1,10 @@
 name: Deploy to GitHub Pages
 
+# The live site is the page branch: main (the open-source code) merges into it via sync-page.yml,
+# and the conference data is updated on page only.
 on:
   push:
-    branches: [main]
+    branches: [page]
   workflow_dispatch:
 
 permissions:
@@ -23,6 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: page
           fetch-depth: 0  # the RSS feeds are built from the data's git history
       - name: Validate conference data
         run: python3 scripts/validate.py

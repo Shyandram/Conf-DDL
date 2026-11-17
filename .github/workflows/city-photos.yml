@@ -10,7 +10,7 @@ on:
         required: false
         default: ""
   push:
-    branches: [main]
+    branches: [page]
     paths: [data/conferences.json]
   schedule:
     - cron: "17 * * * *"  # hourly: fills in cities the API limit left out; exits at once when all are done
@@ -28,6 +28,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: page  # the live site's branch: its data and pictures live there
       - name: Fetch photos
         env:
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
@@ -56,7 +58,7 @@ jobs:
           git add data/cities.json
           git commit -m "Update city photos"
           # someone may have pushed while the photos were fetched; replay on top instead of failing
-          git pull --rebase origin main
+          git pull --rebase origin page
           git push
           # pushes made with GITHUB_TOKEN don't start other workflows, so start the deploy explicitly
-          gh workflow run pages.yml --ref main
+          gh workflow run pages.yml --ref page
