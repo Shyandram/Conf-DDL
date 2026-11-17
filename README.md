@@ -52,7 +52,7 @@ The page shows both local time and AoE, has light and dark themes, works on phon
 python3 -m http.server 8000   # → http://localhost:8000
 ```
 
-Every push to `main` validates the data and deploys to GitHub Pages.
+`main` is the open-source code; the live site deploys from the `page` branch (main merged in automatically, plus the current conference data). Every push to `page` validates the data and deploys to GitHub Pages.
 
 ## Add a conference
 
