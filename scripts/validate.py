@@ -47,7 +47,7 @@ def main(path=DATA) -> int:
         if c.get("id") in seen:
             errors.append(f"{where}: duplicate id")
         seen.add(c.get("id"))
-        for key in ("deadline", "abstract_deadline"):
+        for key in ("deadline", "abstract_deadline", "supplementary_deadline"):
             if c.get(key) and not DATE.match(c[key]):
                 errors.append(f"{where}: bad {key} '{c[key]}' (want YYYY-MM-DD HH:MM)")
             elif c.get(key) and len(c[key]) >= 16 and (fix := dst_mismatch(c[key], c.get("timezone"))):

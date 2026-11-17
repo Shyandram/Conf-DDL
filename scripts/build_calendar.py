@@ -87,6 +87,7 @@ def events_of(c, site, stamp):
         c.get("full_name"),
         f"Deadline: {c['deadline']} {c.get('timezone', 'AoE')}",
         c.get("abstract_deadline") and f"Abstract: {c['abstract_deadline']} {c.get('timezone', 'AoE')}",
+        c.get("supplementary_deadline") and f"Supplementary: {c['supplementary_deadline']} {c.get('timezone', 'AoE')}",
         f"Conference: {c.get('date') or 'TBA'} · {c.get('place') or 'TBA'}",
         "Dates are estimated from last year's cycle." if est else "",
         c.get("note"),
@@ -116,6 +117,8 @@ def events_of(c, site, stamp):
     if c.get("abstract_deadline"):
         out += timed("abstract deadline", c["abstract_deadline"], [("-P1D", f"{name} abstract due tomorrow")])
     out += timed(ddl_word, c["deadline"], [("-P7D", f"{name} deadline in 7 days"), ("-P1D", f"{name} deadline tomorrow")])
+    if c.get("supplementary_deadline"):
+        out += timed("supplementary deadline", c["supplementary_deadline"], [("-P1D", f"{name} supplementary due tomorrow")])
     if isinstance(c.get("rebuttal"), list) and len(c["rebuttal"]) == 2:
         out += allday("rebuttal", c["rebuttal"][0], c["rebuttal"][1])
         if len(c["rebuttal"][1]) > 10:  # an announced closing time also gets its own timed reminder

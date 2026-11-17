@@ -68,7 +68,7 @@ def changes(old, c):
     lines, heads = [], []
     if old.get("status") != "confirmed" and not est:
         heads.append("Confirmed")
-    for key, label in (("abstract_deadline", "Abstract"), ("deadline", "Deadline")):
+    for key, label in (("abstract_deadline", "Abstract"), ("deadline", "Deadline"), ("supplementary_deadline", "Supplementary")):
         if old.get(key) != c.get(key) or old.get("timezone") != c.get("timezone"):
             if old.get(key) and c.get(key):
                 lines.append(f"{label}: {when(old[key], old.get('timezone', 'AoE'))} → {when(c[key], tz)}")

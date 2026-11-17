@@ -204,7 +204,7 @@
       li.title = title || "";
       li.classList.toggle("na", text === "TBA" || text === tr("none"));
     };
-    setStep(steps[0], fmtDay(c.deadline), fmtDay(c.deadline, true));
+    setStep(steps[0], fmtDay(c.deadline), fmtDay(c.deadline, true) + (c.supplementary_deadline ? ` · ${tr("supplementary")} ${fmtDay(c.supplementary_deadline, true)}` : ""));
     // "rebuttal": false means the venue has none; a missing field means not announced yet.
     setStep(steps[1], c.rebuttal ? fmtRange(c.rebuttal) : (c.rebuttal === false ? tr("none") : "TBA"), c.rebuttal ? `${fmtRange(c.rebuttal, true)} · ${tr("closes")} ${rebClose(c)}` : "");
     setStep(steps[2], c.decision ? fmtDay(c.decision) : "TBA", c.decision ? fmtDay(c.decision, true) : "");
@@ -214,7 +214,7 @@
     cardIO.observe(el);
     c.refs = {
       days: $(".c-days", el), unit: $(".c-unit", el), hms: $(".c-hms", el), bar: $(".bar i", el),
-      ddl: $(".c-ddl", el), abs: null, steps,
+      ddl: $(".c-ddl", el), abs: null, sup: null, steps,
     };
     return el;
   }
@@ -253,6 +253,7 @@
     if (known) $(".c-known", more).innerHTML = known; else $(".c-city", more).remove();
     if (c.note) $(".c-note", more).textContent = c.note; else $(".c-note", more).remove();
     if (c.abs) { c.refs.abs = $(".c-abs dd", more); c.refs.abs.textContent = fmtTime(c.abs); } else $(".c-abs", more).remove();
+    if (c.sup) { c.refs.sup = $(".c-sup dd", more); c.refs.sup.textContent = fmtTime(c.sup); } else $(".c-sup", more).remove();
     if (!c.decision || notPaper(c)) $(".c-plan", more).remove();
     // what authors look up when submitting (data: "paper"), from the official call for papers
     const pf = c.paper || {};
@@ -285,6 +286,7 @@
     for (const c of confs) {
       c.refs.ddl.textContent = fmtTime(c.ddl);
       if (c.refs.abs) c.refs.abs.textContent = fmtTime(c.abs);
+      if (c.refs.sup) c.refs.sup.textContent = fmtTime(c.sup);
       if (c.rebExact && c.el) paintRebAt(c);
     }
     if (heroPick) { heroPick.when = eventOf(heroPick.c, heroPick.mode, Date.now())?.when || heroPick.when; $("#heroWhen").textContent = heroPick.when; }
@@ -390,7 +392,11 @@
   const MODES = ["deadline", "rebuttal", "decision"];
 
   function eventOf(c, mode, now) {
-    if (mode === "deadline") return c.ddl > now ? { at: c.ddl, kind: tr("Next deadline"), when: fmtTime(c.ddl) } : null;
+    if (mode === "deadline") {
+      if (c.ddl > now) return { at: c.ddl, kind: tr("Next deadline"), when: fmtTime(c.ddl) };
+      // after the paper deadline, the supplementary one still counts for those who submit there
+      return c.sup > now && (paperOf(c) || isStarred(c)) ? { at: c.sup, kind: tr("Supplementary due"), when: fmtTime(c.sup) } : null;
+    }
     if (mode === "rebuttal") {
       if (!c.reb || now >= c.reb[1]) return null;
       const opens = now < c.reb[0];
@@ -403,7 +409,7 @@
   function pickFor(mode, now) {
     const filtered = state.areas.size || state.onlyConfirmed || state.ranks.size || state.q || state.onlyStarred;
     const pools = [
-      [confs.filter(c => paperOf(c) === (mode === "deadline" ? "prep" : "submitted")), tr("My papers")],
+      [confs.filter(c => mode === "deadline" ? paperOf(c) === "prep" || (paperOf(c) === "submitted" && c.sup > now) : paperOf(c) === "submitted"), tr("My papers")],
       [confs.filter(isStarred), tr("My conferences")],
       [confs.filter(c => c.el.style.display !== "none"), filtered ? tr("your filters") : ""],
       [confs, ""],
@@ -1547,6 +1553,7 @@
     const events = picked.flatMap(c => [
       c.abs && { c, at: c.abs, kind: "ddl", what: tr("Abstract") },
       { c, at: c.ddl, kind: "ddl", what: tr("Submission") },
+      c.sup && { c, at: c.sup, kind: "ddl", what: tr("Supplementary") },
       c.reb && { c, at: c.reb[0], kind: "reb", what: tr("Rebuttal opens"), day: fmtDay(c.rebuttal[0]) },
       c.reb && { c, at: c.reb[1], kind: "reb", what: tr("Rebuttal closes"), day: fmtDay(c.rebuttal[1]) },
       c.dec && { c, at: c.dec, kind: "dec", what: tr("Decision"), day: fmtDay(c.decision) },
@@ -2506,6 +2513,7 @@
         ...c, area: c.area || [],
         ddl: parseDeadline(c.deadline, c.timezone),
         abs: parseDeadline(c.abstract_deadline, c.timezone),
+        sup: parseDeadline(c.supplementary_deadline, c.timezone),
         // rebuttal opens at the start of its first day and closes at the end of its last
         // a bare start day opens at its midnight; a bare end day closes at 23:59; either may carry its official time
         reb: Array.isArray(c.rebuttal) ? [parseDeadline(c.rebuttal[0].length > 10 ? c.rebuttal[0] : c.rebuttal[0] + " 00:00", c.rebuttal_timezone || c.timezone),
@@ -2610,7 +2618,7 @@
     const watched = confs.filter(c => isStarred(c) || paperOf(c));
     const seen = store.get("seen", null);
     const next = {};
-    for (const c of watched) next[c.id] = { e: seriesOf(c), d: c.deadline, z: c.timezone, s: c.status, r: c.rebuttal || null, k: c.decision || null };
+    for (const c of watched) next[c.id] = { e: seriesOf(c), d: c.deadline, z: c.timezone, s: c.status, r: c.rebuttal || null, k: c.decision || null, u: c.supplementary_deadline || null };
     store.set("seen", next);
     if (!seen) return;
     const msgs = [];
@@ -2625,6 +2633,7 @@
           ? tr("deadline moved {a} → {b}", { a: fmtDay(a.d), b: fmtDay(b.d) }) : tr("deadline time is now {t}", { t: fmtTime(c.ddl) }))}`);
       } else if (a.s !== b.s && b.s === "confirmed") msgs.push(`${name} ${esc(tr("deadline confirmed: {d}", { d: fmtDay(b.d) }))}`);
       if (b.r && JSON.stringify(a.r) !== JSON.stringify(b.r)) msgs.push(`${name} ${esc(tr(a.r ? "rebuttal moved to {r}" : "rebuttal announced: {r}", { r: fmtRange(b.r) }))}`);
+      if (b.u && a.u !== b.u && "u" in a && c.sup > now) msgs.push(`${name} ${esc(tr(a.u ? "supplementary moved to {d}" : "supplementary due {d}", { d: fmtDay(b.u) }))}`);
       if (b.k && a.k !== b.k) msgs.push(`${name} ${esc(tr(a.k ? "decision moved to {d}" : "decision announced: {d}", { d: fmtDay(b.k) }))}`);
     }
     if (!msgs.length) return;
