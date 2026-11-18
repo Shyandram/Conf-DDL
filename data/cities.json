@@ -1879,6 +1879,11 @@
     "scene_prompt_used": "Montréal from the Kondiaronk Belvedere on Mount Royal: forest in the foreground, the downtown towers, the St. Lawrence River and its bridges stretching to the horizon",
     "depth": "assets/scenes/montreal/depth.webp?v=7ee6c006"
   },
+  "New York": {
+    "lat": 40.7143,
+    "lon": -74.006,
+    "tz": "America/New_York"
+  },
   "Orlando": {
     "photos": [
       {
