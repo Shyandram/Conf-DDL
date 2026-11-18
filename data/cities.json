@@ -1882,7 +1882,41 @@
   "New York": {
     "lat": 40.7143,
     "lon": -74.006,
-    "tz": "America/New_York"
+    "tz": "America/New_York",
+    "photos": [
+      {
+        "src": "https://images.unsplash.com/photo-1496588973935-f47a48344787?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8MTB8fE5ldyUyMFlvcmslMjBjaXR5c2NhcGUlMjBzdHJlZXR8ZW58MXwwfHx8MTc5NDk4ODY2MHww&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "Chrysler Building, New York",
+        "photographer": "Luca Bravo",
+        "photographer_url": "https://unsplash.com/@lucabravo?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/chrysler-building-new-york-JstDl1mhzxY?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1518797292290-1bc6e24a545a?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8Mnx8TmV3JTIwWW9yayUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzk0OTg4NjYwfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#a6a6a6",
+        "alt": "city street with people passing through road",
+        "photographer": "Fabien Bazanegue",
+        "photographer_url": "https://unsplash.com/@fbazanegue?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/city-street-with-people-passing-through-road-LnE0-XLkbl0?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1513202804348-cab92575c40e?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8N3x8TmV3JTIwWW9yayUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzk0OTg4NjYwfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "grayscale photograph of road covered by snow",
+        "photographer": "S.",
+        "photographer_url": "https://unsplash.com/@projct33?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/grayscale-photograph-of-road-covered-by-snow-ViGTTgat4EM?utm_source=conf_ddl&utm_medium=referral"
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1517416635928-82ef32a975b7?ixid=M3wxMTE1OTYyfDB8MXxzZWFyY2h8M3x8TmV3JTIwWW9yayUyMGNpdHlzY2FwZSUyMHN0cmVldHxlbnwxfDB8fHwxNzk0OTg4NjYwfDA&ixlib=rb-4.1.0&w=1600&q=70&fit=max&auto=format",
+        "color": "#262626",
+        "alt": "silver car park beside concrete building during daytime",
+        "photographer": "S.",
+        "photographer_url": "https://unsplash.com/@projct33?utm_source=conf_ddl&utm_medium=referral",
+        "photo_url": "https://unsplash.com/photos/silver-car-park-beside-concrete-building-during-daytime-noOT3ue-01E?utm_source=conf_ddl&utm_medium=referral"
+      }
+    ]
   },
   "Orlando": {
     "photos": [
