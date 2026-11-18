@@ -1916,7 +1916,16 @@
         "photographer_url": "https://unsplash.com/@projct33?utm_source=conf_ddl&utm_medium=referral",
         "photo_url": "https://unsplash.com/photos/silver-car-park-beside-concrete-building-during-daytime-noOT3ue-01E?utm_source=conf_ddl&utm_medium=referral"
       }
-    ]
+    ],
+    "scenes": {
+      "day": "assets/scenes/new-york/day.webp?v=6069d3c8",
+      "dawn": "assets/scenes/new-york/dawn.webp?v=6447bdcd",
+      "dusk": "assets/scenes/new-york/dusk.webp?v=028966c7",
+      "night": "assets/scenes/new-york/night.webp?v=226e92a0"
+    },
+    "scene_model": "gpt-image-2",
+    "scene_prompt_used": "New York, USA",
+    "depth": "assets/scenes/new-york/depth.webp?v=04761e58"
   },
   "Orlando": {
     "photos": [
