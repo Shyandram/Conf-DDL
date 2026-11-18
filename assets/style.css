@@ -1254,6 +1254,12 @@ html { overscroll-behavior-x: none; }
 }
 /* mouse idle for 30 s (IDLE_MS in app.js): the bar slides down out of the way; any mouse move, key or scroll brings it back */
 .pager-nav { transition: transform .45s cubic-bezier(.2, .8, .2, 1), opacity .35s; }
+/* with the lens (initLens in app.js) the bar is clear glass like the venue card, so the page bends through it */
+.pager-nav.is-lens {
+  background: linear-gradient(160deg, color-mix(in srgb, var(--bg) 42%, transparent), color-mix(in srgb, var(--bg) 26%, transparent));
+  border-color: var(--glass-rim);
+  box-shadow: inset 0 1px 0 var(--glass-hl), inset 0 -1px 1px rgba(255, 255, 255, .05), var(--glass-shadow);
+}
 body.nav-idle .pager-nav { transform: translate(-50%, calc(100% + 24px)); opacity: 0; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { .pager-nav { transition: opacity .3s; } body.nav-idle .pager-nav { transform: translateX(-50%); } }
 .pager-nav button {
