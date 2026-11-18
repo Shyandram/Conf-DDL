@@ -2685,8 +2685,85 @@
     window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
   }
 
+  /* ---------- lens glass ---------- */
+  // The glass panels over the photo bend what is behind them like a thick lens: clear in the middle, the picture
+  // pulled inward and magnified toward the rounded rim. An SVG displacement filter per panel, sized to it, used as
+  // backdrop-filter. Only Chromium draws url() filters in backdrop-filter; elsewhere (and with ?lens=off) the
+  // panels keep their frosted blur from style.css. ?lens=on forces it on other browsers.
+  function initLens() {
+    const want = new URLSearchParams(location.search).get("lens");
+    const chromium = !!(navigator.userAgentData && navigator.userAgentData.brands.some(b => /Chromium/.test(b.brand)));
+    if (want === "off" || (!chromium && want !== "on")) return;
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("aria-hidden", "true");
+    svg.style.cssText = "position:absolute;width:0;height:0;overflow:hidden";
+    document.body.appendChild(svg);
+    const els = [$("#venue"), ...$$(".pick"), $("#pagerNav"), $("#toTop")].filter(Boolean);
+    const lenses = new Map();
+    let n = 0;
+    // displacement map: R/G = 0.5 + offset; near the rim each pixel samples further in, along the inward normal
+    function mapFor(w, h, r, bezel) {
+      const cv = document.createElement("canvas");
+      cv.width = w; cv.height = h;
+      const ctx = cv.getContext("2d"), img = ctx.createImageData(w, h), d = img.data;
+      const hw = w / 2, hh = h / 2;
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          // signed distance to the rounded rectangle (negative inside) and its outward normal
+          const px = x + .5 - hw, py = y + .5 - hh;
+          const qx = Math.abs(px) - (hw - r), qy = Math.abs(py) - (hh - r);
+          let dist, nx, ny;
+          if (qx > 0 && qy > 0) { const l = Math.hypot(qx, qy) || 1; dist = l - r; nx = qx / l; ny = qy / l; }
+          else if (qx > qy) { dist = qx - r; nx = 1; ny = 0; }
+          else { dist = qy - r; nx = 0; ny = 1; }
+          nx *= Math.sign(px) || 1; ny *= Math.sign(py) || 1;
+          const t = Math.max(0, Math.min(1, 1 + dist / bezel)); // 0 in the flat middle, 1 at the rim
+          const m = t * t * (3 - 2 * t) * t;                     // a convex rim: little bend until close to the edge
+          const i = (y * w + x) * 4;
+          d[i] = 128 - nx * m * 127; d[i + 1] = 128 - ny * m * 127; d[i + 2] = 128; d[i + 3] = 255;
+        }
+      }
+      ctx.putImageData(img, 0, 0);
+      return cv.toDataURL();
+    }
+    function fit(el) {
+      const w = Math.round(el.offsetWidth), h = Math.round(el.offsetHeight);
+      if (w < 8 || h < 8) return;
+      let st = lenses.get(el);
+      if (st && st.w === w && st.h === h) return;
+      if (!st) {
+        st = { id: `lens${n++}` };
+        const f = document.createElementNS(NS, "filter");
+        f.id = st.id;
+        f.setAttribute("filterUnits", "userSpaceOnUse");
+        f.setAttribute("primitiveUnits", "userSpaceOnUse");
+        f.setAttribute("color-interpolation-filters", "sRGB");
+        f.innerHTML = `<feImage result="map" preserveAspectRatio="none"/><feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G"/>`;
+        svg.appendChild(f);
+        st.f = f;
+        lenses.set(el, st);
+      }
+      st.w = w; st.h = h;
+      const r = Math.min(parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0, w / 2, h / 2);
+      const bezel = Math.max(8, Math.min(Math.min(w, h) / 2, Math.max(r, 14)));
+      const strength = Math.min(36, Math.max(10, Math.min(w, h) * .22)); // px the rim pulls inward
+      const im = st.f.firstElementChild;
+      for (const node of [st.f, im]) for (const [k, v] of Object.entries({ x: 0, y: 0, width: w, height: h })) node.setAttribute(k, v);
+      im.setAttribute("href", mapFor(w, h, r, bezel));
+      st.f.lastElementChild.setAttribute("scale", strength * 2);
+      const bf = `url(#${st.id}) blur(1.5px) saturate(1.5) brightness(1.04)`;
+      el.style.backdropFilter = bf;
+      el.style.webkitBackdropFilter = bf;
+      el.classList.add("is-lens");
+    }
+    const ro = new ResizeObserver(entries => { for (const e of entries) fit(e.target); });
+    els.forEach(el => ro.observe(el));
+  }
+
   async function init() {
     initPager();
+    initLens();
     bind();
     bindHelp();
     tickNow(Date.now());
